@@ -1,28 +1,21 @@
-﻿
-#include <iostream>
+﻿#include <iostream>
 #include "opencv2/opencv.hpp"
 #include <SFML/Graphics.hpp>
+#include "header.h"
 
-using namespace cv;
+//using namespace cv;
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(800, 600), "Not Tetris");
+	sfml_objects objects;
 
-	sf::Event event;
+	while (objects.getWindowIsOpen()) 
+	{
+		//Update
+		objects.update();
+		//Render
+		objects.render();
 
-	while (window.isOpen()) {
-
-		Mat test = imread("NBA.jpg", IMREAD_UNCHANGED);
-		imshow("NBA_LOGO", test);
-
-		while (window.pollEvent(event)) {
-
-			if (event.type == sf::Event::Closed) {
-
-				window.close();
-			}
-		}
 	}
 
 	return 0;
