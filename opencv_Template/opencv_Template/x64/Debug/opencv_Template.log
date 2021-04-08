@@ -1,2 +1,5 @@
-﻿  opencv_Template.cpp
-  opencv_Template.vcxproj -> C:\Users\plx018\source\repos\opencv_Template\x64\Debug\opencv_Template.exe
+﻿  functions.cpp
+c:\users\plx018\source\repos\opencv3_template\opencv_template\opencv_template\opencv_template\functions.cpp(22): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
+  opencv_Template.cpp
+  Generowanie kodu...
+  opencv_Template.vcxproj -> C:\Users\plx018\source\repos\OpenCV3_Template\opencv_Template\opencv_Template\x64\Debug\opencv_Template.exe
