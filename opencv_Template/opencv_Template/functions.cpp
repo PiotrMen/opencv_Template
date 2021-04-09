@@ -3,24 +3,28 @@
 //Constructor
 sfml_objects::sfml_objects()
 {
-	this->window = new sf::RenderWindow(sf::VideoMode(1920, 1080), "Window");
+	this->window_height = 1080;
+	this->window_width = 1920;
+	this->window = new sf::RenderWindow(sf::VideoMode(window_width, window_height), "Window");
 
 }
 
 // Initializations
-void sfml_objects::init_button_size(int percentege_size)
+void sfml_objects::init_button_size(float percentege_size)
 {
 	//coordinates for green button
-	this->green_button_x = 1696;
-	this->green_button_y = 856;
+	this->green_button_x = this->window_width - 150 - (414 * percentege_size / 100);  // 150 - number of pixels from bounds
+	this->green_button_y = this->window_height- 150 - (414 * percentege_size / 100);
 
 	//coordinates for red button
-	this->red_button_x = 100;
-	this->red_button_y = 856;
+	this->red_button_x = 150;
+	this->red_button_y = window_height - 150 - (414 * percentege_size / 100);
 
 	//coordinates for blue button
 	this->blue_button_x = 0;
 	this->blue_button_y = 0;
+
+	this->button_size = percentege_size / 100;
 }
 
 //Displaying objects
@@ -41,6 +45,7 @@ void sfml_objects::display_texture(int pos_x, int pos_y, std::string file_path, 
 	this->window->draw(texture);
 }
 
+//Displaying text
 void sfml_objects::display_text(int pos_x, int pos_y, std::string text)
 {
 	sf::Font font_;
@@ -71,7 +76,24 @@ void sfml_objects::pollEvents()
 	//Event polling
 	while (this->window->pollEvent(this->event))
 	{
+		switch (event.type)
+		{
+			case sf::Event::Closed:
+				this->window->close();
+			break;
 
+			case sf::Event::MouseButtonPressed:
+				std::cout << "wcisniety" << std::endl;
+
+				switch (event.key.code)
+				{
+					case sf::Mouse::Left:
+						std::cout << "lewy wcisniety" << std::endl;
+					break;
+				}
+
+			break;
+		}
 	}
 }
 
@@ -84,9 +106,10 @@ void sfml_objects::update()
 void sfml_objects::render()
 {
 	this->window->clear(sf::Color(255,255,255,255));
-	this->display_texture(this->green_button_x, this->green_button_y, "green_circle.png", 0.3, 0.3);
-	this->display_texture(this->red_button_x, this->red_button_y, "red_circle.png", 0.3, 0.3);
+	this->display_texture(this->green_button_x, this->green_button_y, "green_circle.png", this->button_size, this->button_size);   //button_size - button scale
+	this->display_texture(this->red_button_x, this->red_button_y, "red_circle.png", this->button_size, this->button_size);
 	//this->display_texture(this->blue_button_x, this->blue_button_y, "blue_circle.png", 0.3, 0.3);
-	this->display_text(this->green_button_x, this->green_button_y, "Continue");
+	this->display_text(this->green_button_x-20, this->green_button_y+(414*button_size), "Continue");
+	this->display_text(this->red_button_x + 5, this->red_button_y + (414 * button_size), "Defect");     // 414 - number of pixels
 	this->window->display();
 }

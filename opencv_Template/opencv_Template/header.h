@@ -23,12 +23,14 @@ public:
 
 	sf::RenderWindow *window;
 	sf::Event event;
-
+	//window size
+	int window_width;
+	int window_height;
 	//Constructor
 	sfml_objects();
 
 	// Initializations
-	void init_button_size(int percentege_size);
+	void init_button_size(float percentege_size);
 
 	//Displaying objects
 	void display_texture(int pos_x, int pos_y, std::string file_path, float scale_x, float scale_y);

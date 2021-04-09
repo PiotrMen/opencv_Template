@@ -8,6 +8,7 @@
 int main()
 {
 	sfml_objects objects;
+	objects.init_button_size(30);
 
 	while (objects.getWindowIsOpen()) 
 	{
