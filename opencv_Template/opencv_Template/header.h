@@ -7,15 +7,33 @@
 class sfml_objects
 {
 public:
-	//coordinates for green button
+	// green button
+
+	// length of sides in pixels
+	int green_button_length_x;
+	int green_button_length_y;
+
+	//coordinates
 	int green_button_x;
 	int green_button_y;
 
-	//coordinates for red button
+	// red button
+
+	// length of sides in pixels
+	int red_button_length_x;
+	int red_button_length_y;
+
+	//coordinates
 	int red_button_x;
 	int red_button_y;
 
-	//coordinates for blue button
+	// blue button
+
+	// length of sides in pixels
+	int blue_button_length_x;
+	int blue_button_length_y;
+
+	//coordinates
 	int blue_button_x;
 	int blue_button_y;
 
@@ -38,6 +56,10 @@ public:
 
 	//Accessors
 	const bool getWindowIsOpen();
+
+	// Detecting mouse collision with buttons
+	bool detecting_green_button();
+	bool detecting_red_button();
 
 	//Functions
 	void pollEvents();

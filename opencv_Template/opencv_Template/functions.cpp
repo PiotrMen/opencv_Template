@@ -12,17 +12,24 @@ sfml_objects::sfml_objects()
 // Initializations
 void sfml_objects::init_button_size(float percentege_size)
 {
+	//length of sides in pixels
+
+	//green button
+	this->green_button_length_x = 414; // number of pixels (width and length of picture)
+	this->green_button_length_y = 414;
+
 	//coordinates for green button
-	this->green_button_x = this->window_width - 150 - (414 * percentege_size / 100);  // 150 - number of pixels from bounds
-	this->green_button_y = this->window_height- 150 - (414 * percentege_size / 100);
+	this->green_button_x = this->window_width - 150 - ((this->green_button_length_x / 2) * percentege_size / 100);  // 150 - number of pixels from bounds
+	this->green_button_y = this->window_height - 150 - ((this->green_button_length_y / 2) * percentege_size / 100);
+
+	//red button
+	this->red_button_length_x = 414;
+	this->red_button_length_y = 414;
 
 	//coordinates for red button
-	this->red_button_x = 150;
-	this->red_button_y = window_height - 150 - (414 * percentege_size / 100);
+	this->red_button_x = 150 + ((this->red_button_length_x / 2) * percentege_size / 100);
+	this->red_button_y = this->window_height - 150 - ((this->red_button_length_y / 2) * percentege_size / 100);
 
-	//coordinates for blue button
-	this->blue_button_x = 0;
-	this->blue_button_y = 0;
 
 	this->button_size = percentege_size / 100;
 }
@@ -57,12 +64,11 @@ void sfml_objects::display_text(int pos_x, int pos_y, std::string text)
 	}
 	sf::Text text_;
 	text_.setFillColor(sf::Color::Black);
-	text_.setOrigin((text_.getGlobalBounds().left + text_.getGlobalBounds().width) / 2, (text_.getGlobalBounds().height + text_.getGlobalBounds().top) / 2);     //set origins of text to center
-	text_.setPosition(pos_x, pos_y);
 	text_.setFont(font_);
 	text_.setString(text);
 	text_.setCharacterSize(40);
-	
+	text_.setOrigin((text_.getGlobalBounds().left + text_.getGlobalBounds().width) / 2, 0);     //set origins of text to center
+	text_.setPosition(pos_x, pos_y);
 	this->window->draw(text_);
 }
 
@@ -71,6 +77,19 @@ const bool sfml_objects::getWindowIsOpen()
 {
 	return this->window->isOpen();
 }
+
+// Detecting mouse collision with buttons
+bool sfml_objects::detecting_green_button()
+{
+
+
+	if (((sf::Mouse::getPosition().x >= this->green_button_x - ((this->green_button_length_x * this->button_size) / 2)) && (sf::Mouse::getPosition().x <= this->green_button_x + ((this->green_button_length_x * this->button_size) / 2)) && (sf::Mouse::getPosition().y >= this->green_button_y - ((this->green_button_length_y * this->button_size) / 2)) && (sf::Mouse::getPosition().y <= this->green_button_y + ((this->green_button_length_y * this->button_size) / 2))))
+	{
+		return true;
+	}
+	return false;
+}
+
 
 //Functions
 void sfml_objects::pollEvents()
@@ -90,7 +109,11 @@ void sfml_objects::pollEvents()
 				switch (event.key.code)
 				{
 					case sf::Mouse::Left:
-						std::cout << "lewy wcisniety" << std::endl;
+
+						if (this->detecting_green_button())
+						{
+							std::cout << "lewy wcisniety" << std::endl;
+						}
 					break;
 				}
 
@@ -111,7 +134,16 @@ void sfml_objects::render()
 	this->display_texture(this->green_button_x, this->green_button_y, "green_circle.png", this->button_size, this->button_size);   //button_size - button scale
 	this->display_texture(this->red_button_x, this->red_button_y, "red_circle.png", this->button_size, this->button_size);
 	//this->display_texture(this->blue_button_x, this->blue_button_y, "blue_circle.png", 0.3, 0.3);
-	this->display_text(this->green_button_x-20, this->green_button_y+(414*button_size), "Continue");
-	this->display_text(this->red_button_x + 5, this->red_button_y + (414 * button_size), "Defect");     // 414 - number of pixels
+
+	sf::RectangleShape rectangle;
+	rectangle.setSize(sf::Vector2f(this->green_button_length_x*this->button_size, this->green_button_length_y*this->button_size));
+	rectangle.setOutlineColor(sf::Color::Red);
+	rectangle.setOutlineThickness(5);
+	rectangle.setOrigin((rectangle.getGlobalBounds().left + rectangle.getGlobalBounds().width) / 2, (rectangle.getGlobalBounds().height + rectangle.getGlobalBounds().top) / 2);
+	rectangle.setPosition(this->green_button_x, this->green_button_y);
+	this->window->draw(rectangle);
+
+	this->display_text(this->green_button_x, this->green_button_y+((this->red_button_length_y*button_size))/2, "Continue");
+	this->display_text(this->red_button_x, this->red_button_y + ((this->red_button_length_y * button_size))/2, "Defect");     // 414 - number of pixels
 	this->window->display();
 }
