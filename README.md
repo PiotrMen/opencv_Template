@@ -1,4 +1,5 @@
 # opencv_Template
+09.04.2021 - nastepnym razem zaczac od getGlobalBounds() dla continue oraz defect
 Rozwiązanie kompatybilności.
 
 Każdy element lub artykuł w osobnej strukturze, które będą w wektorze.
