@@ -5,7 +5,7 @@ sfml_objects::sfml_objects()
 {
 	this->window_height = 1080;
 	this->window_width = 1920;
-	this->window = new sf::RenderWindow(sf::VideoMode(window_width, window_height), "Window");
+	this->window = new sf::RenderWindow(sf::VideoMode(window_width, window_height), "Window", sf::Style::Fullscreen);
 
 }
 
@@ -45,8 +45,10 @@ void sfml_objects::display_texture(int pos_x, int pos_y, std::string file_path, 
 	}
 	sf::Sprite texture;
 	texture.setTexture(texture_);
-	texture.setOrigin((texture.getGlobalBounds().left + texture.getGlobalBounds().width)/2, (texture.getGlobalBounds().height + texture.getGlobalBounds().top)/2);         //set origins of images to center
+	texture.setOrigin(sf::Vector2f(texture.getTexture()->getSize().x * 0.5, texture.getTexture()->getSize().y * 0.5));         //set origins of images to center
 	texture.setPosition(pos_x, pos_y);
+	//std::cout << texture.getGlobalBounds().height << "  " << texture.getGlobalBounds().top << std::endl;
+	//std::cout << "myszka x  " << sf::Mouse::getPosition(*this->window).x << "  " << sf::Mouse::getPosition(*this->window).y << std::endl;
 	texture.setScale(scale_x, scale_y);
 
 
@@ -81,9 +83,7 @@ const bool sfml_objects::getWindowIsOpen()
 // Detecting mouse collision with buttons
 bool sfml_objects::detecting_green_button()
 {
-
-
-	if (((sf::Mouse::getPosition().x >= this->green_button_x - ((this->green_button_length_x * this->button_size) / 2)) && (sf::Mouse::getPosition().x <= this->green_button_x + ((this->green_button_length_x * this->button_size) / 2)) && (sf::Mouse::getPosition().y >= this->green_button_y - ((this->green_button_length_y * this->button_size) / 2)) && (sf::Mouse::getPosition().y <= this->green_button_y + ((this->green_button_length_y * this->button_size) / 2))))
+	if (((sf::Mouse::getPosition(*this->window).x >= this->green_button_x - ((this->green_button_length_x * this->button_size) / 2)) && (sf::Mouse::getPosition(*this->window).x <= this->green_button_x + ((this->green_button_length_x * this->button_size) / 2)) && (sf::Mouse::getPosition(*this->window).y >= this->green_button_y - ((this->green_button_length_y * this->button_size) / 2)) && (sf::Mouse::getPosition(*this->window).y <= this->green_button_y + ((this->green_button_length_y * this->button_size) / 2))))
 	{
 		return true;
 	}
@@ -134,15 +134,6 @@ void sfml_objects::render()
 	this->display_texture(this->green_button_x, this->green_button_y, "green_circle.png", this->button_size, this->button_size);   //button_size - button scale
 	this->display_texture(this->red_button_x, this->red_button_y, "red_circle.png", this->button_size, this->button_size);
 	//this->display_texture(this->blue_button_x, this->blue_button_y, "blue_circle.png", 0.3, 0.3);
-
-	sf::RectangleShape rectangle;
-	rectangle.setSize(sf::Vector2f(this->green_button_length_x*this->button_size, this->green_button_length_y*this->button_size));
-	rectangle.setOutlineColor(sf::Color::Red);
-	rectangle.setOutlineThickness(5);
-	rectangle.setOrigin((rectangle.getGlobalBounds().left + rectangle.getGlobalBounds().width) / 2, (rectangle.getGlobalBounds().height + rectangle.getGlobalBounds().top) / 2);
-	rectangle.setPosition(this->green_button_x, this->green_button_y);
-	this->window->draw(rectangle);
-
 	this->display_text(this->green_button_x, this->green_button_y+((this->red_button_length_y*button_size))/2, "Continue");
 	this->display_text(this->red_button_x, this->red_button_y + ((this->red_button_length_y * button_size))/2, "Defect");     // 414 - number of pixels
 	this->window->display();
