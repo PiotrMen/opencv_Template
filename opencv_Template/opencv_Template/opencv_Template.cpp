@@ -2,8 +2,10 @@
 #include "opencv2/opencv.hpp"
 #include <SFML/Graphics.hpp>
 #include "header.h"
+#include "structures.h"
 
-//using namespace cv;
+//std::vector <sArticles> Articles;
+//sArticles Article;
 
 int main()
 {

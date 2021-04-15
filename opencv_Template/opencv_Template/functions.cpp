@@ -35,7 +35,7 @@ void sfml_objects::init_button_size(float percentege_size)
 }
 
 //Displaying objects
-void sfml_objects::display_texture(int pos_x, int pos_y, std::string file_path, float scale_x, float scale_y)
+void sfml_objects::display_texture(int pos_x, int pos_y, std::string file_path, float scale)
 {
 	sf::Texture texture_;
 	if (!texture_.loadFromFile("resources/" + file_path))
@@ -47,9 +47,8 @@ void sfml_objects::display_texture(int pos_x, int pos_y, std::string file_path, 
 	texture.setTexture(texture_);
 	texture.setOrigin(sf::Vector2f(texture.getTexture()->getSize().x * 0.5, texture.getTexture()->getSize().y * 0.5));         //set origins of images to center
 	texture.setPosition(pos_x, pos_y);
-	//std::cout << texture.getGlobalBounds().height << "  " << texture.getGlobalBounds().top << std::endl;
 	//std::cout << "myszka x  " << sf::Mouse::getPosition(*this->window).x << "  " << sf::Mouse::getPosition(*this->window).y << std::endl;
-	texture.setScale(scale_x, scale_y);
+	texture.setScale(scale, scale);
 
 
 	this->window->draw(texture);
@@ -90,6 +89,15 @@ bool sfml_objects::detecting_green_button()
 	return false;
 }
 
+bool sfml_objects::detecting_red_button()
+{
+	if (((sf::Mouse::getPosition(*this->window).x >= this->red_button_x - ((this->red_button_length_x * this->button_size) / 2)) && (sf::Mouse::getPosition(*this->window).x <= this->red_button_x + ((this->red_button_length_x * this->button_size) / 2)) && (sf::Mouse::getPosition(*this->window).y >= this->red_button_y - ((this->red_button_length_y * this->button_size) / 2)) && (sf::Mouse::getPosition(*this->window).y <= this->red_button_y + ((this->red_button_length_y * this->button_size) / 2))))
+	{
+		return true;
+	}
+	return false;
+}
+
 
 //Functions
 void sfml_objects::pollEvents()
@@ -103,8 +111,13 @@ void sfml_objects::pollEvents()
 				this->window->close();
 			break;
 
+			case sf::Event::KeyPressed:
+				if (event.key.code == sf::Keyboard::Escape)
+				{
+					this->window->close();
+				}
+			break;
 			case sf::Event::MouseButtonPressed:
-				std::cout << "wcisniety" << std::endl;
 
 				switch (event.key.code)
 				{
@@ -112,7 +125,13 @@ void sfml_objects::pollEvents()
 
 						if (this->detecting_green_button())
 						{
-							std::cout << "lewy wcisniety" << std::endl;
+							std::cout << "zielony przycisk" << std::endl;
+						}
+
+						if (this->detecting_red_button())
+						{
+							std::cout << "czerwony przycisk" << std::endl;
+							this->window->close();
 						}
 					break;
 				}
@@ -131,9 +150,8 @@ void sfml_objects::update()
 void sfml_objects::render()
 {
 	this->window->clear(sf::Color(255,255,255,255));
-	this->display_texture(this->green_button_x, this->green_button_y, "green_circle.png", this->button_size, this->button_size);   //button_size - button scale
-	this->display_texture(this->red_button_x, this->red_button_y, "red_circle.png", this->button_size, this->button_size);
-	//this->display_texture(this->blue_button_x, this->blue_button_y, "blue_circle.png", 0.3, 0.3);
+	this->display_texture(this->green_button_x, this->green_button_y, "green_circle.png", this->button_size);   //button_size - button scale
+	this->display_texture(this->red_button_x, this->red_button_y, "red_circle.png", this->button_size);
 	this->display_text(this->green_button_x, this->green_button_y+((this->red_button_length_y*button_size))/2, "Continue");
 	this->display_text(this->red_button_x, this->red_button_y + ((this->red_button_length_y * button_size))/2, "Defect");     // 414 - number of pixels
 	this->window->display();

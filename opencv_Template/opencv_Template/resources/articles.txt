@@ -1,0 +1,5 @@
+nazwa_artykulu
+2
+1;NBA.jpg;plane.jpg;
+2;watch.png;
+

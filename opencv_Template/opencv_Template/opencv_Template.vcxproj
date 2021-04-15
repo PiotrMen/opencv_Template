@@ -158,9 +158,11 @@
   <ItemGroup>
     <ClCompile Include="functions.cpp" />
     <ClCompile Include="opencv_Template.cpp" />
+    <ClCompile Include="structures.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header.h" />
+    <ClInclude Include="structures.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

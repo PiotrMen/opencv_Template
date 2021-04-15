@@ -1,15 +1,4 @@
-﻿  functions.cpp
-c:\users\plx018\source\repos\nowy folder\opencv_template\opencv_template\opencv_template\functions.cpp(22): warning C4244: "=": konwersja z "float" do "int", możliwa utrata danych
-c:\users\plx018\source\repos\nowy folder\opencv_template\opencv_template\opencv_template\functions.cpp(23): warning C4244: "=": konwersja z "float" do "int", możliwa utrata danych
-c:\users\plx018\source\repos\nowy folder\opencv_template\opencv_template\opencv_template\functions.cpp(30): warning C4244: "=": konwersja z "float" do "int", możliwa utrata danych
-c:\users\plx018\source\repos\nowy folder\opencv_template\opencv_template\opencv_template\functions.cpp(31): warning C4244: "=": konwersja z "float" do "int", możliwa utrata danych
-c:\users\plx018\source\repos\nowy folder\opencv_template\opencv_template\opencv_template\functions.cpp(48): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
-          with
-          [
-              T=float
-          ]
-c:\users\plx018\source\repos\nowy folder\opencv_template\opencv_template\opencv_template\functions.cpp(49): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
-c:\users\plx018\source\repos\nowy folder\opencv_template\opencv_template\opencv_template\functions.cpp(73): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
-c:\users\plx018\source\repos\nowy folder\opencv_template\opencv_template\opencv_template\functions.cpp(137): warning C4244: "argument": konwersja z "float" do "int", możliwa utrata danych
-c:\users\plx018\source\repos\nowy folder\opencv_template\opencv_template\opencv_template\functions.cpp(138): warning C4244: "argument": konwersja z "float" do "int", możliwa utrata danych
-  opencv_Template.vcxproj -> C:\Users\plx018\source\repos\Nowy folder\opencv_Template\opencv_Template\x64\Debug\opencv_Template.exe
+﻿  opencv_Template.cpp
+  structures.cpp
+  Generowanie kodu...
+  opencv_Template.vcxproj -> C:\Users\plx018\source\repos\OpenCV3_Template\opencv_Template\opencv_Template\x64\Debug\opencv_Template.exe
