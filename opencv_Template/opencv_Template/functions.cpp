@@ -38,6 +38,7 @@ void sfml_objects::display_texture(int pos_x, int pos_y, std::string file_path, 
 	}
 	sf::Sprite texture;
 	texture.setTexture(texture_);
+	texture.setOrigin((texture.getGlobalBounds().left + texture.getGlobalBounds().width)/2, (texture.getGlobalBounds().height + texture.getGlobalBounds().top)/2);         //set origins of images to center
 	texture.setPosition(pos_x, pos_y);
 	texture.setScale(scale_x, scale_y);
 
@@ -56,6 +57,7 @@ void sfml_objects::display_text(int pos_x, int pos_y, std::string text)
 	}
 	sf::Text text_;
 	text_.setFillColor(sf::Color::Black);
+	text_.setOrigin((text_.getGlobalBounds().left + text_.getGlobalBounds().width) / 2, (text_.getGlobalBounds().height + text_.getGlobalBounds().top) / 2);     //set origins of text to center
 	text_.setPosition(pos_x, pos_y);
 	text_.setFont(font_);
 	text_.setString(text);
