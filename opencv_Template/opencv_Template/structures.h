@@ -16,6 +16,6 @@ struct sArticles
 	std::vector <std::vector <sf::Sprite>> sprites; //sprites in every step
 };
 
-void load_articles(sArticles &adding_article);
+void load_articles(std::vector <sArticles> &articles);
 
 #endif // !STRUCTURES_H
