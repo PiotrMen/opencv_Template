@@ -150,9 +150,9 @@ void sfml_objects::update()
 void sfml_objects::render()
 {
 	this->window->clear(sf::Color(255,255,255,255));
-	this->display_texture(this->green_button_x, this->green_button_y, "green_circle.png", this->button_size);   //button_size - button scale
+	this->display_texture(this->green_button_x, this->green_button_y, "green_circle.png", this->button_size);   //displaying basic graphics 
 	this->display_texture(this->red_button_x, this->red_button_y, "red_circle.png", this->button_size);
-	this->display_text(this->green_button_x, this->green_button_y+((this->red_button_length_y*button_size))/2, "Continue");
-	this->display_text(this->red_button_x, this->red_button_y + ((this->red_button_length_y * button_size))/2, "Defect");     // 414 - number of pixels
+	this->display_text(this->green_button_x, this->green_button_y + ((this->red_button_length_y*button_size))/2, "Continue"); //displaying texts
+	this->display_text(this->red_button_x, this->red_button_y + ((this->red_button_length_y * button_size))/2, "Defect");   
 	this->window->display();
 }

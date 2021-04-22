@@ -4,14 +4,19 @@
 #include "header.h"
 #include "structures.h"
 
-//std::vector <sArticles> Articles;
-//sArticles Article;
 
 int main()
 {
 	sfml_objects objects;
+	sArticles Article;
 	objects.init_button_size(30);
-
+	load_articles(Article);
+	for (int i = 0; i < Article.steps_and_pictures.size(); i++) {
+		for(int j = 0; j < Article.steps_and_pictures[i].size(); j++){
+			std::cout << Article.steps_and_pictures[i][j] << " ";
+		}
+		std::cout << std::endl;
+	}
 	while (objects.getWindowIsOpen()) 
 	{
 		//Update
