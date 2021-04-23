@@ -61,29 +61,22 @@ void load_articles(std::vector <sArticles> &articles)
 
 				// loading coordinates in current step
 
-
-				// poczatek
-
 				std::getline(file, file_line);
 
 				article.coordinates_of_pictures.push_back(coordinates);
 				std::smatch match_coordinates;
-				std::regex regex_coordinates("");
+				std::regex regex_coordinates("\\(([0-9]*),([0-9]*)\\)");
 
 				while (!file_line.empty()) {
 					std::regex_search(file_line, match_coordinates, regex_coordinates);
-					// tutaj odczytanie wartosci
-
-					//std::string matched_path = match[0];
-					
 					std::pair <int, int> matched_coordinates;
-
-					// koniec
+					matched_coordinates.first = std::stoi(match_coordinates[1]);
+					matched_coordinates.second = std::stoi(match_coordinates[2]);
 					article.coordinates_of_pictures[step_of_article].push_back(matched_coordinates);
-					file_line = match.suffix().str();
+					file_line = match_coordinates.suffix().str();
 				}
 
-				//koniec
+				//jeszcze tutaj while z rotacja i skala
 
 				step_of_article++;
 			}
