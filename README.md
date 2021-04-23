@@ -1,5 +1,5 @@
 # opencv_Template
-09.04.2021 - nastepnym razem zaczac od getGlobalBounds() dla continue oraz defect
+23.04.2021 - nastepnym razem zaczac od dodaniu skali i rotacji do odczytu z pliku
 Rozwiązanie kompatybilności.
 
 Każdy element lub artykuł w osobnej strukturze, które będą w wektorze.
