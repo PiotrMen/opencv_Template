@@ -9,7 +9,7 @@ void load_articles(std::vector <sArticles> &articles)
 
 	// empty vector used in loading steps in article
 	std::vector<std::string> steps;
-	std::vector<int, int> coordinates;
+	std::vector<std::pair <int, int>> coordinates;
 
 
 	if (file.is_open())
@@ -77,9 +77,9 @@ void load_articles(std::vector <sArticles> &articles)
 					//std::string matched_path = match[0];
 					
 					std::pair <int, int> matched_coordinates;
+
 					// koniec
 					article.coordinates_of_pictures[step_of_article].push_back(matched_coordinates);
-					//article.steps_and_pictures[step_of_article].push_back(matched_path);
 					file_line = match.suffix().str();
 				}
 
