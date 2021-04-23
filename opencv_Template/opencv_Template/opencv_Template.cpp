@@ -11,9 +11,13 @@ int main()
 	std::vector <sArticles> Articles;
 	objects.init_button_size(30);
 	load_articles(Articles);
+
+	// wyświetlanie pomocnicze (do usunięcia)
 	
 	for (int k = 0; k < Articles.size(); k++)
 	{
+		std::cout << Articles[k].name << std::endl;
+		std::cout << Articles[k].number_of_steps << std::endl;
 		for (int i = 0; i < Articles[k].steps_and_pictures.size(); i++) {
 			for (int j = 0; j < Articles[k].steps_and_pictures[i].size(); j++) {
 				std::cout << Articles[k].steps_and_pictures[i][j] << " ";
@@ -23,6 +27,8 @@ int main()
 		std::cout << std::endl;
 	}
 	
+	//
+
 	while (objects.getWindowIsOpen()) 
 	{
 		//Update
