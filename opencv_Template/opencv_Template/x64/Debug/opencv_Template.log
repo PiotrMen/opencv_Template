@@ -1,2 +1,19 @@
-﻿  main.cpp
-  opencv_Template.vcxproj -> C:\Users\plx018\source\repos\Nowy folder\opencv_Template\opencv_Template\x64\Debug\opencv_Template.exe
+﻿  window_functions.cpp
+c:\users\plx018\source\repos\opencv3_template\opencv_template\opencv_template\opencv_template\window_functions.cpp(22): warning C4244: "=": konwersja z "float" do "int", możliwa utrata danych
+c:\users\plx018\source\repos\opencv3_template\opencv_template\opencv_template\opencv_template\window_functions.cpp(23): warning C4244: "=": konwersja z "float" do "int", możliwa utrata danych
+c:\users\plx018\source\repos\opencv3_template\opencv_template\opencv_template\opencv_template\window_functions.cpp(30): warning C4244: "=": konwersja z "float" do "int", możliwa utrata danych
+c:\users\plx018\source\repos\opencv3_template\opencv_template\opencv_template\opencv_template\window_functions.cpp(31): warning C4244: "=": konwersja z "float" do "int", możliwa utrata danych
+c:\users\plx018\source\repos\opencv3_template\opencv_template\opencv_template\opencv_template\window_functions.cpp(48): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\plx018\source\repos\opencv3_template\opencv_template\opencv_template\opencv_template\window_functions.cpp(49): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
+c:\users\plx018\source\repos\opencv3_template\opencv_template\opencv_template\opencv_template\window_functions.cpp(72): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
+c:\users\plx018\source\repos\opencv3_template\opencv_template\opencv_template\opencv_template\window_functions.cpp(155): warning C4244: "argument": konwersja z "float" do "int", możliwa utrata danych
+c:\users\plx018\source\repos\opencv3_template\opencv_template\opencv_template\opencv_template\window_functions.cpp(156): warning C4244: "argument": konwersja z "float" do "int", możliwa utrata danych
+  main.cpp
+  articles.cpp
+  Generowanie kodu...
+  LINK : nie znaleziono elementu C:\Users\plx018\source\repos\OpenCV3_Template\opencv_Template\opencv_Template\x64\Debug\opencv_Template.exe ani nie został on skompilowany podczas ostatniego konsolidowania przyrostowego; zostanie wykonana pełna konsolidacja
+  opencv_Template.vcxproj -> C:\Users\plx018\source\repos\OpenCV3_Template\opencv_Template\opencv_Template\x64\Debug\opencv_Template.exe
