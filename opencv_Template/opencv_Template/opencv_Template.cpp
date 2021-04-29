@@ -27,6 +27,14 @@ int main()
 				std::cout << "(" << Articles[k].coordinates_of_pictures[i][z].first << "," << Articles[k].coordinates_of_pictures[i][z].second << ")";
 			}
 			std::cout << std::endl;
+			for (int z = 0; z < Articles[k].rotation_of_pictures.size(); z++) {
+				std::cout << Articles[k].rotation_of_pictures[i][z]<< " ";
+			}
+			std::cout << std::endl;
+			for (int z = 0; z < Articles[k].scale_of_pictures.size(); z++) {
+				std::cout << Articles[k].scale_of_pictures[i][z] << " ";
+			}
+			std::cout << std::endl;
 		}
 		std::cout << std::endl;
 	}

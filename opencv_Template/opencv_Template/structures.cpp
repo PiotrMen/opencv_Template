@@ -10,7 +10,8 @@ void load_articles(std::vector <sArticles> &articles)
 	// empty vector used in loading steps in article
 	std::vector<std::string> steps;
 	std::vector<std::pair <int, int>> coordinates;
-
+	std::vector<float> rotation;
+	std::vector<float> scale;
 
 	if (file.is_open())
 	{
@@ -76,7 +77,35 @@ void load_articles(std::vector <sArticles> &articles)
 					file_line = match_coordinates.suffix().str();
 				}
 
-				//jeszcze tutaj while z rotacja i skala
+				//loading rotations in current step
+
+				std::getline(file, file_line);
+				article.rotation_of_pictures.push_back(rotation);
+				std::smatch match_rotation;
+				std::regex regex_rotation(";([0-9]*\\.[0-9])");
+
+				while (!file_line.empty()) {
+					std::regex_search(file_line, match_rotation, regex_rotation);
+					float matched_rotation;
+					matched_rotation = std::stof(match_rotation[1]);
+					article.rotation_of_pictures[step_of_article].push_back(matched_rotation);
+					file_line = match_rotation.suffix().str();
+				}
+
+				//loading scale in current step
+
+				std::getline(file, file_line);
+				article.scale_of_pictures.push_back(scale);
+				std::smatch match_scale;
+				std::regex regex_scale(";([0-9]*\\.[0-9])");
+
+				while (!file_line.empty()) {
+					std::regex_search(file_line, match_scale, regex_scale);
+					float matched_scale;
+					matched_scale = std::stof(match_scale[1]);
+					article.scale_of_pictures[step_of_article].push_back(matched_scale);
+					file_line = match_scale.suffix().str();
+				}
 
 				step_of_article++;
 			}
