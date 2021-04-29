@@ -12,7 +12,7 @@ int main()
 	std::vector <sArticles> Articles;
 	objects.init_button_size(30);
 	load_articles(Articles);
-	int current_step = 0;
+	int current_step = 0;	// step of current article
 
 	// wyświetlanie pomocnicze (do usunięcia)
 	
@@ -45,19 +45,11 @@ int main()
 
 	while (objects.getWindowIsOpen()) 
 	{
-		while (current_step <= Articles[0].number_of_steps) 
-		{
-			for (int i = 0; i < Articles[0].pictures.size(); i++) {
-				objects.display_texture(Articles[0].coordinates_of_pictures[current_step][i].first, Articles[0].coordinates_of_pictures[current_step][i].second, Articles[0].pictures[current_step][i], Articles[0].scale_of_pictures[current_step][i], Articles[0].rotation_of_pictures[current_step][i]);
-				objects.window->display();
-			}
 
-			objects.left_mouse_button_pressed(current_step);
-		}
 		//Update
-		objects.update();
+		objects.update(current_step);
 		//Render
-		objects.render();
+		objects.render(Articles, current_step);
 	}
 
 	return 0;

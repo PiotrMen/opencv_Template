@@ -2,6 +2,7 @@
 #ifndef WINDOW_FUNCTIONS__H
 #include "opencv2/opencv.hpp"
 #include <SFML/Graphics.hpp>
+#include "articles.h"
 
 
 class sfml_objects
@@ -62,10 +63,9 @@ public:
 	bool detecting_red_button();
 
 	//Functions
-	void pollEvents();
-	void update();
-	void render();
-	void left_mouse_button_pressed(int &current_step);
+	void pollEvents(int &current_step);
+	void update(int &current_step);
+	void render(std::vector <sArticles> &articles, int current_step);
 };
 
 #endif

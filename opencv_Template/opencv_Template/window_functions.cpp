@@ -100,7 +100,7 @@ bool sfml_objects::detecting_red_button()
 
 
 //Functions
-void sfml_objects::pollEvents()
+void sfml_objects::pollEvents(int &current_step)
 {
 	//Event polling
 	while (this->window->pollEvent(this->event))
@@ -126,6 +126,7 @@ void sfml_objects::pollEvents()
 						if (this->detecting_green_button())
 						{
 							std::cout << "zielony przycisk" << std::endl;
+							current_step++;
 						}
 
 						if (this->detecting_red_button())
@@ -141,40 +142,33 @@ void sfml_objects::pollEvents()
 	}
 }
 
-void sfml_objects::update()
+void sfml_objects::update(int &current_step)
 {
-	this->pollEvents();
+	this->pollEvents(current_step);
 }
 
 
-void sfml_objects::render()
+void sfml_objects::render(std::vector <sArticles> &articles, int current_step)
 {
 	this->window->clear(sf::Color(255,255,255,255));
 	this->display_texture(this->green_button_x, this->green_button_y, "green_circle.png", this->button_size, 0);   //displaying basic graphics 
 	this->display_texture(this->red_button_x, this->red_button_y, "red_circle.png", this->button_size, 0);
 	this->display_text(this->green_button_x, this->green_button_y + ((this->red_button_length_y*button_size))/2, "Continue"); //displaying texts
-	this->display_text(this->red_button_x, this->red_button_y + ((this->red_button_length_y * button_size))/2, "Defect");   
+	this->display_text(this->red_button_x, this->red_button_y + ((this->red_button_length_y * button_size))/2, "Defect");
+
+	//	Displaying current step
+
+	if(current_step <= articles[0].number_of_steps && current_step > 0)
+	{
+		for (int i = 0; i < articles[0].pictures[current_step - 1].size(); i++) {
+			this->display_texture(articles[0].coordinates_of_pictures[current_step - 1][i].first, articles[0].coordinates_of_pictures[current_step - 1][i].second, articles[0].pictures[current_step - 1][i], articles[0].scale_of_pictures[current_step - 1][i], articles[0].rotation_of_pictures[current_step - 1][i]);
+		}
+	}
+
+	// sprawdzanie i przechodzenie do kolejnego kroku, pozniej bedzie zawierac detekcje
+
+	//this->pollEvents(current_step);
+
 	this->window->display();
 }
 
-
-void sfml_objects::left_mouse_button_pressed(int &current_step)
-{
-
-	switch (event.type)
-	{
-	case sf::Event::MouseButtonPressed:
-
-		switch (event.key.code)
-		{
-		case sf::Mouse::Left:
-
-			if (this->detecting_green_button())
-			{
-				current_step++;
-			}
-			break;
-		}
-		break;
-	}
-}
