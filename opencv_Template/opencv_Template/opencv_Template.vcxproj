@@ -156,13 +156,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="functions.cpp" />
-    <ClCompile Include="opencv_Template.cpp" />
-    <ClCompile Include="structures.cpp" />
+    <ClCompile Include="window_functions.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="articles.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="header.h" />
-    <ClInclude Include="structures.h" />
+    <ClInclude Include="window_functions_.h" />
+    <ClInclude Include="articles.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
