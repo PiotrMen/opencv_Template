@@ -19,7 +19,7 @@ int main()
 	int current_window = 0;
 
 	// wyświetlanie pomocnicze (do usunięcia)
-	
+
 	for (int k = 0; k < Articles.size(); k++)
 	{
 		std::cout << Articles[k].name << std::endl;
@@ -34,7 +34,7 @@ int main()
 			}
 			std::cout << std::endl;
 			for (int z = 0; z < Articles[k].rotation_of_pictures[i].size(); z++) {
-				std::cout << Articles[k].rotation_of_pictures[i][z]<< " ";
+				std::cout << Articles[k].rotation_of_pictures[i][z] << " ";
 			}
 			std::cout << std::endl;
 			for (int z = 0; z < Articles[k].scale_of_pictures[i].size(); z++) {
@@ -58,10 +58,23 @@ int main()
 				std::cout << Articles[k].scale_of_texts[i][z] << " ";
 			}
 			std::cout << std::endl;
+			for (int z = 0; z < Articles[k].size_of_rectangle[i].size(); z++) {
+				std::cout << Articles[k].size_of_rectangle[i][z].first << "," << Articles[k].size_of_rectangle[i][z].second;
+			}
+			std::cout << std::endl;
+			for (int z = 0; z < Articles[k].coordinates_of_rectangles[i].size(); z++) {
+				std::cout << "(" << Articles[k].coordinates_of_rectangles[i][z].first << "," << Articles[k].coordinates_of_rectangles[i][z].second << ")";
+			}
+			std::cout << std::endl;
+			for (int z = 0; z < Articles[k].rotation_of_rectangles[i].size(); z++) {
+				std::cout << Articles[k].rotation_of_rectangles[i][z] << " ";
+			}
+			std::cout << std::endl;
+
 		}
 		std::cout << std::endl;
 	}
-	
+
 	//
 
 	while (objects.getWindowIsOpen() && menu_objects.getWindowIsOpen()) 

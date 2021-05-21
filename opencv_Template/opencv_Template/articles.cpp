@@ -18,10 +18,14 @@ void load_articles(std::vector <sArticles> &articles)
 	std::vector<float> text_rotation;
 	std::vector<float> text_scale;
 
+	std::vector<std::pair<int, int>> rectangle_size;
+	std::vector<std::pair<int, int>> rectangle_coordinates;
+	std::vector<float> rectangle_rotation;
+
 	if (file.is_open())
 	{
 		std::string article_name;
-		
+
 		// loading new article
 
 		while (std::getline(file, article_name))
@@ -40,7 +44,7 @@ void load_articles(std::vector <sArticles> &articles)
 			article.number_of_steps = std::stoi(number_of_steps);
 
 			std::string file_line;
-			
+
 			//adding article resources
 
 			// loading steps in current article
@@ -55,7 +59,7 @@ void load_articles(std::vector <sArticles> &articles)
 				article.pictures.push_back(steps);
 				std::smatch match;
 				std::regex reg("([a-zA-Z0-9 _\\\\:]*\\.[a-zA-Z0-9]*)");
-				
+
 				// loading paths in current step
 
 				while (!file_line.empty()) {
@@ -143,7 +147,7 @@ void load_articles(std::vector <sArticles> &articles)
 					article.coordinates_of_texts[step_of_article].push_back(matched_text_coordinates);
 					file_line = match_text_coordinates.suffix().str();
 				}
-				
+
 				//loading text rotations in current step
 
 				std::getline(file, file_line);
@@ -172,6 +176,55 @@ void load_articles(std::vector <sArticles> &articles)
 					matched_text_scale = std::stof(match_text_scale[1]);
 					article.scale_of_texts[step_of_article].push_back(matched_text_scale);
 					file_line = match_text_scale.suffix().str();
+				}
+
+				// loading rectangle size in current step
+
+				std::getline(file, file_line);
+
+				article.size_of_rectangle.push_back(rectangle_size);
+				std::smatch match_rectangle_size;
+				std::regex regex_rectangle_size("([0-9]*),([0-9]*)");
+
+				while (!file_line.empty()) {
+					std::regex_search(file_line, match_rectangle_size, regex_rectangle_size);
+					std::pair <int, int> matched_rectangle_size;
+					matched_rectangle_size.first = std::stoi(match_rectangle_size[1]);
+					matched_rectangle_size.second = std::stoi(match_rectangle_size[2]);
+					article.size_of_rectangle[step_of_article].push_back(matched_rectangle_size);
+					file_line = match_rectangle_size.suffix().str();
+				}
+
+				// loading rectangle coordinates in current step
+
+				std::getline(file, file_line);
+
+				article.coordinates_of_rectangles.push_back(rectangle_coordinates);
+				std::smatch match_rectangle_coordinates;
+				std::regex regex_rectangle_coordinates("\\(([0-9]*),([0-9]*)\\)");
+
+				while (!file_line.empty()) {
+					std::regex_search(file_line, match_rectangle_coordinates, regex_rectangle_coordinates);
+					std::pair <int, int> matched_rectangle_coordinates;
+					matched_rectangle_coordinates.first = std::stoi(match_rectangle_coordinates[1]);
+					matched_rectangle_coordinates.second = std::stoi(match_rectangle_coordinates[2]);
+					article.coordinates_of_rectangles[step_of_article].push_back(matched_rectangle_coordinates);
+					file_line = match_rectangle_coordinates.suffix().str();
+				}
+
+				//loading rectangle rotations in current step
+
+				std::getline(file, file_line);
+				article.rotation_of_rectangles.push_back(rectangle_rotation);
+				std::smatch match_rectangle_rotation;
+				std::regex regex_rectangle_rotation(";([0-9]*\\.[0-9])");
+
+				while (!file_line.empty()) {
+					std::regex_search(file_line, match_rectangle_rotation, regex_rectangle_rotation);
+					float matched_rectangle_rotation;
+					matched_rectangle_rotation = std::stof(match_rectangle_rotation[1]);
+					article.rotation_of_rectangles[step_of_article].push_back(matched_rectangle_rotation);
+					file_line = match_rectangle_rotation.suffix().str();
 				}
 
 				step_of_article++;

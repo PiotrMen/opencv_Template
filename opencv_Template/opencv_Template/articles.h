@@ -22,6 +22,10 @@ struct sArticles
 	std::vector<std::vector<float>> rotation_of_texts; // (float) rotation of every text
 	std::vector<std::vector<float>> scale_of_texts; //scale of every text
 
+	std::vector<std::vector<std::pair<int, int>>> size_of_rectangle; // contains size of rectangles
+	std::vector<std::vector<std::pair<int, int>>> coordinates_of_rectangles; // contains coordinates of rectangles
+	std::vector<std::vector<float>> rotation_of_rectangles; // contains rotation of rectangles
+
 };
 
 void load_articles(std::vector <sArticles> &articles);
