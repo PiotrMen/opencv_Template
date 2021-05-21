@@ -37,6 +37,23 @@ int main()
 				std::cout << Articles[k].scale_of_pictures[i][z] << " ";
 			}
 			std::cout << std::endl;
+
+			for (int j = 0; j < Articles[k].displayed_text[i].size(); j++) {
+				std::cout << Articles[k].displayed_text[i][j] << " ";
+			}
+			std::cout << std::endl;
+			for (int z = 0; z < Articles[k].coordinates_of_texts[i].size(); z++) {
+				std::cout << "(" << Articles[k].coordinates_of_texts[i][z].first << "," << Articles[k].coordinates_of_texts[i][z].second << ")";
+			}
+			std::cout << std::endl;
+			for (int z = 0; z < Articles[k].rotation_of_texts[i].size(); z++) {
+				std::cout << Articles[k].rotation_of_texts[i][z] << " ";
+			}
+			std::cout << std::endl;
+			for (int z = 0; z < Articles[k].scale_of_texts[i].size(); z++) {
+				std::cout << Articles[k].scale_of_texts[i][z] << " ";
+			}
+			std::cout << std::endl;
 		}
 		std::cout << std::endl;
 	}

@@ -16,8 +16,15 @@ struct sArticles
 	std::vector<std::vector<std::pair<int, int>>> coordinates_of_pictures; // contains coordinates of every loaded picture
 	std::vector<std::vector<float>> rotation_of_pictures; // contains rotation value of every loaded picture
 	std::vector<std::vector<float>> scale_of_pictures; // contains scale value of every loaded picture
+
+	std::vector<std::vector<std::string>> displayed_text; //text (or multiple texts) displayed alongside pictures
+	std::vector<std::vector<std::pair<int, int>>> coordinates_of_texts; //contains coordinates of every text
+	std::vector<std::vector<float>> rotation_of_texts; // (float) rotation of every text
+	std::vector<std::vector<float>> scale_of_texts; //scale of every text
+
 };
 
 void load_articles(std::vector <sArticles> &articles);
+
 
 #endif // !ARTICLES_H

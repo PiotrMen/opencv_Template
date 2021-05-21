@@ -7,11 +7,16 @@ void load_articles(std::vector <sArticles> &articles)
 	file.open("resources/articles.txt");
 	int step_of_article = 0;
 
-	// empty vector used in loading steps in article
+	// empty vectors used in loading steps in article
 	std::vector<std::string> steps;
 	std::vector<std::pair <int, int>> coordinates;
 	std::vector<float> rotation;
 	std::vector<float> scale;
+
+	std::vector<std::string> texts;
+	std::vector<std::pair<int, int>> text_coordinates;
+	std::vector<float> text_rotation;
+	std::vector<float> text_scale;
 
 	if (file.is_open())
 	{
@@ -105,6 +110,68 @@ void load_articles(std::vector <sArticles> &articles)
 					matched_scale = std::stof(match_scale[1]);
 					article.scale_of_pictures[step_of_article].push_back(matched_scale);
 					file_line = match_scale.suffix().str();
+				}
+
+				// loading texts in current step
+
+				std::getline(file, file_line);
+
+				article.displayed_text.push_back(texts);
+				std::smatch match_text;
+				std::regex regex_texts(";\"(.*)\"");
+
+				while (!file_line.empty()) {
+					std::regex_search(file_line, match_text, regex_texts);
+					std::string matched_text = match_text[1];
+					article.displayed_text[step_of_article].push_back(matched_text);
+					file_line = match.suffix().str();
+				}
+
+				// loading text coordinates in current step
+
+				std::getline(file, file_line);
+
+				article.coordinates_of_texts.push_back(text_coordinates);
+				std::smatch match_text_coordinates;
+				std::regex regex_text_coordinates("\\(([0-9]*),([0-9]*)\\)");
+
+				while (!file_line.empty()) {
+					std::regex_search(file_line, match_text_coordinates, regex_text_coordinates);
+					std::pair <int, int> matched_text_coordinates;
+					matched_text_coordinates.first = std::stoi(match_text_coordinates[1]);
+					matched_text_coordinates.second = std::stoi(match_text_coordinates[2]);
+					article.coordinates_of_texts[step_of_article].push_back(matched_text_coordinates);
+					file_line = match_text_coordinates.suffix().str();
+				}
+				
+				//loading text rotations in current step
+
+				std::getline(file, file_line);
+				article.rotation_of_texts.push_back(text_rotation);
+				std::smatch match_text_rotation;
+				std::regex regex_text_rotation(";([0-9]*\\.[0-9])");
+
+				while (!file_line.empty()) {
+					std::regex_search(file_line, match_text_rotation, regex_text_rotation);
+					float matched_text_rotation;
+					matched_text_rotation = std::stof(match_text_rotation[1]);
+					article.rotation_of_texts[step_of_article].push_back(matched_text_rotation);
+					file_line = match_text_rotation.suffix().str();
+				}
+
+				//loading text scale in current step
+
+				std::getline(file, file_line);
+				article.scale_of_texts.push_back(text_scale);
+				std::smatch match_text_scale;
+				std::regex regex_text_scale(";([0-9]*\\.[0-9])");
+
+				while (!file_line.empty()) {
+					std::regex_search(file_line, match_text_scale, regex_text_scale);
+					float matched_text_scale;
+					matched_text_scale = std::stof(match_text_scale[1]);
+					article.scale_of_texts[step_of_article].push_back(matched_text_scale);
+					file_line = match_text_scale.suffix().str();
 				}
 
 				step_of_article++;
