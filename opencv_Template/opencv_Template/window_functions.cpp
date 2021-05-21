@@ -1,4 +1,6 @@
 #include "window_functions_.h"
+#include <iostream>
+#include "articles.h"
 
 //Constructor
 sfml_objects::sfml_objects()
@@ -55,7 +57,7 @@ void sfml_objects::display_texture(int pos_x, int pos_y, std::string file_path, 
 }
 
 //Displaying text
-void sfml_objects::display_text(int pos_x, int pos_y, std::string text)
+void sfml_objects::display_text(int pos_x, int pos_y, std::string text, float size)
 {
 	sf::Font font_;
 	if (!font_.loadFromFile("resources/mermaid/Mermaid1001.ttf"))
@@ -67,7 +69,7 @@ void sfml_objects::display_text(int pos_x, int pos_y, std::string text)
 	text_.setFillColor(sf::Color::Black);
 	text_.setFont(font_);
 	text_.setString(text);
-	text_.setCharacterSize(40);
+	text_.setCharacterSize(size);
 	text_.setOrigin((text_.getGlobalBounds().left + text_.getGlobalBounds().width) / 2, 0);     //set origins of text to center
 	text_.setPosition(pos_x, pos_y);
 	this->window->draw(text_);
@@ -153,9 +155,9 @@ void sfml_objects::render(std::vector <sArticles> &articles, int current_step)
 	this->window->clear(sf::Color(255,255,255,255));
 	this->display_texture(this->green_button_x, this->green_button_y, "green_circle.png", this->button_size, 0);   //displaying basic graphics 
 	this->display_texture(this->red_button_x, this->red_button_y, "red_circle.png", this->button_size, 0);
-	this->display_text(this->green_button_x, this->green_button_y + ((this->red_button_length_y*button_size))/2, "Continue"); //displaying texts
-	this->display_text(this->red_button_x, this->red_button_y + ((this->red_button_length_y * button_size))/2, "Defect");
-
+	this->display_text(this->green_button_x, this->green_button_y + ((this->red_button_length_y*button_size))/2, "Continue", 40); //displaying texts
+	this->display_text(this->red_button_x, this->red_button_y + ((this->red_button_length_y * button_size))/2, "Defect", 40);
+	this->display_text(1700, 50, ("Aktualny krok: " + std::to_string(current_step) + "/" + std::to_string(articles[0].number_of_steps)), 40);
 	//	Displaying current step
 
 	if(current_step <= articles[0].number_of_steps && current_step > 0)
