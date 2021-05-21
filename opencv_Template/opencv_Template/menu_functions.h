@@ -5,38 +5,28 @@
 #include "articles.h"
 
 
-class sfml_objects
+class menu_sfml_objects
 {
 public:
-	// green button
+	// blue button
 
 	// length of sides in pixels
-	int green_button_length_x;
-	int green_button_length_y;
+	int blue_button_length_x;
+	int blue_button_length_y;
 
 	//coordinates
-	int green_button_x;
-	int green_button_y;
-
-	// red button
-
-	// length of sides in pixels
-	int red_button_length_x;
-	int red_button_length_y;
-
-	//coordinates
-	int red_button_x;
-	int red_button_y;
+	int blue_button_x;
+	int blue_button_y;
 
 	float button_size; //scaled button size (percentage)
 
-	sf::RenderWindow *window;
+	sf::RenderWindow *menu_window;
 	sf::Event event;
 	//window size
-	int window_width;
-	int window_height;
+	int menu_window_width;
+	int menu_window_height;
 	//Constructor
-	sfml_objects();
+	menu_sfml_objects();
 
 	// Initializations
 	void init_button_size(float percentege_size);
@@ -49,8 +39,7 @@ public:
 	const bool getWindowIsOpen();
 
 	// Detecting mouse collision with buttons
-	bool detecting_green_button();
-	bool detecting_red_button();
+	bool detecting_blue_button();
 
 	//Functions
 	void pollEvents(int &current_step, int &current_window);

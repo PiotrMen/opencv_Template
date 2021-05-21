@@ -102,7 +102,7 @@ bool sfml_objects::detecting_red_button()
 
 
 //Functions
-void sfml_objects::pollEvents(int &current_step)
+void sfml_objects::pollEvents(int &current_step, int &current_window)
 {
 	//Event polling
 	while (this->window->pollEvent(this->event))
@@ -124,17 +124,19 @@ void sfml_objects::pollEvents(int &current_step)
 				switch (event.key.code)
 				{
 					case sf::Mouse::Left:
+						//article choosen, displaying sequence
+						if (current_window == 1) {                           
+							if (this->detecting_green_button())
+							{
+								std::cout << "zielony przycisk" << std::endl;
+								current_step++;
+							}
 
-						if (this->detecting_green_button())
-						{
-							std::cout << "zielony przycisk" << std::endl;
-							current_step++;
-						}
-
-						if (this->detecting_red_button())
-						{
-							std::cout << "czerwony przycisk" << std::endl;
-							this->window->close();
+							if (this->detecting_red_button())
+							{
+								std::cout << "czerwony przycisk" << std::endl;
+								this->window->close();
+							}
 						}
 					break;
 				}
@@ -144,29 +146,30 @@ void sfml_objects::pollEvents(int &current_step)
 	}
 }
 
-void sfml_objects::update(int &current_step)
+void sfml_objects::update(int &current_step, int &current_window)
 {
-	this->pollEvents(current_step);
+	this->pollEvents(current_step, current_window);
 }
 
 
-void sfml_objects::render(std::vector <sArticles> &articles, int current_step)
+void sfml_objects::render(std::vector <sArticles> &articles, int current_step, int current_window)
 {
 	this->window->clear(sf::Color(255,255,255,255));
-	this->display_texture(this->green_button_x, this->green_button_y, "green_circle.png", this->button_size, 0);   //displaying basic graphics 
-	this->display_texture(this->red_button_x, this->red_button_y, "red_circle.png", this->button_size, 0);
-	this->display_text(this->green_button_x, this->green_button_y + ((this->red_button_length_y*button_size))/2, "Continue", 40); //displaying texts
-	this->display_text(this->red_button_x, this->red_button_y + ((this->red_button_length_y * button_size))/2, "Defect", 40);
-	this->display_text(1700, 50, ("Aktualny krok: " + std::to_string(current_step) + "/" + std::to_string(articles[0].number_of_steps)), 40);
-	//	Displaying current step
+	if (current_window == 1) {
+		this->display_texture(this->green_button_x, this->green_button_y, "green_circle.png", this->button_size, 0);   //displaying basic graphics 
+		this->display_texture(this->red_button_x, this->red_button_y, "red_circle.png", this->button_size, 0);
+		this->display_text(this->green_button_x, this->green_button_y + ((this->red_button_length_y*button_size)) / 2, "Continue", 40); //displaying texts
+		this->display_text(this->red_button_x, this->red_button_y + ((this->red_button_length_y * button_size)) / 2, "Defect", 40);
+		this->display_text(1700, 50, ("Aktualny krok: " + std::to_string(current_step) + "/" + std::to_string(articles[0].number_of_steps)), 40);  //displaying "aktualny krok" in corner
+		//	Displaying current step
 
-	if(current_step <= articles[0].number_of_steps && current_step > 0)
-	{
-		for (int i = 0; i < articles[0].pictures[current_step - 1].size(); i++) {
-			this->display_texture(articles[0].coordinates_of_pictures[current_step - 1][i].first, articles[0].coordinates_of_pictures[current_step - 1][i].second, articles[0].pictures[current_step - 1][i], articles[0].scale_of_pictures[current_step - 1][i], articles[0].rotation_of_pictures[current_step - 1][i]);
+		if (current_step <= articles[0].number_of_steps && current_step > 0)
+		{
+			for (int i = 0; i < articles[0].pictures[current_step - 1].size(); i++) {
+				this->display_texture(articles[0].coordinates_of_pictures[current_step - 1][i].first, articles[0].coordinates_of_pictures[current_step - 1][i].second, articles[0].pictures[current_step - 1][i], articles[0].scale_of_pictures[current_step - 1][i], articles[0].rotation_of_pictures[current_step - 1][i]);
+			}
 		}
 	}
-
 	// sprawdzanie i przechodzenie do kolejnego kroku, pozniej bedzie zawierac detekcje
 
 	//this->pollEvents(current_step);
