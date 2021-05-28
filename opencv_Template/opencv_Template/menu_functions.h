@@ -24,6 +24,11 @@ public:
 	int Select_article_button_x;
 	int Select_article_button_y;
 
+	//length of sides in pixels
+	int Select_article_length_button_x;
+	int Select_article_length_button_y;
+
+
 	//edit articles button
 
 	//coordinates 
@@ -37,6 +42,7 @@ public:
 	int delete_article_button_y;
 
 	float button_size; //scaled button size (percentage)
+	float menu_button_size;
 
 	sf::RenderWindow *menu_window;
 	sf::Event event;
@@ -47,7 +53,7 @@ public:
 	menu_sfml_objects();
 
 	// Initializations
-	void init_button_size(float percentege_size);
+	void init_button_size(float percentege_size, float menu_button_percentege_size);
 
 	//Displaying objects
 	void display_texture(int pos_x, int pos_y, std::string file_path, float scale, float rotation);

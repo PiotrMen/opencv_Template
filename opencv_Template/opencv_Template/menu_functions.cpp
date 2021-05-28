@@ -12,7 +12,7 @@ menu_sfml_objects::menu_sfml_objects()
 }
 
 // Initializations
-void menu_sfml_objects::init_button_size(float percentege_size)
+void menu_sfml_objects::init_button_size(float percentege_size, float menu_button_percentege_size)
 {
 	//length of sides in pixels
 
@@ -23,6 +23,10 @@ void menu_sfml_objects::init_button_size(float percentege_size)
 	//coordinates for blue button
 	this->blue_button_x = this->menu_window_width - 200;  // 150 - number of pixels from bounds
 	this->blue_button_y = this->menu_window_height - 150;
+
+	//length of sides for Select article button
+	this->Select_article_length_button_x = 707;
+	this->Select_article_length_button_y = 120;
 
 	//coordinates for Select article button
 	this->Select_article_button_x = this->menu_window_width / 2;
@@ -37,6 +41,7 @@ void menu_sfml_objects::init_button_size(float percentege_size)
 	this->delete_article_button_y = edit_article_button_y + 200;
 
 	this->button_size = percentege_size / 100;
+	this->menu_button_size = menu_button_percentege_size / 100;
 }
 
 //Displaying objects
@@ -95,7 +100,7 @@ bool menu_sfml_objects::detecting_blue_button()
 
 bool menu_sfml_objects::detecting_Select_article_button()
 {
-	if (((sf::Mouse::getPosition(*this->menu_window).x >= this->blue_button_x - ((this->blue_button_length_x * this->button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).x <= this->blue_button_x + ((this->blue_button_length_x * this->button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y >= this->blue_button_y - ((this->blue_button_length_y * this->button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y <= this->blue_button_y + ((this->blue_button_length_y * this->button_size) / 2))))
+	if (((sf::Mouse::getPosition(*this->menu_window).x >= this->Select_article_button_x - ((this->Select_article_length_button_x * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).x <= this->Select_article_button_x + ((this->Select_article_length_button_x * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y >= this->Select_article_button_y - ((this->Select_article_length_button_y * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y <= this->Select_article_button_y + ((this->Select_article_length_button_y * this->menu_button_size) / 2))))
 	{
 		return true;
 	}
@@ -132,6 +137,9 @@ void menu_sfml_objects::pollEvents(int &current_step, int &current_window)
 					{
 						std::cout << "niebieski przycisk" << std::endl;
 					}
+					if (this->detecting_Select_article_button()) {
+						std::cout << "wybor artykulu" << std::endl;
+					}
 				}
 				break;
 			}
@@ -144,7 +152,7 @@ void menu_sfml_objects::pollEvents(int &current_step, int &current_window)
 void menu_sfml_objects::update(int &current_step, int &current_window)
 {
 	this->pollEvents(current_step, current_window);
-	std::cout << "myszka x  " << sf::Mouse::getPosition(*this->menu_window).x << "  " << sf::Mouse::getPosition(*this->menu_window).y << std::endl;
+	//std::cout << "myszka x  " << sf::Mouse::getPosition(*this->menu_window).x << "  " << sf::Mouse::getPosition(*this->menu_window).y << std::endl;
 }
 
 
@@ -152,9 +160,9 @@ void menu_sfml_objects::render(std::vector <sArticles> &articles, int current_st
 {
 	this->menu_window->clear(sf::Color(255, 255, 255, 255));
 	this->display_texture(this->blue_button_x, this->blue_button_y, "blue_circle.png", this->button_size, 0);   //displaying basic graphics // 0 if menu displaying, 1 if articles selected
-	this->display_texture(this->Select_article_button_x, this->Select_article_button_y, "grey_button.png", 1.2, 0);
-	this->display_texture(this->edit_article_button_x, this->edit_article_button_y, "grey_button.png", 1.2, 0);
-	this->display_texture(this->delete_article_button_x, this->delete_article_button_y, "grey_button.png", 1.2, 0);
+	this->display_texture(this->Select_article_button_x, this->Select_article_button_y, "grey_button.png", this->menu_button_size, 0);
+	this->display_texture(this->edit_article_button_x, this->edit_article_button_y, "grey_button.png", this->menu_button_size, 0);
+	this->display_texture(this->delete_article_button_x, this->delete_article_button_y, "grey_button.png", this->menu_button_size, 0);
 	this->display_text(this->Select_article_button_x, this->Select_article_button_y-10, "Wybor artykulu", 80);
 	this->display_text(this->edit_article_button_x, this->edit_article_button_y - 10, "Edycja artykulu", 80);
 	this->display_text(this->delete_article_button_x, this->delete_article_button_y - 10, "Usuniecie artykulu", 80);
