@@ -8,7 +8,7 @@ menu_sfml_objects::menu_sfml_objects()
 	this->menu_window_height = 1080;
 	this->menu_window_width = 1920;
 	this->menu_window = new sf::RenderWindow(sf::VideoMode(menu_window_width, menu_window_height), "Menu", sf::Style::Fullscreen);
-
+	this->menu_window->setPosition(sf::Vector2i(0, -1080));
 }
 
 // Initializations
@@ -40,7 +40,6 @@ void menu_sfml_objects::display_texture(int pos_x, int pos_y, std::string file_p
 	texture.setTexture(texture_);
 	texture.setOrigin(sf::Vector2f(texture.getTexture()->getSize().x * 0.5, texture.getTexture()->getSize().y * 0.5));         //set origins of images to center
 	texture.setPosition(pos_x, pos_y);
-	//std::cout << "myszka x  " << sf::Mouse::getPosition(*this->window).x << "  " << sf::Mouse::getPosition(*this->window).y << std::endl;
 	texture.setScale(scale, scale);
 	texture.setRotation(rotation);
 
@@ -124,6 +123,7 @@ void menu_sfml_objects::pollEvents(int &current_step, int &current_window)
 void menu_sfml_objects::update(int &current_step, int &current_window)
 {
 	this->pollEvents(current_step, current_window);
+	std::cout << "myszka x  " << sf::Mouse::getPosition(*this->menu_window).x << "  " << sf::Mouse::getPosition(*this->menu_window).y << std::endl;
 }
 
 
