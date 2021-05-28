@@ -20,9 +20,13 @@ void menu_sfml_objects::init_button_size(float percentege_size)
 	this->blue_button_length_x = 414; // number of pixels (width and length of picture)
 	this->blue_button_length_y = 414;
 
-	//coordinates for green button
-	this->blue_button_x = this->menu_window_width - 150 - ((this->blue_button_length_x / 2) * percentege_size / 100);  // 150 - number of pixels from bounds
-	this->blue_button_y = this->menu_window_height - 150 - ((this->blue_button_length_y / 2) * percentege_size / 100);
+	//coordinates for blue button
+	this->blue_button_x = this->menu_window_width / 2;  // 150 - number of pixels from bounds
+	this->blue_button_y = this->menu_window_height - 150;
+
+	//coordinates for Select article button
+	this->Select_article_button_x = this->menu_window_width / 2;
+	this->Select_article_button_y = 150;
 
 	this->button_size = percentege_size / 100;
 }
@@ -130,7 +134,8 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 void menu_sfml_objects::render(std::vector <sArticles> &articles, int current_step, int current_window)
 {
 	this->menu_window->clear(sf::Color(255, 255, 255, 255));
-	this->display_texture(this->blue_button_x, this->blue_button_y, "blue_circle.png", this->button_size, 0);   //displaying basic graphics 
+	this->display_texture(this->blue_button_x, this->blue_button_y, "blue_circle.png", this->button_size, 0);   //displaying basic graphics // 0 if menu displaying, 1 if articles selected
+	this->display_texture(this->Select_article_button_x, this->Select_article_button_y, "grey_button.png", 1.2, 0);
 	this->menu_window->display();
 }
 

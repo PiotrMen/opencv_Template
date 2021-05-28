@@ -18,6 +18,12 @@ public:
 	int blue_button_x;
 	int blue_button_y;
 
+	//article select button
+
+	//coordinates 
+	int Select_article_button_x;
+	int Select_article_button_y;
+
 	float button_size; //scaled button size (percentage)
 
 	sf::RenderWindow *menu_window;
