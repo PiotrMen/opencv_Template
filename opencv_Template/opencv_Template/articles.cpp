@@ -234,3 +234,150 @@ void load_articles(std::vector <sArticles> &articles)
 	}
 	file.close();
 }
+void save_articles(std::vector <sArticles> &articles)
+{
+	std::ofstream file;
+	file.open("resources/articles.txt");
+	if (file.is_open())
+	{
+		for (int i = 0; i < articles.size(); i++)
+		{
+			// Writing name of article
+
+			file << articles[i].name << std::endl;
+
+			// Writing number of steps in article
+
+			file << articles[i].number_of_steps << std::endl;
+
+			// Writing paths and data in article
+
+			for (int k = 1; k <= articles[i].number_of_steps; k++)
+			{
+				// Writing paths to pictures in current step
+
+				file << k;
+
+				for (int l = 0; l < articles[i].pictures[k - 1].size(); l++)
+				{
+					file << ";" << articles[i].pictures[k - 1][l];
+				}
+
+				file << std::endl;
+
+				// Writing picture coordiantes in current step
+
+				file << k;
+
+				for (int l = 0; l < articles[i].coordinates_of_pictures[k - 1].size(); l++)
+				{
+					file << ";(" << articles[i].coordinates_of_pictures[k - 1][l].first << "," << articles[i].coordinates_of_pictures[k - 1][l].second << ")";
+				}
+
+				file << std::endl;
+
+				// Writing picture rotation in current step
+
+				file << k;
+
+				for (int l = 0; l < articles[i].rotation_of_pictures[k - 1].size(); l++)
+				{
+
+					file << ";" << std::fixed << std::setprecision(1) << articles[i].rotation_of_pictures[k - 1][l];
+				}
+				file << std::endl;
+
+				// Writing picture scale in current step
+
+				file << k;
+
+				for (int l = 0; l < articles[i].scale_of_pictures[k - 1].size(); l++)
+				{
+
+					file << ";" << articles[i].scale_of_pictures[k - 1][l];
+				}
+				file << std::endl;
+
+				// Writing text in current step
+
+				file << k;
+
+				for (int l = 0; l < articles[i].displayed_text[k - 1].size(); l++)
+				{
+
+					file << ";" << "\"" << articles[i].displayed_text[k - 1][l] << "\"";
+				}
+				file << std::endl;
+
+				// Writing text coordiantes in current step
+
+				file << k;
+
+				for (int l = 0; l < articles[i].coordinates_of_texts[k - 1].size(); l++)
+				{
+					file << ";(" << articles[i].coordinates_of_texts[k - 1][l].first << "," << articles[i].coordinates_of_texts[k - 1][l].second << ")";
+				}
+
+				file << std::endl;
+
+				// Writing text rotation in current step
+
+				file << k;
+
+				for (int l = 0; l < articles[i].rotation_of_texts[k - 1].size(); l++)
+				{
+
+					file << ";" << std::fixed << std::setprecision(1) << articles[i].rotation_of_texts[k - 1][l];
+				}
+				file << std::endl;
+
+				// Writing text scale in current step
+
+				file << k;
+
+				for (int l = 0; l < articles[i].scale_of_texts[k - 1].size(); l++)
+				{
+
+					file << ";" << articles[i].scale_of_texts[k - 1][l];
+				}
+				file << std::endl;
+
+				// Writing rectangle size in current step
+
+				file << k;
+
+				for (int l = 0; l < articles[i].size_of_rectangle[k - 1].size(); l++)
+				{
+					file << ";" << articles[i].size_of_rectangle[k - 1][l].first << "," << articles[i].size_of_rectangle[k - 1][l].second;
+				}
+
+				file << std::endl;
+
+				// Writing rectangle coordiantes in current step
+
+				file << k;
+
+				for (int l = 0; l < articles[i].coordinates_of_rectangles[k - 1].size(); l++)
+				{
+					file << ";(" << articles[i].coordinates_of_rectangles[k - 1][l].first << "," << articles[i].coordinates_of_rectangles[k - 1][l].second << ")";
+				}
+
+				file << std::endl;
+
+				// Writing rectangle rotation in current step
+
+				file << k;
+
+				for (int l = 0; l < articles[i].rotation_of_rectangles[k - 1].size(); l++)
+				{
+
+					file << ";" << std::fixed << std::setprecision(1) << articles[i].rotation_of_rectangles[k - 1][l];
+				}
+				file << std::endl;
+
+			}
+			file << std::endl;
+		}
+	}
+	file.close();
+}

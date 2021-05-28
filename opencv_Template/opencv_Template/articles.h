@@ -6,6 +6,7 @@
 #include <SFML/Graphics.hpp>
 #include <regex>
 #include <fstream>
+#include <iomanip>
 
 
 struct sArticles
@@ -29,6 +30,7 @@ struct sArticles
 };
 
 void load_articles(std::vector <sArticles> &articles);
+void save_articles(std::vector <sArticles> &articles);
 
 
 #endif // !ARTICLES_H
