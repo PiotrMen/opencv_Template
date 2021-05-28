@@ -24,6 +24,18 @@ public:
 	int Select_article_button_x;
 	int Select_article_button_y;
 
+	//edit articles button
+
+	//coordinates 
+	int edit_article_button_x;
+	int edit_article_button_y;
+
+	//delete article button
+
+	//coordinates 
+	int delete_article_button_x;
+	int delete_article_button_y;
+
 	float button_size; //scaled button size (percentage)
 
 	sf::RenderWindow *menu_window;

@@ -21,12 +21,20 @@ void menu_sfml_objects::init_button_size(float percentege_size)
 	this->blue_button_length_y = 414;
 
 	//coordinates for blue button
-	this->blue_button_x = this->menu_window_width / 2;  // 150 - number of pixels from bounds
+	this->blue_button_x = this->menu_window_width - 200;  // 150 - number of pixels from bounds
 	this->blue_button_y = this->menu_window_height - 150;
 
 	//coordinates for Select article button
 	this->Select_article_button_x = this->menu_window_width / 2;
-	this->Select_article_button_y = 150;
+	this->Select_article_button_y = 400;
+
+	//coordinates for edit article button
+	this->edit_article_button_x = this->menu_window_width / 2;
+	this->edit_article_button_y = Select_article_button_y + 200;
+
+	//coordinates for delete article button
+	this->delete_article_button_x = this->menu_window_width / 2;
+	this->delete_article_button_y = edit_article_button_y + 200;
 
 	this->button_size = percentege_size / 100;
 }
@@ -64,7 +72,7 @@ void menu_sfml_objects::display_text(int pos_x, int pos_y, std::string text, flo
 	text_.setFont(font_);
 	text_.setString(text);
 	text_.setCharacterSize(size);
-	text_.setOrigin((text_.getGlobalBounds().left + text_.getGlobalBounds().width) / 2, 0);     //set origins of text to center
+	text_.setOrigin((text_.getGlobalBounds().left + text_.getGlobalBounds().width) / 2, (text_.getGlobalBounds().height + text_.getGlobalBounds().top) / 2);     //set origins of text to center
 	text_.setPosition(pos_x, pos_y);
 	this->menu_window->draw(text_);
 }
@@ -136,6 +144,12 @@ void menu_sfml_objects::render(std::vector <sArticles> &articles, int current_st
 	this->menu_window->clear(sf::Color(255, 255, 255, 255));
 	this->display_texture(this->blue_button_x, this->blue_button_y, "blue_circle.png", this->button_size, 0);   //displaying basic graphics // 0 if menu displaying, 1 if articles selected
 	this->display_texture(this->Select_article_button_x, this->Select_article_button_y, "grey_button.png", 1.2, 0);
+	this->display_texture(this->edit_article_button_x, this->edit_article_button_y, "grey_button.png", 1.2, 0);
+	this->display_texture(this->delete_article_button_x, this->delete_article_button_y, "grey_button.png", 1.2, 0);
+	this->display_text(this->Select_article_button_x, this->Select_article_button_y-10, "Wybor artykulu", 80);
+	this->display_text(this->edit_article_button_x, this->edit_article_button_y - 10, "Edycja artykulu", 80);
+	this->display_text(this->delete_article_button_x, this->delete_article_button_y - 10, "Usuniecie artykulu", 80);
+	this->display_text(this->menu_window_width / 2, 130, "Menu artykulow", 200);
 	this->menu_window->display();
 }
 
