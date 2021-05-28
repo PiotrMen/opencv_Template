@@ -1,4 +1,5 @@
-﻿  menu_functions.cpp
+﻿  main.cpp
+  menu_functions.cpp
 c:\users\plx018\source\repos\nowy folder\nowy folder\opencv_template\opencv_template\menu_functions.cpp(53): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
           with
           [
@@ -7,7 +8,8 @@ c:\users\plx018\source\repos\nowy folder\nowy folder\opencv_template\opencv_temp
 c:\users\plx018\source\repos\nowy folder\nowy folder\opencv_template\opencv_template\menu_functions.cpp(54): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
 c:\users\plx018\source\repos\nowy folder\nowy folder\opencv_template\opencv_template\menu_functions.cpp(74): warning C4244: "argument": konwersja z "float" do "unsigned int", możliwa utrata danych
 c:\users\plx018\source\repos\nowy folder\nowy folder\opencv_template\opencv_template\menu_functions.cpp(76): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
-c:\users\plx018\source\repos\nowy folder\nowy folder\opencv_template\opencv_template\menu_functions.cpp(146): warning C4305: "argument": obcięcie z "double" do "float"
-c:\users\plx018\source\repos\nowy folder\nowy folder\opencv_template\opencv_template\menu_functions.cpp(147): warning C4305: "argument": obcięcie z "double" do "float"
-c:\users\plx018\source\repos\nowy folder\nowy folder\opencv_template\opencv_template\menu_functions.cpp(148): warning C4305: "argument": obcięcie z "double" do "float"
+c:\users\plx018\source\repos\nowy folder\nowy folder\opencv_template\opencv_template\menu_functions.cpp(155): warning C4305: "argument": obcięcie z "double" do "float"
+c:\users\plx018\source\repos\nowy folder\nowy folder\opencv_template\opencv_template\menu_functions.cpp(156): warning C4305: "argument": obcięcie z "double" do "float"
+c:\users\plx018\source\repos\nowy folder\nowy folder\opencv_template\opencv_template\menu_functions.cpp(157): warning C4305: "argument": obcięcie z "double" do "float"
+  Generowanie kodu...
   opencv_Template.vcxproj -> C:\Users\plx018\source\repos\Nowy folder\Nowy Folder\opencv_Template\x64\Debug\opencv_Template.exe

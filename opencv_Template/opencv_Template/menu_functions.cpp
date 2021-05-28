@@ -93,6 +93,15 @@ bool menu_sfml_objects::detecting_blue_button()
 	return false;
 }
 
+bool menu_sfml_objects::detecting_Select_article_button()
+{
+	if (((sf::Mouse::getPosition(*this->menu_window).x >= this->blue_button_x - ((this->blue_button_length_x * this->button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).x <= this->blue_button_x + ((this->blue_button_length_x * this->button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y >= this->blue_button_y - ((this->blue_button_length_y * this->button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y <= this->blue_button_y + ((this->blue_button_length_y * this->button_size) / 2))))
+	{
+		return true;
+	}
+	return false;
+}
+
 
 
 //Functions

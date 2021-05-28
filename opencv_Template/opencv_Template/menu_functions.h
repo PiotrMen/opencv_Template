@@ -58,6 +58,7 @@ public:
 
 	// Detecting mouse collision with buttons
 	bool detecting_blue_button();
+	bool detecting_Select_article_button();
 
 	//Functions
 	void pollEvents(int &current_step, int &current_window);
