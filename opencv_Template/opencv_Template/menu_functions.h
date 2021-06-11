@@ -66,10 +66,20 @@ public:
 	bool detecting_blue_button();
 	bool detecting_Select_article_button();
 
+	//Detecting rising/falling edges
+	bool detecting_rising_edge_left_mouse_button();
+	bool detecting_falling_edge_left_mouse_button();
+
 	//Functions
 	void pollEvents(int &current_step, int &current_window);
 	void update(int &current_step, int &current_window);
 	void render(std::vector <sArticles> &articles, int current_step, int current_window);
+
+private:
+	bool rising_edge = false;
+	bool rising_edge_detected = false;
+	bool falling_edge = false;
+	bool falling_edge_detected = false;
 };
 
 #endif

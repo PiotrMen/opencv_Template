@@ -107,7 +107,37 @@ bool menu_sfml_objects::detecting_Select_article_button()
 	return false;
 }
 
+bool menu_sfml_objects::detecting_rising_edge_left_mouse_button() {
+	if (this->rising_edge == false && sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+		this->rising_edge_detected = true;
+	}
+	else{
+		this->rising_edge = false;
+	}
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+		this->rising_edge = true;
+	}
+	if (this->rising_edge_detected) {
+		this->rising_edge_detected = false;
+		return true;
+	}
+	return false;
+}
 
+bool menu_sfml_objects::detecting_falling_edge_left_mouse_button() {
+	if (this->falling_edge == true && !sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+		this->falling_edge_detected = true;
+		this->falling_edge = false;
+	}
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+		this->falling_edge = true;
+	}
+	if (this->falling_edge_detected) {
+		this->falling_edge_detected = false;
+		return true;
+	}
+	return false;
+}
 
 //Functions
 void menu_sfml_objects::pollEvents(int &current_step, int &current_window)
@@ -158,6 +188,9 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 
 void menu_sfml_objects::render(std::vector <sArticles> &articles, int current_step, int current_window)
 {
+	if (this->detecting_falling_edge_left_mouse_button()) {
+		std::cout << "opadajace" << std::endl;
+	}
 	this->menu_window->clear(sf::Color(255, 255, 255, 255));
 	this->display_texture(this->blue_button_x, this->blue_button_y, "blue_circle.png", this->button_size, 0);   //displaying basic graphics // 0 if menu displaying, 1 if articles selected
 	this->display_texture(this->Select_article_button_x, this->Select_article_button_y, "grey_button.png", this->menu_button_size, 0);
