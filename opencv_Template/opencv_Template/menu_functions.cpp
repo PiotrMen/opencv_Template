@@ -188,9 +188,6 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 
 void menu_sfml_objects::render(std::vector <sArticles> &articles, int current_step, int current_window)
 {
-	if (this->detecting_falling_edge_left_mouse_button()) {
-		std::cout << "opadajace" << std::endl;
-	}
 	this->menu_window->clear(sf::Color(255, 255, 255, 255));
 	this->display_texture(this->blue_button_x, this->blue_button_y, "blue_circle.png", this->button_size, 0);   //displaying basic graphics // 0 if menu displaying, 1 if articles selected
 	this->display_texture(this->Select_article_button_x, this->Select_article_button_y, "grey_button.png", this->menu_button_size, 0);
