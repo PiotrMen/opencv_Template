@@ -31,6 +31,8 @@ struct sArticles
 
 void load_articles(std::vector <sArticles> &articles);
 void save_articles(std::vector <sArticles> &articles);
-
+void delete_article(std::vector <sArticles> &articles, int id_of_article);
+void delete_step_in_article(std::vector <sArticles> &articles, int id_of_article, int step_of_article);
+void delete_element_in_article(std::vector <sArticles> &articles, int id_of_article, int step_of_article, char type_of_element, int id_of_element);
 
 #endif // !ARTICLES_H

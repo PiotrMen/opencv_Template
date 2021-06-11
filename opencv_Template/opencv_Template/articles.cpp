@@ -381,3 +381,87 @@ void save_articles(std::vector <sArticles> &articles)
 	}
 	file.close();
 }
+void delete_article(std::vector <sArticles> &articles, int id_of_article)
+{
+	// Checking if there is articles with given id
+
+	if (id_of_article >= 0 && id_of_article < articles.size())
+	{
+		articles.erase(articles.begin() + id_of_article);
+	}
+
+}
+void delete_step_in_article(std::vector <sArticles> &articles, int id_of_article, int step_of_article)
+{
+	// Checking if there is articles with given id
+
+	if (id_of_article >= 0 && id_of_article < articles.size())
+	{
+		if (step_of_article >= 0 && step_of_article < articles[id_of_article].number_of_steps)
+		{
+			articles[id_of_article].number_of_steps = articles[id_of_article].number_of_steps - 1;
+
+			articles[id_of_article].pictures.erase(articles[id_of_article].pictures.begin() + step_of_article);
+			articles[id_of_article].coordinates_of_pictures.erase(articles[id_of_article].coordinates_of_pictures.begin() + step_of_article);
+			articles[id_of_article].rotation_of_pictures.erase(articles[id_of_article].rotation_of_pictures.begin() + step_of_article);
+			articles[id_of_article].scale_of_pictures.erase(articles[id_of_article].scale_of_pictures.begin() + step_of_article);
+
+			articles[id_of_article].displayed_text.erase(articles[id_of_article].displayed_text.begin() + step_of_article);
+			articles[id_of_article].coordinates_of_texts.erase(articles[id_of_article].coordinates_of_texts.begin() + step_of_article);
+			articles[id_of_article].rotation_of_texts.erase(articles[id_of_article].rotation_of_texts.begin() + step_of_article);
+			articles[id_of_article].scale_of_texts.erase(articles[id_of_article].scale_of_texts.begin() + step_of_article);
+
+			articles[id_of_article].size_of_rectangle.erase(articles[id_of_article].size_of_rectangle.begin() + step_of_article);
+			articles[id_of_article].coordinates_of_rectangles.erase(articles[id_of_article].coordinates_of_rectangles.begin() + step_of_article);
+			articles[id_of_article].rotation_of_rectangles.erase(articles[id_of_article].rotation_of_rectangles.begin() + step_of_article);
+		}
+	}
+}
+
+void delete_element_in_article(std::vector <sArticles> &articles, int id_of_article, int step_of_article, char type_of_element, int id_of_element)
+{
+	// Checking if there is articles with given id
+
+	if (id_of_article >= 0 && id_of_article < articles.size())
+	{
+		if (step_of_article >= 0 && step_of_article < articles[id_of_article].number_of_steps)
+		{
+			if (type_of_element == 'p')
+			{
+				if (id_of_element >= 0 && id_of_element < articles[id_of_article].pictures.size())
+				{
+					articles[id_of_article].pictures[step_of_article].erase(articles[id_of_article].pictures[step_of_article].begin() + id_of_element);
+					articles[id_of_article].coordinates_of_pictures[step_of_article].erase(articles[id_of_article].coordinates_of_pictures[step_of_article].begin() + id_of_element);
+					articles[id_of_article].rotation_of_pictures[step_of_article].erase(articles[id_of_article].rotation_of_pictures[step_of_article].begin() + id_of_element);
+					articles[id_of_article].scale_of_pictures[step_of_article].erase(articles[id_of_article].scale_of_pictures[step_of_article].begin() + id_of_element);
+				}
+			}
+			if (type_of_element == 't')
+			{
+				if (id_of_element >= 0 && id_of_element < articles[id_of_article].displayed_text.size())
+				{
+					articles[id_of_article].displayed_text[step_of_article].erase(articles[id_of_article].displayed_text[step_of_article].begin() + id_of_element);
+					articles[id_of_article].coordinates_of_texts[step_of_article].erase(articles[id_of_article].coordinates_of_texts[step_of_article].begin() + id_of_element);
+					articles[id_of_article].rotation_of_texts[step_of_article].erase(articles[id_of_article].rotation_of_texts[step_of_article].begin() + id_of_element);
+					articles[id_of_article].scale_of_texts[step_of_article].erase(articles[id_of_article].scale_of_texts[step_of_article].begin() + id_of_element);
+				}
+			}
+			if (type_of_element == 'r')
+			{
+				if (id_of_element >= 0 && id_of_element < articles[id_of_article].size_of_rectangle.size())
+				{
+					articles[id_of_article].size_of_rectangle[step_of_article].erase(articles[id_of_article].size_of_rectangle[step_of_article].begin() + id_of_element);
+					articles[id_of_article].coordinates_of_rectangles[step_of_article].erase(articles[id_of_article].coordinates_of_rectangles[step_of_article].begin() + id_of_element);
+					articles[id_of_article].rotation_of_rectangles[step_of_article].erase(articles[id_of_article].rotation_of_rectangles[step_of_article].begin() + id_of_element);
+				}
+			}
+
+			// do poprawienia usuwanie kroku w przypadku pustych trzech wektorow
+
+			if (articles[id_of_article].pictures.size() == 0 && articles[id_of_article].displayed_text.size() == 0 && articles[id_of_article].size_of_rectangle.size() == 0)
+			{
+				delete_step_in_article(articles, id_of_article, step_of_article);
+			}
+		}
+	}
+}

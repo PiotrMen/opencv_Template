@@ -1,10 +1,35 @@
-﻿  menu_functions.cpp
-c:\users\plx018\source\repos\nowy folder\nowy folder\opencv_template\opencv_template\menu_functions.cpp(58): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+﻿  articles.cpp
+  main.cpp
+  menu_functions.cpp
+c:\users\plx018\source\repos\opencv3_template\opencv_template\opencv_template\opencv_template\menu_functions.cpp(58): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
           with
           [
               T=float
           ]
-c:\users\plx018\source\repos\nowy folder\nowy folder\opencv_template\opencv_template\menu_functions.cpp(59): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
-c:\users\plx018\source\repos\nowy folder\nowy folder\opencv_template\opencv_template\menu_functions.cpp(79): warning C4244: "argument": konwersja z "float" do "unsigned int", możliwa utrata danych
-c:\users\plx018\source\repos\nowy folder\nowy folder\opencv_template\opencv_template\menu_functions.cpp(81): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
-  opencv_Template.vcxproj -> C:\Users\plx018\source\repos\Nowy folder\Nowy Folder\opencv_Template\x64\Debug\opencv_Template.exe
+c:\users\plx018\source\repos\opencv3_template\opencv_template\opencv_template\opencv_template\menu_functions.cpp(59): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
+c:\users\plx018\source\repos\opencv3_template\opencv_template\opencv_template\opencv_template\menu_functions.cpp(79): warning C4244: "argument": konwersja z "float" do "unsigned int", możliwa utrata danych
+c:\users\plx018\source\repos\opencv3_template\opencv_template\opencv_template\opencv_template\menu_functions.cpp(81): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
+  window_functions.cpp
+c:\users\plx018\source\repos\opencv3_template\opencv_template\opencv_template\opencv_template\window_functions.cpp(24): warning C4244: "=": konwersja z "float" do "int", możliwa utrata danych
+c:\users\plx018\source\repos\opencv3_template\opencv_template\opencv_template\opencv_template\window_functions.cpp(25): warning C4244: "=": konwersja z "float" do "int", możliwa utrata danych
+c:\users\plx018\source\repos\opencv3_template\opencv_template\opencv_template\opencv_template\window_functions.cpp(32): warning C4244: "=": konwersja z "float" do "int", możliwa utrata danych
+c:\users\plx018\source\repos\opencv3_template\opencv_template\opencv_template\opencv_template\window_functions.cpp(33): warning C4244: "=": konwersja z "float" do "int", możliwa utrata danych
+c:\users\plx018\source\repos\opencv3_template\opencv_template\opencv_template\opencv_template\window_functions.cpp(50): warning C4244: "argument": konwersja z "double" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\plx018\source\repos\opencv3_template\opencv_template\opencv_template\opencv_template\window_functions.cpp(51): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
+c:\users\plx018\source\repos\opencv3_template\opencv_template\opencv_template\opencv_template\window_functions.cpp(72): warning C4244: "argument": konwersja z "float" do "unsigned int", możliwa utrata danych
+c:\users\plx018\source\repos\opencv3_template\opencv_template\opencv_template\opencv_template\window_functions.cpp(74): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
+c:\users\plx018\source\repos\opencv3_template\opencv_template\opencv_template\opencv_template\window_functions.cpp(82): warning C4244: "argument": konwersja z "int" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\plx018\source\repos\opencv3_template\opencv_template\opencv_template\opencv_template\window_functions.cpp(84): warning C4244: "argument": konwersja z "int" do "float", możliwa utrata danych
+c:\users\plx018\source\repos\opencv3_template\opencv_template\opencv_template\opencv_template\window_functions.cpp(175): warning C4244: "argument": konwersja z "float" do "int", możliwa utrata danych
+c:\users\plx018\source\repos\opencv3_template\opencv_template\opencv_template\opencv_template\window_functions.cpp(176): warning C4244: "argument": konwersja z "float" do "int", możliwa utrata danych
+  Generowanie kodu...
+  LINK : nie znaleziono elementu C:\Users\plx018\source\repos\OpenCV3_Template\opencv_Template\opencv_Template\x64\Debug\opencv_Template.exe ani nie został on skompilowany podczas ostatniego konsolidowania przyrostowego; zostanie wykonana pełna konsolidacja
+  opencv_Template.vcxproj -> C:\Users\plx018\source\repos\OpenCV3_Template\opencv_Template\opencv_Template\x64\Debug\opencv_Template.exe
