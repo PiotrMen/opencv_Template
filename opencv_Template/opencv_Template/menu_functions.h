@@ -65,6 +65,8 @@ public:
 	// Detecting mouse collision with buttons
 	bool detecting_blue_button();
 	bool detecting_Select_article_button();
+	bool detecting_edit_article_button();
+	bool detecting_delete_article_button();
 
 	//Detecting rising/falling edges
 	bool detecting_rising_edge_left_mouse_button();

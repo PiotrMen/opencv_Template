@@ -148,8 +148,7 @@ void sfml_objects::pollEvents(int &current_step, int &current_window)
 
 							if (this->detecting_red_button())
 							{
-								std::cout << "czerwony przycisk" << std::endl;
-								this->window->close();
+								current_window = 0;
 							}
 						}
 					break;
