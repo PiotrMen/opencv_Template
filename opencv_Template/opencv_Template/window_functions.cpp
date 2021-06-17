@@ -148,7 +148,7 @@ void sfml_objects::pollEvents(int &current_step, int &current_window)
 
 							if (this->detecting_red_button())
 							{
-								current_window = 0;
+								current_step= 0;
 							}
 						}
 					break;
