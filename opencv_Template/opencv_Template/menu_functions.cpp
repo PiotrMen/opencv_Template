@@ -154,6 +154,7 @@ bool menu_sfml_objects::detecting_falling_edge_left_mouse_button() {
 	}
 	if (this->falling_edge_detected) {
 		this->falling_edge_detected = false;
+		this->falling_edge = false;
 		return true;
 	}
 	return false;
@@ -182,7 +183,7 @@ void menu_sfml_objects::pollEvents(int &current_step, int &current_window)
 			switch (event.key.code)
 			{
 			case sf::Mouse::Left:
-		
+
 			break;
 			}
 
@@ -194,8 +195,16 @@ void menu_sfml_objects::pollEvents(int &current_step, int &current_window)
 void menu_sfml_objects::update(int &current_step, int &current_window)
 {
 	this->pollEvents(current_step, current_window);
-	if (detecting_Select_article_button() && detecting_falling_edge_left_mouse_button()) {
+
+	falling_edge_saved = detecting_falling_edge_left_mouse_button();
+
+	if (falling_edge_saved && detecting_Select_article_button() && this->current_menu_window == 0) {
 		current_window = 1;
+		this->current_menu_window = 1;
+	}
+
+	if (detecting_blue_button() && falling_edge_saved){
+		this->current_menu_window = 0;                         // na niebieski wracamy do basic menu
 	}
 }
 
@@ -203,46 +212,49 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 void menu_sfml_objects::render(std::vector <sArticles> &articles, int current_step, int current_window)
 {
 	this->menu_window->clear(sf::Color(255, 255, 255, 255));
-
+	
 	//Graphics
 	this->display_texture(this->blue_button_x, this->blue_button_y, "blue_circle.png", this->button_size, 0);   //displaying basic graphics // 0 if menu displaying, 1 if articles selected
 
-	//Displaying Select button graphics
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && detecting_Select_article_button()) {
-		this->display_texture(this->Select_article_button_x, this->Select_article_button_y, "grey_pushed.png", this->menu_button_size, 0);
+	//Basic menu window
+	if (this->current_menu_window == 0) {
+		//Displaying Select button graphics
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && detecting_Select_article_button()) {
+			this->display_texture(this->Select_article_button_x, this->Select_article_button_y, "grey_pushed.png", this->menu_button_size, 0);
+		}
+		else
+			this->display_texture(this->Select_article_button_x, this->Select_article_button_y, "grey_button.png", this->menu_button_size, 0);
 
+		//Displaying edit button graphics
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && detecting_edit_article_button())
+			this->display_texture(this->edit_article_button_x, this->edit_article_button_y, "grey_pushed.png", this->menu_button_size, 0);
+		else
+			this->display_texture(this->edit_article_button_x, this->edit_article_button_y, "grey_button.png", this->menu_button_size, 0);
+
+		//Displaying delete button graphics
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && detecting_delete_article_button())
+			this->display_texture(this->delete_article_button_x, this->delete_article_button_y, "grey_pushed.png", this->menu_button_size, 0);
+		else
+			this->display_texture(this->delete_article_button_x, this->delete_article_button_y, "grey_button.png", this->menu_button_size, 0);
+
+
+		//Texts
+		this->display_text(this->Select_article_button_x, this->Select_article_button_y - 10, "Wybor artykulu", 80);
+		this->display_text(this->edit_article_button_x, this->edit_article_button_y - 10, "Edycja artykulu", 80);
+		this->display_text(this->delete_article_button_x, this->delete_article_button_y - 10, "Usuniecie artykulu", 80);
+		this->display_text(this->menu_window_width / 2, 130, "Menu artykulow", 200);
+
+		//UnderLines
+		if (detecting_Select_article_button())
+			this->display_texture(this->Select_article_button_x, this->Select_article_button_y + 85, "UnderLine.png", this->menu_button_size - 0.2, 0);
+
+		if (detecting_edit_article_button())
+			this->display_texture(this->edit_article_button_x, this->edit_article_button_y + 85, "UnderLine.png", this->menu_button_size - 0.2, 0);
+
+		if (detecting_delete_article_button())
+			this->display_texture(this->delete_article_button_x, this->delete_article_button_y + 85, "UnderLine.png", this->menu_button_size - 0.2, 0);
 	}
-	else
-		this->display_texture(this->Select_article_button_x, this->Select_article_button_y, "grey_button.png", this->menu_button_size, 0);
 
-	//Displaying edit button graphics
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && detecting_edit_article_button())
-		this->display_texture(this->edit_article_button_x, this->edit_article_button_y, "grey_pushed.png", this->menu_button_size, 0);
-	else
-		this->display_texture(this->edit_article_button_x, this->edit_article_button_y, "grey_button.png", this->menu_button_size, 0);
-
-	//Displaying delete button graphics
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && detecting_delete_article_button())
-		this->display_texture(this->delete_article_button_x, this->delete_article_button_y, "grey_pushed.png", this->menu_button_size, 0);
-	else
-		this->display_texture(this->delete_article_button_x, this->delete_article_button_y, "grey_button.png", this->menu_button_size, 0);
-
-
-	//Texts
-	this->display_text(this->Select_article_button_x, this->Select_article_button_y-10, "Wybor artykulu", 80);
-	this->display_text(this->edit_article_button_x, this->edit_article_button_y - 10, "Edycja artykulu", 80);
-	this->display_text(this->delete_article_button_x, this->delete_article_button_y - 10, "Usuniecie artykulu", 80);
-	this->display_text(this->menu_window_width / 2, 130, "Menu artykulow", 200);
-
-	//UnderLines
-	if(detecting_Select_article_button())
-		this->display_texture(this->Select_article_button_x, this->Select_article_button_y + 85, "UnderLine.png", this->menu_button_size - 0.2, 0);
-
-	if (detecting_edit_article_button())
-		this->display_texture(this->edit_article_button_x, this->edit_article_button_y + 85, "UnderLine.png", this->menu_button_size - 0.2, 0);
-
-	if (detecting_delete_article_button())
-		this->display_texture(this->delete_article_button_x, this->delete_article_button_y + 85, "UnderLine.png", this->menu_button_size - 0.2, 0);
 
 	this->menu_window->display();
 }
