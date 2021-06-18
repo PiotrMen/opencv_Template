@@ -29,7 +29,7 @@ public:
 	int Select_article_length_button_y;
 
 
-	//edit articles button
+	//add articles button
 
 	//coordinates 
 	int add_article_button_x;
@@ -54,6 +54,7 @@ public:
 
 	// Initializations
 	void init_button_size(float percentege_size, float menu_button_percentege_size);
+	void init_buttons_coords();
 
 	//Displaying objects
 	void display_texture(int pos_x, int pos_y, std::string file_path, float scale, float rotation);
@@ -67,6 +68,8 @@ public:
 	bool detecting_Select_article_button();
 	bool detecting_add_article_button();
 	bool detecting_delete_and_edit_article_button();
+	bool detecting_backward_button();
+	bool unieversal_detecting_collision_with_buttons(int x, int y, int length_x, int length_y, float scale);
 
 	//Detecting rising/falling edges
 	bool detecting_rising_edge_left_mouse_button();
@@ -78,6 +81,18 @@ public:
 	void render(std::vector <sArticles> &articles, int current_step, int current_window);
 
 private:
+	// backward button
+
+	// length of sides in pixels
+	int backward_length_button_x;
+	int backward_length_button_y;
+
+	//coordinates
+	int backward_button_x;
+	int backward_button_y;
+
+	float backward_scale;
+
 	bool rising_edge = false;
 	bool rising_edge_detected = false;
 	bool falling_edge = false;

@@ -12,17 +12,24 @@ menu_sfml_objects::menu_sfml_objects()
 }
 
 // Initializations
-void menu_sfml_objects::init_button_size(float percentege_size, float menu_button_percentege_size)
-{
+void menu_sfml_objects::init_buttons_coords(){
 	//length of sides in pixels
 
 	//blue button
 	this->blue_button_length_x = 414; // number of pixels (width and length of picture)
 	this->blue_button_length_y = 414;
 
+	//backward button
+	this->backward_length_button_x = 512; // number of pixels (width and length of picture)
+	this->backward_length_button_y = 512;
+
 	//coordinates for blue button
 	this->blue_button_x = this->menu_window_width - 200;  // 150 - number of pixels from bounds
 	this->blue_button_y = this->menu_window_height - 150;
+
+	//coordinates for backward button
+	this->backward_button_x = 200;  // 150 - number of pixels from bounds
+	this->backward_button_y = this->menu_window_height - 150;
 
 	//length of sides for Select article button
 	this->Select_article_length_button_x = 707;
@@ -39,9 +46,13 @@ void menu_sfml_objects::init_button_size(float percentege_size, float menu_butto
 	//coordinates for delete article button
 	this->delete_and_edit_article_button_x = this->menu_window_width / 2;
 	this->delete_and_edit_article_button_y = add_article_button_y + 200;
+}
 
+void menu_sfml_objects::init_button_size(float percentege_size, float menu_button_percentege_size)
+{
 	this->button_size = percentege_size / 100;
 	this->menu_button_size = menu_button_percentege_size / 100;
+	this->backward_scale = 0.25;
 }
 
 //Displaying objects
@@ -125,6 +136,23 @@ bool menu_sfml_objects::detecting_delete_and_edit_article_button()
 	return false;
 }
 
+bool menu_sfml_objects::detecting_backward_button()
+{
+	if (((sf::Mouse::getPosition(*this->menu_window).x >= this->backward_button_x - ((this->backward_length_button_x * this->backward_scale) / 2)) && (sf::Mouse::getPosition(*this->menu_window).x <= this->backward_button_x + ((this->backward_length_button_x * this->backward_scale) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y >= this->backward_button_y - ((this->backward_length_button_y * this->backward_scale) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y <= this->backward_button_y + ((this->backward_length_button_y * this->backward_scale) / 2))))
+	{
+		return true;
+	}
+	return false;
+}
+
+bool menu_sfml_objects::unieversal_detecting_collision_with_buttons(int x, int y, int length_x, int length_y, float scale) {
+	if (((sf::Mouse::getPosition(*this->menu_window).x >= x - ((length_x * scale) / 2)) && (sf::Mouse::getPosition(*this->menu_window).x <= x + ((length_x * scale) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y >= y - ((length_y * scale) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y <= y + ((length_y * scale) / 2))))
+	{
+		return true;
+	}
+	return false;
+}
+
 //Egdes functions
 
 bool menu_sfml_objects::detecting_rising_edge_left_mouse_button() {
@@ -198,17 +226,25 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 
 	falling_edge_saved = detecting_falling_edge_left_mouse_button();
 
+	//Moving to selecting article
 	if (falling_edge_saved && detecting_Select_article_button() && this->current_menu_window == 0) {
-		current_window = 1;
+		//current_window = 1;
 		this->current_menu_window = 1;
 	}
 
+	//Moving to adding article
 	if (falling_edge_saved && detecting_add_article_button() && this->current_menu_window == 0) {
 		this->current_menu_window = 2;
 	}
 
-	if (detecting_blue_button() && falling_edge_saved){
-		this->current_menu_window = 0;                         // na niebieski wracamy do basic menu
+	//Moving to delete and edit article
+	if (falling_edge_saved && detecting_delete_and_edit_article_button() && this->current_menu_window == 0) {
+		this->current_menu_window = 3;
+	}
+
+	//Backing to basic manu view
+	if (detecting_backward_button() && falling_edge_saved && (current_menu_window == 1 || current_menu_window == 2 || current_menu_window == 3)){
+		this->current_menu_window = 0;                         
 	}
 }
 
@@ -250,7 +286,7 @@ void menu_sfml_objects::render(std::vector <sArticles> &articles, int current_st
 
 		//Texts
 		this->display_text(this->Select_article_button_x, this->Select_article_button_y - 10, "Wybor artykulu", 80);
-		this->display_text(this->add_article_button_x, this->add_article_button_y - 10, "Dodaj artykulu", 80);
+		this->display_text(this->add_article_button_x, this->add_article_button_y - 10, "Dodaj artykul", 80);
 		this->display_text(this->delete_and_edit_article_button_x, this->delete_and_edit_article_button_y - 10, "Edytuj lub usun", 80);
 		this->display_text(this->menu_window_width / 2, 130, "Menu artykulow", 200);
 
@@ -265,9 +301,29 @@ void menu_sfml_objects::render(std::vector <sArticles> &articles, int current_st
 			this->display_texture(this->delete_and_edit_article_button_x, this->delete_and_edit_article_button_y + 85, "UnderLine.png", this->menu_button_size - 0.2, 0);
 	}
 
-	//adding article graphics
-	if (current_menu_window == 2) {
-		
+	//select article window displaying
+	if (this->current_menu_window == 1) {
+		//displaying name of section
+		this->display_text(this->menu_window_width / 2, 130, "Wybor artykulu", 200);
+
+		//displaying backward in section
+		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+	}
+
+	//adding article window displaying
+	if (this->current_menu_window == 2) {
+		this->display_text(this->menu_window_width / 2, 130, "Dodawanie artykulu", 200);
+
+		//displaying backward in section
+		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+	}
+
+	//delete and edit window displaying
+	if (this->current_menu_window == 3) {
+		this->display_text(this->menu_window_width / 2, 130, "Edytuj lub usun", 200);
+
+		//displaying backward in section
+		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
 	}
 
 	this->menu_window->display();

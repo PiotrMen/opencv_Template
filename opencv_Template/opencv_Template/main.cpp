@@ -12,8 +12,12 @@ int main()
 	sfml_objects objects;
 	menu_sfml_objects menu_objects;
 	std::vector <sArticles> Articles;
+	//coordinates of buttons
+	menu_objects.init_buttons_coords();
+	//size of buttons
 	objects.init_button_size(30);
-	menu_objects.init_button_size(30, 120);
+	menu_objects.init_button_size(30,120);
+
 	load_articles(Articles);
 	int current_step = 0;	// step of current article
 	int current_window = 0;
