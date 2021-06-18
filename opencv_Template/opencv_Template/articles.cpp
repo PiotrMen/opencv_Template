@@ -1,5 +1,4 @@
 #include "articles.h"
-#include <regex>
 
 void load_articles(std::vector <sArticles> &articles)
 {
@@ -56,16 +55,21 @@ void load_articles(std::vector <sArticles> &articles)
 					break;
 				}
 
-				article.pictures.push_back(steps);
+				//article.pictures.push_back(steps);
 				std::smatch match;
 				std::regex reg("([a-zA-Z0-9 _\\\\:]*\\.[a-zA-Z0-9]*)");
 
 				// loading paths in current step
 
+				article.pictures.push_back(steps);
+
 				while (!file_line.empty()) {
 					std::regex_search(file_line, match, reg);
-					std::string matched_path = match[0];
-					article.pictures[step_of_article].push_back(matched_path);
+					if (match[0] != "")
+					{
+						std::string matched_path = match[0];
+						article.pictures[step_of_article].push_back(matched_path);
+					}
 					file_line = match.suffix().str();
 				}
 
@@ -73,46 +77,61 @@ void load_articles(std::vector <sArticles> &articles)
 
 				std::getline(file, file_line);
 
-				article.coordinates_of_pictures.push_back(coordinates);
+				//article.coordinates_of_pictures.push_back(coordinates);
 				std::smatch match_coordinates;
 				std::regex regex_coordinates("\\(([0-9]*),([0-9]*)\\)");
 
+				article.coordinates_of_pictures.push_back(coordinates);
+
 				while (!file_line.empty()) {
 					std::regex_search(file_line, match_coordinates, regex_coordinates);
-					std::pair <int, int> matched_coordinates;
-					matched_coordinates.first = std::stoi(match_coordinates[1]);
-					matched_coordinates.second = std::stoi(match_coordinates[2]);
-					article.coordinates_of_pictures[step_of_article].push_back(matched_coordinates);
+					if (match_coordinates[0] != "")
+					{
+						std::pair <int, int> matched_coordinates;
+						matched_coordinates.first = std::stoi(match_coordinates[1]);
+						matched_coordinates.second = std::stoi(match_coordinates[2]);
+						article.coordinates_of_pictures[step_of_article].push_back(matched_coordinates);
+					}
 					file_line = match_coordinates.suffix().str();
 				}
 
 				//loading rotations in current step
 
 				std::getline(file, file_line);
-				article.rotation_of_pictures.push_back(rotation);
+				//article.rotation_of_pictures.push_back(rotation);
 				std::smatch match_rotation;
 				std::regex regex_rotation(";([0-9]*\\.[0-9])");
 
+				article.rotation_of_pictures.push_back(rotation);
+
 				while (!file_line.empty()) {
 					std::regex_search(file_line, match_rotation, regex_rotation);
-					float matched_rotation;
-					matched_rotation = std::stof(match_rotation[1]);
-					article.rotation_of_pictures[step_of_article].push_back(matched_rotation);
+					if (match_rotation[0] != "")
+					{
+						float matched_rotation;
+						matched_rotation = std::stof(match_rotation[1]);
+						article.rotation_of_pictures[step_of_article].push_back(matched_rotation);
+					}
 					file_line = match_rotation.suffix().str();
 				}
 
 				//loading scale in current step
 
 				std::getline(file, file_line);
-				article.scale_of_pictures.push_back(scale);
+				//article.scale_of_pictures.push_back(scale);
 				std::smatch match_scale;
 				std::regex regex_scale(";([0-9]*\\.[0-9])");
 
+				article.scale_of_pictures.push_back(scale);
+
 				while (!file_line.empty()) {
 					std::regex_search(file_line, match_scale, regex_scale);
-					float matched_scale;
-					matched_scale = std::stof(match_scale[1]);
-					article.scale_of_pictures[step_of_article].push_back(matched_scale);
+					if (match_scale[0] != "")
+					{
+						float matched_scale;
+						matched_scale = std::stof(match_scale[1]);
+						article.scale_of_pictures[step_of_article].push_back(matched_scale);
+					}
 					file_line = match_scale.suffix().str();
 				}
 
@@ -120,14 +139,19 @@ void load_articles(std::vector <sArticles> &articles)
 
 				std::getline(file, file_line);
 
-				article.displayed_text.push_back(texts);
+				//article.displayed_text.push_back(texts);
 				std::smatch match_text;
 				std::regex regex_texts(";\"(.*)\"");
 
+				article.displayed_text.push_back(texts);
+
 				while (!file_line.empty()) {
 					std::regex_search(file_line, match_text, regex_texts);
-					std::string matched_text = match_text[1];
-					article.displayed_text[step_of_article].push_back(matched_text);
+					if (match_text[0] != "")
+					{
+						std::string matched_text = match_text[1];
+						article.displayed_text[step_of_article].push_back(matched_text);
+					}
 					file_line = match.suffix().str();
 				}
 
@@ -135,46 +159,61 @@ void load_articles(std::vector <sArticles> &articles)
 
 				std::getline(file, file_line);
 
-				article.coordinates_of_texts.push_back(text_coordinates);
+				//article.coordinates_of_texts.push_back(text_coordinates);
 				std::smatch match_text_coordinates;
 				std::regex regex_text_coordinates("\\(([0-9]*),([0-9]*)\\)");
 
+				article.coordinates_of_texts.push_back(text_coordinates);
+
 				while (!file_line.empty()) {
 					std::regex_search(file_line, match_text_coordinates, regex_text_coordinates);
-					std::pair <int, int> matched_text_coordinates;
-					matched_text_coordinates.first = std::stoi(match_text_coordinates[1]);
-					matched_text_coordinates.second = std::stoi(match_text_coordinates[2]);
-					article.coordinates_of_texts[step_of_article].push_back(matched_text_coordinates);
+					if (match_text_coordinates[0] != "")
+					{
+						std::pair <int, int> matched_text_coordinates;
+						matched_text_coordinates.first = std::stoi(match_text_coordinates[1]);
+						matched_text_coordinates.second = std::stoi(match_text_coordinates[2]);
+						article.coordinates_of_texts[step_of_article].push_back(matched_text_coordinates);
+					}
 					file_line = match_text_coordinates.suffix().str();
 				}
 
 				//loading text rotations in current step
 
 				std::getline(file, file_line);
-				article.rotation_of_texts.push_back(text_rotation);
+				//article.rotation_of_texts.push_back(text_rotation);
 				std::smatch match_text_rotation;
 				std::regex regex_text_rotation(";([0-9]*\\.[0-9])");
 
+				article.rotation_of_texts.push_back(text_rotation);
+
 				while (!file_line.empty()) {
 					std::regex_search(file_line, match_text_rotation, regex_text_rotation);
-					float matched_text_rotation;
-					matched_text_rotation = std::stof(match_text_rotation[1]);
-					article.rotation_of_texts[step_of_article].push_back(matched_text_rotation);
+					if (match_text_rotation[0] != "")
+					{
+						float matched_text_rotation;
+						matched_text_rotation = std::stof(match_text_rotation[1]);
+						article.rotation_of_texts[step_of_article].push_back(matched_text_rotation);
+					}
 					file_line = match_text_rotation.suffix().str();
 				}
 
 				//loading text scale in current step
 
 				std::getline(file, file_line);
-				article.scale_of_texts.push_back(text_scale);
+				//article.scale_of_texts.push_back(text_scale);
 				std::smatch match_text_scale;
 				std::regex regex_text_scale(";([0-9]*\\.[0-9])");
 
+				article.scale_of_texts.push_back(text_scale);
+
 				while (!file_line.empty()) {
 					std::regex_search(file_line, match_text_scale, regex_text_scale);
-					float matched_text_scale;
-					matched_text_scale = std::stof(match_text_scale[1]);
-					article.scale_of_texts[step_of_article].push_back(matched_text_scale);
+					if (match_text_scale[0] != "")
+					{
+						float matched_text_scale;
+						matched_text_scale = std::stof(match_text_scale[1]);
+						article.scale_of_texts[step_of_article].push_back(matched_text_scale);
+					}
 					file_line = match_text_scale.suffix().str();
 				}
 
@@ -182,16 +221,21 @@ void load_articles(std::vector <sArticles> &articles)
 
 				std::getline(file, file_line);
 
-				article.size_of_rectangle.push_back(rectangle_size);
+				//article.size_of_rectangle.push_back(rectangle_size);
 				std::smatch match_rectangle_size;
 				std::regex regex_rectangle_size("([0-9]*),([0-9]*)");
 
+				article.size_of_rectangle.push_back(rectangle_size);
+
 				while (!file_line.empty()) {
 					std::regex_search(file_line, match_rectangle_size, regex_rectangle_size);
-					std::pair <int, int> matched_rectangle_size;
-					matched_rectangle_size.first = std::stoi(match_rectangle_size[1]);
-					matched_rectangle_size.second = std::stoi(match_rectangle_size[2]);
-					article.size_of_rectangle[step_of_article].push_back(matched_rectangle_size);
+					if (match_rectangle_size[0] != "")
+					{
+						std::pair <int, int> matched_rectangle_size;
+						matched_rectangle_size.first = std::stoi(match_rectangle_size[1]);
+						matched_rectangle_size.second = std::stoi(match_rectangle_size[2]);
+						article.size_of_rectangle[step_of_article].push_back(matched_rectangle_size);
+					}
 					file_line = match_rectangle_size.suffix().str();
 				}
 
@@ -199,31 +243,41 @@ void load_articles(std::vector <sArticles> &articles)
 
 				std::getline(file, file_line);
 
-				article.coordinates_of_rectangles.push_back(rectangle_coordinates);
+				//article.coordinates_of_rectangles.push_back(rectangle_coordinates);
 				std::smatch match_rectangle_coordinates;
 				std::regex regex_rectangle_coordinates("\\(([0-9]*),([0-9]*)\\)");
 
+				article.coordinates_of_rectangles.push_back(rectangle_coordinates);
+
 				while (!file_line.empty()) {
 					std::regex_search(file_line, match_rectangle_coordinates, regex_rectangle_coordinates);
-					std::pair <int, int> matched_rectangle_coordinates;
-					matched_rectangle_coordinates.first = std::stoi(match_rectangle_coordinates[1]);
-					matched_rectangle_coordinates.second = std::stoi(match_rectangle_coordinates[2]);
-					article.coordinates_of_rectangles[step_of_article].push_back(matched_rectangle_coordinates);
+					if (match_rectangle_coordinates[0] != "")
+					{
+						std::pair <int, int> matched_rectangle_coordinates;
+						matched_rectangle_coordinates.first = std::stoi(match_rectangle_coordinates[1]);
+						matched_rectangle_coordinates.second = std::stoi(match_rectangle_coordinates[2]);
+						article.coordinates_of_rectangles[step_of_article].push_back(matched_rectangle_coordinates);
+					}
 					file_line = match_rectangle_coordinates.suffix().str();
 				}
 
 				//loading rectangle rotations in current step
 
 				std::getline(file, file_line);
-				article.rotation_of_rectangles.push_back(rectangle_rotation);
+				//article.rotation_of_rectangles.push_back(rectangle_rotation);
 				std::smatch match_rectangle_rotation;
 				std::regex regex_rectangle_rotation(";([0-9]*\\.[0-9])");
 
+				article.rotation_of_rectangles.push_back(rectangle_rotation);
+
 				while (!file_line.empty()) {
 					std::regex_search(file_line, match_rectangle_rotation, regex_rectangle_rotation);
-					float matched_rectangle_rotation;
-					matched_rectangle_rotation = std::stof(match_rectangle_rotation[1]);
-					article.rotation_of_rectangles[step_of_article].push_back(matched_rectangle_rotation);
+					if (match_rectangle_rotation[0] != "")
+					{
+						float matched_rectangle_rotation;
+						matched_rectangle_rotation = std::stof(match_rectangle_rotation[1]);
+						article.rotation_of_rectangles[step_of_article].push_back(matched_rectangle_rotation);
+					}
 					file_line = match_rectangle_rotation.suffix().str();
 				}
 
@@ -430,35 +484,67 @@ void delete_element_in_article(std::vector <sArticles> &articles, int id_of_arti
 			{
 				if (id_of_element >= 0 && id_of_element < articles[id_of_article].pictures.size())
 				{
-					articles[id_of_article].pictures[step_of_article].erase(articles[id_of_article].pictures[step_of_article].begin() + id_of_element);
-					articles[id_of_article].coordinates_of_pictures[step_of_article].erase(articles[id_of_article].coordinates_of_pictures[step_of_article].begin() + id_of_element);
-					articles[id_of_article].rotation_of_pictures[step_of_article].erase(articles[id_of_article].rotation_of_pictures[step_of_article].begin() + id_of_element);
-					articles[id_of_article].scale_of_pictures[step_of_article].erase(articles[id_of_article].scale_of_pictures[step_of_article].begin() + id_of_element);
+					if (articles[id_of_article].pictures[step_of_article].size() > id_of_element)
+					{
+						articles[id_of_article].pictures[step_of_article].erase(articles[id_of_article].pictures[step_of_article].begin() + id_of_element);
+					}
+					if (articles[id_of_article].coordinates_of_pictures[step_of_article].size() > id_of_element)
+					{
+						articles[id_of_article].coordinates_of_pictures[step_of_article].erase(articles[id_of_article].coordinates_of_pictures[step_of_article].begin() + id_of_element);
+					}
+					if (articles[id_of_article].rotation_of_pictures[step_of_article].size() > id_of_element)
+					{
+						articles[id_of_article].rotation_of_pictures[step_of_article].erase(articles[id_of_article].rotation_of_pictures[step_of_article].begin() + id_of_element);
+					}
+					if (articles[id_of_article].scale_of_pictures[step_of_article].size() > id_of_element)
+					{
+						articles[id_of_article].scale_of_pictures[step_of_article].erase(articles[id_of_article].scale_of_pictures[step_of_article].begin() + id_of_element);
+					}
 				}
 			}
 			if (type_of_element == 't')
 			{
 				if (id_of_element >= 0 && id_of_element < articles[id_of_article].displayed_text.size())
 				{
-					articles[id_of_article].displayed_text[step_of_article].erase(articles[id_of_article].displayed_text[step_of_article].begin() + id_of_element);
-					articles[id_of_article].coordinates_of_texts[step_of_article].erase(articles[id_of_article].coordinates_of_texts[step_of_article].begin() + id_of_element);
-					articles[id_of_article].rotation_of_texts[step_of_article].erase(articles[id_of_article].rotation_of_texts[step_of_article].begin() + id_of_element);
-					articles[id_of_article].scale_of_texts[step_of_article].erase(articles[id_of_article].scale_of_texts[step_of_article].begin() + id_of_element);
+					if (articles[id_of_article].displayed_text[step_of_article].size() > id_of_element)
+					{
+						articles[id_of_article].displayed_text[step_of_article].erase(articles[id_of_article].displayed_text[step_of_article].begin() + id_of_element);
+					}
+					if (articles[id_of_article].coordinates_of_texts[step_of_article].size() > id_of_element)
+					{
+						articles[id_of_article].coordinates_of_texts[step_of_article].erase(articles[id_of_article].coordinates_of_texts[step_of_article].begin() + id_of_element);
+					}
+					if (articles[id_of_article].rotation_of_texts[step_of_article].size() > id_of_element)
+					{
+						articles[id_of_article].rotation_of_texts[step_of_article].erase(articles[id_of_article].rotation_of_texts[step_of_article].begin() + id_of_element);
+					}
+					if (articles[id_of_article].scale_of_texts[step_of_article].size() > id_of_element)
+					{
+						articles[id_of_article].scale_of_texts[step_of_article].erase(articles[id_of_article].scale_of_texts[step_of_article].begin() + id_of_element);
+					}
 				}
 			}
 			if (type_of_element == 'r')
 			{
 				if (id_of_element >= 0 && id_of_element < articles[id_of_article].size_of_rectangle.size())
 				{
-					articles[id_of_article].size_of_rectangle[step_of_article].erase(articles[id_of_article].size_of_rectangle[step_of_article].begin() + id_of_element);
-					articles[id_of_article].coordinates_of_rectangles[step_of_article].erase(articles[id_of_article].coordinates_of_rectangles[step_of_article].begin() + id_of_element);
-					articles[id_of_article].rotation_of_rectangles[step_of_article].erase(articles[id_of_article].rotation_of_rectangles[step_of_article].begin() + id_of_element);
+					if (articles[id_of_article].size_of_rectangle[step_of_article].size() > id_of_element)
+					{
+						articles[id_of_article].size_of_rectangle[step_of_article].erase(articles[id_of_article].size_of_rectangle[step_of_article].begin() + id_of_element);
+					}
+					if (articles[id_of_article].coordinates_of_rectangles[step_of_article].size() > id_of_element)
+					{
+						articles[id_of_article].coordinates_of_rectangles[step_of_article].erase(articles[id_of_article].coordinates_of_rectangles[step_of_article].begin() + id_of_element);
+					}
+					if (articles[id_of_article].rotation_of_rectangles[step_of_article].size() > id_of_element)
+					{
+						articles[id_of_article].rotation_of_rectangles[step_of_article].erase(articles[id_of_article].rotation_of_rectangles[step_of_article].begin() + id_of_element);
+					}
 				}
 			}
-
 			// do poprawienia usuwanie kroku w przypadku pustych trzech wektorow
 
-			if (articles[id_of_article].pictures.size() == 0 && articles[id_of_article].displayed_text.size() == 0 && articles[id_of_article].size_of_rectangle.size() == 0)
+			if (articles[id_of_article].pictures[step_of_article].size() == 0 && articles[id_of_article].displayed_text[step_of_article].size() == 0 && articles[id_of_article].size_of_rectangle[step_of_article].size() == 0)
 			{
 				delete_step_in_article(articles, id_of_article, step_of_article);
 			}

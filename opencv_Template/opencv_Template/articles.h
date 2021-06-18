@@ -7,6 +7,7 @@
 #include <regex>
 #include <fstream>
 #include <iomanip>
+#include <regex>
 
 
 struct sArticles
