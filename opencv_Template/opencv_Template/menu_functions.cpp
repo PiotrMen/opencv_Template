@@ -33,12 +33,12 @@ void menu_sfml_objects::init_button_size(float percentege_size, float menu_butto
 	this->Select_article_button_y = 400;
 
 	//coordinates for edit article button
-	this->edit_article_button_x = this->menu_window_width / 2;
-	this->edit_article_button_y = Select_article_button_y + 200;
+	this->add_article_button_x = this->menu_window_width / 2;
+	this->add_article_button_y = Select_article_button_y + 200;
 
 	//coordinates for delete article button
-	this->delete_article_button_x = this->menu_window_width / 2;
-	this->delete_article_button_y = edit_article_button_y + 200;
+	this->delete_and_edit_article_button_x = this->menu_window_width / 2;
+	this->delete_and_edit_article_button_y = add_article_button_y + 200;
 
 	this->button_size = percentege_size / 100;
 	this->menu_button_size = menu_button_percentege_size / 100;
@@ -107,18 +107,18 @@ bool menu_sfml_objects::detecting_Select_article_button()
 	return false;
 }
 
-bool menu_sfml_objects::detecting_edit_article_button()
+bool menu_sfml_objects::detecting_add_article_button()
 {
-	if (((sf::Mouse::getPosition(*this->menu_window).x >= this->edit_article_button_x - ((this->Select_article_length_button_x * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).x <= this->edit_article_button_x + ((this->Select_article_length_button_x * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y >= this->edit_article_button_y - ((this->Select_article_length_button_y * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y <= this->edit_article_button_y + ((this->Select_article_length_button_y * this->menu_button_size) / 2))))
+	if (((sf::Mouse::getPosition(*this->menu_window).x >= this->add_article_button_x - ((this->Select_article_length_button_x * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).x <= this->add_article_button_x + ((this->Select_article_length_button_x * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y >= this->add_article_button_y - ((this->Select_article_length_button_y * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y <= this->add_article_button_y + ((this->Select_article_length_button_y * this->menu_button_size) / 2))))
 	{
 		return true;
 	}
 	return false;
 }
 
-bool menu_sfml_objects::detecting_delete_article_button()
+bool menu_sfml_objects::detecting_delete_and_edit_article_button()
 {
-	if (((sf::Mouse::getPosition(*this->menu_window).x >= this->delete_article_button_x - ((this->Select_article_length_button_x * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).x <= this->delete_article_button_x + ((this->Select_article_length_button_x * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y >= this->delete_article_button_y - ((this->Select_article_length_button_y * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y <= this->delete_article_button_y + ((this->Select_article_length_button_y * this->menu_button_size) / 2))))
+	if (((sf::Mouse::getPosition(*this->menu_window).x >= this->delete_and_edit_article_button_x - ((this->Select_article_length_button_x * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).x <= this->delete_and_edit_article_button_x + ((this->Select_article_length_button_x * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y >= this->delete_and_edit_article_button_y - ((this->Select_article_length_button_y * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y <= this->delete_and_edit_article_button_y + ((this->Select_article_length_button_y * this->menu_button_size) / 2))))
 	{
 		return true;
 	}
@@ -203,18 +203,28 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		this->current_menu_window = 1;
 	}
 
+	if (falling_edge_saved && detecting_add_article_button() && this->current_menu_window == 0) {
+		this->current_menu_window = 2;
+	}
+
 	if (detecting_blue_button() && falling_edge_saved){
 		this->current_menu_window = 0;                         // na niebieski wracamy do basic menu
 	}
 }
 
 
+//displaying graphics // current_menu_window - *
+// 0 - basic menu
+// 1 - Select article
+// 2 - adding article
+// 3 - delete and edit article
+
 void menu_sfml_objects::render(std::vector <sArticles> &articles, int current_step, int current_window)
 {
 	this->menu_window->clear(sf::Color(255, 255, 255, 255));
 	
-	//Graphics
-	this->display_texture(this->blue_button_x, this->blue_button_y, "blue_circle.png", this->button_size, 0);   //displaying basic graphics // 0 if menu displaying, 1 if articles selected
+	//Graphics in every window
+	this->display_texture(this->blue_button_x, this->blue_button_y, "blue_circle.png", this->button_size, 0);   //displaying basic graphics
 
 	//Basic menu window
 	if (this->current_menu_window == 0) {
@@ -226,35 +236,39 @@ void menu_sfml_objects::render(std::vector <sArticles> &articles, int current_st
 			this->display_texture(this->Select_article_button_x, this->Select_article_button_y, "grey_button.png", this->menu_button_size, 0);
 
 		//Displaying edit button graphics
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && detecting_edit_article_button())
-			this->display_texture(this->edit_article_button_x, this->edit_article_button_y, "grey_pushed.png", this->menu_button_size, 0);
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && detecting_add_article_button())
+			this->display_texture(this->add_article_button_x, this->add_article_button_y, "grey_pushed.png", this->menu_button_size, 0);
 		else
-			this->display_texture(this->edit_article_button_x, this->edit_article_button_y, "grey_button.png", this->menu_button_size, 0);
+			this->display_texture(this->add_article_button_x, this->add_article_button_y, "grey_button.png", this->menu_button_size, 0);
 
 		//Displaying delete button graphics
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && detecting_delete_article_button())
-			this->display_texture(this->delete_article_button_x, this->delete_article_button_y, "grey_pushed.png", this->menu_button_size, 0);
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && detecting_delete_and_edit_article_button())
+			this->display_texture(this->delete_and_edit_article_button_x, this->delete_and_edit_article_button_y, "grey_pushed.png", this->menu_button_size, 0);
 		else
-			this->display_texture(this->delete_article_button_x, this->delete_article_button_y, "grey_button.png", this->menu_button_size, 0);
+			this->display_texture(this->delete_and_edit_article_button_x, this->delete_and_edit_article_button_y, "grey_button.png", this->menu_button_size, 0);
 
 
 		//Texts
 		this->display_text(this->Select_article_button_x, this->Select_article_button_y - 10, "Wybor artykulu", 80);
-		this->display_text(this->edit_article_button_x, this->edit_article_button_y - 10, "Edycja artykulu", 80);
-		this->display_text(this->delete_article_button_x, this->delete_article_button_y - 10, "Usuniecie artykulu", 80);
+		this->display_text(this->add_article_button_x, this->add_article_button_y - 10, "Dodaj artykulu", 80);
+		this->display_text(this->delete_and_edit_article_button_x, this->delete_and_edit_article_button_y - 10, "Edytuj lub usun", 80);
 		this->display_text(this->menu_window_width / 2, 130, "Menu artykulow", 200);
 
 		//UnderLines
 		if (detecting_Select_article_button())
 			this->display_texture(this->Select_article_button_x, this->Select_article_button_y + 85, "UnderLine.png", this->menu_button_size - 0.2, 0);
 
-		if (detecting_edit_article_button())
-			this->display_texture(this->edit_article_button_x, this->edit_article_button_y + 85, "UnderLine.png", this->menu_button_size - 0.2, 0);
+		if (detecting_add_article_button())
+			this->display_texture(this->add_article_button_x, this->add_article_button_y + 85, "UnderLine.png", this->menu_button_size - 0.2, 0);
 
-		if (detecting_delete_article_button())
-			this->display_texture(this->delete_article_button_x, this->delete_article_button_y + 85, "UnderLine.png", this->menu_button_size - 0.2, 0);
+		if (detecting_delete_and_edit_article_button())
+			this->display_texture(this->delete_and_edit_article_button_x, this->delete_and_edit_article_button_y + 85, "UnderLine.png", this->menu_button_size - 0.2, 0);
 	}
 
+	//adding article graphics
+	if (current_menu_window == 2) {
+		
+	}
 
 	this->menu_window->display();
 }
