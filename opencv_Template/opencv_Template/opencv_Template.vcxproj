@@ -156,6 +156,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="adding_article.cpp" />
     <ClCompile Include="menu_functions.cpp" />
     <ClCompile Include="window_functions.cpp" />
     <ClCompile Include="main.cpp" />

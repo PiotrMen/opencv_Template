@@ -194,6 +194,10 @@ void menu_sfml_objects::pollEvents(int &current_step, int &current_window)
 	//Event polling
 	while (this->menu_window->pollEvent(this->event))
 	{
+		//do usuniecia
+
+		//bool tmp = false;
+		//
 		switch (event.type)
 		{
 		case sf::Event::Closed:
@@ -205,6 +209,15 @@ void menu_sfml_objects::pollEvents(int &current_step, int &current_window)
 			{
 				this->menu_window->close();
 			}
+			
+			//do usuniecia
+
+			//std::cout << event.key.code << std::endl;
+			//std::cout << check_character(event.key.code, true, tmp);
+			break;
+
+			//
+
 			break;
 		case sf::Event::MouseButtonPressed:
 

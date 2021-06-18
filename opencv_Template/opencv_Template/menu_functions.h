@@ -80,6 +80,12 @@ public:
 	void update(int &current_step, int &current_window);
 	void render(std::vector <sArticles> &articles, int current_step, int current_window);
 
+	
+	// addint_article.cpp
+
+	// Functions
+	char check_character(int key_number, bool shift_pressed, bool & caps_lock_pressed);
+
 private:
 	// backward button
 
