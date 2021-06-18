@@ -32,14 +32,14 @@ public:
 	//edit articles button
 
 	//coordinates 
-	int edit_article_button_x;
-	int edit_article_button_y;
+	int add_article_button_x;
+	int add_article_button_y;
 
 	//delete article button
 
 	//coordinates 
-	int delete_article_button_x;
-	int delete_article_button_y;
+	int delete_and_edit_article_button_x;
+	int delete_and_edit_article_button_y;
 
 	float button_size; //scaled button size (percentage)
 	float menu_button_size;
@@ -65,8 +65,8 @@ public:
 	// Detecting mouse collision with buttons
 	bool detecting_blue_button();
 	bool detecting_Select_article_button();
-	bool detecting_edit_article_button();
-	bool detecting_delete_article_button();
+	bool detecting_add_article_button();
+	bool detecting_delete_and_edit_article_button();
 
 	//Detecting rising/falling edges
 	bool detecting_rising_edge_left_mouse_button();
