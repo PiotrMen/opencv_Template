@@ -81,7 +81,6 @@ public:
 	bool detecting_Match_boxes_button();
 	bool detecting_Connectors_options_button();
 	bool detecting_backward_button();
-	//bool unieversal_detecting_collision_with_buttons(int x, int y, int length_x, int length_y, float scale);
 
 	//Detecting rising/falling edges
 	bool detecting_rising_edge_left_mouse_button();

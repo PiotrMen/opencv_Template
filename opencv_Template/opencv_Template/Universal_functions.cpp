@@ -18,7 +18,7 @@ bool unieversal_detecting_collision_with_buttons(int x, int y, int length_x, int
 	return false;
 }
 
-/*void display_rectangle(int pos_x, int pos_y, int size_x, int size_y,)
+void display_rectangle(int pos_x, int pos_y, int size_x, int size_y, sf::Color color,sf::RenderWindow &Window)
 {
 	sf::RectangleShape rectangle_;
 	rectangle_.setSize(sf::Vector2f(size_x, size_y));
@@ -26,5 +26,5 @@ bool unieversal_detecting_collision_with_buttons(int x, int y, int length_x, int
 	rectangle_.setPosition(pos_x, pos_y);
 	rectangle_.setOutlineColor(sf::Color::Green);
 
-	this->window->draw(rectangle_);
-}*/
+	Window.draw(rectangle_);
+}

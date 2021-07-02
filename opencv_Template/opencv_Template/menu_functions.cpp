@@ -269,7 +269,6 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 void menu_sfml_objects::render(int current_step, int current_window)
 {
 	this->menu_window->clear(sf::Color(255, 255, 255, 255));
-
 	//Basic menu window
 	if (this->current_menu_window == 0) {
 		//Displaying Upload file graphics
@@ -351,7 +350,7 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		//displaying backward in section
 		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
 	}
-
+	//display_rectangle(500, -500, 50, 50, sf::Color::Green, menu_window);
 	this->menu_window->display();
 }
 

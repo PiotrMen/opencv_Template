@@ -1,5 +1,6 @@
 #include "window_functions_.h"
 #include <iostream>
+#include "Universal_functions.h"
 
 //Constructor
 sfml_objects::sfml_objects()
@@ -73,20 +74,6 @@ void sfml_objects::display_text(int pos_x, int pos_y, std::string text, float si
 	text_.setPosition(pos_x, pos_y);
 	this->window->draw(text_);
 }
-
-//Displaying rectangles (based on .txt file)
-/*void sfml_objects::display_rectangle(int pos_x, int pos_y, int size_x, int size_y, float rotation)
-{
-	sf::RectangleShape rectangle_;
-	rectangle_.setSize(sf::Vector2f(size_x, size_y));
-	rectangle_.setOrigin(sf::Vector2f(rectangle_.getSize().x / 2, rectangle_.getSize().y / 2));
-	rectangle_.setPosition(pos_x, pos_y);
-	rectangle_.setOutlineColor(sf::Color::Green);
-	rectangle_.setOutlineThickness(20);
-	rectangle_.setRotation(rotation);
-
-	this->window->draw(rectangle_);
-}*/
 
 //Accessors
 const bool sfml_objects::getWindowIsOpen()
@@ -181,7 +168,7 @@ void sfml_objects::render(int current_step, int current_window)
 	// sprawdzanie i przechodzenie do kolejnego kroku, pozniej bedzie zawierac detekcje
 
 	//this->pollEvents(current_step);
-
+	//display_rectangle(0, 0, 500, 500, sf::Color::Green, window);
 	this->window->display();
 }
 

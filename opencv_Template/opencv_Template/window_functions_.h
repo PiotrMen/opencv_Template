@@ -43,7 +43,6 @@ public:
 	//Displaying objects
 	void display_texture(int pos_x, int pos_y, std::string file_path, float scale, float rotation);
 	void display_text(int pos_x, int pos_y, std::string text, float size);
-	void display_rectangle(int pos_x, int pos_y, int size_x, int size_y, float rotation);
 
 	//Accessors
 	const bool getWindowIsOpen();
