@@ -158,12 +158,14 @@
   <ItemGroup>
     <ClCompile Include="adding_article.cpp" />
     <ClCompile Include="menu_functions.cpp" />
+    <ClCompile Include="Universal_functions.cpp" />
     <ClCompile Include="window_functions.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="articles.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="menu_functions.h" />
+    <ClInclude Include="Universal_functions.h" />
     <ClInclude Include="window_functions_.h" />
     <ClInclude Include="articles.h" />
   </ItemGroup>

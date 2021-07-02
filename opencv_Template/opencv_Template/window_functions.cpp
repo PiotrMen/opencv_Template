@@ -1,6 +1,5 @@
 #include "window_functions_.h"
 #include <iostream>
-#include "articles.h"
 
 //Constructor
 sfml_objects::sfml_objects()

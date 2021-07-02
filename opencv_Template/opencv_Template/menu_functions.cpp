@@ -1,6 +1,7 @@
 #include "menu_functions.h"
 #include <iostream>
 #include "articles.h"
+#include "Universal_functions.h"
 
 //Constructor
 menu_sfml_objects::menu_sfml_objects()
@@ -109,10 +110,6 @@ const bool menu_sfml_objects::getWindowIsOpen()
 	return this->menu_window->isOpen();
 }
 
-int menu_sfml_objects::mm_to_pixels_converter(float real_mm) {
-
-	return 1;
-}
 
 // Detecting mouse collision with buttons
 bool menu_sfml_objects::detecting_blue_button()
@@ -160,13 +157,7 @@ bool menu_sfml_objects::detecting_backward_button()
 	return false;
 }
 
-bool menu_sfml_objects::unieversal_detecting_collision_with_buttons(int x, int y, int length_x, int length_y, float scale) {
-	if (((sf::Mouse::getPosition(*this->menu_window).x >= x - ((length_x * scale) / 2)) && (sf::Mouse::getPosition(*this->menu_window).x <= x + ((length_x * scale) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y >= y - ((length_y * scale) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y <= y + ((length_y * scale) / 2))))
-	{
-		return true;
-	}
-	return false;
-}
+
 
 //Egdes functions
 
@@ -253,13 +244,15 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 	this->pollEvents(current_step, current_window);
 
 	falling_edge_saved = detecting_falling_edge_left_mouse_button();
-
 	//Moving to Upload file .csv section
-	if (falling_edge_saved && detecting_Upload_file_button() && this->current_menu_window == 0) {
+	/*if (falling_edge_saved && detecting_Upload_file_button() && this->current_menu_window == 0) {
 		//current_window = 1;
 		this->current_menu_window = 1;
-	}
-
+	}*/
+		if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->Upload_file_button_x,this->Upload_file_button_y,this->Upload_file_length_button_x,this->Upload_file_length_button_y,this->menu_button_size,this->menu_window) && this->current_menu_window == 0) {
+			//current_window = 1;
+			this->current_menu_window = 1;
+		}
 	//Moving to match boxes section
 	if (falling_edge_saved && detecting_Match_boxes_button() && this->current_menu_window == 0) {
 		this->current_menu_window = 2;
