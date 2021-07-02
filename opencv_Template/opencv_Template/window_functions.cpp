@@ -164,7 +164,7 @@ void sfml_objects::update(int &current_step, int &current_window)
 }
 
 
-void sfml_objects::render(std::vector <sArticles> &articles, int current_step, int current_window)
+void sfml_objects::render(int current_step, int current_window)
 {
 	this->window->clear(sf::Color(255,255,255,255));
 	if (current_window == 1) {
@@ -172,15 +172,18 @@ void sfml_objects::render(std::vector <sArticles> &articles, int current_step, i
 		this->display_texture(this->red_button_x, this->red_button_y, "red_circle.png", this->button_size, 0);
 		this->display_text(this->green_button_x, this->green_button_y + ((this->red_button_length_y*button_size)) / 2, "Continue", 40); //displaying texts
 		this->display_text(this->red_button_x, this->red_button_y + ((this->red_button_length_y * button_size)) / 2, "Defect", 40);
-		this->display_text(1700, 50, ("Aktualny krok: " + std::to_string(current_step) + "/" + std::to_string(articles[0].number_of_steps)), 40);  //displaying "aktualny krok" in corner
+
+		// current step trzeba bêdzie zmieniæ póŸniej na krok sekwencji kiedy zostanie zaimplementowana
+
+		this->display_text(1700, 50, ("Aktualny krok: " + std::to_string(current_step) + "/" + std::to_string(current_step)), 40);  //displaying "aktualny krok" in corner 
 		//	Displaying current step
 
-		if (current_step <= articles[0].number_of_steps && current_step > 0)
-		{
-			for (int i = 0; i < articles[0].pictures[current_step - 1].size(); i++) {
-				this->display_texture(articles[0].coordinates_of_pictures[current_step - 1][i].first, articles[0].coordinates_of_pictures[current_step - 1][i].second, articles[0].pictures[current_step - 1][i], articles[0].scale_of_pictures[current_step - 1][i], articles[0].rotation_of_pictures[current_step - 1][i]);
-			}
-		}
+		//if (current_step <= articles[0].number_of_steps && current_step > 0)
+		//{
+		//	for (int i = 0; i < articles[0].pictures[current_step - 1].size(); i++) {
+		//		this->display_texture(articles[0].coordinates_of_pictures[current_step - 1][i].first, articles[0].coordinates_of_pictures[current_step - 1][i].second, articles[0].pictures[current_step - 1][i], articles[0].scale_of_pictures[current_step - 1][i], articles[0].rotation_of_pictures[current_step - 1][i]);
+		//	}
+		//}
 	}
 	// sprawdzanie i przechodzenie do kolejnego kroku, pozniej bedzie zawierac detekcje
 

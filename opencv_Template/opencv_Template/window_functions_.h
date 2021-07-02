@@ -2,7 +2,6 @@
 #ifndef WINDOW_FUNCTIONS__H
 #include "opencv2/opencv.hpp"
 #include <SFML/Graphics.hpp>
-#include "articles.h"
 
 
 class sfml_objects
@@ -56,7 +55,7 @@ public:
 	//Functions
 	void pollEvents(int &current_step, int &current_window);
 	void update(int &current_step, int &current_window);
-	void render(std::vector <sArticles> &articles, int current_step, int current_window);
+	void render(int current_step, int current_window);
 };
 
 #endif

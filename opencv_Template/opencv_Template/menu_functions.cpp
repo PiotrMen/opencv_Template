@@ -1,6 +1,5 @@
 #include "menu_functions.h"
 #include <iostream>
-#include "articles.h"
 #include "Universal_functions.h"
 
 //Constructor
@@ -276,7 +275,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 // 2 - match boxes section
 // 3 - connectors options section
 
-void menu_sfml_objects::render(std::vector <sArticles> &articles, int current_step, int current_window)
+void menu_sfml_objects::render(int current_step, int current_window)
 {
 	this->menu_window->clear(sf::Color(255, 255, 255, 255));
 
