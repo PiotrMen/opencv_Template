@@ -9,7 +9,6 @@ class menu_sfml_objects
 {
 public:
 	// blue button
-
 	// length of sides in pixels
 	int blue_button_length_x;
 	int blue_button_length_y;
@@ -17,6 +16,15 @@ public:
 	//coordinates
 	int blue_button_x;
 	int blue_button_y;
+
+	//Start button
+	// length of sides in pixels
+	int Start_button_length_x;
+	int Start_button_length_y;
+
+	//coordinates
+	int Start_button_x;
+	int Start_button_y;
 
 	//article select button
 

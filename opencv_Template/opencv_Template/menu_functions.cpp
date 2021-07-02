@@ -19,6 +19,10 @@ void menu_sfml_objects::init_buttons_coords(){
 	this->blue_button_length_x = 414; // number of pixels (width and length of picture)
 	this->blue_button_length_y = 414;
 
+	//blue button
+	this->Start_button_length_x = 414; // number of pixels (width and length of picture)
+	this->Start_button_length_y = 414;
+
 	//backward button
 	this->backward_length_button_x = 512; // number of pixels (width and length of picture)
 	this->backward_length_button_y = 512;
@@ -26,6 +30,10 @@ void menu_sfml_objects::init_buttons_coords(){
 	//coordinates for blue button
 	this->blue_button_x = this->menu_window_width - 200;  // 150 - number of pixels from bounds
 	this->blue_button_y = this->menu_window_height - 150;
+
+	//coordinates for blue button
+	this->Start_button_x = this->menu_window_width - 200;  // 150 - number of pixels from bounds
+	this->Start_button_y = this->menu_window_height - 150;
 
 	//coordinates for backward button
 	this->backward_button_x = 200;  // 150 - number of pixels from bounds
@@ -294,13 +302,17 @@ void menu_sfml_objects::render(std::vector <sArticles> &articles, int current_st
 
 		//Displaying blue button
 		this->display_texture(200, this->blue_button_y, "blue_circle.png", this->button_size, 0);
+		this->display_text(200, this->blue_button_y + 75, "Pomoc", 30);
+
+		//Displaying start button
+		this->display_texture(this->Start_button_x, this->Start_button_y, "green_circle.png", this->button_size, 0);
+		this->display_text(this->Start_button_x, this->Start_button_y + 75, "Start", 30);
 
 		//Texts
 		this->display_text(this->Upload_file_button_x, this->Upload_file_button_y - 10, "Zaladuj plik .csv", 80);
 		this->display_text(this->match_boxes_button_x, this->match_boxes_button_y - 10, "Dopasuj pudelka", 80);
 		this->display_text(this->Connectors_options_button_x, this->Connectors_options_button_y - 10, "Ustawienia zlaczek", 80);
 		this->display_text(this->menu_window_width / 2, 130, "Menu", 200);
-		this->display_text(200, this->blue_button_y + 75, "Pomoc", 30);
 
 		//UnderLines
 		if (detecting_Upload_file_button())
@@ -319,7 +331,8 @@ void menu_sfml_objects::render(std::vector <sArticles> &articles, int current_st
 		this->display_text(this->menu_window_width / 2, 130, "Zaladuj plik .csv", 200);
 
 		//Displaying blue button
-		this->display_texture(this->blue_button_x, this->blue_button_y, "blue_circle.png", this->button_size, 0);   //displaying basic graphics
+		this->display_texture(this->blue_button_x, this->blue_button_y, "blue_circle.png", this->button_size, 0);
+		this->display_text(this->blue_button_x, this->blue_button_y + 75, "Pomoc", 30);
 
 		//displaying backward in section
 		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
@@ -330,7 +343,8 @@ void menu_sfml_objects::render(std::vector <sArticles> &articles, int current_st
 		this->display_text(this->menu_window_width / 2, 130, "Dopasuj pudelka", 200);
 
 		//Displaying blue button
-		this->display_texture(this->blue_button_x, this->blue_button_y, "blue_circle.png", this->button_size, 0);   //displaying basic graphics
+		this->display_texture(this->blue_button_x, this->blue_button_y, "blue_circle.png", this->button_size, 0);
+		this->display_text(this->blue_button_x, this->blue_button_y + 75, "Pomoc", 30);
 
 		//displaying backward in section
 		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
@@ -341,7 +355,8 @@ void menu_sfml_objects::render(std::vector <sArticles> &articles, int current_st
 		this->display_text(this->menu_window_width / 2, 130, "Ustawienia zlaczek", 200);
 
 		//Displaying blue button
-		this->display_texture(this->blue_button_x, this->blue_button_y, "blue_circle.png", this->button_size, 0);   //displaying basic graphics
+		this->display_texture(this->blue_button_x, this->blue_button_y, "blue_circle.png", this->button_size, 0);
+		this->display_text(this->blue_button_x, this->blue_button_y + 75, "Pomoc", 30);
 
 		//displaying backward in section
 		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
