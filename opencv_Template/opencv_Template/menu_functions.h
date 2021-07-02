@@ -21,25 +21,25 @@ public:
 	//article select button
 
 	//coordinates 
-	int Select_article_button_x;
-	int Select_article_button_y;
+	int Upload_file_button_x;
+	int Upload_file_button_y;
 
 	//length of sides in pixels
-	int Select_article_length_button_x;
-	int Select_article_length_button_y;
+	int Upload_file_length_button_x;
+	int Upload_file_length_button_y;
 
 
 	//add articles button
 
 	//coordinates 
-	int add_article_button_x;
-	int add_article_button_y;
+	int match_boxes_button_x;
+	int match_boxes_button_y;
 
 	//delete article button
 
 	//coordinates 
-	int delete_and_edit_article_button_x;
-	int delete_and_edit_article_button_y;
+	int Connectors_options_button_x;
+	int Connectors_options_button_y;
 
 	float button_size; //scaled button size (percentage)
 	float menu_button_size;
@@ -65,9 +65,9 @@ public:
 
 	// Detecting mouse collision with buttons
 	bool detecting_blue_button();
-	bool detecting_Select_article_button();
-	bool detecting_add_article_button();
-	bool detecting_delete_and_edit_article_button();
+	bool detecting_Upload_file_button();
+	bool detecting_Match_boxes_button();
+	bool detecting_Connectors_options_button();
 	bool detecting_backward_button();
 	bool unieversal_detecting_collision_with_buttons(int x, int y, int length_x, int length_y, float scale);
 
