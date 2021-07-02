@@ -17,3 +17,14 @@ bool unieversal_detecting_collision_with_buttons(int x, int y, int length_x, int
 	}
 	return false;
 }
+
+/*void display_rectangle(int pos_x, int pos_y, int size_x, int size_y,)
+{
+	sf::RectangleShape rectangle_;
+	rectangle_.setSize(sf::Vector2f(size_x, size_y));
+	rectangle_.setOrigin(sf::Vector2f(rectangle_.getSize().x / 2, rectangle_.getSize().y / 2));
+	rectangle_.setPosition(pos_x, pos_y);
+	rectangle_.setOutlineColor(sf::Color::Green);
+
+	this->window->draw(rectangle_);
+}*/

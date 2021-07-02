@@ -75,7 +75,7 @@ void sfml_objects::display_text(int pos_x, int pos_y, std::string text, float si
 }
 
 //Displaying rectangles (based on .txt file)
-void sfml_objects::display_rectangle(int pos_x, int pos_y, int size_x, int size_y, float rotation)
+/*void sfml_objects::display_rectangle(int pos_x, int pos_y, int size_x, int size_y, float rotation)
 {
 	sf::RectangleShape rectangle_;
 	rectangle_.setSize(sf::Vector2f(size_x, size_y));
@@ -86,7 +86,7 @@ void sfml_objects::display_rectangle(int pos_x, int pos_y, int size_x, int size_
 	rectangle_.setRotation(rotation);
 
 	this->window->draw(rectangle_);
-}
+}*/
 
 //Accessors
 const bool sfml_objects::getWindowIsOpen()
