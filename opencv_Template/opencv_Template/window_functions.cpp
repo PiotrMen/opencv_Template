@@ -176,14 +176,7 @@ void sfml_objects::render(int current_step, int current_window)
 		// current step trzeba bêdzie zmieniæ póŸniej na krok sekwencji kiedy zostanie zaimplementowana
 
 		this->display_text(1700, 50, ("Aktualny krok: " + std::to_string(current_step) + "/" + std::to_string(current_step)), 40);  //displaying "aktualny krok" in corner 
-		//	Displaying current step
 
-		//if (current_step <= articles[0].number_of_steps && current_step > 0)
-		//{
-		//	for (int i = 0; i < articles[0].pictures[current_step - 1].size(); i++) {
-		//		this->display_texture(articles[0].coordinates_of_pictures[current_step - 1][i].first, articles[0].coordinates_of_pictures[current_step - 1][i].second, articles[0].pictures[current_step - 1][i], articles[0].scale_of_pictures[current_step - 1][i], articles[0].rotation_of_pictures[current_step - 1][i]);
-		//	}
-		//}
 	}
 	// sprawdzanie i przechodzenie do kolejnego kroku, pozniej bedzie zawierac detekcje
 
