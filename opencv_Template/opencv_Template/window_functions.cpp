@@ -165,10 +165,7 @@ void sfml_objects::render(int current_step, int current_window)
 		this->display_text(1700, 50, ("Aktualny krok: " + std::to_string(current_step) + "/" + std::to_string(current_step)), 40);  //displaying "aktualny krok" in corner 
 
 	}
-	// sprawdzanie i przechodzenie do kolejnego kroku, pozniej bedzie zawierac detekcje
-
-	//this->pollEvents(current_step);
-	//display_rectangle(0, 0, 500, 500, sf::Color::Green, window);
+	making_rectangle(100, 100, 500, 500, sf::Color::Green, *window);
 	this->window->display();
 }
 
