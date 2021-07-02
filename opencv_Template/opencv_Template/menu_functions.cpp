@@ -7,6 +7,8 @@ menu_sfml_objects::menu_sfml_objects()
 {
 	this->menu_window_height = 1080;
 	this->menu_window_width = 1920;
+	this->working_field_height = 675;
+	this->working_field_width = 1200;
 	this->menu_window = new sf::RenderWindow(sf::VideoMode(menu_window_width, menu_window_height), "Menu", sf::Style::Fullscreen);
 	this->menu_window->setPosition(sf::Vector2i(0, -1080));
 }
@@ -105,6 +107,11 @@ void menu_sfml_objects::display_text(int pos_x, int pos_y, std::string text, flo
 const bool menu_sfml_objects::getWindowIsOpen()
 {
 	return this->menu_window->isOpen();
+}
+
+int menu_sfml_objects::mm_to_pixels_converter(float real_mm) {
+
+	return 1;
 }
 
 // Detecting mouse collision with buttons

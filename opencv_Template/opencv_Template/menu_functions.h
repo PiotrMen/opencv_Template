@@ -36,7 +36,6 @@ public:
 	int Upload_file_length_button_x;
 	int Upload_file_length_button_y;
 
-
 	//add articles button
 
 	//coordinates 
@@ -54,9 +53,15 @@ public:
 
 	sf::RenderWindow *menu_window;
 	sf::Event event;
+
 	//window size
 	int menu_window_width;
 	int menu_window_height;
+
+	//working field
+	int working_field_width;	//in milimeters
+	int working_field_height;
+
 	//Constructor
 	menu_sfml_objects();
 
@@ -70,6 +75,7 @@ public:
 
 	//Accessors
 	const bool getWindowIsOpen();
+	int mm_to_pixels_converter(float real_mm);
 
 	// Detecting mouse collision with buttons
 	bool detecting_blue_button();
