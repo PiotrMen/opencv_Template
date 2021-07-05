@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "window_functions_.h"
 #include "menu_functions.h"
+#include "csv_read.h"
 
 
 
@@ -15,6 +16,14 @@ int main()
 	//size of buttons
 	objects.init_button_size(30);
 	menu_objects.init_button_size(30,120);
+
+	// Data vectors
+	std::vector <sData> articles_in_boxes;
+	std::vector <sData> left_articles;
+
+	load_csv(articles_in_boxes, left_articles);
+	save_csv(articles_in_boxes, left_articles);
+
 
 	int current_step = 0;	// step of current article
 	int current_window = 0;
