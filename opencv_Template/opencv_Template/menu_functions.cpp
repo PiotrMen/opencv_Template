@@ -372,7 +372,7 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		for (int i = 0; i < 20; i++){
 			this->menu_window->draw(this->vector_rectangles[i]);
 			this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y-30, std::to_string(i+1), 120);
-			this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y + 50, std::to_string(articles_in_boxes[i].serial_number), 30);
+			this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y + 90, articles_in_boxes[i].name, 15);
 		}
 	}
 
