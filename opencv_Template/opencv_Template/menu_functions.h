@@ -2,7 +2,7 @@
 #ifndef MENU_WINDOW_FUNCTIONS_H
 #include "opencv2/opencv.hpp"
 #include <SFML/Graphics.hpp>
-
+#include <vector>
 
 class menu_sfml_objects
 {
@@ -98,8 +98,8 @@ public:
 	char check_character(int key_number, bool shift_pressed, bool & caps_lock_pressed);
 
 private:
-	// backward button
-
+	std::vector<sf::RectangleShape> vector_rectangles;
+	bool rectangles_saved = false;
 	// length of sides in pixels
 	int backward_length_button_x;
 	int backward_length_button_y;

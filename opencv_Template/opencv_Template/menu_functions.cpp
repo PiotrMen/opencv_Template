@@ -240,10 +240,10 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		//current_window = 1;
 		this->current_menu_window = 1;
 	}*/
-		if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->Upload_file_button_x,this->Upload_file_button_y,this->Upload_file_length_button_x,this->Upload_file_length_button_y,this->menu_button_size,this->menu_window) && this->current_menu_window == 0) {
-			//current_window = 1;
-			this->current_menu_window = 1;
-		}
+	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->Upload_file_button_x,this->Upload_file_button_y,this->Upload_file_length_button_x,this->Upload_file_length_button_y,this->menu_button_size,this->menu_window) && this->current_menu_window == 0) {
+		//current_window = 1;
+		this->current_menu_window = 1;
+	}
 	//Moving to match boxes section
 	if (falling_edge_saved && detecting_Match_boxes_button() && this->current_menu_window == 0) {
 		this->current_menu_window = 2;
@@ -257,6 +257,24 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 	//Backing to basic manu view
 	if (detecting_backward_button() && falling_edge_saved && (current_menu_window == 1 || current_menu_window == 2 || current_menu_window == 3)){
 		this->current_menu_window = 0;                         
+	}
+
+	if (current_menu_window == 2 && !rectangles_saved){
+		for (int i = 0; i < 20; i++) {
+			rectangles_saved = true;
+			int k;
+			sf::RectangleShape rect;
+			if (i >= 10) {
+				k = mm_to_pixels_converter(175);
+				rect = making_rectangle(mm_to_pixels_converter(5 + (i * 120) - 1200), 400 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(165), sf::Color::Green, 1);
+				this->vector_rectangles.push_back(rect);
+			}
+			else {
+				k = 0;
+				rect = making_rectangle(mm_to_pixels_converter(5 + (i * 120)), 400 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(165), sf::Color::Green, 1);
+				this->vector_rectangles.push_back(rect);
+			}
+		}
 	}
 }
 
@@ -340,19 +358,9 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
 
 		//displaying rectangles
-		for (int i = 0; i < 20; i++) {
-			int k;
-			sf::RectangleShape rect;
-			if (i >= 10){
-				k = mm_to_pixels_converter(175);
-				rect = making_rectangle(mm_to_pixels_converter(5 + (i * 120)-1200), 400 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(165), sf::Color::Green, 1);
-			}
-			else{
-				k = 0;
-				rect = making_rectangle(mm_to_pixels_converter(5 + (i * 120)), 400 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(165), sf::Color::Green, 1);
-			}
-			this->menu_window->draw(rect);
-			this->display_text(rect.getPosition().x + rect.getGlobalBounds().width / 2, rect.getPosition().y-30, std::to_string(i+1), 120);
+		for (int i = 0; i < 20; i++){
+			this->menu_window->draw(this->vector_rectangles[i]);
+			this->display_text(vector_rectangles[i].getPosition().x + vector_rectangles[i].getGlobalBounds().width / 2, vector_rectangles[i].getPosition().y-30, std::to_string(i+1), 120);
 		}
 	}
 
