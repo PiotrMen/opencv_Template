@@ -1,6 +1,7 @@
 #include "menu_functions.h"
 #include <iostream>
 #include "Universal_functions.h"
+#include <string>
 
 //Constructor
 menu_sfml_objects::menu_sfml_objects()
@@ -337,6 +338,22 @@ void menu_sfml_objects::render(int current_step, int current_window)
 
 		//displaying backward in section
 		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+
+		//displaying rectangles
+		for (int i = 0; i < 20; i++) {
+			int k;
+			sf::RectangleShape rect;
+			if (i >= 10){
+				k = mm_to_pixels_converter(175);
+				rect = making_rectangle(mm_to_pixels_converter(5 + (i * 120)-1200), 400 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(165), sf::Color::Green, 1);
+			}
+			else{
+				k = 0;
+				rect = making_rectangle(mm_to_pixels_converter(5 + (i * 120)), 400 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(165), sf::Color::Green, 1);
+			}
+			this->menu_window->draw(rect);
+			this->display_text(rect.getPosition().x + rect.getGlobalBounds().width / 2, rect.getPosition().y-30, std::to_string(i+1), 120);
+		}
 	}
 
 	//connectors options section displaying

@@ -3,8 +3,8 @@
 #include <SFML/Graphics.hpp>
 
 //converter return real value in pixels
-int mm_to_pixels_converter(float Window_width , float Working_field, float real_mm){
-	float converter = Window_width / Working_field;
+int mm_to_pixels_converter(float real_mm){
+	float converter = 1920.0 / 1200.0;
 	float result_in_pixels = real_mm * converter;
 	return (int) round(result_in_pixels);
 }
@@ -18,13 +18,17 @@ bool unieversal_detecting_collision_with_buttons(int x, int y, int length_x, int
 	return false;
 }
 
-void making_rectangle(int pos_x, int pos_y, int size_x, int size_y, sf::Color color, sf::RenderWindow &Window)
+sf::RectangleShape making_rectangle(int pos_x, int pos_y, int size_x, int size_y, sf::Color color, bool setOrigin)
 {
 	sf::RectangleShape rectangle_;
 	rectangle_.setSize(sf::Vector2f(size_x, size_y));
-	rectangle_.setOrigin(sf::Vector2f(rectangle_.getSize().x / 2, rectangle_.getSize().y / 2));
+	if(setOrigin)
+		rectangle_.setOrigin(0, rectangle_.getSize().y / 2);
+	else
+		rectangle_.setOrigin(sf::Vector2f(rectangle_.getSize().x / 2, rectangle_.getSize().y / 2));
 	rectangle_.setPosition(pos_x, pos_y);
 	rectangle_.setFillColor(color);
 	
-	Window.draw(rectangle_);
+	return(rectangle_);
 }
+	
