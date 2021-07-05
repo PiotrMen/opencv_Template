@@ -241,7 +241,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		//current_window = 1;
 		this->current_menu_window = 1;
 	}*/
-	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->Upload_file_button_x,this->Upload_file_button_y,this->Upload_file_length_button_x,this->Upload_file_length_button_y,this->menu_button_size,this->menu_window) && this->current_menu_window == 0) {
+	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->Upload_file_button_x, this->Upload_file_button_y, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window) && this->current_menu_window == 0) {
 		//current_window = 1;
 		this->current_menu_window = 1;
 	}
@@ -256,24 +256,34 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 	}
 
 	//Backing to basic manu view
-	if (detecting_backward_button() && falling_edge_saved && (current_menu_window == 1 || current_menu_window == 2 || current_menu_window == 3)){
-		this->current_menu_window = 0;                         
+	if (detecting_backward_button() && sf::Mouse::isButtonPressed(sf::Mouse::Left) && (current_menu_window == 1 || current_menu_window == 2 || current_menu_window == 3)) {
+		this->current_menu_window = 0;
 	}
 
-	if (current_menu_window == 2 && !rectangles_saved){
+	//saving rectangles to the vector
+	if (current_menu_window == 2 && !rectangles_saved) {
 		for (int i = 0; i < 20; i++) {
 			rectangles_saved = true;
 			int k;
 			sf::RectangleShape rect;
 			if (i >= 10) {
 				k = mm_to_pixels_converter(175);
-				rect = making_rectangle(mm_to_pixels_converter(5 + (i * 120) - 1200), 400 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(165), sf::Color::Green, 1);
+				rect = making_rectangle(mm_to_pixels_converter(60 + (i * 120) - 1200), 400 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(165), sf::Color::Green, 0);
 				this->vector_rectangles.push_back(rect);
 			}
 			else {
 				k = 0;
-				rect = making_rectangle(mm_to_pixels_converter(5 + (i * 120)), 400 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(165), sf::Color::Green, 1);
+				rect = making_rectangle(mm_to_pixels_converter(60 + (i * 120)), 400 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(165), sf::Color::Green, 0);
 				this->vector_rectangles.push_back(rect);
+			}
+		}
+	}
+
+	//detecting rectangles click
+	if (current_menu_window == 2) {
+		for (int i = 0; i < 20; i++) {
+			if (unieversal_detecting_collision_with_buttons(this->vector_rectangles[i].getPosition().x, this->vector_rectangles[i].getPosition().y, this->vector_rectangles[i].getGlobalBounds().width, this->vector_rectangles[i].getGlobalBounds().height, 1, this->menu_window)) {
+				std::cout << i << std::endl;
 			}
 		}
 	}
@@ -361,8 +371,8 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		//displaying rectangles
 		for (int i = 0; i < 20; i++){
 			this->menu_window->draw(this->vector_rectangles[i]);
-			this->display_text(vector_rectangles[i].getPosition().x + vector_rectangles[i].getGlobalBounds().width / 2, vector_rectangles[i].getPosition().y-30, std::to_string(i+1), 120);
-			//this->display_text(vector_rectangles[i].getPosition().x + vector_rectangles[i].getGlobalBounds().width / 2, vector_rectangles[i].getPosition().y + 50, std::to_string(articles_in_boxes[i].serial_number), 30);
+			this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y-30, std::to_string(i+1), 120);
+			//this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y + 50, std::to_string(articles_in_boxes[i].serial_number), 30);
 		}
 	}
 
