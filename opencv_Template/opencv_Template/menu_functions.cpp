@@ -400,7 +400,7 @@ void menu_sfml_objects::render(int current_step, int current_window)
 	if (this->current_menu_window == 21) {
 		// concate strings
 		std::string temp = "Pudelko nr: " + std::to_string(which_box_chosen+1);
-		
+		std::cout << articles_in_boxes[which_box_chosen].name << std::endl;
 		//displaying main text
 		this->display_text(this->menu_window_width / 2, 130, temp, 200);
 
