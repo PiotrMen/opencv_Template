@@ -282,11 +282,18 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 	//detecting rectangles click
 	if (current_menu_window == 2) {
 		for (int i = 0; i < 20; i++) {
-			if (unieversal_detecting_collision_with_buttons(this->vector_rectangles[i].getPosition().x, this->vector_rectangles[i].getPosition().y, this->vector_rectangles[i].getGlobalBounds().width, this->vector_rectangles[i].getGlobalBounds().height, 1, this->menu_window)) {
-				std::cout << i << std::endl;
+			if (unieversal_detecting_collision_with_buttons(this->vector_rectangles[i].getPosition().x, this->vector_rectangles[i].getPosition().y, this->vector_rectangles[i].getGlobalBounds().width, this->vector_rectangles[i].getGlobalBounds().height, 1, this->menu_window) && sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+				//std::cout << i << std::endl;
+				this->current_menu_window = 21;
+				this->which_box_chosen = i;
 			}
 		}
 	}
+
+	if (detecting_backward_button() && sf::Mouse::isButtonPressed(sf::Mouse::Left) && (current_menu_window == 21)) {
+		this->current_menu_window = 2;
+	}
+
 }
 
 
@@ -295,6 +302,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 // 1 - Upload file .csv section
 // 2 - match boxes section
 // 3 - connectors options section
+// 21 - chosing new article in boxes section
 
 void menu_sfml_objects::render(int current_step, int current_window)
 {
@@ -372,7 +380,7 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		for (int i = 0; i < 20; i++){
 			this->menu_window->draw(this->vector_rectangles[i]);
 			this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y-30, std::to_string(i+1), 120);
-		//	this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y + 90, articles_in_boxes[i].name, 15);
+			this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y + 90, articles_in_boxes[i].name, 15);
 		}
 	}
 
@@ -385,6 +393,22 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		this->display_text(this->blue_button_x, this->blue_button_y + 75, "Pomoc", 30);
 
 		//displaying backward in section
+		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+	}
+
+	//chosing new article in boxes section
+	if (this->current_menu_window == 21) {
+		// concate strings
+		std::string temp = "Pudelko nr: " + std::to_string(which_box_chosen+1);
+		
+		//displaying main text
+		this->display_text(this->menu_window_width / 2, 130, temp, 200);
+
+		//Displaying blue button
+		this->display_texture(this->blue_button_x, this->blue_button_y, "blue_circle.png", this->button_size, 0);
+		this->display_text(this->blue_button_x, this->blue_button_y + 75, "Pomoc", 30);
+
+		//displaying backward
 		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
 	}
 	this->menu_window->display();

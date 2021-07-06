@@ -98,11 +98,15 @@ public:
 	char check_character(int key_number, bool shift_pressed, bool & caps_lock_pressed);
 
 private:
+
 	std::vector<sf::RectangleShape> vector_rectangles;
 	bool rectangles_saved = false;
 	// length of sides in pixels
 	int backward_length_button_x;
 	int backward_length_button_y;
+
+	//which box chosen
+	int which_box_chosen;
 
 	//coordinates
 	int backward_button_x;
