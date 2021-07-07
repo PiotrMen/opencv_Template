@@ -42,4 +42,5 @@ c:\users\plx018\source\repos\nowy folder\system_kontroli_i_montazu\opencv_templa
           [
               T=float
           ]
+c:\users\plx018\source\repos\nowy folder\system_kontroli_i_montazu\opencv_template\opencv_template\menu_functions.cpp(402): warning C4305: "argument": obcięcie z "double" do "float"
   opencv_Template.vcxproj -> C:\Users\plx018\source\repos\Nowy folder\system_kontroli_i_montazu\opencv_Template\x64\Debug\opencv_Template.exe

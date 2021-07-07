@@ -18,8 +18,8 @@ int main()
 	//coordinates of buttons
 	menu_objects.init_buttons_coords();
 	//size of buttons
-	objects.init_button_size(30);
-	menu_objects.init_button_size(30,120);
+	objects.init_button_size(100);
+	menu_objects.init_button_size(100,120);
 
 	load_csv(articles_in_boxes, left_articles);
 	save_csv(articles_in_boxes, left_articles);

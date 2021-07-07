@@ -398,6 +398,9 @@ void menu_sfml_objects::render(int current_step, int current_window)
 
 	//chosing new article in boxes section
 	if (this->current_menu_window == 21) {
+
+		this->display_texture(500, 500, "grafics_of_articles/3209549.png", 1.2, 0);
+
 		//displaying arrows
 		this->display_texture(this->menu_window_width-100, this->menu_window_height/2, "arrow.png", 1,0);
 		this->display_texture(100, this->menu_window_height / 2, "arrow.png", 1, 180);
