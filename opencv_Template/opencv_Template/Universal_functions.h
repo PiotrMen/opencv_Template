@@ -9,6 +9,9 @@
 extern std::vector <sData> articles_in_boxes;
 extern std::vector <sData> left_articles;
 
+// Sequence vector declaration
+extern std::vector <sData> sequence;
+
 //converter return real value in pixels
 int mm_to_pixels_converter(float real_mm);
 

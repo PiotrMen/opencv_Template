@@ -85,3 +85,45 @@ void save_csv_database(const std::vector <sData> &articles_in_boxes, const std::
 	}
 	file.close();
 }
+
+void load_csv_sequence(std::vector <sData> &sequence, std::string file_name)
+{
+	std::ifstream file;
+	file.open("resources/" + file_name + ".csv");
+
+	if (file.is_open())
+	{
+		std::string buffor;
+
+		std::getline(file, buffor);
+
+		while(std::getline(file, buffor))
+		{
+			sData article;
+
+			// 2 cases
+			// 1 - there is "," included in name
+			// 2 - there is no "," included in name
+
+			std::smatch match_groups;
+			std::regex regex_case_1("([0-9]{7}),\"(.*)\",([0-9]*),(([0-9]*)|\"([0 - 9], [0 - 9])\"),(([0-9]*)|\"([0 - 9], [0 - 9])\")");
+			std::regex regex_case_2("([0-9]{7}),(.*),([0-9]*),(([0-9]*)|\"([0 - 9], [0 - 9])\"),(([0-9]*)|\"([0 - 9], [0 - 9])\")");
+
+			std::regex_search(buffor, match_groups, regex_case_1);
+			if (match_groups[0] == "")
+			{
+			std:regex_search(buffor, match_groups, regex_case_2);
+			}
+
+
+			article.serial_number = stoi(match_groups[1]);
+			article.name = match_groups[2];
+			article.quantity = stoi(match_groups[3]);
+			article.width = stof(match_groups[4]);
+			article.height = stof(match_groups[7]);
+
+			sequence.push_back(article);
+		}
+	}
+	file.close();
+}

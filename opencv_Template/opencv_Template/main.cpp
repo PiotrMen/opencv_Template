@@ -10,6 +10,9 @@
 std::vector <sData> articles_in_boxes;
 std::vector <sData> left_articles;
 
+// Sequence vector
+std::vector <sData> sequence;
+
 
 int main()
 {
@@ -23,7 +26,6 @@ int main()
 
 	load_csv_database(articles_in_boxes, left_articles);
 	save_csv_database(articles_in_boxes, left_articles);
-
 
 	int current_step = 0;	// step of current article
 	int current_window = 0;

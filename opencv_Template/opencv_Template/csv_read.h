@@ -15,9 +15,14 @@ struct sData
 	int serial_number;
 	std::string name;
 
+	int quantity;
+	float width;
+	float height;
 };
 
 void load_csv_database(std::vector <sData> &articles_in_boxes, std::vector <sData> &left_articles);
 void save_csv_database(const std::vector <sData> &articles_in_boxes, const std::vector <sData> &left_articles);
+
+void load_csv_sequence(std::vector <sData> &sequence, std::string file_name);
 
 #endif // !CSV_READ_H
