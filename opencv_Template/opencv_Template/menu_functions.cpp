@@ -234,10 +234,18 @@ void menu_sfml_objects::pollEvents(int &current_step, int &current_window)
 			// Handling Shift
 			shift_pressed = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift);
 
-			//Handling Enter
+			// Handling Enter if input is in place
+			if (event.key.code == sf::Keyboard::Enter && searching_text.size() > 0)
+			{
+				this->current_menu_window = 0;
+				// Execute loading
+				load_csv_sequence(sequence, searching_text);
+				searching_text.clear();
+			}
+			// Handling Enter if input is not in place
 			if (event.key.code == sf::Keyboard::Enter)
 			{
-				this->enable_writing = false;
+				enable_writing = false;
 			}
 
 			// Adding elements to string
@@ -290,8 +298,9 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		this->current_menu_window = 3;
 	}
 
-	//Backing to basic manu view
+	//Backing to basic menu view
 	if (detecting_backward_button() && sf::Mouse::isButtonPressed(sf::Mouse::Left) && (current_menu_window == 1 || current_menu_window == 2 || current_menu_window == 3)) {
+		searching_text.clear();
 		this->current_menu_window = 0;
 		this->if_clear = true;
 	}
@@ -299,6 +308,9 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 	//Confirming loading and moving to menu window
 	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(990, 800, 707, 120, 1, this->menu_window) && this->current_menu_window == 1 && searching_text.size() > 0) {
 		this->current_menu_window = 0;
+		// Execute loading
+		load_csv_sequence(sequence, searching_text);
+		searching_text.clear();
 	}
 
 	//Detecting cursor in searching square
