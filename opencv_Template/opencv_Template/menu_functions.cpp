@@ -294,6 +294,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 	//Backing to basic manu view
 	if (detecting_backward_button() && sf::Mouse::isButtonPressed(sf::Mouse::Left) && (current_menu_window == 1 || current_menu_window == 2 || current_menu_window == 3)) {
 		this->current_menu_window = 0;
+		this->if_clear = true;
 	}
 
 	//Detecting cursor in searching square
@@ -330,9 +331,9 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 	if (current_menu_window == 2) {
 		for (int i = 0; i < 20; i++) {
 			if (unieversal_detecting_collision_with_buttons(this->vector_rectangles[i].getPosition().x, this->vector_rectangles[i].getPosition().y, this->vector_rectangles[i].getGlobalBounds().width, this->vector_rectangles[i].getGlobalBounds().height, 1, this->menu_window) && sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-				//std::cout << i << std::endl;
 				this->current_menu_window = 21;
 				this->which_box_chosen = i;
+				this->if_clear = true;
 			}
 		}
 	}
@@ -353,7 +354,8 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 
 void menu_sfml_objects::render(int current_step, int current_window)
 {
-	this->menu_window->clear(sf::Color(255, 255, 255, 255));
+	if(if_clear)
+		this->menu_window->clear(sf::Color(255, 255, 255, 255));
 	//Basic menu window
 	if (this->current_menu_window == 0) {
 		//Displaying Upload file graphics
@@ -425,7 +427,7 @@ void menu_sfml_objects::render(int current_step, int current_window)
 	}
 
 	//match boxes section displaying
-	if (this->current_menu_window == 2) {
+	if (this->current_menu_window == 2 && if_clear) {
 		this->display_text(this->menu_window_width / 2, 130, "Dopasuj pudelka", 200);
 
 		//Displaying blue button
@@ -441,6 +443,8 @@ void menu_sfml_objects::render(int current_step, int current_window)
 			this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y-30, std::to_string(i+1), 120);
 			this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y + 90, articles_in_boxes[i].name, 15);
 		}
+		this->if_clear = false;
+		
 	}
 
 	//connectors options section displaying
@@ -457,8 +461,6 @@ void menu_sfml_objects::render(int current_step, int current_window)
 
 	//chosing new article in boxes section
 	if (this->current_menu_window == 21) {
-
-		this->display_texture(500, 500, "grafics_of_articles/3209549.png", 1.2, 0);
 
 		//displaying arrows
 		this->display_texture(this->menu_window_width-100, this->menu_window_height/2, "arrow.png", 1,0);
@@ -477,6 +479,12 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		//displaying backward
 		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
 	}
+
+	if(if_display)
 	this->menu_window->display();
+	if (!if_clear)
+		if_display = false;
+	else
+		if_display = true;
 }
 
