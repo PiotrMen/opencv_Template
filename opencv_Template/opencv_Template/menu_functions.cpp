@@ -261,7 +261,6 @@ void menu_sfml_objects::pollEvents(int &current_step, int &current_window)
 
 			break;
 			}
-
 			break;
 		}
 	}
@@ -270,7 +269,7 @@ void menu_sfml_objects::pollEvents(int &current_step, int &current_window)
 void menu_sfml_objects::update(int &current_step, int &current_window)
 {
 	this->pollEvents(current_step, current_window);
-
+	rising_edge_saved = detecting_rising_edge_left_mouse_button();
 	falling_edge_saved = detecting_falling_edge_left_mouse_button();
 	//Moving to Upload file .csv section
 	/*if (falling_edge_saved && detecting_Upload_file_button() && this->current_menu_window == 0) {
@@ -295,14 +294,19 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 	if (detecting_backward_button() && sf::Mouse::isButtonPressed(sf::Mouse::Left) && (current_menu_window == 1 || current_menu_window == 2 || current_menu_window == 3)) {
 		this->current_menu_window = 0;
 	}
+	
+	//Confirming loading and moving to menu window
+	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(990, 800, 707, 120, 1, this->menu_window) && this->current_menu_window == 1 && searching_text.size() > 0) {
+		this->current_menu_window = 0;
+	}
 
 	//Detecting cursor in searching square
-	if (current_menu_window == 1 && falling_edge_saved && unieversal_detecting_collision_with_buttons(500, 400, 566, 99, 1, this->menu_window))
+	if (current_menu_window == 1 && rising_edge_saved && unieversal_detecting_collision_with_buttons(990, 400, 566, 99, 1, this->menu_window))
 	{
 		this->enable_writing = true;
 	}
 	//Deactivating cursor afrer clicking outside searching square
-	if (current_menu_window != 1 || (current_menu_window == 1 && falling_edge_saved && !unieversal_detecting_collision_with_buttons(500, 400, 566, 99, 1, this->menu_window)))
+	if (current_menu_window != 1 || (current_menu_window == 1 && rising_edge_saved && !unieversal_detecting_collision_with_buttons(990, 400, 566, 99, 1, this->menu_window)))
 	{
 		this->enable_writing = false;
 	}
@@ -412,16 +416,36 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
 
 		//Displaying searching square
-		if (this->enable_writing == false && this->searching_text.size() == 0)
+		if (this->enable_writing == true || this->searching_text.size() > 0)
 		{
-			this->display_texture(500, 400, "name.png", 1, 0);
+			this->display_texture(990, 400, "search_without_magnifying_glass.png", 1, 0);
 		}
 		else
 		{
-			this->display_texture(500, 400, "search_without_magnifying_glass.png", 1, 0);
+			this->display_texture(990, 400, "name.png", 1, 0);
 		}
-		this->display_text(500, 470, "Podaj nazwe wczytywanego pliku .csv", 26);
-		this->display_text(500, 400, searching_text, 26);
+		this->display_text(990, 470, "Podaj nazwe wczytywanego pliku .csv", 26);
+		this->display_text(990, 400, searching_text, 26);
+
+		//Displaying acceptance button
+		if (searching_text.size() > 0)
+		{
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(990, 800, 707, 120, 1, this->menu_window))
+			{
+				this->display_texture(990, 800, "grey_pushed.png", this->menu_button_size, 0);
+			}
+			else
+			{
+				this->display_texture(990, 800, "grey_button.png", this->menu_button_size, 0);
+			}
+			this->display_text(990, 785, "Zatwierdz plik .csv", 80);
+
+			//Button Underline
+			if (unieversal_detecting_collision_with_buttons(990, 800, 707, 120, 1, this->menu_window))
+			{
+				this->display_texture(990, 800 + 85, "UnderLine.png", 0.9, 0);
+			}
+		}
 	}
 
 	//match boxes section displaying

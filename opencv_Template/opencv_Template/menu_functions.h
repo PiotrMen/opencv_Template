@@ -123,6 +123,7 @@ private:
 	bool rising_edge = false;
 	bool rising_edge_detected = false;
 	bool falling_edge = false;
+	bool rising_edge_saved;
 	bool falling_edge_detected = false;
 	int current_menu_window;
 	bool falling_edge_saved;
