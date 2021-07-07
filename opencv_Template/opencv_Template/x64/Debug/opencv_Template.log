@@ -19,15 +19,25 @@ c:\users\plx018\source\repos\nowy folder\system_kontroli_i_montazu\opencv_templa
           [
               T=float
           ]
-c:\users\plx018\source\repos\nowy folder\system_kontroli_i_montazu\opencv_template\opencv_template\menu_functions.cpp(338): warning C4244: "argument": konwersja z "double" do "float", możliwa utrata danych
-c:\users\plx018\source\repos\nowy folder\system_kontroli_i_montazu\opencv_template\opencv_template\menu_functions.cpp(341): warning C4244: "argument": konwersja z "double" do "float", możliwa utrata danych
-c:\users\plx018\source\repos\nowy folder\system_kontroli_i_montazu\opencv_template\opencv_template\menu_functions.cpp(344): warning C4244: "argument": konwersja z "double" do "float", możliwa utrata danych
-c:\users\plx018\source\repos\nowy folder\system_kontroli_i_montazu\opencv_template\opencv_template\menu_functions.cpp(374): warning C4244: "argument": konwersja z "T" do "int", możliwa utrata danych
+c:\users\plx018\source\repos\nowy folder\system_kontroli_i_montazu\opencv_template\opencv_template\menu_functions.cpp(346): warning C4244: "argument": konwersja z "double" do "float", możliwa utrata danych
+c:\users\plx018\source\repos\nowy folder\system_kontroli_i_montazu\opencv_template\opencv_template\menu_functions.cpp(349): warning C4244: "argument": konwersja z "double" do "float", możliwa utrata danych
+c:\users\plx018\source\repos\nowy folder\system_kontroli_i_montazu\opencv_template\opencv_template\menu_functions.cpp(352): warning C4244: "argument": konwersja z "double" do "float", możliwa utrata danych
+c:\users\plx018\source\repos\nowy folder\system_kontroli_i_montazu\opencv_template\opencv_template\menu_functions.cpp(382): warning C4244: "argument": konwersja z "T" do "int", możliwa utrata danych
           with
           [
               T=float
           ]
-c:\users\plx018\source\repos\nowy folder\system_kontroli_i_montazu\opencv_template\opencv_template\menu_functions.cpp(374): warning C4244: "argument": konwersja z "const T" do "int", możliwa utrata danych
+c:\users\plx018\source\repos\nowy folder\system_kontroli_i_montazu\opencv_template\opencv_template\menu_functions.cpp(382): warning C4244: "argument": konwersja z "const T" do "int", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\plx018\source\repos\nowy folder\system_kontroli_i_montazu\opencv_template\opencv_template\menu_functions.cpp(383): warning C4244: "argument": konwersja z "T" do "int", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+c:\users\plx018\source\repos\nowy folder\system_kontroli_i_montazu\opencv_template\opencv_template\menu_functions.cpp(383): warning C4244: "argument": konwersja z "const T" do "int", możliwa utrata danych
           with
           [
               T=float
