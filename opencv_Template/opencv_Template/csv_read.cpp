@@ -1,6 +1,6 @@
 #include "csv_read.h"
 
-void load_csv(std::vector <sData> &articles_in_boxes, std::vector <sData> &left_articles)
+void load_csv_database(std::vector <sData> &articles_in_boxes, std::vector <sData> &left_articles)
 {
 	std::ifstream file;
 	file.open("resources/baza_zlaczek.csv");
@@ -43,7 +43,7 @@ void load_csv(std::vector <sData> &articles_in_boxes, std::vector <sData> &left_
 	file.close();
 }
 
-void save_csv(const std::vector <sData> &articles_in_boxes, const std::vector <sData> &left_articles)
+void save_csv_database(const std::vector <sData> &articles_in_boxes, const std::vector <sData> &left_articles)
 {
 	std::ofstream file;
 	file.open("resources/baza_zlaczek.csv");

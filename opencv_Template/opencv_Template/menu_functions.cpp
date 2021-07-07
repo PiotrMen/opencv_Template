@@ -13,6 +13,7 @@ menu_sfml_objects::menu_sfml_objects()
 	this->working_field_width = 1200;
 	this->menu_window = new sf::RenderWindow(sf::VideoMode(menu_window_width, menu_window_height), "Menu", sf::Style::Fullscreen);
 	this->menu_window->setPosition(sf::Vector2i(0, -1080));
+	this->enable_writing = false;
 }
 
 // Initializations
@@ -216,7 +217,42 @@ void menu_sfml_objects::pollEvents(int &current_step, int &current_window)
 			{
 				this->menu_window->close();
 			}
+
+			// Handling CapsLock 
+			if (event.key.code == -1)
+			{
+				if (caps_lock_pressed == true)
+				{
+					caps_lock_pressed = false;
+				}
+				else
+				{
+					caps_lock_pressed = true;
+				}
+			}
+
+			// Handling Shift
+			shift_pressed = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift);
+
+			//Handling Enter
+			if (event.key.code == sf::Keyboard::Enter)
+			{
+				this->enable_writing = false;
+			}
+
+			// Adding elements to string
+			if (enable_writing == true && check_character(event.key.code, shift_pressed, caps_lock_pressed) != NULL && searching_text.size() < 28)
+			{
+				searching_text.push_back(check_character(event.key.code, shift_pressed, caps_lock_pressed));	
+			}
+
+			// Deleting elements from string
+			if (event.key.code == sf::Keyboard::BackSpace && enable_writing == true && searching_text.size() > 0)
+			{
+					searching_text.pop_back();
+			}
 			break;
+
 		case sf::Event::MouseButtonPressed:
 
 			switch (event.key.code)
@@ -258,6 +294,17 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 	//Backing to basic manu view
 	if (detecting_backward_button() && sf::Mouse::isButtonPressed(sf::Mouse::Left) && (current_menu_window == 1 || current_menu_window == 2 || current_menu_window == 3)) {
 		this->current_menu_window = 0;
+	}
+
+	//Detecting cursor in searching square
+	if (current_menu_window == 1 && falling_edge_saved && unieversal_detecting_collision_with_buttons(500, 400, 566, 99, 1, this->menu_window))
+	{
+		this->enable_writing = true;
+	}
+	//Deactivating cursor afrer clicking outside searching square
+	if (current_menu_window != 1 || (current_menu_window == 1 && falling_edge_saved && !unieversal_detecting_collision_with_buttons(500, 400, 566, 99, 1, this->menu_window)))
+	{
+		this->enable_writing = false;
 	}
 
 	//saving rectangles to the vector
@@ -363,6 +410,18 @@ void menu_sfml_objects::render(int current_step, int current_window)
 
 		//displaying backward in section
 		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+
+		//Displaying searching square
+		if (this->enable_writing == false && this->searching_text.size() == 0)
+		{
+			this->display_texture(500, 400, "name.png", 1, 0);
+		}
+		else
+		{
+			this->display_texture(500, 400, "search_without_magnifying_glass.png", 1, 0);
+		}
+		this->display_text(500, 470, "Podaj nazwe wczytywanego pliku .csv", 26);
+		this->display_text(500, 400, searching_text, 26);
 	}
 
 	//match boxes section displaying
