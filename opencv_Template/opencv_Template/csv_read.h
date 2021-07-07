@@ -17,7 +17,7 @@ struct sData
 
 };
 
-void load_csv(std::vector <sData> &articles_in_boxes, std::vector <sData> &left_articles);
-void save_csv(const std::vector <sData> &articles_in_boxes, const std::vector <sData> &left_articles);
+void load_csv_database(std::vector <sData> &articles_in_boxes, std::vector <sData> &left_articles);
+void save_csv_database(const std::vector <sData> &articles_in_boxes, const std::vector <sData> &left_articles);
 
 #endif // !CSV_READ_H

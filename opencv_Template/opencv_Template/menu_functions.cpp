@@ -13,6 +13,7 @@ menu_sfml_objects::menu_sfml_objects()
 	this->working_field_width = 1200;
 	this->menu_window = new sf::RenderWindow(sf::VideoMode(menu_window_width, menu_window_height), "Menu", sf::Style::Fullscreen);
 	this->menu_window->setPosition(sf::Vector2i(0, -1080));
+	this->enable_writing = false;
 }
 
 // Initializations
@@ -216,7 +217,42 @@ void menu_sfml_objects::pollEvents(int &current_step, int &current_window)
 			{
 				this->menu_window->close();
 			}
+
+			// Handling CapsLock 
+			if (event.key.code == -1)
+			{
+				if (caps_lock_pressed == true)
+				{
+					caps_lock_pressed = false;
+				}
+				else
+				{
+					caps_lock_pressed = true;
+				}
+			}
+
+			// Handling Shift
+			shift_pressed = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift);
+
+			//Handling Enter
+			if (event.key.code == sf::Keyboard::Enter)
+			{
+				this->enable_writing = false;
+			}
+
+			// Adding elements to string
+			if (enable_writing == true && check_character(event.key.code, shift_pressed, caps_lock_pressed) != NULL && searching_text.size() < 28)
+			{
+				searching_text.push_back(check_character(event.key.code, shift_pressed, caps_lock_pressed));	
+			}
+
+			// Deleting elements from string
+			if (event.key.code == sf::Keyboard::BackSpace && enable_writing == true && searching_text.size() > 0)
+			{
+					searching_text.pop_back();
+			}
 			break;
+
 		case sf::Event::MouseButtonPressed:
 
 			switch (event.key.code)
@@ -260,6 +296,17 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		this->current_menu_window = 0;
 	}
 
+	//Detecting cursor in searching square
+	if (current_menu_window == 1 && falling_edge_saved && unieversal_detecting_collision_with_buttons(500, 400, 566, 99, 1, this->menu_window))
+	{
+		this->enable_writing = true;
+	}
+	//Deactivating cursor afrer clicking outside searching square
+	if (current_menu_window != 1 || (current_menu_window == 1 && falling_edge_saved && !unieversal_detecting_collision_with_buttons(500, 400, 566, 99, 1, this->menu_window)))
+	{
+		this->enable_writing = false;
+	}
+
 	//saving rectangles to the vector
 	if (current_menu_window == 2 && !rectangles_saved) {
 		for (int i = 0; i < 20; i++) {
@@ -282,11 +329,18 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 	//detecting rectangles click
 	if (current_menu_window == 2) {
 		for (int i = 0; i < 20; i++) {
-			if (unieversal_detecting_collision_with_buttons(this->vector_rectangles[i].getPosition().x, this->vector_rectangles[i].getPosition().y, this->vector_rectangles[i].getGlobalBounds().width, this->vector_rectangles[i].getGlobalBounds().height, 1, this->menu_window)) {
-				std::cout << i << std::endl;
+			if (unieversal_detecting_collision_with_buttons(this->vector_rectangles[i].getPosition().x, this->vector_rectangles[i].getPosition().y, this->vector_rectangles[i].getGlobalBounds().width, this->vector_rectangles[i].getGlobalBounds().height, 1, this->menu_window) && sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+				//std::cout << i << std::endl;
+				this->current_menu_window = 21;
+				this->which_box_chosen = i;
 			}
 		}
 	}
+
+	if (detecting_backward_button() && sf::Mouse::isButtonPressed(sf::Mouse::Left) && (current_menu_window == 21)) {
+		this->current_menu_window = 2;
+	}
+
 }
 
 
@@ -295,6 +349,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 // 1 - Upload file .csv section
 // 2 - match boxes section
 // 3 - connectors options section
+// 21 - chosing new article in boxes section
 
 void menu_sfml_objects::render(int current_step, int current_window)
 {
@@ -355,6 +410,18 @@ void menu_sfml_objects::render(int current_step, int current_window)
 
 		//displaying backward in section
 		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+
+		//Displaying searching square
+		if (this->enable_writing == false && this->searching_text.size() == 0)
+		{
+			this->display_texture(500, 400, "name.png", 1, 0);
+		}
+		else
+		{
+			this->display_texture(500, 400, "search_without_magnifying_glass.png", 1, 0);
+		}
+		this->display_text(500, 470, "Podaj nazwe wczytywanego pliku .csv", 26);
+		this->display_text(500, 400, searching_text, 26);
 	}
 
 	//match boxes section displaying
@@ -372,7 +439,7 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		for (int i = 0; i < 20; i++){
 			this->menu_window->draw(this->vector_rectangles[i]);
 			this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y-30, std::to_string(i+1), 120);
-		//	this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y + 90, articles_in_boxes[i].name, 15);
+			this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y + 90, articles_in_boxes[i].name, 15);
 		}
 	}
 
@@ -385,6 +452,26 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		this->display_text(this->blue_button_x, this->blue_button_y + 75, "Pomoc", 30);
 
 		//displaying backward in section
+		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+	}
+
+	//chosing new article in boxes section
+	if (this->current_menu_window == 21) {
+		//displaying arrows
+		this->display_texture(this->menu_window_width-100, this->menu_window_height/2, "arrow.png", 1,0);
+		this->display_texture(100, this->menu_window_height / 2, "arrow.png", 1, 180);
+
+		//concate strings
+		std::string temp = "Pudelko nr: " + std::to_string(which_box_chosen+1);
+		//std::cout << articles_in_boxes[which_box_chosen].name << std::endl;
+		//displaying main text
+		this->display_text(this->menu_window_width / 2, 130, temp, 200);
+
+		//Displaying blue button
+		this->display_texture(this->blue_button_x, this->blue_button_y, "blue_circle.png", this->button_size, 0);
+		this->display_text(this->blue_button_x, this->blue_button_y + 75, "Pomoc", 30);
+
+		//displaying backward
 		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
 	}
 	this->menu_window->display();

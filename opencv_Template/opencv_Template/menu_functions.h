@@ -53,6 +53,12 @@ public:
 	sf::RenderWindow *menu_window;
 	sf::Event event;
 
+	// displaying and converting input text
+	bool enable_writing; // enables writing after clicking on searching square
+	std::string searching_text; // input text written by user
+	bool shift_pressed;
+	bool caps_lock_pressed;
+
 	//window size
 	int menu_window_width;
 	int menu_window_height;
@@ -92,17 +98,21 @@ public:
 	void render(int current_step, int current_window);
 
 	
-	// addint_article.cpp
+	// adding_article.cpp
 
 	// Functions
 	char check_character(int key_number, bool shift_pressed, bool & caps_lock_pressed);
 
 private:
+
 	std::vector<sf::RectangleShape> vector_rectangles;
 	bool rectangles_saved = false;
 	// length of sides in pixels
 	int backward_length_button_x;
 	int backward_length_button_y;
+
+	//which box chosen
+	int which_box_chosen;
 
 	//coordinates
 	int backward_button_x;

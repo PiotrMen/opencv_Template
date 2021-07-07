@@ -1,6 +1,6 @@
 #include "menu_functions.h"
 
-char  menu_sfml_objects::check_character(int key_number, bool shift_pressed, bool & caps_lock_pressed)
+char menu_sfml_objects::check_character(int key_number, bool shift_pressed, bool & caps_lock_pressed)
 {
 	switch (key_number)
 	{
@@ -454,17 +454,8 @@ char  menu_sfml_objects::check_character(int key_number, bool shift_pressed, boo
 		else
 			return ' ';
 		break;
-
-	//case 59: // backspace te¿ prawdopodonie w innej funkcji
-	//	if (shift_pressed == true || caps_lock_pressed == true)
-	//	{
-	//		return '+';
-	//	}
-	//	else
-	//		return '=';
-	//	break;
 	default:
-		return 0;
+		return NULL;
 		break;
 
 	}

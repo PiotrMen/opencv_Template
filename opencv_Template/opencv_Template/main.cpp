@@ -21,8 +21,8 @@ int main()
 	objects.init_button_size(30);
 	menu_objects.init_button_size(30,120);
 
-	load_csv(articles_in_boxes, left_articles);
-	save_csv(articles_in_boxes, left_articles);
+	load_csv_database(articles_in_boxes, left_articles);
+	save_csv_database(articles_in_boxes, left_articles);
 
 
 	int current_step = 0;	// step of current article
