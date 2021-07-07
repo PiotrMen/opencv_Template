@@ -398,9 +398,13 @@ void menu_sfml_objects::render(int current_step, int current_window)
 
 	//chosing new article in boxes section
 	if (this->current_menu_window == 21) {
-		// concate strings
+		//displaying arrows
+		this->display_texture(this->menu_window_width-100, this->menu_window_height/2, "arrow.png", 1,0);
+		this->display_texture(100, this->menu_window_height / 2, "arrow.png", 1, 180);
+
+		//concate strings
 		std::string temp = "Pudelko nr: " + std::to_string(which_box_chosen+1);
-		std::cout << articles_in_boxes[which_box_chosen].name << std::endl;
+		//std::cout << articles_in_boxes[which_box_chosen].name << std::endl;
 		//displaying main text
 		this->display_text(this->menu_window_width / 2, 130, temp, 200);
 
