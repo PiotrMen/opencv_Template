@@ -2,7 +2,7 @@
 #include <iostream>
 #include "Universal_functions.h"
 #include <string>
-#include "csv_read.h"
+
 
 //Constructor
 menu_sfml_objects::menu_sfml_objects()
@@ -342,10 +342,21 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		}
 	}
 
+	//detecting backward in choosing boxes section
 	if (detecting_backward_button() && sf::Mouse::isButtonPressed(sf::Mouse::Left) && (current_menu_window == 21)) {
 		this->current_menu_window = 2;
 	}
 
+	if (current_menu_window == 21) {
+		for (int i = 0; i < left_articles.size(); i++) {
+			if (vector_displaying_articles.size() >= 5)
+				break;
+			vector_displaying_articles.push_back(left_articles[i]);
+		}
+		for (int i = 0; i < vector_displaying_articles.size(); i++){
+			std::cout << this->vector_displaying_articles[i].name << std::endl;
+		}
+	}
 }
 
 

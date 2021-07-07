@@ -3,6 +3,7 @@
 #include "opencv2/opencv.hpp"
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include "csv_read.h"
 
 class menu_sfml_objects
 {
@@ -106,6 +107,7 @@ public:
 private:
 
 	std::vector<sf::RectangleShape> vector_rectangles;
+	std::vector <sData> vector_displaying_articles;
 	bool rectangles_saved = false;
 	// length of sides in pixels
 	int backward_length_button_x;
