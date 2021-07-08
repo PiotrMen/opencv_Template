@@ -133,6 +133,10 @@ private:
 	//one time display if match boxes section
 	bool if_clear=true;
 	bool if_display = true;
+
+	sData empty;
+	int which_box_is_writing = 0;
+	std::string previous_string;
 };
 
 #endif

@@ -279,6 +279,17 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 	this->pollEvents(current_step, current_window);
 	rising_edge_saved = detecting_rising_edge_left_mouse_button();
 	falling_edge_saved = detecting_falling_edge_left_mouse_button();
+
+	//detecting rectangles click
+	if (current_menu_window == 2) {
+		for (int i = 0; i < 20; i++) {
+			if (unieversal_detecting_collision_with_buttons(this->vector_rectangles[i].getPosition().x, this->vector_rectangles[i].getPosition().y, this->vector_rectangles[i].getGlobalBounds().width, this->vector_rectangles[i].getGlobalBounds().height, 1, this->menu_window) && falling_edge_saved) {
+				this->which_box_chosen = i;
+				this->if_clear = true;
+			}
+		}
+	}
+
 	//Moving to Upload file .csv section
 	/*if (falling_edge_saved && detecting_Upload_file_button() && this->current_menu_window == 0) {
 		//current_window = 1;
@@ -302,6 +313,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 	if (detecting_backward_button() && sf::Mouse::isButtonPressed(sf::Mouse::Left) && (current_menu_window == 1 || current_menu_window == 2 || current_menu_window == 3)) {
 		searching_text.clear();
 		this->current_menu_window = 0;
+		this->enable_writing = false;
 		this->if_clear = true;
 	}
 	
@@ -323,7 +335,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 	{
 		this->enable_writing = false;
 	}
-
+	
 	//saving rectangles to the vector
 	if (current_menu_window == 2 && !rectangles_saved) {
 		for (int i = 0; i < 20; i++) {
@@ -332,43 +344,39 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 			sf::RectangleShape rect;
 			if (i >= 10) {
 				k = mm_to_pixels_converter(175);
-				rect = making_rectangle(mm_to_pixels_converter(60 + (i * 120) - 1200), 400 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(165), sf::Color::Green, 0);
+				rect = making_rectangle(mm_to_pixels_converter(60 + (i * 120) - 1200), 400 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(165), sf::Color::Red, 0);
 				this->vector_rectangles.push_back(rect);
 			}
 			else {
 				k = 0;
-				rect = making_rectangle(mm_to_pixels_converter(60 + (i * 120)), 400 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(165), sf::Color::Green, 0);
+				rect = making_rectangle(mm_to_pixels_converter(60 + (i * 120)), 400 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(165), sf::Color::Red, 0);
 				this->vector_rectangles.push_back(rect);
 			}
 		}
 	}
 
-	//detecting rectangles click
-	if (current_menu_window == 2) {
-		for (int i = 0; i < 20; i++) {
-			if (unieversal_detecting_collision_with_buttons(this->vector_rectangles[i].getPosition().x, this->vector_rectangles[i].getPosition().y, this->vector_rectangles[i].getGlobalBounds().width, this->vector_rectangles[i].getGlobalBounds().height, 1, this->menu_window) && sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-				this->current_menu_window = 21;
-				this->which_box_chosen = i;
-				this->if_clear = true;
-			}
+	//serial numbers on rectangles
+	if (current_menu_window == 2){
+		this->enable_writing = true;
+		if (previous_string.size() < searching_text.size()) {
+			if_clear = true;
+			if_display = true;
+		}
+		previous_string = searching_text;
+		if (vector_displaying_articles.size() == 0) {
+			vector_displaying_articles.push_back(this->empty);
+		}
+		if(searching_text.size()>0 && searching_text.size() <= 7)
+			vector_displaying_articles[which_box_is_writing].serial_number = stoi(searching_text);
+
+		if (searching_text.size() >= 7 && vector_displaying_articles.size() < 20) {
+			vector_displaying_articles.push_back(this->empty);
+			which_box_is_writing++;
+			searching_text.clear();
+			previous_string.clear();
 		}
 	}
 
-	//detecting backward in choosing boxes section
-	if (detecting_backward_button() && sf::Mouse::isButtonPressed(sf::Mouse::Left) && (current_menu_window == 21)) {
-		this->current_menu_window = 2;
-	}
-
-	if (current_menu_window == 21) {
-		for (int i = 0; i < left_articles.size(); i++) {
-			if (vector_displaying_articles.size() >= 5)
-				break;
-			vector_displaying_articles.push_back(left_articles[i]);
-		}
-		for (int i = 0; i < vector_displaying_articles.size(); i++){
-			std::cout << this->vector_displaying_articles[i].name << std::endl;
-		}
-	}
 }
 
 
@@ -377,7 +385,6 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 // 1 - Upload file .csv section
 // 2 - match boxes section
 // 3 - connectors options section
-// 21 - chosing new article in boxes section
 
 void menu_sfml_objects::render(int current_step, int current_window)
 {
@@ -475,7 +482,7 @@ void menu_sfml_objects::render(int current_step, int current_window)
 
 	//match boxes section displaying
 	if (this->current_menu_window == 2 && if_clear) {
-		this->display_text(this->menu_window_width / 2, 130, "Dopasuj pudelka", 200);
+		this->display_text(this->menu_window_width / 2, 130, "Zeskanuj pudelka", 200);
 
 		//Displaying blue button
 		this->display_texture(this->blue_button_x, this->blue_button_y, "blue_circle.png", this->button_size, 0);
@@ -488,10 +495,15 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		for (int i = 0; i < 20; i++){
 			this->menu_window->draw(this->vector_rectangles[i]);
 			this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y-30, std::to_string(i+1), 120);
-			this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y + 90, articles_in_boxes[i].name, 15);
+		}
+
+		//displaying texts on rectangle
+		this->display_text(vector_rectangles[which_box_is_writing].getPosition().x, vector_rectangles[which_box_is_writing].getPosition().y + 90, searching_text, 15);
+
+		for (int i = 0; i < which_box_is_writing; i++) {
+			this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y + 90, std::to_string(vector_displaying_articles[i].serial_number), 15);
 		}
 		this->if_clear = false;
-		
 	}
 
 	//connectors options section displaying
@@ -506,27 +518,6 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
 	}
 
-	//chosing new article in boxes section
-	if (this->current_menu_window == 21) {
-
-		//displaying arrows
-		this->display_texture(this->menu_window_width-100, this->menu_window_height/2, "arrow.png", 1,0);
-		this->display_texture(100, this->menu_window_height / 2, "arrow.png", 1, 180);
-
-		//concate strings
-		std::string temp = "Pudelko nr: " + std::to_string(which_box_chosen+1);
-		//std::cout << articles_in_boxes[which_box_chosen].name << std::endl;
-		//displaying main text
-		this->display_text(this->menu_window_width / 2, 130, temp, 200);
-
-		//Displaying blue button
-		this->display_texture(this->blue_button_x, this->blue_button_y, "blue_circle.png", this->button_size, 0);
-		this->display_text(this->blue_button_x, this->blue_button_y + 75, "Pomoc", 30);
-
-		//displaying backward
-		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
-	}
-
 	if(if_display)
 	this->menu_window->display();
 	if (!if_clear)
@@ -534,4 +525,4 @@ void menu_sfml_objects::render(int current_step, int current_window)
 	else
 		if_display = true;
 }
-
+	
