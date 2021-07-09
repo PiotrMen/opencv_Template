@@ -2,6 +2,8 @@
 #ifndef WINDOW_FUNCTIONS__H
 #include "opencv2/opencv.hpp"
 #include <SFML/Graphics.hpp>
+#include <iostream>
+#include "Universal_functions.h"
 
 
 class sfml_objects
@@ -34,6 +36,15 @@ public:
 	//window size
 	int window_width;
 	int window_height;
+
+	// Step in sequence
+	bool sequence_activated = true; // Sequence is activated by menu_functions
+	int step_of_sequence = 0;		// 0 - sequence is not active / 1 - lighting rectangle / 2 - installing article
+
+	std::vector <sf::RectangleShape> lighting_rectangles;
+	bool tmp = true; // do usuniecia
+
+
 	//Constructor
 	sfml_objects();
 

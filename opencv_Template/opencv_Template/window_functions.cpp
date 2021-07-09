@@ -1,6 +1,5 @@
 #include "window_functions_.h"
-#include <iostream>
-#include "Universal_functions.h"
+
 
 //Constructor
 sfml_objects::sfml_objects()
@@ -17,16 +16,16 @@ void sfml_objects::init_button_size(float percentege_size)
 	//length of sides in pixels
 
 	//green button
-	this->green_button_length_x = 414; // number of pixels (width and length of picture)
-	this->green_button_length_y = 414;
+	this->green_button_length_x = 124; // number of pixels (width and length of picture)
+	this->green_button_length_y = 124;
 
 	//coordinates for green button
 	this->green_button_x = this->window_width - 150 - ((this->green_button_length_x / 2) * percentege_size / 100);  // 150 - number of pixels from bounds
 	this->green_button_y = this->window_height - 150 - ((this->green_button_length_y / 2) * percentege_size / 100);
 
 	//red button
-	this->red_button_length_x = 414;
-	this->red_button_length_y = 414;
+	this->red_button_length_x = 124;
+	this->red_button_length_y = 124;
 
 	//coordinates for red button
 	this->red_button_x = 150 + ((this->red_button_length_x / 2) * percentege_size / 100);
@@ -49,7 +48,6 @@ void sfml_objects::display_texture(int pos_x, int pos_y, std::string file_path, 
 	texture.setTexture(texture_);
 	texture.setOrigin(sf::Vector2f(texture.getTexture()->getSize().x * 0.5, texture.getTexture()->getSize().y * 0.5));         //set origins of images to center
 	texture.setPosition(pos_x, pos_y);
-	//std::cout << "myszka x  " << sf::Mouse::getPosition(*this->window).x << "  " << sf::Mouse::getPosition(*this->window).y << std::endl;
 	texture.setScale(scale, scale);
 	texture.setRotation(rotation);
 
@@ -125,11 +123,49 @@ void sfml_objects::pollEvents(int &current_step, int &current_window)
 				{
 					case sf::Mouse::Left:
 						//article choosen, displaying sequence
-						if (current_window == 1) {                           
+						if (current_window == 0) {                           
 							if (this->detecting_green_button())
 							{
-								std::cout << "zielony przycisk" << std::endl;
-								current_step++;
+								//std::cout << "zielony przycisk" << std::endl;
+								//current_step++;
+								switch (step_of_sequence)
+								{
+								case 0:
+								{
+									// Mouse handler deactivated
+									break;
+								}
+								case 1:
+								{
+									// Handling 1 -> 2 transition
+
+									if (true) // Warunek pobrania artyku³u z kamery
+									{
+										step_of_sequence = 2;
+									}
+									break;
+								}
+								case 2:
+								{
+									// Handling end of sequence
+
+									if (current_step + 1 == sequence.size())
+									{
+										step_of_sequence = 0;
+										current_step = 0;
+										break; break;
+									}
+
+									// Handling 2 -> 1 transition
+
+									if (true) // Warunek zamontowania artyku³u
+									{
+										step_of_sequence = 1;
+										current_step++;
+									}
+									break;
+								}
+								}
 							}
 
 							if (this->detecting_red_button())
@@ -148,24 +184,83 @@ void sfml_objects::pollEvents(int &current_step, int &current_window)
 void sfml_objects::update(int &current_step, int &current_window)
 {
 	this->pollEvents(current_step, current_window);
+
+	//if (sequence_activated == true)
+	//{
+	//	lighting_rectangles.clear();
+	//	int k;
+	//	for (int i = 0; i < 20; i++)
+	//	{
+	//		sf::RectangleShape rect;
+	//		if (i >= 10) {
+	//			k = mm_to_pixels_converter(175);
+	//			rect = making_rectangle(mm_to_pixels_converter(60 + (i * 120) - 1200), 150 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(165), sf::Color::Green, 0);
+	//			this->lighting_rectangles.push_back(rect);
+	//		}
+	//		else {
+	//			k = 0;
+	//			rect = making_rectangle(mm_to_pixels_converter(60 + (i * 120)), 150 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(165), sf::Color::Green, 0);
+	//			this->lighting_rectangles.push_back(rect);
+	//		}
+
+	//		k = k + 100;
+	//	}
+	//}
+
+	//if (sequence_activated == true)
+	//{
+	//	step_of_sequence = 1;
+	//	sequence_activated = false; 
+	//}
+
 }
 
 
 void sfml_objects::render(int current_step, int current_window)
 {
-	this->window->clear(sf::Color(255,255,255,255));
-	if (current_window == 1) {
-		this->display_texture(this->green_button_x, this->green_button_y, "green_circle.png", this->button_size, 0);   //displaying basic graphics 
-		this->display_texture(this->red_button_x, this->red_button_y, "red_circle.png", this->button_size, 0);
-		this->display_text(this->green_button_x, this->green_button_y + ((this->red_button_length_y*button_size)) / 2, "Continue", 40); //displaying texts
-		this->display_text(this->red_button_x, this->red_button_y + ((this->red_button_length_y * button_size)) / 2, "Defect", 40);
+	this->window->clear(sf::Color(255, 255, 255, 255));
+	//if (current_window == 1) {
+	this->display_texture(this->green_button_x, this->green_button_y, "green_circle.png", this->button_size, 0);   //displaying basic graphics 
+	this->display_texture(this->red_button_x, this->red_button_y, "red_circle.png", this->button_size, 0);
+	this->display_text(this->green_button_x, this->green_button_y + ((this->red_button_length_y*button_size)) / 2, "Continue", 40); //displaying texts
+	this->display_text(this->red_button_x, this->red_button_y + ((this->red_button_length_y * button_size)) / 2, "Defect", 40);
 
-		// current step trzeba bêdzie zmieniæ póŸniej na krok sekwencji kiedy zostanie zaimplementowana
+	// current step trzeba bêdzie zmieniæ póŸniej na krok sekwencji kiedy zostanie zaimplementowana
 
-		this->display_text(1700, 50, ("Aktualny krok: " + std::to_string(current_step) + "/" + std::to_string(current_step)), 40);  //displaying "aktualny krok" in corner 
+	this->display_text(1700, 50, ("Aktualny krok: " + std::to_string(current_step + 1) + "/" + std::to_string(sequence.size())), 40);  //displaying "aktualny krok" in corner 
 
+	// DO USUNIECIA
+	//if (tmp == true)
+	//{
+	//	load_csv_sequence(sequence, "Przykladowa sekwencja");
+	//	tmp = false;
+	//}
+
+	//
+	
+	// Sequence
+
+	switch (step_of_sequence)
+	{
+	case 0:
+	{
+				// Reseting sequence
+		break;
 	}
-		
+	case 1: 	// Lighting boxes from witch user takes article
+	{
+		this->window->draw(this->lighting_rectangles[sequence[current_step].matched_rectangle]);
+
+		break;
+	}
+	case 2:		// Installing article on DIN
+	{
+
+		// Obliczanie wyswietlania dokladnego miejsca polozenia na szynie DIN
+		break;
+	}
+	}
+	
 	this->window->display();
 }
 
