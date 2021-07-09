@@ -127,3 +127,27 @@ void load_csv_sequence(std::vector <sData> &sequence, std::string file_name)
 	}
 	file.close();
 }
+
+std::string load_txt_help(std::string filename)
+{
+	std::ifstream file;
+	file.open("resources/" + filename);
+
+	if (file.is_open())
+	{
+		std::string output_text;
+		std::string line;
+		while (getline(file, line))
+		{
+			output_text = output_text + line + "\n";
+			line = "";
+		}
+		file.close();
+		return output_text;
+	}
+	else
+	{
+		file.close();
+		return "Nie mozna odczytac pliku";
+	}
+}

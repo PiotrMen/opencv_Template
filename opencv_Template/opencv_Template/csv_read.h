@@ -29,4 +29,6 @@ void save_csv_database(const std::vector <sData> &articles_in_boxes, const std::
 
 void load_csv_sequence(std::vector <sData> &sequence, std::string file_name);
 
+std::string load_txt_help(std::string filename);
+
 #endif // !CSV_READ_H
