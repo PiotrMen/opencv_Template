@@ -365,9 +365,13 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		if (vector_displaying_articles.size() == 0) {
 			vector_displaying_articles.push_back(this->empty);
 		}
-		if(searching_text.size()>0 && searching_text.size() <= 7)
-			vector_displaying_articles[which_box_is_writing].serial_number = stoi(searching_text);
-
+		if (searching_text.size() > 0 && searching_text.size() <= 7) {
+			char temp2 = searching_text[searching_text.length()-1];
+			if (searching_text[searching_text.length()-1] >= '0' && searching_text[searching_text.length()-1] <= '9')
+				vector_displaying_articles[which_box_is_writing].serial_number = stoi(searching_text);
+			else
+				searching_text.pop_back();
+		}
 		//checking corretness conectors
 		for (int i = 0; i < sequence.size(); i++) {
 			if ((vector_displaying_articles[which_box_is_writing].serial_number == sequence[i].serial_number)) {
@@ -376,6 +380,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 			}
 		}
 
+		//chcecking if 7 characters
 		if (searching_text.size() >= 7 && vector_displaying_articles.size() < 20) {
 			vector_displaying_articles.push_back(this->empty);
 			which_box_is_writing++;
@@ -383,11 +388,6 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 			previous_string.clear();
 		}
 	}
-
-	//for (int i = 0; i < sequence.size(); i++) {
-	//	std::cout << sequence[i].serial_number << "  " << sequence[i].name << "  " << sequence[i].matched_rectangle << std::endl;
-	//}
-
 }
 
 
