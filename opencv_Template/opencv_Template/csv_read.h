@@ -20,6 +20,7 @@ struct sData
 	float height;
 
 	int matched_rectangle;
+	bool wrong_number;
 };
 
 void load_csv_database(std::vector <sData> &articles_in_boxes, std::vector <sData> &left_articles);

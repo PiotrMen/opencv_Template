@@ -357,6 +357,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 	//serial numbers on rectangles
 	if (current_menu_window == 2){
 		this->enable_writing = true;
+		bool if_wrong = true;
 		if (previous_string.size() < searching_text.size()) {
 			if_clear = true;
 			if_display = true;
@@ -365,18 +366,26 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		if (vector_displaying_articles.size() == 0) {
 			vector_displaying_articles.push_back(this->empty);
 		}
+
+		//checking if numbers detected
 		if (searching_text.size() > 0 && searching_text.size() <= 7) {
-			char temp2 = searching_text[searching_text.length()-1];
 			if (searching_text[searching_text.length()-1] >= '0' && searching_text[searching_text.length()-1] <= '9')
 				vector_displaying_articles[which_box_is_writing].serial_number = stoi(searching_text);
 			else
 				searching_text.pop_back();
 		}
+
 		//checking corretness conectors
 		for (int i = 0; i < sequence.size(); i++) {
 			if ((vector_displaying_articles[which_box_is_writing].serial_number == sequence[i].serial_number)) {
 				vector_rectangles[which_box_is_writing].setFillColor(sf::Color::Green);
 				sequence[i].matched_rectangle = which_box_is_writing;
+				sequence[which_box_is_writing].wrong_number = false;
+				if_wrong = false;
+			}
+			if (searching_text.size() >= 7 && i == sequence.size()-1 && (vector_displaying_articles[which_box_is_writing].serial_number != sequence[i].serial_number) && if_wrong) {
+				sequence[which_box_is_writing].wrong_number = true;
+				if_wrong = true;
 			}
 		}
 
@@ -513,6 +522,8 @@ void menu_sfml_objects::render(int current_step, int current_window)
 
 		for (int i = 0; i < which_box_is_writing; i++) {
 			this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y + 90, std::to_string(vector_displaying_articles[i].serial_number), 20);
+			if(sequence[i].wrong_number)
+				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 90, "Zly numer", 20);
 		}
 		this->if_clear = false;
 	}
