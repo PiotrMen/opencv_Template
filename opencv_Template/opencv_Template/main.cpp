@@ -26,6 +26,7 @@ int main()
 
 	load_csv_database(articles_in_boxes, left_articles);
 	save_csv_database(articles_in_boxes, left_articles);
+	load_csv_sequence(sequence, "Przykladowa sekwencja");
 
 	int current_step = 0;	// step of current article
 	int current_window = 0;

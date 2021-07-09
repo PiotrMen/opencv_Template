@@ -357,6 +357,9 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 	//serial numbers on rectangles
 	if (current_menu_window == 2){
 
+		if (sequence.size() <= which_box_is_writing) {
+			which_box_is_writing--;
+		}
 		this->enable_writing = true;
 		bool if_wrong = true;
 
@@ -372,7 +375,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		//checking if numbers detected
 		if (searching_text.size() > 0 && searching_text.size() <= 7) {
 			if (searching_text[searching_text.length()-1] >= '0' && searching_text[searching_text.length()-1] <= '9')
-				vector_displaying_articles[which_box_is_writing].serial_number = stoi(searching_text);
+			vector_displaying_articles[which_box_is_writing].serial_number = stoi(searching_text);
 			else
 				searching_text.pop_back();
 		}
@@ -381,13 +384,17 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 
 		//checking repeated conectors
 		for (int i = 0; i < which_box_is_writing; i++) {
+			vector_displaying_articles[which_box_is_writing].serial_number;
 			if (vector_displaying_articles[i].serial_number == vector_displaying_articles[which_box_is_writing].serial_number) {
 				vector_displaying_articles[which_box_is_writing].serial_number = 1;
 				vector_displaying_articles[which_box_is_writing].matched_rectangle = which_box_is_writing;
 				sequence[which_box_is_writing].repeated_number = true;
 				sequence[which_box_is_writing].wrong_number = false;
+				if_wrong = false;
+				vector_rectangles[which_box_is_writing].setFillColor(sf::Color::Red);
 			}
 		}
+
 		//checking good conectors
 		for (int i = 0; i < sequence.size(); i++) {
 			if ((vector_displaying_articles[which_box_is_writing].serial_number == sequence[i].serial_number)) {
@@ -398,9 +405,10 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 				if_wrong = false;
 			}
 			//checking wrong conectors
-			if (searching_text.size() >= 7 && i == sequence.size()-1 && (vector_displaying_articles[which_box_is_writing].serial_number != sequence[i].serial_number) && if_wrong && sequence[which_box_is_writing].repeated_number == false) {
+			if (searching_text.size() >= 7 && i == sequence.size()-1 && (vector_displaying_articles[which_box_is_writing].serial_number != sequence[i].serial_number) && if_wrong) {
 				sequence[which_box_is_writing].wrong_number = true;
 				sequence[which_box_is_writing].repeated_number = false;
+				vector_rectangles[which_box_is_writing].setFillColor(sf::Color::Red);
 				if_wrong = true;
 			}
 		}
