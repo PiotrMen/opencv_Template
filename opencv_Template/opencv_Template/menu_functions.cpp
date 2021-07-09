@@ -353,11 +353,13 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 			}
 		}
 	}
-
+	
 	//serial numbers on rectangles
 	if (current_menu_window == 2){
+
 		this->enable_writing = true;
 		bool if_wrong = true;
+
 		if (previous_string.size() < searching_text.size()) {
 			if_clear = true;
 			if_display = true;
@@ -376,15 +378,29 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		}
 
 		//checking corretness conectors
+
+		//checking repeated conectors
+		for (int i = 0; i < which_box_is_writing; i++) {
+			if (vector_displaying_articles[i].serial_number == vector_displaying_articles[which_box_is_writing].serial_number) {
+				vector_displaying_articles[which_box_is_writing].serial_number = 1;
+				vector_displaying_articles[which_box_is_writing].matched_rectangle = which_box_is_writing;
+				sequence[which_box_is_writing].repeated_number = true;
+				sequence[which_box_is_writing].wrong_number = false;
+			}
+		}
+		//checking good conectors
 		for (int i = 0; i < sequence.size(); i++) {
 			if ((vector_displaying_articles[which_box_is_writing].serial_number == sequence[i].serial_number)) {
 				vector_rectangles[which_box_is_writing].setFillColor(sf::Color::Green);
 				sequence[i].matched_rectangle = which_box_is_writing;
 				sequence[which_box_is_writing].wrong_number = false;
+				sequence[which_box_is_writing].repeated_number = false;
 				if_wrong = false;
 			}
-			if (searching_text.size() >= 7 && i == sequence.size()-1 && (vector_displaying_articles[which_box_is_writing].serial_number != sequence[i].serial_number) && if_wrong) {
+			//checking wrong conectors
+			if (searching_text.size() >= 7 && i == sequence.size()-1 && (vector_displaying_articles[which_box_is_writing].serial_number != sequence[i].serial_number) && if_wrong && sequence[which_box_is_writing].repeated_number == false) {
 				sequence[which_box_is_writing].wrong_number = true;
+				sequence[which_box_is_writing].repeated_number = false;
 				if_wrong = true;
 			}
 		}
@@ -521,9 +537,13 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		this->display_text(vector_rectangles[which_box_is_writing].getPosition().x, vector_rectangles[which_box_is_writing].getPosition().y + 90, searching_text, 20);
 
 		for (int i = 0; i < which_box_is_writing; i++) {
-			this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y + 90, std::to_string(vector_displaying_articles[i].serial_number), 20);
+			if(!sequence[i].repeated_number)
+				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y + 90, std::to_string(vector_displaying_articles[i].serial_number), 20);
 			if(sequence[i].wrong_number)
 				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 90, "Zly numer", 20);
+
+			if(sequence[i].repeated_number)
+				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 90, "Powtorzony numer", 20);
 		}
 		this->if_clear = false;
 	}
