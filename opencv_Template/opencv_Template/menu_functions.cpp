@@ -285,7 +285,6 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		for (int i = 0; i < 20; i++) {
 			if (unieversal_detecting_collision_with_buttons(this->vector_rectangles[i].getPosition().x, this->vector_rectangles[i].getPosition().y, this->vector_rectangles[i].getGlobalBounds().width, this->vector_rectangles[i].getGlobalBounds().height, 1, this->menu_window) && falling_edge_saved) {
 				this->which_box_chosen = i;
-				this->if_clear = true;
 			}
 		}
 	}
@@ -369,6 +368,14 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		if(searching_text.size()>0 && searching_text.size() <= 7)
 			vector_displaying_articles[which_box_is_writing].serial_number = stoi(searching_text);
 
+		//checking corretness conectors
+		for (int i = 0; i < sequence.size(); i++) {
+			if ((vector_displaying_articles[which_box_is_writing].serial_number == sequence[i].serial_number)) {
+				vector_rectangles[which_box_is_writing].setFillColor(sf::Color::Green);
+				sequence[i].matched_rectangle = which_box_is_writing;
+			}
+		}
+
 		if (searching_text.size() >= 7 && vector_displaying_articles.size() < 20) {
 			vector_displaying_articles.push_back(this->empty);
 			which_box_is_writing++;
@@ -376,6 +383,10 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 			previous_string.clear();
 		}
 	}
+
+	//for (int i = 0; i < sequence.size(); i++) {
+	//	std::cout << sequence[i].serial_number << "  " << sequence[i].name << "  " << sequence[i].matched_rectangle << std::endl;
+	//}
 
 }
 
@@ -420,7 +431,7 @@ void menu_sfml_objects::render(int current_step, int current_window)
 
 		//Texts
 		this->display_text(this->Upload_file_button_x, this->Upload_file_button_y - 10, "Zaladuj plik .csv", 80);
-		this->display_text(this->match_boxes_button_x, this->match_boxes_button_y - 10, "Dopasuj pudelka", 80);
+		this->display_text(this->match_boxes_button_x, this->match_boxes_button_y - 10, "Montaz zlaczek", 80);
 		this->display_text(this->Connectors_options_button_x, this->Connectors_options_button_y - 10, "Ustawienia zlaczek", 80);
 		this->display_text(this->menu_window_width / 2, 130, "Menu", 200);
 
@@ -498,10 +509,10 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		}
 
 		//displaying texts on rectangle
-		this->display_text(vector_rectangles[which_box_is_writing].getPosition().x, vector_rectangles[which_box_is_writing].getPosition().y + 90, searching_text, 15);
+		this->display_text(vector_rectangles[which_box_is_writing].getPosition().x, vector_rectangles[which_box_is_writing].getPosition().y + 90, searching_text, 20);
 
 		for (int i = 0; i < which_box_is_writing; i++) {
-			this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y + 90, std::to_string(vector_displaying_articles[i].serial_number), 15);
+			this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y + 90, std::to_string(vector_displaying_articles[i].serial_number), 20);
 		}
 		this->if_clear = false;
 	}

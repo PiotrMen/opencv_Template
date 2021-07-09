@@ -18,6 +18,8 @@ struct sData
 	int quantity;
 	float width;
 	float height;
+
+	int matched_rectangle;
 };
 
 void load_csv_database(std::vector <sData> &articles_in_boxes, std::vector <sData> &left_articles);
