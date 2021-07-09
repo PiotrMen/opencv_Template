@@ -30,8 +30,6 @@ int main()
 	int current_step = 0;	// step of current article
 	int current_window = 0;
 
-	// wyświetlanie pomocnicze (do usunięcia)
-
 	while (objects.getWindowIsOpen() && menu_objects.getWindowIsOpen()) 
 	{
 		//Menu update

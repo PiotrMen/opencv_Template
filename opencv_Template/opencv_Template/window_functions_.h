@@ -38,8 +38,12 @@ public:
 	int window_height;
 
 	// Step in sequence
-	bool sequence_activated = true; // Sequence is activated by menu_functions
+	bool sequence_activated = false; // Sequence is activated by menu_functions
 	int step_of_sequence = 0;		// 0 - sequence is not active / 1 - lighting rectangle / 2 - installing article
+	int actual_length = 0;			// Program displays rectangle in 2nd step based on this value
+	
+	//bool back_to_menu;				// true if red button is activated. Program awaits confirmation of reset
+
 
 	std::vector <sf::RectangleShape> lighting_rectangles;
 	bool tmp = true; // do usuniecia

@@ -1,0 +1,3 @@
+Zaladuj plik .csv:
+Jest to pierwszy krok jaki nalezy wykonac przed rozpoczeciem trasowania badz montazu zlaczek. Nazwe pliku
+nalezy podac bez rozszerzenia (np. Przykladowa_nazwa"). 
