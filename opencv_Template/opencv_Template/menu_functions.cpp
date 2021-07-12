@@ -411,13 +411,9 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 	if (current_menu_window == 2){
 		bool if_wrong = true;
 
-		if (searching_text.size() >= 7 && vector_displaying_articles.size() <= 20 && which_box_chosen == which_box_is_writing) {
-			//change_number = true;
-		}
-
 		//detecting rectangles click
 		for (int i = 0; i < which_box_is_writing; i++) {
-			if (unieversal_detecting_collision_with_buttons(this->vector_rectangles[i].getPosition().x, this->vector_rectangles[i].getPosition().y, this->vector_rectangles[i].getGlobalBounds().width, this->vector_rectangles[i].getGlobalBounds().height, 1, this->menu_window) && falling_edge_saved) {
+			if (unieversal_detecting_collision_with_buttons(this->vector_rectangles[i].getPosition().x, this->vector_rectangles[i].getPosition().y, this->vector_rectangles[i].getGlobalBounds().width, this->vector_rectangles[i].getGlobalBounds().height, 1, this->menu_window) && falling_edge_saved && !change_number) {
 				this->which_box_chosen = i;
 				this->which_box_is_writing = this->which_box_chosen;
 				change_number = true;
@@ -502,6 +498,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 			}
 		}
 
+		//Moving iterator to the end of vector
 		if (!change_number && which_box_chosen == which_box_is_writing && vector_displaying_articles.size()>1) {
 			vector_displaying_articles.erase(vector_displaying_articles.end() - 1);
 			which_box_is_writing = vector_displaying_articles.size() - 1;

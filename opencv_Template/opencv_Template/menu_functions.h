@@ -138,6 +138,13 @@ private:
 	
 	bool help_window_opened;
 
+	// vector of unique connectors from list
+	std::vector <sData> connectors_list;
+
+	//Name of csv sequence
+	std::string sequence_name;
+
+
 	//one time display if match boxes section
 	bool if_clear=true;
 	bool if_display = true;
