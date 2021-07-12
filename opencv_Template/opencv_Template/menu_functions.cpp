@@ -299,7 +299,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		this->current_menu_window = 1;
 	}
 	//Moving to match boxes section
-	if (falling_edge_saved && detecting_Match_boxes_button() && this->current_menu_window == 0) {
+	if (falling_edge_saved && detecting_Match_boxes_button() && this->current_menu_window == 0 && sequence.size() != 0) {
 		this->current_menu_window = 2;
 	}
 
