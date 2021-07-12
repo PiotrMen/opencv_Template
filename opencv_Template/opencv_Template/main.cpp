@@ -26,7 +26,7 @@ int main()
 
 	load_csv_database(articles_in_boxes, left_articles);
 	save_csv_database(articles_in_boxes, left_articles);
-	load_csv_sequence(sequence, "Przykladowa sekwencja");
+	//load_csv_sequence(sequence, "Przykladowa sekwencja");
 
 	int current_step = 0;	// step of current article
 	int current_window = 0;
@@ -35,6 +35,8 @@ int main()
 	{
 		//Menu update
 		menu_objects.update(current_step, current_window);
+
+		objects.sequence_activated = menu_objects.start_sequention;
 		//Update
 		objects.update(current_step, current_window);
 

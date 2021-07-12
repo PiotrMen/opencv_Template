@@ -419,6 +419,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 	//serial numbers on rectangles
 	if (current_menu_window == 2){
 
+		this->start_sequention = false;
 		this->enable_writing = true;
 		bool if_wrong = true;
 
