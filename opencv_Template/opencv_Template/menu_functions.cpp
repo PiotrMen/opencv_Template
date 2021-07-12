@@ -476,7 +476,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		}
 
 		//chcecking if 7 characters
-		if (searching_text.size() >= 7 && vector_displaying_articles.size() < 20) {
+		if (searching_text.size() >= 7 && vector_displaying_articles.size() <= 20) {
 			vector_displaying_articles.push_back(this->empty);
 			which_box_is_writing++;
 			searching_text.clear();
@@ -499,7 +499,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		}
 
 		//deleting last empty connetor
-		if (sequence.size() <= which_box_is_writing) {
+		if (sequence.size() <= which_box_is_writing || vector_displaying_articles.size() > 20) {
 			vector_displaying_articles.erase(vector_displaying_articles.end() - 1);
 			which_box_is_writing--;
 			if_clear = true;
