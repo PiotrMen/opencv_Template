@@ -142,6 +142,8 @@ private:
 	bool if_clear=true;
 	bool if_display = true;
 
+	bool change_number = false;
+
 	sData empty;
 	int which_box_is_writing = 0;
 	std::string previous_string;

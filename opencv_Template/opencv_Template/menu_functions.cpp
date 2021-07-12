@@ -280,20 +280,6 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 	rising_edge_saved = detecting_rising_edge_left_mouse_button();
 	falling_edge_saved = detecting_falling_edge_left_mouse_button();
 
-	//detecting rectangles click
-	if (current_menu_window == 2) {
-		for (int i = 0; i < 20; i++) {
-			if (unieversal_detecting_collision_with_buttons(this->vector_rectangles[i].getPosition().x, this->vector_rectangles[i].getPosition().y, this->vector_rectangles[i].getGlobalBounds().width, this->vector_rectangles[i].getGlobalBounds().height, 1, this->menu_window) && falling_edge_saved) {
-				this->which_box_chosen = i;
-			}
-		}
-	}
-
-	//Moving to Upload file .csv section
-	/*if (falling_edge_saved && detecting_Upload_file_button() && this->current_menu_window == 0) {
-		//current_window = 1;
-		this->current_menu_window = 1;
-	}*/
 	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->load_csv_button_x, this->load_csv_button_y, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window) && this->current_menu_window == 0) {
 		//current_window = 1;
 		this->current_menu_window = 1;
@@ -418,10 +404,29 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 	
 	//serial numbers on rectangles
 	if (current_menu_window == 2){
+		bool if_wrong = true;
+
+		if (searching_text.size() >= 7 && vector_displaying_articles.size() <= 20 && which_box_chosen == which_box_is_writing) {
+			//change_number = true;
+		}
+
+		//detecting rectangles click
+		for (int i = 0; i < which_box_is_writing; i++) {
+			if (unieversal_detecting_collision_with_buttons(this->vector_rectangles[i].getPosition().x, this->vector_rectangles[i].getPosition().y, this->vector_rectangles[i].getGlobalBounds().width, this->vector_rectangles[i].getGlobalBounds().height, 1, this->menu_window) && falling_edge_saved) {
+				this->which_box_chosen = i;
+				this->which_box_is_writing = this->which_box_chosen;
+				change_number = true;
+				vector_displaying_articles[which_box_is_writing].serial_number = 0;
+				vector_rectangles[which_box_is_writing].setFillColor(sf::Color::Red);
+				sequence[which_box_is_writing].repeated_number = false;
+				sequence[which_box_is_writing].wrong_number = false;
+				if_clear = true;
+				if_display = true;
+			}
+		}
 
 		this->start_sequention = false;
 		this->enable_writing = true;
-		bool if_wrong = true;
 
 		if (previous_string.size() < searching_text.size()) {
 			if_clear = true;
@@ -435,7 +440,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		//checking if numbers detected
 		if (searching_text.size() > 0 && searching_text.size() <= 7) {
 			if (searching_text[searching_text.length()-1] >= '0' && searching_text[searching_text.length()-1] <= '9')
-			vector_displaying_articles[which_box_is_writing].serial_number = stoi(searching_text);
+				vector_displaying_articles[which_box_is_writing].serial_number = stoi(searching_text);
 			else
 				searching_text.pop_back();
 		}
@@ -453,6 +458,21 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 				if_wrong = false;
 				vector_rectangles[which_box_is_writing].setFillColor(sf::Color::Red);
 				this->display_start_sequention = false;
+				change_number = false;
+			}
+		}
+
+		for (int i = which_box_is_writing+1; i < vector_displaying_articles.size()-1; i++) {
+			vector_displaying_articles[which_box_is_writing].serial_number;
+			if (vector_displaying_articles[i].serial_number == vector_displaying_articles[which_box_is_writing].serial_number) {
+				vector_displaying_articles[which_box_is_writing].serial_number = 1;
+				vector_displaying_articles[which_box_is_writing].matched_rectangle = which_box_is_writing;
+				sequence[which_box_is_writing].repeated_number = true;
+				sequence[which_box_is_writing].wrong_number = false;
+				if_wrong = false;
+				vector_rectangles[which_box_is_writing].setFillColor(sf::Color::Red);
+				this->display_start_sequention = false;
+				change_number = false;
 			}
 		}
 
@@ -464,6 +484,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 				sequence[which_box_is_writing].wrong_number = false;
 				sequence[which_box_is_writing].repeated_number = false;
 				if_wrong = false;
+				change_number = false;
 			}
 			//checking wrong conectors
 			if (searching_text.size() >= 7 && i == sequence.size()-1 && (vector_displaying_articles[which_box_is_writing].serial_number != sequence[i].serial_number) && if_wrong) {
@@ -472,11 +493,19 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 				vector_rectangles[which_box_is_writing].setFillColor(sf::Color::Red);
 				if_wrong = true;
 				this->display_start_sequention = false;
+				change_number = false;
 			}
 		}
 
+		if (!change_number && which_box_chosen == which_box_is_writing && vector_displaying_articles.size()>1) {
+			vector_displaying_articles.erase(vector_displaying_articles.end() - 1);
+			which_box_is_writing = vector_displaying_articles.size() - 1;
+			if_clear = true;
+			if_display = true;
+		}
+
 		//chcecking if 7 characters
-		if (searching_text.size() >= 7 && vector_displaying_articles.size() <= 20) {
+		if (searching_text.size() >= 7 && vector_displaying_articles.size() <= 20 && !change_number) {
 			vector_displaying_articles.push_back(this->empty);
 			which_box_is_writing++;
 			searching_text.clear();
@@ -515,7 +544,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		//start sequention if button pushed
 		if (falling_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window) && this->display_start_sequention) 
 			this->start_sequention = true;
-		
+
 	}
 }
 
@@ -669,7 +698,7 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		//displaying texts on rectangle
 		this->display_text(vector_rectangles[which_box_is_writing].getPosition().x, vector_rectangles[which_box_is_writing].getPosition().y + 90, searching_text, 20);
 
-		for (int i = 0; i < which_box_is_writing+1; i++) {
+		for (int i = 0; i < vector_displaying_articles.size(); i++) {
 			if(!sequence[i].repeated_number && vector_displaying_articles[i].serial_number != 0)
 				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y + 90, std::to_string(vector_displaying_articles[i].serial_number), 20);
 			if(sequence[i].wrong_number)
