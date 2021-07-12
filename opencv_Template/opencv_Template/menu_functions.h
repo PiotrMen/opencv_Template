@@ -29,8 +29,8 @@ public:
 	//article select button
 
 	//coordinates 
-	int Upload_file_button_x;
-	int Upload_file_button_y;
+	int load_csv_button_x;
+	int load_csv_button_y;
 
 	//length of sides in pixels
 	int Upload_file_length_button_x;
@@ -39,14 +39,14 @@ public:
 	//add articles button
 
 	//coordinates 
-	int match_boxes_button_x;
-	int match_boxes_button_y;
+	int installation_of_connectors_button_x;
+	int installation_of_connectors_button_y;
 
 	//delete article button
 
 	//coordinates 
-	int Connectors_options_button_x;
-	int Connectors_options_button_y;
+	int Tracing_button_x;
+	int Tracing_button_y;
 
 	//start sequention
 	bool start_sequention;

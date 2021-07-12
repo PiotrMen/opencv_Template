@@ -49,16 +49,16 @@ void menu_sfml_objects::init_buttons_coords(){
 	this->Upload_file_length_button_y = 120;
 
 	//coordinates for Upload file button
-	this->Upload_file_button_x = this->menu_window_width / 2;
-	this->Upload_file_button_y = 400;
+	this->load_csv_button_x = this->menu_window_width / 2;
+	this->load_csv_button_y = 400;
 
 	//coordinates for match boxes button
-	this->match_boxes_button_x = this->menu_window_width / 2;
-	this->match_boxes_button_y = Upload_file_button_y + 200;
+	this->installation_of_connectors_button_x = this->menu_window_width / 2;
+	this->installation_of_connectors_button_y = load_csv_button_y + 200;
 
 	//coordinates for connectors options button
-	this->Connectors_options_button_x = this->menu_window_width / 2;
-	this->Connectors_options_button_y = match_boxes_button_y + 200;
+	this->Tracing_button_x = this->menu_window_width / 2;
+	this->Tracing_button_y = installation_of_connectors_button_y + 200;
 }
 
 void menu_sfml_objects::init_button_size(float percentege_size, float menu_button_percentege_size)
@@ -125,7 +125,7 @@ bool menu_sfml_objects::detecting_blue_button()
 
 bool menu_sfml_objects::detecting_Upload_file_button()
 {
-	if (((sf::Mouse::getPosition(*this->menu_window).x >= this->Upload_file_button_x - ((this->Upload_file_length_button_x * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).x <= this->Upload_file_button_x + ((this->Upload_file_length_button_x * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y >= this->Upload_file_button_y - ((this->Upload_file_length_button_y * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y <= this->Upload_file_button_y + ((this->Upload_file_length_button_y * this->menu_button_size) / 2))))
+	if (((sf::Mouse::getPosition(*this->menu_window).x >= this->load_csv_button_x - ((this->Upload_file_length_button_x * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).x <= this->load_csv_button_x + ((this->Upload_file_length_button_x * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y >= this->load_csv_button_y - ((this->Upload_file_length_button_y * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y <= this->load_csv_button_y + ((this->Upload_file_length_button_y * this->menu_button_size) / 2))))
 	{
 		return true;
 	}
@@ -134,7 +134,7 @@ bool menu_sfml_objects::detecting_Upload_file_button()
 
 bool menu_sfml_objects::detecting_Match_boxes_button()
 {
-	if (((sf::Mouse::getPosition(*this->menu_window).x >= this->match_boxes_button_x - ((this->Upload_file_length_button_x * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).x <= this->match_boxes_button_x + ((this->Upload_file_length_button_x * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y >= this->match_boxes_button_y - ((this->Upload_file_length_button_y * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y <= this->match_boxes_button_y + ((this->Upload_file_length_button_y * this->menu_button_size) / 2))))
+	if (((sf::Mouse::getPosition(*this->menu_window).x >= this->installation_of_connectors_button_x - ((this->Upload_file_length_button_x * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).x <= this->installation_of_connectors_button_x + ((this->Upload_file_length_button_x * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y >= this->installation_of_connectors_button_y - ((this->Upload_file_length_button_y * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y <= this->installation_of_connectors_button_y + ((this->Upload_file_length_button_y * this->menu_button_size) / 2))))
 	{
 		return true;
 	}
@@ -143,7 +143,7 @@ bool menu_sfml_objects::detecting_Match_boxes_button()
 
 bool menu_sfml_objects::detecting_Connectors_options_button()
 {
-	if (((sf::Mouse::getPosition(*this->menu_window).x >= this->Connectors_options_button_x - ((this->Upload_file_length_button_x * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).x <= this->Connectors_options_button_x + ((this->Upload_file_length_button_x * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y >= this->Connectors_options_button_y - ((this->Upload_file_length_button_y * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y <= this->Connectors_options_button_y + ((this->Upload_file_length_button_y * this->menu_button_size) / 2))))
+	if (((sf::Mouse::getPosition(*this->menu_window).x >= this->Tracing_button_x - ((this->Upload_file_length_button_x * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).x <= this->Tracing_button_x + ((this->Upload_file_length_button_x * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y >= this->Tracing_button_y - ((this->Upload_file_length_button_y * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y <= this->Tracing_button_y + ((this->Upload_file_length_button_y * this->menu_button_size) / 2))))
 	{
 		return true;
 	}
@@ -294,12 +294,12 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		//current_window = 1;
 		this->current_menu_window = 1;
 	}*/
-	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->Upload_file_button_x, this->Upload_file_button_y, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window) && this->current_menu_window == 0) {
+	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->load_csv_button_x, this->load_csv_button_y, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window) && this->current_menu_window == 0) {
 		//current_window = 1;
 		this->current_menu_window = 1;
 	}
 	//Moving to match boxes section
-	if (falling_edge_saved && detecting_Match_boxes_button() && this->current_menu_window == 0) {
+	if (falling_edge_saved && detecting_Match_boxes_button() && this->current_menu_window == 0 && sequence.size() != 0) {
 		this->current_menu_window = 2;
 	}
 
@@ -498,16 +498,21 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 			}
 		}
 
+		//deleting last empty connetor
 		if (sequence.size() <= which_box_is_writing) {
 			vector_displaying_articles.erase(vector_displaying_articles.end() - 1);
 			which_box_is_writing--;
 			if_clear = true;
 			if_display = true;
 		}
+
+		//start window clear if mouse is on start sequention button
 		if (unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window) && this->display_start_sequention) {
 			if_clear = true;
 			if_display = true;
 		}
+
+		//start sequention if button pushed
 		if (falling_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window) && this->display_start_sequention) 
 			this->start_sequention = true;
 		
@@ -534,21 +539,21 @@ void menu_sfml_objects::render(int current_step, int current_window)
 	if (this->current_menu_window == 0) {
 		//Displaying Upload file graphics
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && detecting_Upload_file_button())
-			this->display_texture(this->Upload_file_button_x, this->Upload_file_button_y, "grey_pushed.png", this->menu_button_size, 0);
+			this->display_texture(this->load_csv_button_x, this->load_csv_button_y, "grey_pushed.png", this->menu_button_size, 0);
 		else
-			this->display_texture(this->Upload_file_button_x, this->Upload_file_button_y, "grey_button.png", this->menu_button_size, 0);
+			this->display_texture(this->load_csv_button_x, this->load_csv_button_y, "grey_button.png", this->menu_button_size, 0);
 
 		//Displaying edit button graphics
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && detecting_Match_boxes_button())
-			this->display_texture(this->match_boxes_button_x, this->match_boxes_button_y, "grey_pushed.png", this->menu_button_size, 0);
+			this->display_texture(this->installation_of_connectors_button_x, this->installation_of_connectors_button_y, "grey_pushed.png", this->menu_button_size, 0);
 		else
-			this->display_texture(this->match_boxes_button_x, this->match_boxes_button_y, "grey_button.png", this->menu_button_size, 0);
+			this->display_texture(this->installation_of_connectors_button_x, this->installation_of_connectors_button_y, "grey_button.png", this->menu_button_size, 0);
 
 		//Displaying delete button graphics
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && detecting_Connectors_options_button())
-			this->display_texture(this->Connectors_options_button_x, this->Connectors_options_button_y, "grey_pushed.png", this->menu_button_size, 0);
+			this->display_texture(this->Tracing_button_x, this->Tracing_button_y, "grey_pushed.png", this->menu_button_size, 0);
 		else
-			this->display_texture(this->Connectors_options_button_x, this->Connectors_options_button_y, "grey_button.png", this->menu_button_size, 0);
+			this->display_texture(this->Tracing_button_x, this->Tracing_button_y, "grey_button.png", this->menu_button_size, 0);
 
 		//Displaying blue button
 		this->display_texture(200, this->blue_button_y, "blue_circle.png", this->button_size, 0);
@@ -559,20 +564,20 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		this->display_text(this->Start_button_x, this->Start_button_y + 75, "Start", 30);
 
 		//Texts
-		this->display_text(this->Upload_file_button_x, this->Upload_file_button_y - 10, "Zaladuj plik .csv", 80);
-		this->display_text(this->match_boxes_button_x, this->match_boxes_button_y - 10, "Montaz zlaczek", 80);
-		this->display_text(this->Connectors_options_button_x, this->Connectors_options_button_y - 10, "Ustawienia zlaczek", 80);
+		this->display_text(this->load_csv_button_x, this->load_csv_button_y - 10, "Zaladuj plik .csv", 80);
+		this->display_text(this->installation_of_connectors_button_x, this->installation_of_connectors_button_y - 10, "Montaz zlaczek", 80);
+		this->display_text(this->Tracing_button_x, this->Tracing_button_y - 10, "Ustawienia zlaczek", 80);
 		this->display_text(this->menu_window_width / 2, 130, "Menu", 200);
 
 		//UnderLines
 		if (detecting_Upload_file_button())
-			this->display_texture(this->Upload_file_button_x, this->Upload_file_button_y + 85, "UnderLine.png", this->menu_button_size - 0.2, 0);
+			this->display_texture(this->load_csv_button_x, this->load_csv_button_y + 85, "UnderLine.png", this->menu_button_size - 0.2, 0);
 
 		if (detecting_Match_boxes_button())
-			this->display_texture(this->match_boxes_button_x, this->match_boxes_button_y + 85, "UnderLine.png", this->menu_button_size - 0.2, 0);
+			this->display_texture(this->installation_of_connectors_button_x, this->installation_of_connectors_button_y + 85, "UnderLine.png", this->menu_button_size - 0.2, 0);
 
 		if (detecting_Connectors_options_button())
-			this->display_texture(this->Connectors_options_button_x, this->Connectors_options_button_y + 85, "UnderLine.png", this->menu_button_size - 0.2, 0);
+			this->display_texture(this->Tracing_button_x, this->Tracing_button_y + 85, "UnderLine.png", this->menu_button_size - 0.2, 0);
 
 	}
 
