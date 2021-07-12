@@ -128,6 +128,26 @@ void load_csv_sequence(std::vector <sData> &sequence, std::string file_name)
 	file.close();
 }
 
+void generate_connectors_list(const std::vector <sData> &sequence, std::vector <sData> &connectors_list)
+{
+	bool repeated = false;
+	for (int i = 0; i < sequence.size(); i++)
+	{
+		for (int k = 0; k < connectors_list.size(); k++)
+		{
+			if (sequence[i].serial_number == connectors_list[k].serial_number)
+			{
+				repeated = true;
+			}
+		}
+		if (repeated == false)
+		{
+			connectors_list.push_back(sequence[i]);
+		}
+		repeated = false;
+	}
+}
+
 std::string load_txt_help(std::string filename)
 {
 	std::ifstream file;

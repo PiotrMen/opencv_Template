@@ -26,7 +26,13 @@ int main()
 
 	load_csv_database(articles_in_boxes, left_articles);
 	save_csv_database(articles_in_boxes, left_articles);
+
+	// TEST
+	//std::vector <sData> connectors_list;
 	//load_csv_sequence(sequence, "Przykladowa sekwencja");
+	//generate_connectors_list(sequence, connectors_list);
+
+	//
 
 	int current_step = 0;	// step of current article
 	int current_window = 0;
