@@ -20,8 +20,8 @@ struct sData
 	float height;
 
 	int matched_rectangle;
-	bool wrong_number;
-	bool repeated_number;
+	bool wrong_number = false;
+	bool repeated_number = false;
 };
 
 void load_csv_database(std::vector <sData> &articles_in_boxes, std::vector <sData> &left_articles);

@@ -48,6 +48,9 @@ public:
 	int Connectors_options_button_x;
 	int Connectors_options_button_y;
 
+	//start sequention
+	bool start_sequention;
+
 	float button_size; //scaled button size (percentage)
 	float menu_button_size;
 
@@ -121,6 +124,9 @@ private:
 	int backward_button_y;
 
 	float backward_scale;
+
+	//if display start sequention button
+	bool display_start_sequention;
 
 	bool rising_edge = false;
 	bool rising_edge_detected = false;

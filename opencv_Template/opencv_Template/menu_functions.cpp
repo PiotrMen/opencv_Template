@@ -357,9 +357,6 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 	//serial numbers on rectangles
 	if (current_menu_window == 2){
 
-		if (sequence.size() <= which_box_is_writing) {
-			which_box_is_writing--;
-		}
 		this->enable_writing = true;
 		bool if_wrong = true;
 
@@ -392,6 +389,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 				sequence[which_box_is_writing].wrong_number = false;
 				if_wrong = false;
 				vector_rectangles[which_box_is_writing].setFillColor(sf::Color::Red);
+				this->display_start_sequention = false;
 			}
 		}
 
@@ -410,6 +408,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 				sequence[which_box_is_writing].repeated_number = false;
 				vector_rectangles[which_box_is_writing].setFillColor(sf::Color::Red);
 				if_wrong = true;
+				this->display_start_sequention = false;
 			}
 		}
 
@@ -420,6 +419,35 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 			searching_text.clear();
 			previous_string.clear();
 		}
+
+		//checking if every connectors are good
+		if ((vector_displaying_articles.size()) >= sequence.size()) {
+			for (int i = 0; i < sequence.size(); i++) {
+				if (vector_rectangles[i].getFillColor() == (sf::Color::Green)) {
+					i++;
+				}
+				else
+					break;
+				if (sequence.size() <= i) {
+					this->display_start_sequention = true;
+				}
+				i--;
+			}
+		}
+
+		if (sequence.size() <= which_box_is_writing) {
+			vector_displaying_articles.erase(vector_displaying_articles.end() - 1);
+			which_box_is_writing--;
+			if_clear = true;
+			if_display = true;
+		}
+		if (unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window) && this->display_start_sequention) {
+			if_clear = true;
+			if_display = true;
+		}
+		if (falling_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window) && this->display_start_sequention) 
+			this->start_sequention = true;
+		
 	}
 }
 
@@ -544,14 +572,28 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		//displaying texts on rectangle
 		this->display_text(vector_rectangles[which_box_is_writing].getPosition().x, vector_rectangles[which_box_is_writing].getPosition().y + 90, searching_text, 20);
 
-		for (int i = 0; i < which_box_is_writing; i++) {
-			if(!sequence[i].repeated_number)
+		for (int i = 0; i < which_box_is_writing+1; i++) {
+			if(!sequence[i].repeated_number && vector_displaying_articles[i].serial_number != 0)
 				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y + 90, std::to_string(vector_displaying_articles[i].serial_number), 20);
 			if(sequence[i].wrong_number)
 				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 90, "Zly numer", 20);
 
 			if(sequence[i].repeated_number)
 				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 90, "Powtorzony numer", 20);
+		}
+
+		//displaying start sequention button
+		if (this->display_start_sequention) {
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window) && this->display_start_sequention) {
+				this->display_texture(960, 950, "grey_pushed.png", this->menu_button_size, 0);
+				this->display_text(960, 935, "Start sekwencji", 100);
+			}
+			else {
+				this->display_texture(960, 950, "grey_button.png", this->menu_button_size, 0);
+				this->display_text(960, 935, "Start sekwencji", 100);
+			}
+			if(unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window))
+				this->display_texture(960, 950 + 85, "UnderLine.png", this->menu_button_size - 0.2, 0);
 		}
 		this->if_clear = false;
 	}
