@@ -86,7 +86,7 @@ void save_csv_database(const std::vector <sData> &articles_in_boxes, const std::
 	file.close();
 }
 
-void load_csv_sequence(std::vector <sData> &sequence, std::string file_name)
+void load_csv_sequence(std::vector <sData> &sequence, std::string file_name, std::vector <sData> &connectors_list)
 {
 	std::ifstream file;
 	file.open("resources/" + file_name + ".csv");
@@ -126,6 +126,18 @@ void load_csv_sequence(std::vector <sData> &sequence, std::string file_name)
 		}
 	}
 	file.close();
+
+	// Generating unique connectors list
+
+	generate_connectors_list(sequence, connectors_list);
+
+	// Checking if sequence can be performed
+
+	if (connectors_list.size() > 20) // Sequence can not be performed
+	{
+		connectors_list.clear();
+		sequence.clear();
+	}
 }
 
 void generate_connectors_list(const std::vector <sData> &sequence, std::vector <sData> &connectors_list)
