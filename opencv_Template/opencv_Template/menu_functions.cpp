@@ -239,7 +239,8 @@ void menu_sfml_objects::pollEvents(int &current_step, int &current_window)
 			{
 				this->current_menu_window = 0;
 				// Execute loading
-				load_csv_sequence(sequence, searching_text);
+				load_csv_sequence(sequence, searching_text, connectors_list);
+				sequence_name = searching_text;
 				searching_text.clear();
 			}
 			// Handling Enter if input is not in place
@@ -279,6 +280,8 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 	this->pollEvents(current_step, current_window);
 	rising_edge_saved = detecting_rising_edge_left_mouse_button();
 	falling_edge_saved = detecting_falling_edge_left_mouse_button();
+	if (sequence.size() == 0)
+		sequence_name.clear();
 
 	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->load_csv_button_x, this->load_csv_button_y, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window) && this->current_menu_window == 0) {
 		//current_window = 1;
@@ -366,8 +369,10 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 	//Confirming loading and moving to menu window
 	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(990, 800, 707, 120, 1, this->menu_window) && this->current_menu_window == 1 && searching_text.size() > 0) {
 		this->current_menu_window = 0;
+
 		// Execute loading
-		load_csv_sequence(sequence, searching_text);
+		load_csv_sequence(sequence, searching_text, connectors_list);
+		sequence_name = searching_text;
 		searching_text.clear();
 	}
 
@@ -597,6 +602,17 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		this->display_text(this->installation_of_connectors_button_x, this->installation_of_connectors_button_y - 10, "Montaz zlaczek", 80);
 		this->display_text(this->Tracing_button_x, this->Tracing_button_y - 10, "Ustawienia zlaczek", 80);
 		this->display_text(this->menu_window_width / 2, 130, "Menu", 200);
+
+		// Current sequence name
+		this->display_text(225, 30, "Zaladowana sekwencja:", 34);
+		if (sequence.size() == 0)
+		{
+			this->display_text(225, 80, "Brak", 34);
+		}
+		else
+		{
+			this->display_text(225, 80, sequence_name, 34);
+		}
 
 		//UnderLines
 		if (detecting_Upload_file_button())

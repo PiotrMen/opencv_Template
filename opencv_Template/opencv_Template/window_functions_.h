@@ -46,7 +46,6 @@ public:
 
 
 	std::vector <sf::RectangleShape> lighting_rectangles;
-	bool tmp = true; // do usuniecia
 
 
 	//Constructor
