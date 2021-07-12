@@ -209,10 +209,7 @@ void sfml_objects::update(int &current_step, int &current_window)
 
 			k = k + 100;
 		}
-	}
 
-	if (sequence_activated == true)
-	{
 		step_of_sequence = 1;
 		sequence_activated = false; 
 	}
@@ -257,9 +254,10 @@ void sfml_objects::render(int current_step, int current_window)
 
 		// current step trzeba bêdzie zmieniæ póŸniej na krok sekwencji kiedy zostanie zaimplementowana
 
-		this->display_text(1700, 50, ("Aktualny krok: " + std::to_string(current_step + 1) + "/" + std::to_string(sequence.size())), 40);  //displaying "aktualny krok" in corner 
-
-
+		if (sequence.size() != 0)
+		{
+			this->display_text(1700, 50, ("Aktualny krok: " + std::to_string(current_step + 1) + "/" + std::to_string(sequence.size())), 40);  //displaying "aktualny krok" in corner 
+		}
 	}
 
 	this->window->display();

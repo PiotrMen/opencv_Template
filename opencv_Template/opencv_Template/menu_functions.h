@@ -135,6 +135,8 @@ private:
 	bool falling_edge_detected = false;
 	int current_menu_window;
 	bool falling_edge_saved;
+	
+	bool help_window_opened;
 
 	//one time display if match boxes section
 	bool if_clear=true;

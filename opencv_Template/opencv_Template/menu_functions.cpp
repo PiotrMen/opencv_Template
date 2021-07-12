@@ -251,13 +251,13 @@ void menu_sfml_objects::pollEvents(int &current_step, int &current_window)
 			// Adding elements to string
 			if (enable_writing == true && check_character(event.key.code, shift_pressed, caps_lock_pressed) != NULL && searching_text.size() < 28)
 			{
-				searching_text.push_back(check_character(event.key.code, shift_pressed, caps_lock_pressed));	
+				searching_text.push_back(check_character(event.key.code, shift_pressed, caps_lock_pressed));
 			}
 
 			// Deleting elements from string
 			if (event.key.code == sf::Keyboard::BackSpace && enable_writing == true && searching_text.size() > 0)
 			{
-					searching_text.pop_back();
+				searching_text.pop_back();
 			}
 			break;
 
@@ -267,7 +267,7 @@ void menu_sfml_objects::pollEvents(int &current_step, int &current_window)
 			{
 			case sf::Mouse::Left:
 
-			break;
+				break;
 			}
 			break;
 		}
@@ -309,13 +309,74 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 	}
 
 	//Backing to basic menu view
-	if (detecting_backward_button() && sf::Mouse::isButtonPressed(sf::Mouse::Left) && (current_menu_window == 1 || current_menu_window == 2 || current_menu_window == 3)) {
+	if (detecting_backward_button() && falling_edge_saved && (current_menu_window == 1 || current_menu_window == 2 || current_menu_window == 3)) {
 		searching_text.clear();
 		this->current_menu_window = 0;
 		this->enable_writing = false;
 		this->if_clear = true;
+		help_window_opened = true; // Zmienna aby nie przeskakiwa³o od razu do helpa
 	}
-	
+
+	// Returning from help windows
+
+	// Menu help window
+	if (detecting_backward_button() && falling_edge_saved && current_menu_window == 100)
+	{
+		this->current_menu_window = 0;
+		this->if_clear = true;
+		help_window_opened = true;
+	}
+
+	// Loading .csv help window
+	if (detecting_backward_button() && falling_edge_saved && current_menu_window == 101)
+	{
+		this->current_menu_window = 1;
+		this->if_clear = true;
+		help_window_opened = true;
+	}
+
+	// Matching boxes help window
+	if (detecting_backward_button() && falling_edge_saved && current_menu_window == 102)
+	{
+		this->current_menu_window = 2;
+		this->if_clear = true;
+		help_window_opened = true;
+	}
+
+	// Tracing help window
+	if (detecting_backward_button() && falling_edge_saved && current_menu_window == 103)
+	{
+		this->current_menu_window = 3;
+		this->if_clear = true;
+		help_window_opened = true;
+	}
+
+	//Displaying help windows
+
+//Menu help window
+	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(200, this->blue_button_y, this->blue_button_length_x, this->blue_button_length_y, this->menu_button_size, this->menu_window) && this->current_menu_window == 0 && help_window_opened == false)
+	{
+		this->current_menu_window = 100;
+	}
+
+	//Loading .csv help window
+	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->blue_button_x, this->blue_button_y, this->blue_button_length_x, this->blue_button_length_y, this->menu_button_size, this->menu_window) && this->current_menu_window == 1 && help_window_opened == false)
+	{
+		this->current_menu_window = 101;
+	}
+	//Matching boxes help window
+	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->blue_button_x, this->blue_button_y, this->blue_button_length_x, this->blue_button_length_y, this->menu_button_size, this->menu_window) && this->current_menu_window == 2 && help_window_opened == false)
+	{
+		this->current_menu_window = 102;
+	}
+	//Tracing help window
+	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->blue_button_x, this->blue_button_y, this->blue_button_length_x, this->blue_button_length_y, this->menu_button_size, this->menu_window) && this->current_menu_window == 3 && help_window_opened == false)
+	{
+		this->current_menu_window = 103;
+	}
+
+	help_window_opened = false;
+
 	//Confirming loading and moving to menu window
 	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(990, 800, 707, 120, 1, this->menu_window) && this->current_menu_window == 1 && searching_text.size() > 0) {
 		this->current_menu_window = 0;
@@ -334,6 +395,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 	{
 		this->enable_writing = false;
 	}
+
 	
 	//saving rectangles to the vector
 	if (current_menu_window == 2 && !rectangles_saved) {
@@ -456,16 +518,21 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 // 0 - basic menu
 // 1 - Upload file .csv section
 // 2 - match boxes section
-// 3 - connectors options section
+// 3 - tracing section
+
+//100 - Menu help window
+//101 - Load .csv file help window
+//102 - Match boxes help window
+//103 - Tracing help window
 
 void menu_sfml_objects::render(int current_step, int current_window)
 {
-	if(if_clear)
+	if (if_clear)
 		this->menu_window->clear(sf::Color(255, 255, 255, 255));
 	//Basic menu window
 	if (this->current_menu_window == 0) {
 		//Displaying Upload file graphics
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && detecting_Upload_file_button()) 
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && detecting_Upload_file_button())
 			this->display_texture(this->Upload_file_button_x, this->Upload_file_button_y, "grey_pushed.png", this->menu_button_size, 0);
 		else
 			this->display_texture(this->Upload_file_button_x, this->Upload_file_button_y, "grey_button.png", this->menu_button_size, 0);
@@ -505,6 +572,19 @@ void menu_sfml_objects::render(int current_step, int current_window)
 
 		if (detecting_Connectors_options_button())
 			this->display_texture(this->Connectors_options_button_x, this->Connectors_options_button_y + 85, "UnderLine.png", this->menu_button_size - 0.2, 0);
+
+	}
+
+	if (this->current_menu_window == 100)
+	{
+		this->display_text(this->menu_window_width / 2, 130, "Pomoc", 200);
+
+		// Displaying backward in section
+		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+
+		// Displaying help
+		this->display_text(this->menu_window_width/2, this->menu_window_height/2, load_txt_help("help_menu.txt"), 34);
+
 	}
 
 	//Upload file window displaying
@@ -550,6 +630,17 @@ void menu_sfml_objects::render(int current_step, int current_window)
 				this->display_texture(990, 800 + 85, "UnderLine.png", 0.9, 0);
 			}
 		}
+	}
+	if (this->current_menu_window == 101)
+	{
+		this->display_text(this->menu_window_width / 2, 130, "Pomoc", 200);
+
+		// Displaying backward in section
+		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+
+		// Displaying help
+		this->display_text(this->menu_window_width / 2, this->menu_window_height / 2, load_txt_help("help_wczytanie_csv.txt"), 34);
+
 	}
 
 	//match boxes section displaying
@@ -597,8 +688,20 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		}
 		this->if_clear = false;
 	}
+	if (this->current_menu_window == 102)
+	{
+		this->display_text(this->menu_window_width / 2, 130, "Pomoc", 200);
 
-	//connectors options section displaying
+		// Displaying backward in section
+		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+
+		// Displaying help
+		this->display_text(this->menu_window_width / 2, this->menu_window_height / 2, load_txt_help("help_montaz_zlaczek.txt"), 34);
+
+		this->if_clear = true;
+	}
+
+	//tracing section displaying
 	if (this->current_menu_window == 3) {
 		this->display_text(this->menu_window_width / 2, 130, "Ustawienia zlaczek", 200);
 
@@ -608,6 +711,17 @@ void menu_sfml_objects::render(int current_step, int current_window)
 
 		//displaying backward in section
 		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+	}
+	if (this->current_menu_window == 103)
+	{
+		this->display_text(this->menu_window_width / 2, 130, "Pomoc", 200);
+
+		// Displaying backward in section
+		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+
+		// Displaying help
+		this->display_text(this->menu_window_width / 2, this->menu_window_height / 2, load_txt_help("help_trasowanie.txt"), 34);
+
 	}
 
 	if(if_display)

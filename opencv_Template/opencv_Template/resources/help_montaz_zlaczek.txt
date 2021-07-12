@@ -1,6 +1,6 @@
 Montaz zlaczek:
 Ta sekcja odpowiada za przyspieszenie montazu zlaczek na szynie DIN. Na pierwszej stronie nalezy przypisac
-(poprzez skan lub wpisanie reczne) pudelka odpowiadajacym im polom. Niemożliwe jest przypisanie jednego typu
+(poprzez skan lub wpisanie reczne) pudelka odpowiadajacym im polom. Niemozliwe jest przypisanie jednego typu
 artykulow do dwoch roznych pol. Nie nalezy rowniez podawac numeru artykulu ktory nie jest zawarty w sekwencji.
 Po przypisaniu, nastepuje uruchomienie sekwencji przeprowadzajacej przez montaz. Kazdy krok sekwencji sklada
 sie z dwoch czesci. Pierwsza z nich polega na pobraniu pojedynczego artykulu z pudelka. Druga polega na montazu

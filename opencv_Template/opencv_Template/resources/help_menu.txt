@@ -1,7 +1,10 @@
 Menu:
+
 1. Zaladuj plik .csv - W tej sekcji nalezy zaladowac plik .csv wygenerowany z EPLAN'u. Nazwe pliku nalezy
 podac bez rozszerzenia (np. "Przykladowa_nazwa"). Ten krok nalezy wykonac przed aktywowaniem kroku 2 lub 3.
+
 2. Montaz zlaczek - Ta sekcja odpowiada za przyspieszenie montazu zlaczek na szynie DIN. Na pierwszej stronie
 nalezy przypisac (poprzez skan lub wpisanie reczne) pudelka odpowiadajacym im polom. Po przypisaniu, nastepuje
 uruchomienie sekwencji przeprowadzajacej przez montaz.
+
 3. Trasowanie - 
