@@ -210,6 +210,19 @@ void menu_sfml_objects::assign_sequence()
 
 }
 
+//displaying underline
+void menu_sfml_objects::display_underline()
+{
+	bool is_detected = unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window);
+
+	if (is_detected != underline_detected_previous)
+	{
+		if_clear = true;
+		if_display = true;
+	}
+	underline_detected_previous = is_detected;
+}
+
 //Functions
 void menu_sfml_objects::pollEvents(int &current_step, int &current_window)
 {
@@ -424,7 +437,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 	//serial numbers on rectangles
 	if (current_menu_window == 2){
 		bool if_wrong = true;
-
+		display_underline();
 
 		//if (vector_displaying_articles.size() - 1 == connectors_list.size())
 		//	which_box_is_writing++;

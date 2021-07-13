@@ -112,6 +112,9 @@ private:
 	//vector assigment
 	void assign_sequence();
 
+	//displaying underline
+	void display_underline();
+
 	std::vector<sf::RectangleShape> vector_rectangles;
 	std::vector <sData> vector_displaying_articles;
 	bool rectangles_saved = false;
@@ -140,6 +143,9 @@ private:
 	bool falling_edge_saved;
 	
 	bool help_window_opened;
+
+	//underline detected in previous iteration
+	bool underline_detected_previous = false;
 
 	// vector of unique connectors from list
 	std::vector <sData> connectors_list;
