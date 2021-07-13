@@ -411,6 +411,10 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 	if (current_menu_window == 2){
 		bool if_wrong = true;
 
+
+		//if (vector_displaying_articles.size() - 1 == connectors_list.size())
+		//	which_box_is_writing++;
+
 		//detecting rectangles click
 		for (int i = 0; i < which_box_is_writing; i++) {
 			if (unieversal_detecting_collision_with_buttons(this->vector_rectangles[i].getPosition().x, this->vector_rectangles[i].getPosition().y, this->vector_rectangles[i].getGlobalBounds().width, this->vector_rectangles[i].getGlobalBounds().height, 1, this->menu_window) && falling_edge_saved && !change_number) {
@@ -419,11 +423,21 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 				change_number = true;
 				vector_displaying_articles[which_box_is_writing].serial_number = 0;
 				vector_rectangles[which_box_is_writing].setFillColor(sf::Color::Red);
-				sequence[which_box_is_writing].repeated_number = false;
-				sequence[which_box_is_writing].wrong_number = false;
+				connectors_list[which_box_is_writing].repeated_number = false;
+				connectors_list[which_box_is_writing].wrong_number = false;
 				if_clear = true;
 				if_display = true;
 			}
+		}
+		if (unieversal_detecting_collision_with_buttons(this->vector_rectangles[which_box_is_writing].getPosition().x, this->vector_rectangles[which_box_is_writing].getPosition().y, this->vector_rectangles[which_box_is_writing].getGlobalBounds().width, this->vector_rectangles[which_box_is_writing].getGlobalBounds().height, 1, this->menu_window) && falling_edge_saved && !change_number)
+		{
+			change_number = true;
+			vector_displaying_articles[which_box_is_writing].serial_number = 0;
+			vector_rectangles[which_box_is_writing].setFillColor(sf::Color::Red);
+			connectors_list[which_box_is_writing].repeated_number = false;
+			connectors_list[which_box_is_writing].wrong_number = false;
+			if_clear = true;
+			if_display = true;
 		}
 
 		this->start_sequention = false;
@@ -454,8 +468,8 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 			if (vector_displaying_articles[i].serial_number == vector_displaying_articles[which_box_is_writing].serial_number) {
 				vector_displaying_articles[which_box_is_writing].serial_number = 1;
 				vector_displaying_articles[which_box_is_writing].matched_rectangle = which_box_is_writing;
-				sequence[which_box_is_writing].repeated_number = true;
-				sequence[which_box_is_writing].wrong_number = false;
+				connectors_list[which_box_is_writing].repeated_number = true;
+				connectors_list[which_box_is_writing].wrong_number = false;
 				if_wrong = false;
 				vector_rectangles[which_box_is_writing].setFillColor(sf::Color::Red);
 				this->display_start_sequention = false;
@@ -468,8 +482,8 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 			if (vector_displaying_articles[i].serial_number == vector_displaying_articles[which_box_is_writing].serial_number) {
 				vector_displaying_articles[which_box_is_writing].serial_number = 1;
 				vector_displaying_articles[which_box_is_writing].matched_rectangle = which_box_is_writing;
-				sequence[which_box_is_writing].repeated_number = true;
-				sequence[which_box_is_writing].wrong_number = false;
+				connectors_list[which_box_is_writing].repeated_number = true;
+				connectors_list[which_box_is_writing].wrong_number = false;
 				if_wrong = false;
 				vector_rectangles[which_box_is_writing].setFillColor(sf::Color::Red);
 				this->display_start_sequention = false;
@@ -478,19 +492,19 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		}
 
 		//checking good conectors
-		for (int i = 0; i < sequence.size(); i++) {
-			if ((vector_displaying_articles[which_box_is_writing].serial_number == sequence[i].serial_number)) {
+		for (int i = 0; i < connectors_list.size(); i++) {
+			if ((vector_displaying_articles[which_box_is_writing].serial_number == connectors_list[i].serial_number)) {
 				vector_rectangles[which_box_is_writing].setFillColor(sf::Color::Green);
-				sequence[i].matched_rectangle = which_box_is_writing;
-				sequence[which_box_is_writing].wrong_number = false;
-				sequence[which_box_is_writing].repeated_number = false;
+				connectors_list[i].matched_rectangle = which_box_is_writing;
+				connectors_list[which_box_is_writing].wrong_number = false;
+				connectors_list[which_box_is_writing].repeated_number = false;
 				if_wrong = false;
 				change_number = false;
 			}
 			//checking wrong conectors
-			if (searching_text.size() >= 7 && i == sequence.size()-1 && (vector_displaying_articles[which_box_is_writing].serial_number != sequence[i].serial_number) && if_wrong) {
-				sequence[which_box_is_writing].wrong_number = true;
-				sequence[which_box_is_writing].repeated_number = false;
+			if (searching_text.size() >= 7 && i == connectors_list.size()-1 && (vector_displaying_articles[which_box_is_writing].serial_number != connectors_list[i].serial_number) && if_wrong) {
+				connectors_list[which_box_is_writing].wrong_number = true;
+				connectors_list[which_box_is_writing].repeated_number = false;
 				vector_rectangles[which_box_is_writing].setFillColor(sf::Color::Red);
 				if_wrong = true;
 				this->display_start_sequention = false;
@@ -500,7 +514,8 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 
 		//Moving iterator to the end of vector
 		if (!change_number && which_box_chosen == which_box_is_writing && vector_displaying_articles.size()>1) {
-			vector_displaying_articles.erase(vector_displaying_articles.end() - 1);
+			if(connectors_list.size() != vector_displaying_articles.size())
+				vector_displaying_articles.erase(vector_displaying_articles.end() - 1);
 			which_box_is_writing = vector_displaying_articles.size() - 1;
 			if_clear = true;
 			if_display = true;
@@ -515,14 +530,14 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		}
 
 		//checking if every connectors are good
-		if ((vector_displaying_articles.size()) >= sequence.size()) {
-			for (int i = 0; i < sequence.size(); i++) {
+		if ((vector_displaying_articles.size()) >= connectors_list.size()) {
+			for (int i = 0; i < connectors_list.size(); i++) {
 				if (vector_rectangles[i].getFillColor() == (sf::Color::Green)) {
 					i++;
 				}
 				else
 					break;
-				if (sequence.size() <= i) {
+				if (connectors_list.size() <= i) {
 					this->display_start_sequention = true;
 				}
 				i--;
@@ -530,7 +545,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		}
 
 		//deleting last empty connetor
-		if (sequence.size() <= which_box_is_writing || vector_displaying_articles.size() > 20) {
+		if (connectors_list.size() <= which_box_is_writing || vector_displaying_articles.size() > 20) {
 			vector_displaying_articles.erase(vector_displaying_articles.end() - 1);
 			which_box_is_writing--;
 			if_clear = true;
@@ -712,12 +727,12 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		this->display_text(vector_rectangles[which_box_is_writing].getPosition().x, vector_rectangles[which_box_is_writing].getPosition().y + 90, searching_text, 20);
 
 		for (int i = 0; i < vector_displaying_articles.size(); i++) {
-			if(!sequence[i].repeated_number && vector_displaying_articles[i].serial_number != 0)
+			if(!connectors_list[i].repeated_number && vector_displaying_articles[i].serial_number != 0)
 				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y + 90, std::to_string(vector_displaying_articles[i].serial_number), 20);
-			if(sequence[i].wrong_number)
+			if(connectors_list[i].wrong_number)
 				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 90, "Zly numer", 20);
 
-			if(sequence[i].repeated_number)
+			if(connectors_list[i].repeated_number)
 				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 90, "Powtorzony numer", 20);
 		}
 
