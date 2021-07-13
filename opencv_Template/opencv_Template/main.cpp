@@ -1,10 +1,12 @@
 ﻿#include <iostream>
 #include "opencv2/opencv.hpp"
 #include <SFML/Graphics.hpp>
+#include <thread>
 #include "window_functions_.h"
 #include "menu_functions.h"
 #include "csv_read.h"
 #include "Universal_functions.h"
+#include "vision.h"
 
 // Data vectors
 std::vector <sData> articles_in_boxes;
@@ -32,6 +34,9 @@ int main()
 	int current_step = 0;	// step of current article
 	int current_window = 0;
 
+
+	std::thread th(thread_vision(), 0);
+
 	while (objects.getWindowIsOpen() && menu_objects.getWindowIsOpen()) 
 	{
 		//Menu update
@@ -46,6 +51,7 @@ int main()
 		//Render
 		objects.render(current_step, current_window);
 	}
+	th.join();
 
 	return 0;
 }
