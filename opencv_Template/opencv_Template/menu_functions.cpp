@@ -196,6 +196,20 @@ bool menu_sfml_objects::detecting_falling_edge_left_mouse_button() {
 	return false;
 }
 
+//vector assigment
+void menu_sfml_objects::assign_sequence()
+{
+	for (int i = 0; i < connectors_list.size(); i++)
+	{
+		for (int k = 0; k < sequence.size(); k++)
+		{
+			if (connectors_list[i].serial_number == sequence[k].serial_number)
+				sequence[k].matched_rectangle = connectors_list[i].matched_rectangle;
+		}
+	}
+
+}
+
 //Functions
 void menu_sfml_objects::pollEvents(int &current_step, int &current_window)
 {
@@ -559,9 +573,11 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		}
 
 		//start sequention if button pushed
-		if (falling_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window) && this->display_start_sequention) 
+		if (falling_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window) && this->display_start_sequention)
+		{
 			this->start_sequention = true;
-
+			assign_sequence();
+		}
 	}
 }
 

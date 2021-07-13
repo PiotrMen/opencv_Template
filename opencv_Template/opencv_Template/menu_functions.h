@@ -109,6 +109,9 @@ public:
 
 private:
 
+	//vector assigment
+	void assign_sequence();
+
 	std::vector<sf::RectangleShape> vector_rectangles;
 	std::vector <sData> vector_displaying_articles;
 	bool rectangles_saved = false;
