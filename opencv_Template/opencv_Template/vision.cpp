@@ -1,19 +1,52 @@
 #include "vision.h"
 
+bool thread_vision::Is_button_covered(int select_button) {
+	cv::Mat cropped_image;
+	cv::Mat Kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
+	if (select_button == 0) {
+		cv::Rect crop_region(50, 700, 380, 380);
+		cropped_image = image(crop_region);
+	}
+	else if (select_button == 1){
+		cv::Rect crop_region(1505, 705, 350, 350);
+		cropped_image = image(crop_region);
+		cv::cvtColor(cropped_image, cropped_image, cv::COLOR_BGR2GRAY);
+		cv::GaussianBlur(cropped_image, cropped_image, cv::Size(3, 3), 3, 0);
+		cv::Canny(cropped_image, cropped_image, 150, 200);
+		cv::dilate(cropped_image, cropped_image, Kernel);
+	}
+
+	imshow("Przycisk"+ std::to_string(select_button), cropped_image);
+	return true;
+}
+
+void thread_vision::display_Tracksbars(int &hmin, int &hmax, int &smin, int &smax, int &vmin, int &vmax) {
+	cv::Mat imageHSV;
+	cv::Mat mask;
+	cv::cvtColor(this->trackbars_img, imageHSV, cv::COLOR_BGR2GRAY);
+
+	cv::namedWindow("Trackbars", (640, 200));
+	cv::createTrackbar("Hue Min", "Trackbars", &hmin, 179);
+	cv::createTrackbar("Hue Max", "Trackbars", &hmax, 179); // dla lewego przycisku 90 // dla prawego 52
+	cv::createTrackbar("Sat Min", "Trackbars", &smin, 255);
+	cv::createTrackbar("Sat Max", "Trackbars", &smax, 255);
+	cv::createTrackbar("Val Min", "Trackbars", &vmin, 255);
+	cv::createTrackbar("Val Max", "Trackbars", &vmax, 255);
+
+	cv::Scalar lower(hmin, smin, vmin);
+	cv::Scalar upper(hmax, smax, vmax);
+	cv::inRange(imageHSV, lower, upper, mask);
+
+	imshow("mask1", imageHSV);
+	imshow("mask", mask);
+}
+
 void thread_vision::operator()(int index)
 {
 	cv::VideoCapture camera(index);
-	camera.set(cv::CAP_PROP_FRAME_WIDTH, 1280);
-	camera.set(cv::CAP_PROP_FRAME_HEIGHT, 720);
-	cv::Mat image, undistorted;
-	cv::Mat CameraMatrix = (cv::Mat_<float>(3, 3) << 2257.4, 0, 624.0, 0, 2311.5, 646.2, 0, 0, 1);
-	cv::Mat DistCoeffs = (cv::Mat_<float>(1, 5) << -0.75, 0.62, 0.0015, 0.0575, -0.86);
-	cv::Mat map1, map2;
-	cv::Mat newCamMatrix;
-	cv::Mat Undistorted_remap;
-	camera.read(image);
-	cv::initUndistortRectifyMap(CameraMatrix, DistCoeffs, cv::Mat(), CameraMatrix, cv::Size(image.cols, image.rows), CV_32FC1, map1, map2);
-	int keyPressed;
+	camera.set(cv::CAP_PROP_FRAME_WIDTH, 1920);
+	camera.set(cv::CAP_PROP_FRAME_HEIGHT, 1080);
+	int hmin = 0, hmax=179, smin=0, smax=255, vmin=0, vmax=255;
 
 
 
@@ -21,13 +54,17 @@ void thread_vision::operator()(int index)
 	{
 		//camera trigger
 		camera.read(image);
-
-		//fisheye undistort
-		cv::remap(image, Undistorted_remap, map1, map2, cv::INTER_CUBIC);
+		cv::rotate(image,image,cv::ROTATE_180);
 
 		//showing image
-		//imshow("main" + index, image);
-		imshow("main3" + index, Undistorted_remap);
+		imshow("main" + index, image);
+
+		//thread_vision::Is_button_covered(0);
+		thread_vision::Is_button_covered(1);
+		//thread_vision::display_Tracksbars(hmin, hmax, smin, smax, vmin, vmax);
+
 		cv::waitKey(30);
 	}
 }
+
+
