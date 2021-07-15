@@ -333,6 +333,9 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		help_window_opened = true; // Zmienna aby nie przeskakiwa³o od razu do helpa
 	}
 
+	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(200, this->Start_button_y, this->Start_button_length_x, this->Start_button_length_y, this->menu_button_size, this->menu_window) && this->current_menu_window == 0)
+		exit(0);
+
 	// Returning from help windows
 
 	// Menu help window
@@ -370,7 +373,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 	//Displaying help windows
 
 //Menu help window
-	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(200, this->blue_button_y, this->blue_button_length_x, this->blue_button_length_y, this->menu_button_size, this->menu_window) && this->current_menu_window == 0 && help_window_opened == false)
+	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->blue_button_x, this->blue_button_y, this->blue_button_length_x, this->blue_button_length_y, this->menu_button_size, this->menu_window) && this->current_menu_window == 0 && help_window_opened == false)
 	{
 		this->current_menu_window = 100;
 	}
@@ -631,12 +634,12 @@ void menu_sfml_objects::render(int current_step, int current_window)
 			this->display_texture(this->Tracing_button_x, this->Tracing_button_y, "grey_button.png", this->menu_button_size, 0);
 
 		//Displaying blue button
-		this->display_texture(200, this->blue_button_y, "blue_circle.png", this->button_size, 0);
-		this->display_text(200, this->blue_button_y + 75, "Pomoc", 30);
+		this->display_texture(this->blue_button_x, this->blue_button_y, "blue_circle.png", this->button_size, 0);
+		this->display_text(this->blue_button_x, this->blue_button_y + 75, "Pomoc", 30);
 
 		//Displaying start button
-		this->display_texture(this->Start_button_x, this->Start_button_y, "green_circle.png", this->button_size, 0);
-		this->display_text(this->Start_button_x, this->Start_button_y + 75, "Start", 30);
+		this->display_texture(200, this->Start_button_y, "red_circle.png", this->button_size, 0);
+		this->display_text(200, this->Start_button_y + 75, "Exit", 30);
 
 		//Texts
 		this->display_text(this->load_csv_button_x, this->load_csv_button_y - 10, "Zaladuj plik .csv", 80);
