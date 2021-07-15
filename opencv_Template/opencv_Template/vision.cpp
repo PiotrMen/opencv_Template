@@ -13,20 +13,31 @@ void thread_vision::operator()(int index)
 	cv::Mat Undistorted_remap;
 	camera.read(image);
 	cv::initUndistortRectifyMap(CameraMatrix, DistCoeffs, cv::Mat(), CameraMatrix, cv::Size(image.cols, image.rows), CV_32FC1, map1, map2);
+	int keyPressed;
 
 
 
 	while (true)
 	{
+		//escape detection
+		keyPressed = cv::waitKey(0);
+		if (keyPressed == 27) {
+			cv::destroyAllWindows();
+			std::cout << "escape" << std::endl;
+			break;
+		}
+
+		//camera trigger
 		camera.read(image);
 
+		//fisheye undistort
 		cv::remap(image, Undistorted_remap, map1, map2, cv::INTER_CUBIC);
 		//cv::undistort(image, undistorted, CameraMatrix, DistCoeffs);
 
-
 		//imshow("main" + index, image);
-
 		//imshow("main2" + index, undistorted);
+
+		//showing image
 		imshow("main3" + index, Undistorted_remap);
 		cv::waitKey(30);
 	}
