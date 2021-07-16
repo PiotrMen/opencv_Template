@@ -13,12 +13,16 @@ public:
 
 private:
 
-	void display_Tracksbars(int &hmin, int &hmax, int &smin, int &smax, int &vmin, int &vmax);
 	bool Is_button_covered(int select_button);
+	void display_Tracksbars(int &hmin, int &hmax, int &smin, int &smax, int &vmin, int &vmax);
 	bool check_pattern(cv::Mat input_image, cv::Point dxdy, int lower_value, int upper_value);
 
 	cv::Mat image;
 	cv::Mat trackbars_img;
+
+	// Pomocnicze zmienne do ustalania tresholdu
+	int tresh_min = 0;
+	int tresh_max = 255;
 };
 
 
