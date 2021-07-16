@@ -21,12 +21,12 @@ void menu_sfml_objects::init_buttons_coords(){
 	//length of sides in pixels
 
 	//blue button
-	this->blue_button_length_x = 414; // number of pixels (width and length of picture)
-	this->blue_button_length_y = 414;
+	this->blue_button_length_x = 124; // number of pixels (width and length of picture)
+	this->blue_button_length_y = 124;
 
 	//blue button
-	this->Start_button_length_x = 414; // number of pixels (width and length of picture)
-	this->Start_button_length_y = 414;
+	this->Start_button_length_x = 124; // number of pixels (width and length of picture)
+	this->Start_button_length_y = 124;
 
 	//backward button
 	this->backward_length_button_x = 512; // number of pixels (width and length of picture)

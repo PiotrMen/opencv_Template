@@ -17,8 +17,59 @@ bool thread_vision::Is_button_covered(int select_button) {
 	}
 
 	imshow("Przycisk"+ std::to_string(select_button), cropped_image);
-	return true;
+
+	if (check_pattern(cropped_image, cv::Point(1505, 705), 500, 700))
+		return true;
+	else
+		return false;
+
 }
+
+bool thread_vision::check_pattern(cv::Mat input_image, cv::Point dxdy, int lower_value, int upper_value)
+{
+	std::vector<std::vector<cv::Point>> contours;
+	std::vector<cv::Vec4i> hierarchy;
+
+	cv::findContours(input_image, contours, hierarchy, cv::RETR_LIST, cv::CHAIN_APPROX_SIMPLE);
+
+	std::vector<std::vector<cv::Point>> conPoly(contours.size());
+	cv::Rect boundRect(dxdy, input_image.size());
+	
+	cv::Vec2i areas = (0, 0);
+	int counter = 0;
+
+	for (int i = 0; i < contours.size(); i++)
+	{
+		float peri = cv::arcLength(contours[i], true);
+		cv::approxPolyDP(contours[i], conPoly[i], 0.02*peri, true);
+		
+		if ((int)conPoly[i].size() == 4 && contourArea(contours[i]) > 3000)
+		{
+			areas[counter] = contourArea(contours[i]);
+			counter++;
+		}
+
+		//if((int)conPoly[i].size() == 4)
+		//	cv::drawContours(image, conPoly, i, cv::Scalar(0, 255, 0), 1, cv::LINE_8, -1, 0, dxdy);
+	}
+
+	std::cout << std::abs(areas[0] - areas[1]) << std::endl;
+
+	if (std::abs(areas[0] - areas[1]) > lower_value && std::abs(areas[0] - areas[1]) < upper_value)
+	{
+		cv::rectangle(image, boundRect, cv::Scalar(0, 255, 0), 5);
+
+		//imshow("Przycisk2", image);
+		return true;
+	}
+	else
+	{
+		cv::rectangle(image, boundRect, cv::Scalar(0, 0, 255), 5);
+		//imshow("Przycisk2", image);
+		return false;
+	}
+}
+
 
 void thread_vision::display_Tracksbars(int &hmin, int &hmax, int &smin, int &smax, int &vmin, int &vmax) {
 	cv::Mat imageHSV;
@@ -56,12 +107,12 @@ void thread_vision::operator()(int index)
 		camera.read(image);
 		cv::rotate(image,image,cv::ROTATE_180);
 
-		//showing image
-		imshow("main" + index, image);
-
 		//thread_vision::Is_button_covered(0);
 		thread_vision::Is_button_covered(1);
 		//thread_vision::display_Tracksbars(hmin, hmax, smin, smax, vmin, vmax);
+
+		//showing image
+		imshow("main", image);
 
 		cv::waitKey(30);
 	}
