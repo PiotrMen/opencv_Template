@@ -324,6 +324,9 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		this->current_menu_window = 3;
 	}
 
+	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(200, this->Start_button_y, this->Start_button_length_x, this->Start_button_length_y, this->menu_button_size, this->menu_window) && this->current_menu_window == 0)
+		exit(0);
+
 	//Backing to basic menu view
 	if (detecting_backward_button() && falling_edge_saved && (current_menu_window == 1 || current_menu_window == 2 || current_menu_window == 3)) {
 		searching_text.clear();
@@ -332,9 +335,6 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		this->if_clear = true;
 		help_window_opened = true; // Zmienna aby nie przeskakiwa³o od razu do helpa
 	}
-
-	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(200, this->Start_button_y, this->Start_button_length_x, this->Start_button_length_y, this->menu_button_size, this->menu_window) && this->current_menu_window == 0)
-		exit(0);
 
 	// Returning from help windows
 

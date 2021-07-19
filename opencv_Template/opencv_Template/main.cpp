@@ -2,18 +2,20 @@
 #include "opencv2/opencv.hpp"
 #include <SFML/Graphics.hpp>
 #include <thread>
+#include <mutex>
 #include "window_functions_.h"
 #include "menu_functions.h"
 #include "csv_read.h"
 #include "Universal_functions.h"
 #include "vision.h"
 
-// Data vectors
-std::vector <sData> articles_in_boxes;
-std::vector <sData> left_articles;
+std::mutex m;
 
 // Sequence vector
 std::vector <sData> sequence;
+
+// Global data
+sGlobal_data data_box;
 
 
 int main()
@@ -27,29 +29,33 @@ int main()
 	objects.init_button_size(100);
 	menu_objects.init_button_size(100,120);
 
-	load_csv_database(articles_in_boxes, left_articles);
-	save_csv_database(articles_in_boxes, left_articles);
-	//load_csv_sequence(sequence, "Przykladowa sekwencja");
 
-	int current_step = 0;	// step of current article
+	//int current_step = 0;	// step of current article
 	int current_window = 0;
 
 
 	std::thread th(thread_vision(), 1);
 
-	while (objects.getWindowIsOpen() && menu_objects.getWindowIsOpen()) 
+	while (objects.getWindowIsOpen() && menu_objects.getWindowIsOpen())
 	{
 		//Menu update
-		menu_objects.update(current_step, current_window);
+		menu_objects.update(data_box.current_step, current_window);
 
 		objects.sequence_activated = menu_objects.start_sequention;
 		//Update
-		objects.update(current_step, current_window);
+		objects.update(data_box.current_step, current_window);
 
 
-		menu_objects.render(current_step, current_window);
+		menu_objects.render(data_box.current_step, current_window);
 		//Render
-		objects.render(current_step, current_window);
+		objects.render(data_box.current_step, current_window);
+		
+		//m.lock();
+
+		//std::cout << data_box.red_button << "   " << data_box.green_button << std::endl;
+
+
+		//m.unlock();
 	}
 	th.join();
 

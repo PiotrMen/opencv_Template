@@ -1,16 +1,22 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include<string>
+#include <string>
+#include <mutex>
+#include <thread>
 #include "csv_read.h"
+
 
 #ifndef UNIVERSAL_FUNCTIONS_H
 
-// Data vectors declaration
-extern std::vector <sData> articles_in_boxes;
-extern std::vector <sData> left_articles;
+
+// Mutex
+extern std::mutex m;
 
 // Sequence vector declaration
 extern std::vector <sData> sequence;
+
+// Global data
+extern sGlobal_data data_box;
 
 //converter return real value in pixels
 int mm_to_pixels_converter(float real_mm);

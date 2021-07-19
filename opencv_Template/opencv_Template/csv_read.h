@@ -24,6 +24,22 @@ struct sData
 	bool repeated_number = false;
 };
 
+struct sGlobal_data
+{
+	bool is_sequence_activated;
+
+	bool green_button;
+	bool red_button;
+	bool detecting_box;
+	float measurement;
+
+	std::vector<sf::RectangleShape> boxes;
+
+	int current_step = 0;
+};
+
+
+
 void load_csv_database(std::vector <sData> &articles_in_boxes, std::vector <sData> &left_articles);
 void save_csv_database(const std::vector <sData> &articles_in_boxes, const std::vector <sData> &left_articles);
 

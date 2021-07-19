@@ -210,6 +210,10 @@ void sfml_objects::update(int &current_step, int &current_window)
 			k = k + 100;
 		}
 
+		// sfml data to opencv
+		data_box.boxes = lighting_rectangles;
+		data_box.is_sequence_activated = true;
+
 		step_of_sequence = 1;
 		sequence_activated = false; 
 	}
