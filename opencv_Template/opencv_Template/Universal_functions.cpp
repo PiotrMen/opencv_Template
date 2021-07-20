@@ -32,3 +32,10 @@ sf::RectangleShape making_rectangle(int pos_x, int pos_y, int size_x, int size_y
 	return(rectangle_);
 }
 	
+//Detecting sequation ending
+bool detecting_sequation_ending() {
+	if (data_box.boxes.size() != 0 && !data_box.is_sequence_activated)
+		return true;
+	else
+		return false;
+}

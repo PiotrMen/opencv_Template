@@ -195,7 +195,7 @@ void sfml_objects::render(int &current_step, int current_window)
 	{
 		// Reseting sequence
 		data_box.is_sequence_activated = false;
-		data_box.boxes.clear();
+		//data_box.boxes.clear();
 		current_step = 0;
 		article_installed = false;
 		article_taken = false;
@@ -259,11 +259,11 @@ void sfml_objects::render(int &current_step, int current_window)
 	// Executing Back to menu button
 	if (this->step_of_sequence != 0 && data_box.red_button)
 	{
-		if (data_box.green_button)
+		/*if (data_box.green_button)
 		{
 			this->step_of_sequence = 0;
 		}
-		else
+		else*/
 			this->display_text(this->window_width / 2, this->window_height - 100, "Zaslon przycisk potwierdzenia aby wyjsc z sekwencji", 60);
 	}
 

@@ -21,6 +21,9 @@ extern sGlobal_data data_box;
 //converter return real value in pixels
 int mm_to_pixels_converter(float real_mm);
 
+//Detecting sequation ending
+bool detecting_sequation_ending();
+
 //universal collision detecting
 bool unieversal_detecting_collision_with_buttons(int x, int y, int length_x, int length_y, float scale, sf::RenderWindow *menu_window);
 

@@ -270,6 +270,10 @@ void thread_vision::operator()(int index)
 			else
 				this->box_detection = true;
 			
+			if (this->green_button && this->box_detection) {
+				this->green_button = false;
+				this->box_detection = false;
+			}
 			//  Communication between threads
 
 			m.lock();
@@ -292,6 +296,9 @@ void thread_vision::operator()(int index)
 			imshow("main", image);
 
 			cv::waitKey(30);
+		}
+		else {
+			cv::destroyAllWindows();
 		}
 	}
 }
