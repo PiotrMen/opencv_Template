@@ -6,6 +6,7 @@
 #include "Universal_functions.h"
 
 
+
 class sfml_objects
 {
 public:
@@ -38,7 +39,7 @@ public:
 	int window_height;
 
 	// Step in sequence
-	bool sequence_activated = false; // Sequence is activated by menu_functions
+	bool sequence_previous_state = false;   // State of previous iteration
 	int step_of_sequence = 0;		// 0 - sequence is not active / 1 - lighting rectangle / 2 - installing article
 	int actual_length = 0;			// Program displays rectangle in 2nd step based on this value
 	
@@ -46,6 +47,9 @@ public:
 
 
 	std::vector <sf::RectangleShape> lighting_rectangles;
+
+	bool article_taken;						// checks if good article was taken from box
+	bool article_installed;					// checks if article was installed and waits for confirmation
 
 
 	//Constructor

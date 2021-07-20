@@ -41,7 +41,6 @@ int main()
 		//Menu update
 		menu_objects.update(data_box.current_step, current_window);
 
-		objects.sequence_activated = menu_objects.start_sequention;
 		//Update
 		objects.update(data_box.current_step, current_window);
 

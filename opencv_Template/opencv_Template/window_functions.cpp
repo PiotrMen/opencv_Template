@@ -123,59 +123,11 @@ void sfml_objects::pollEvents(int &current_step, int &current_window)
 			{
 			case sf::Mouse::Right:
 			{
-				sequence_activated = true;
 				break;
 			}
 
 			case sf::Mouse::Left:
 			{
-				if (this->detecting_green_button() && step_of_sequence != 0)
-				{
-					switch (step_of_sequence)
-					{
-					case 0:
-					{
-						// Mouse handler deactivated
-						break;
-					}
-					case 1:
-					{
-						// Handling 1 -> 2 transition
-
-						if (true) // Warunek pobrania artyku³u z kamery
-						{
-							step_of_sequence = 2;
-						}
-						break;
-					}
-					case 2:
-					{
-						// Handling end of sequence
-
-						if (current_step + 1 == sequence.size())
-						{
-							step_of_sequence = 0;
-							current_step = 0;
-							break; break;
-						}
-
-						// Handling 2 -> 1 transition
-
-						if (true) // Warunek zamontowania artyku³u
-						{
-							step_of_sequence = 1;
-							current_step++;
-							actual_length = actual_length + sequence[current_step].width;
-						}
-						break;
-					}
-					}
-				}
-				//if (this->detecting_red_button() && step_of_sequence != 0)
-				//{
-				//	back_to_menu = true;
-				//}
-
 				break;
 			}
 			}
@@ -189,7 +141,7 @@ void sfml_objects::update(int &current_step, int &current_window)
 {
 	this->pollEvents(current_step, current_window);
 
-	if (sequence_activated == true)
+	if (!this->sequence_previous_state && data_box.is_sequence_activated)
 	{
 		lighting_rectangles.clear();
 		int k;
@@ -212,12 +164,21 @@ void sfml_objects::update(int &current_step, int &current_window)
 
 		// sfml data to opencv
 		data_box.boxes = lighting_rectangles;
-		data_box.is_sequence_activated = true;
-
-		step_of_sequence = 1;
-		sequence_activated = false; 
+		this->step_of_sequence = 1;
+	}
+	
+	// Checking if article was taken
+	if (data_box.detecting_box && this->step_of_sequence == 1)
+	{
+		this->article_taken = true;
+	}
+	// Waiting for confirmation in step 2
+	if (data_box.green_button && this->step_of_sequence == 2)
+	{
+		this->article_installed = true;
 	}
 
+	this->sequence_previous_state = data_box.is_sequence_activated;
 }
 
 
@@ -227,17 +188,29 @@ void sfml_objects::render(int current_step, int current_window)
 
 	// Sequence
 
-	switch (step_of_sequence)
+	switch (this->step_of_sequence)
 	{
 	case 0:
 	{
 		// Reseting sequence
+		data_box.is_sequence_activated = false;
+		data_box.boxes.clear();
+		current_step = 0;
+		article_installed = false;
+		article_taken = false;
 		break;
 	}
 	case 1: 	// Lighting boxes from witch user takes article
 	{
 		this->window->draw(this->lighting_rectangles[sequence[current_step].matched_rectangle]);
 
+
+		// Handling 1 -> 2 transition
+		if (this->article_taken)
+		{
+			this->step_of_sequence = 2;
+			this->article_taken = false;
+		}
 		break;
 	}
 	case 2:		// Installing article on DIN
@@ -246,10 +219,28 @@ void sfml_objects::render(int current_step, int current_window)
 
 		this->window->draw(making_rectangle(160 + actual_length + sequence[current_step].width / 2, 740 - sequence[current_step].height / 2, sequence[current_step].width, sequence[current_step].height, sf::Color::Green, false));
 
+		//Handling end of sequence
+		if (this->article_installed && current_step + 1 == sequence.size())
+		{
+			this->step_of_sequence = 0;
+
+			this->article_installed = false;
+			break; break;
+		}
+		// Handling 2 -> 1 transition
+		else if (this->article_installed)
+		{
+			this->step_of_sequence = 1;
+			current_step++;
+			this->article_installed = false;
+			this->actual_length = this->actual_length + sequence[current_step].width;
+		}
 		break;
 	}
 	}
-	if (step_of_sequence != 0)
+
+	// Drawing
+	if (this->step_of_sequence != 0)
 	{
 		this->display_texture(this->green_button_x, this->green_button_y, "green_circle.png", this->button_size, 0);   //displaying basic graphics 
 		this->display_texture(this->red_button_x, this->red_button_y, "red_circle.png", this->button_size, 0);
@@ -262,6 +253,17 @@ void sfml_objects::render(int current_step, int current_window)
 		{
 			this->display_text(1700, 50, ("Aktualny krok: " + std::to_string(current_step + 1) + "/" + std::to_string(sequence.size())), 40);  //displaying "aktualny krok" in corner 
 		}
+	}
+
+	// Executing Back to menu button
+	if (this->step_of_sequence != 0 && data_box.red_button)
+	{
+		if (data_box.green_button)
+		{
+			this->step_of_sequence = 0;
+		}
+		else
+			this->display_text(this->window_width / 2, this->window_height - 100, "Zaslon przycisk potwierdzenia aby wyjsc z sekwencji", 60);
 	}
 
 	this->window->display();
