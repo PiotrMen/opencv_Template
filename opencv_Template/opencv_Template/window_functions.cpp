@@ -183,7 +183,7 @@ void sfml_objects::update(int &current_step, int &current_window)
 }
 
 
-void sfml_objects::render(int current_step, int current_window)
+void sfml_objects::render(int &current_step, int current_window)
 {
 	this->window->clear(sf::Color(255, 255, 255, 255));
 

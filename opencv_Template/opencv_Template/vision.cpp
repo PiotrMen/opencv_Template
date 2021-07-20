@@ -265,7 +265,10 @@ void thread_vision::operator()(int index)
 
 			cv::Mat box = box_filters();
 
-			this->box_detection = check_pattern_one_rect(box, TL_of_window, 5000, 7000);
+			if (check_pattern_one_rect(box, TL_of_window, 5000, 7000))
+				this->box_detection = false;
+			else
+				this->box_detection = true;
 			
 			//  Communication between threads
 

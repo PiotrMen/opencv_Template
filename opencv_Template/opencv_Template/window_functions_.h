@@ -73,7 +73,7 @@ public:
 	//Functions
 	void pollEvents(int &current_step, int &current_window);
 	void update(int &current_step, int &current_window);
-	void render(int current_step, int current_window);
+	void render(int &current_step, int current_window);
 };
 
 #endif

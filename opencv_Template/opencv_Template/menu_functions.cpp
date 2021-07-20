@@ -601,22 +601,22 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		}
 	}
 
-	if (this->current_menu_window == 202 && !data_box.is_sequence_activated) {
-		//back to basic menu
-		this->current_menu_window = 0;
+	//if (this->current_menu_window == 202 && !data_box.is_sequence_activated) {
+	//	//back to basic menu
+	//	this->current_menu_window = 0;
 
-		//claering vectors
-		this->vector_displaying_articles.clear();
-		this->connectors_list.clear();
-		this->vector_rectangles.clear();
-		sequence.clear();
-		rectangles_saved = false;
-		this->start_sequention = false;
-		this->which_box_is_writing = 0;
-		this->which_box_chosen = 0;
-		if_clear = true;
-		if_display = true;
-	}
+	//	//claering vectors
+	//	this->vector_displaying_articles.clear();
+	//	this->connectors_list.clear();
+	//	this->vector_rectangles.clear();
+	//	sequence.clear();
+	//	rectangles_saved = false;
+	//	this->start_sequention = false;
+	//	this->which_box_is_writing = 0;
+	//	this->which_box_chosen = 0;
+	//	if_clear = true;
+	//	if_display = true;
+	//}
 }
 
 
