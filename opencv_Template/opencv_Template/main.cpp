@@ -53,11 +53,12 @@ int main()
 		//m.lock();
 
 		//std::cout << data_box.red_button << "   " << data_box.green_button << std::endl;
-
+		if (data_box.global_exit) {
+			break;
+		}
 
 		//m.unlock();
 	}
 	th.join();
-
 	return 0;
 }

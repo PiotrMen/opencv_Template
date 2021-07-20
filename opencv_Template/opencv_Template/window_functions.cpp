@@ -229,7 +229,8 @@ void sfml_objects::render(int &current_step, int current_window)
 			break; break;
 		}
 		// Handling 2 -> 1 transition
-		else if (this->article_installed)
+		else 
+		if (this->article_installed)
 		{
 			this->step_of_sequence = 1;
 			current_step++;

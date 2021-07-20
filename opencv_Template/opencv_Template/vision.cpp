@@ -295,11 +295,15 @@ void thread_vision::operator()(int index)
 			//imshow("box", box);
 			imshow("main", image);
 
-			cv::waitKey(30);
+			cv::waitKey(33);
 		}
 		else {
 			cv::destroyAllWindows();
 		}
+
+		if (data_box.global_exit)
+			break;
+
 	}
 }
 

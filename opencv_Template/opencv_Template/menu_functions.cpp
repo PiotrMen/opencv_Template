@@ -325,7 +325,9 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 	}
 
 	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(200, this->Start_button_y, this->Start_button_length_x, this->Start_button_length_y, this->menu_button_size, this->menu_window) && this->current_menu_window == 0)
-		exit(0);
+		data_box.global_exit = true;
+		//this->exit_menu = true;
+		//exit(1);
 
 	//Backing to basic menu view
 	if (detecting_backward_button() && falling_edge_saved && (current_menu_window == 1 || current_menu_window == 2 || current_menu_window == 3)) {

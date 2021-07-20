@@ -32,7 +32,7 @@ struct sGlobal_data
 	bool red_button;
 	bool detecting_box;
 	float measurement;
-
+	bool global_exit;
 	std::vector<sf::RectangleShape> boxes;
 
 	int current_step = 0;
