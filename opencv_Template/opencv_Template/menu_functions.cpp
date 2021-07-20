@@ -588,8 +588,8 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 			if_display = true;
 		}
 
-		//start sequention if button pushed
-		if (falling_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window) && this->display_start_sequention)
+		//start sequention if button pushed or enter pressed
+		if ((falling_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window) && this->display_start_sequention && !this->start_sequention) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && this->display_start_sequention && !this->start_sequention))
 		{
 			this->start_sequention = true;
 			assign_sequence();

@@ -258,13 +258,19 @@ void thread_vision::operator()(int index)
 			cv::Mat box = box_filters();
 
 			this->box_detection = check_pattern_one_rect(box, TL_of_window, 5000, 7000);
-
-			//  Communication between threads
-			m.lock();
 			
-			data_box.green_button = this->green_button;
-			data_box.red_button = this->red_button;
-			data_box.detecting_box = this->box_detection;
+			//  Communication between threads
+
+			m.lock();
+
+			if (data_box.green_button != this->green_button) 
+				data_box.green_button = this->green_button;
+
+			if (data_box.red_button != this->red_button) 
+				data_box.red_button = this->red_button;
+
+			if(data_box.detecting_box != this->box_detection)
+				data_box.detecting_box = this->box_detection;
 
 			m.unlock();
 
