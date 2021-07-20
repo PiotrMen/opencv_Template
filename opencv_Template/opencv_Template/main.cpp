@@ -34,7 +34,7 @@ int main()
 	int current_window = 0;
 
 
-	//std::thread th(thread_vision(), 0);
+	std::thread th(thread_vision(), 1);
 
 	while (objects.getWindowIsOpen() && menu_objects.getWindowIsOpen())
 	{
@@ -44,6 +44,7 @@ int main()
 		//Update
 		objects.update(data_box.current_step, current_window);
 
+		objects.sequence_activated = menu_objects.start_sequention;
 
 		menu_objects.render(data_box.current_step, current_window);
 		//Render
@@ -56,7 +57,7 @@ int main()
 
 		//m.unlock();
 	}
-	//th.join();
+	th.join();
 
 	return 0;
 }

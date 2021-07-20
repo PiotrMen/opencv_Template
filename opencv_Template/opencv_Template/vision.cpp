@@ -189,6 +189,7 @@ void thread_vision::display_Tracksbars(int &hmin, int &hmax, int &smin, int &sma
 }
 void thread_vision::init_boxes()
 {
+	m.lock();
 	for (int i = 0; i < data_box.boxes.size(); i++)
 	{
 		if (i < 9)
@@ -217,6 +218,7 @@ void thread_vision::init_boxes()
 		}
 
 	}
+	m.unlock();
 }
 
 void thread_vision::operator()(int index)
@@ -231,12 +233,18 @@ void thread_vision::operator()(int index)
 
 	while (true)
 	{
-		if (data_box.is_sequence_activated)
+		m.lock();
+		if (data_box.is_sequence_activated != this->is_sequence_activated)
+			this->is_sequence_activated = data_box.is_sequence_activated;
+		m.unlock();
+
+		if (this->is_sequence_activated)
 		{
 			if (boxes.size() == 0)
 			{
 				init_boxes();
 			}
+			
 
 			// Camera trigger
 			camera.read(image);

@@ -42,7 +42,8 @@ public:
 	bool sequence_previous_state = false;   // State of previous iteration
 	int step_of_sequence = 0;		// 0 - sequence is not active / 1 - lighting rectangle / 2 - installing article
 	int actual_length = 0;			// Program displays rectangle in 2nd step based on this value
-	
+	bool sequence_activated= false;
+
 	//bool back_to_menu;				// true if red button is activated. Program awaits confirmation of reset
 
 

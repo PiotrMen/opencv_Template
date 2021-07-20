@@ -589,11 +589,33 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		}
 
 		//start sequention if button pushed or enter pressed
-		if ((falling_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window) && this->display_start_sequention && !this->start_sequention) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && this->display_start_sequention && !this->start_sequention))
+		if ((falling_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window) && this->display_start_sequention && !data_box.is_sequence_activated) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && this->display_start_sequention && !this->start_sequention))
 		{
+			//data_box.is_sequence_activated = true;
 			this->start_sequention = true;
+			this->display_start_sequention = false;
 			assign_sequence();
+			this->current_menu_window = 202;
+			if_clear = true;
+			if_display = true;
 		}
+	}
+
+	if (this->current_menu_window == 202 && !data_box.is_sequence_activated) {
+		//back to basic menu
+		this->current_menu_window = 0;
+
+		//claering vectors
+		this->vector_displaying_articles.clear();
+		this->connectors_list.clear();
+		this->vector_rectangles.clear();
+		sequence.clear();
+		rectangles_saved = false;
+		this->start_sequention = false;
+		this->which_box_is_writing = 0;
+		this->which_box_chosen = 0;
+		if_clear = true;
+		if_display = true;
 	}
 }
 
@@ -608,6 +630,8 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 //101 - Load .csv file help window
 //102 - Match boxes help window
 //103 - Tracing help window
+
+//202 freezed screen with matched boxes
 
 void menu_sfml_objects::render(int current_step, int current_window)
 {
@@ -783,6 +807,7 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		}
 		this->if_clear = false;
 	}
+
 	if (this->current_menu_window == 102)
 	{
 		this->display_text(this->menu_window_width / 2, 130, "Pomoc", 200);
@@ -794,6 +819,30 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		this->display_text(this->menu_window_width / 2, this->menu_window_height / 2, load_txt_help("help_montaz_zlaczek.txt"), 34);
 
 		this->if_clear = true;
+	}
+
+	if (this->current_menu_window == 202 && if_clear)
+	{
+		//displaying rectangles
+		for (int i = 0; i < 20; i++) {
+			this->menu_window->draw(this->vector_rectangles[i]);
+			this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 30, std::to_string(i + 1), 120);
+		}
+
+		//displaying texts on rectangle
+		this->display_text(vector_rectangles[which_box_is_writing].getPosition().x, vector_rectangles[which_box_is_writing].getPosition().y + 90, searching_text, 20);
+
+		for (int i = 0; i < vector_displaying_articles.size(); i++) {
+			if (!connectors_list[i].repeated_number && vector_displaying_articles[i].serial_number != 0)
+				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y + 90, std::to_string(vector_displaying_articles[i].serial_number), 20);
+			if (connectors_list[i].wrong_number)
+				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 90, "Zly numer", 20);
+
+			if (connectors_list[i].repeated_number)
+				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 90, "Powtorzony numer", 20);
+		}
+
+		this->if_clear = false;
 	}
 
 	//tracing section displaying

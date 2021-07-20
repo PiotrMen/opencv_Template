@@ -38,6 +38,8 @@ private:
 	// Pomocnicze zmienne do ustalania tresholdu
 	int tresh_min = 0;
 	int tresh_max = 255;
+
+	bool is_sequence_activated = false;
 };
 
 

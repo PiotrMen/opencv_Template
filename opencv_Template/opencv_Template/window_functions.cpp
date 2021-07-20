@@ -141,7 +141,7 @@ void sfml_objects::update(int &current_step, int &current_window)
 {
 	this->pollEvents(current_step, current_window);
 
-	if (!this->sequence_previous_state && data_box.is_sequence_activated)
+	if (!this->sequence_previous_state && this->sequence_activated)
 	{
 		lighting_rectangles.clear();
 		int k;
@@ -164,6 +164,7 @@ void sfml_objects::update(int &current_step, int &current_window)
 
 		// sfml data to opencv
 		data_box.boxes = lighting_rectangles;
+		data_box.is_sequence_activated = this->sequence_activated;
 		this->step_of_sequence = 1;
 	}
 	
@@ -178,7 +179,7 @@ void sfml_objects::update(int &current_step, int &current_window)
 		this->article_installed = true;
 	}
 
-	this->sequence_previous_state = data_box.is_sequence_activated;
+	this->sequence_previous_state = this->sequence_activated;
 }
 
 
