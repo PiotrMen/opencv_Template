@@ -49,15 +49,11 @@ int main()
 		menu_objects.render(data_box.current_step, current_window);
 		//Render
 		objects.render(data_box.current_step, current_window);
-		
-		//m.lock();
 
 		//std::cout << data_box.red_button << "   " << data_box.green_button << std::endl;
-		if (data_box.global_exit) {
+		if (data_box.global_exit) 
 			break;
-		}
 
-		//m.unlock();
 	}
 	th.join();
 	return 0;

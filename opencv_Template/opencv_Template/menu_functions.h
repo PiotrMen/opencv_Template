@@ -71,7 +71,6 @@ public:
 	int working_field_width;	//in milimeters
 	int working_field_height;
 
-	bool exit_menu = false;
 
 	//Constructor
 	menu_sfml_objects();

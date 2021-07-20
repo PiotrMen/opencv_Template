@@ -326,8 +326,6 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 
 	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(200, this->Start_button_y, this->Start_button_length_x, this->Start_button_length_y, this->menu_button_size, this->menu_window) && this->current_menu_window == 0)
 		data_box.global_exit = true;
-		//this->exit_menu = true;
-		//exit(1);
 
 	//Backing to basic menu view
 	if (detecting_backward_button() && falling_edge_saved && (current_menu_window == 1 || current_menu_window == 2 || current_menu_window == 3)) {
@@ -593,7 +591,6 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		//start sequention if button pushed or enter pressed
 		if ((falling_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window) && this->display_start_sequention && !data_box.is_sequence_activated) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && this->display_start_sequention && !this->start_sequention))
 		{
-			//data_box.is_sequence_activated = true;
 			this->start_sequention = true;
 			this->display_start_sequention = false;
 			assign_sequence();
@@ -616,6 +613,8 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		this->start_sequention = false;
 		this->which_box_is_writing = 0;
 		this->which_box_chosen = 0;
+
+		//Clearing global vector
 		data_box.boxes.clear();
 		if_clear = true;
 		if_display = true;
@@ -824,6 +823,7 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		this->if_clear = true;
 	}
 
+	//freezed screen when sequetion started
 	if (this->current_menu_window == 202 && if_clear)
 	{
 		//displaying rectangles

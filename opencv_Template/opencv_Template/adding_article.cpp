@@ -320,35 +320,6 @@ char menu_sfml_objects::check_character(int key_number, bool shift_pressed, bool
 			return '9';
 		break;
 
-		// shift do ogarniêcia  mo¿liwe ¿e w osobnej funkcji, wartoœæ zwracana to 38
-
-	//case 38: // shift
-	//	if (shift_pressed == true || caps_lock_pressed == true)
-	//	{
-	//		//return '';
-	//	}
-	//	else
-	//		//return '9';
-	//	break;
-
-	//case -1: // caps lock tak samo jak z shiftem
-	//	if (shift_pressed == true || caps_lock_pressed == true)
-	//	{
-	//		return '(';
-	//	}
-	//	else
-	//		return '9';
-	//	break;
-
-	//case 58: // enter tak samo
-	//	if (shift_pressed == true || caps_lock_pressed == true)
-	//	{
-	//		return '(';
-	//	}
-	//	else
-	//		return '9';
-	//	break;
-
 	case 46: // [    {
 		if (shift_pressed == true || caps_lock_pressed == true)
 		{
