@@ -259,10 +259,10 @@ void menu_sfml_objects::pollEvents(int &current_step, int &current_window)
 			}
 
 			// Handling Shift
-			if (event.key.code == sf::Keyboard::LShift || event.key.code == sf::Keyboard::RShift)
-				shift_pressed = true;
-			else
-				shift_pressed = false;
+			shift_pressed = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift);
+			if(shift_pressed == false)
+				shift_pressed = sf::Keyboard::isKeyPressed(sf::Keyboard::RShift);
+
 
 			// Handling Enter if input is in place
 			if (event.key.code == sf::Keyboard::Enter && searching_text.size() > 0)
