@@ -1,5 +1,6 @@
 #include "vision.h"
 
+
 cv::Mat thread_vision::button_filters(int select_button) 
 {
 	cv::Mat cropped_image;
@@ -253,23 +254,43 @@ void thread_vision::operator()(int index)
 			cv::Mat red_button_image = button_filters(0);
 			cv::Mat green_button_image = button_filters(1);
 
+			if (this->box_flag) {
+				this->real_time = this->clock.getElapsedTime();
+				if (this->real_time >= this->time_compare) {
+					this->box_flag = false;
+					this->clock.restart();
+					this->real_time = this->clock.restart();
+				}
+			}
+
+			//m.lock();
 			if (check_pattern(red_button_image, cv::Point(50, 700), 500, 700))
 				this->red_button = false;
 			else
 				this->red_button = true;
 
-			if (check_pattern(green_button_image, cv::Point(1505, 705), 500, 700))
-				this->green_button = false;
-			else
-				this->green_button = true;
+			if (!this->box_flag && data_box.step_in_sequence == 2) {
+				if (check_pattern(green_button_image, cv::Point(1505, 705), 500, 700))
+					this->green_button = false;
+				else {
+					this->green_button = true;
+					this->clock.restart();
+				}
+			}
 
 			cv::Mat box = box_filters();
 
-			if (check_pattern_one_rect(box, TL_of_window, 5000, 7000))
-				this->box_detection = false;
-			else
-				this->box_detection = true;
-			
+			if (data_box.step_in_sequence == 1) {
+				if (check_pattern_one_rect(box, TL_of_window, 5000, 7000))
+					this->box_detection = false;
+				else {
+					this->box_detection = true;
+					this->box_flag = true;
+					this->clock.restart();
+				}
+			}
+			//m.unlock();
+
 			if (this->green_button && this->box_detection) {
 				this->green_button = false;
 				this->box_detection = false;

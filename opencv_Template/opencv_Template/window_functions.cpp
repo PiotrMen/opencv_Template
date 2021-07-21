@@ -240,6 +240,8 @@ void sfml_objects::render(int &current_step, int current_window)
 	}
 	}
 
+	data_box.step_in_sequence = this->step_of_sequence;
+
 	// Drawing
 	if (this->step_of_sequence != 0)
 	{

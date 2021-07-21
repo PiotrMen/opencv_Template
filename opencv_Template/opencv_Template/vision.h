@@ -8,7 +8,7 @@
 #include "opencv2/opencv.hpp"
 #include <SFML/Graphics.hpp>
 #include "Universal_functions.h"
-
+#include <SFML/System/Time.hpp>
 
 class thread_vision
 {
@@ -40,6 +40,12 @@ private:
 	int tresh_max = 255;
 
 	bool is_sequence_activated = false;
+
+	sf::Time time_compare = sf::seconds(3);
+	sf::Time real_time;
+	sf::Clock clock;
+
+	bool box_flag;
 };
 
 
