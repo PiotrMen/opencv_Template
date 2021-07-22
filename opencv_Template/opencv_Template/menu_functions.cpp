@@ -14,6 +14,22 @@ menu_sfml_objects::menu_sfml_objects()
 	this->menu_window = new sf::RenderWindow(sf::VideoMode(menu_window_width, menu_window_height), "Menu", sf::Style::Fullscreen);
 	this->menu_window->setPosition(sf::Vector2i(0, -1080));
 	this->enable_writing = false;
+
+	for (int i = 0; i < 20; i++) {
+		rectangles_saved = true;
+		int k;
+		sf::RectangleShape rect;
+		if (i >= 10) {
+			k = mm_to_pixels_converter(175);
+			rect = making_rectangle(mm_to_pixels_converter(60 + (i * 120) - 1200), 400 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(165), sf::Color::Red, 0);
+			this->vector_rectangles.push_back(rect);
+		}
+		else {
+			k = 0;
+			rect = making_rectangle(mm_to_pixels_converter(60 + (i * 120)), 400 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(165), sf::Color::Red, 0);
+			this->vector_rectangles.push_back(rect);
+		}
+	}
 }
 
 // Initializations
@@ -421,25 +437,6 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 	}
 
 	
-	//saving rectangles to the vector
-	if (current_menu_window == 2 && !rectangles_saved) {
-		for (int i = 0; i < 20; i++) {
-			rectangles_saved = true;
-			int k;
-			sf::RectangleShape rect;
-			if (i >= 10) {
-				k = mm_to_pixels_converter(175);
-				rect = making_rectangle(mm_to_pixels_converter(60 + (i * 120) - 1200), 400 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(165), sf::Color::Red, 0);
-				this->vector_rectangles.push_back(rect);
-			}
-			else {
-				k = 0;
-				rect = making_rectangle(mm_to_pixels_converter(60 + (i * 120)), 400 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(165), sf::Color::Red, 0);
-				this->vector_rectangles.push_back(rect);
-			}
-		}
-	}
-	
 	//serial numbers on rectangles
 	if (current_menu_window == 2){
 		bool if_wrong = true;
@@ -610,9 +607,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		//clearing vectors
 		this->vector_displaying_articles.clear();
 		this->connectors_list.clear();
-		this->vector_rectangles.clear();
 		sequence.clear();
-		rectangles_saved = false;
 		this->start_sequention = false;
 		this->which_box_is_writing = 0;
 		this->which_box_chosen = 0;
@@ -621,6 +616,10 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		data_box.boxes.clear();
 		if_clear = true;
 		if_display = true;
+
+		for (int i = 0; i < 20; i++) {
+			vector_rectangles[i].setFillColor(sf::Color::Red);
+		}
 	}
 }
 
