@@ -46,6 +46,7 @@ public:
 
 
 	std::vector <sf::RectangleShape> lighting_rectangles;
+	std::vector <sf::RectangleShape> outline_rectangles;
 
 	bool article_taken;						// checks if good article was taken from box
 	bool article_installed;					// checks if article was installed and waits for confirmation
@@ -70,9 +71,9 @@ public:
 	bool detecting_red_button();
 
 	//Functions
-	void pollEvents(int &current_step, int &current_window);
-	void update(int &current_step, int &current_window);
-	void render(int &current_step, int current_window);
+	void pollEvents(int &current_step);
+	void update(int &current_step);
+	void render(int &current_step, int current_menu_window, std::vector<sf::RectangleShape>v_rectangles);
 
 private:
 
