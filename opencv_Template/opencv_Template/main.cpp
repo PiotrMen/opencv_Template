@@ -42,13 +42,13 @@ int main()
 		menu_objects.update(data_box.current_step, current_window);
 
 		//Update
-		objects.update(data_box.current_step, current_window);
+		objects.update(data_box.current_step);
 
 		objects.sequence_activated = menu_objects.start_sequention;
 
 		menu_objects.render(data_box.current_step, current_window);
 		//Render
-		objects.render(data_box.current_step, current_window);
+		objects.render(data_box.current_step, menu_objects.current_menu_window, menu_objects.vector_rectangles);
 
 		//std::cout << data_box.red_button << "   " << data_box.green_button << std::endl;
 		if (data_box.global_exit) 

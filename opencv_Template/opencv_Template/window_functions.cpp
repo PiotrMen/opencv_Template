@@ -8,6 +8,23 @@ sfml_objects::sfml_objects()
 	this->window_width = 1920;
 	this->window = new sf::RenderWindow(sf::VideoMode(window_width, window_height), "Window", sf::Style::Fullscreen);
 
+	int k;
+	for (int i = 0; i < 20; i++)
+	{
+		sf::RectangleShape rect;
+		if (i >= 10) {
+			k = mm_to_pixels_converter(175);
+			rect = making_rectangle(mm_to_pixels_converter(60 + (i * 120) - 1200), 150 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(165), sf::Color::Green, 0);
+			this->lighting_rectangles.push_back(rect);
+		}
+		else {
+			k = 0;
+			rect = making_rectangle(mm_to_pixels_converter(60 + (i * 120)), 150 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(165), sf::Color::Green, 0);
+			this->lighting_rectangles.push_back(rect);
+		}
+
+		k = k + 100;
+	}
 }
 
 // Initializations
@@ -100,7 +117,7 @@ bool sfml_objects::detecting_red_button()
 
 
 //Functions
-void sfml_objects::pollEvents(int &current_step, int &current_window)
+void sfml_objects::pollEvents(int &current_step)
 {
 	//Event polling
 	while (this->window->pollEvent(this->event))
@@ -137,31 +154,12 @@ void sfml_objects::pollEvents(int &current_step, int &current_window)
 	}
 }
 
-void sfml_objects::update(int &current_step, int &current_window)
+void sfml_objects::update(int &current_step)
 {
-	this->pollEvents(current_step, current_window);
+	this->pollEvents(current_step);
 
 	if (!this->sequence_previous_state && this->sequence_activated)
 	{
-		lighting_rectangles.clear();
-		int k;
-		for (int i = 0; i < 20; i++)
-		{
-			sf::RectangleShape rect;
-			if (i >= 10) {
-				k = mm_to_pixels_converter(175);
-				rect = making_rectangle(mm_to_pixels_converter(60 + (i * 120) - 1200), 150 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(165), sf::Color::Green, 0);
-				this->lighting_rectangles.push_back(rect);
-			}
-			else {
-				k = 0;
-				rect = making_rectangle(mm_to_pixels_converter(60 + (i * 120)), 150 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(165), sf::Color::Green, 0);
-				this->lighting_rectangles.push_back(rect);
-			}
-
-			k = k + 100;
-		}
-
 		// sfml data to opencv
 		data_box.boxes = lighting_rectangles;
 		data_box.is_sequence_activated = this->sequence_activated;
@@ -183,12 +181,29 @@ void sfml_objects::update(int &current_step, int &current_window)
 }
 
 
-void sfml_objects::render(int &current_step, int current_window)
+void sfml_objects::render(int &current_step, int current_menu_window, std::vector<sf::RectangleShape>v_rectangles)
 {
-	//this->window->clear(sf::Color(255, 255, 255, 255));
 	this->window->clear(sf::Color(0, 0, 0, 255));
-	// Sequence
 
+
+	if (current_menu_window == 2) {
+
+		for (int i = 0; i < v_rectangles.size(); i++) {
+			if (v_rectangles[i].getFillColor() == (sf::Color::Green)) {
+				sf::RectangleShape rectangle_;
+				rectangle_.setSize(sf::Vector2f(this->lighting_rectangles[i].getSize().x, this->lighting_rectangles[i].getSize().y));
+				rectangle_.setOrigin(sf::Vector2f(rectangle_.getSize().x / 2, rectangle_.getSize().y / 2));
+				rectangle_.setPosition(this->lighting_rectangles[i].getPosition().x, this->lighting_rectangles[i].getPosition().y);
+				rectangle_.setFillColor(sf::Color::Black);
+				rectangle_.setOutlineThickness(5);
+				rectangle_.setOutlineColor(sf::Color::White);
+
+				this->window->draw(rectangle_);
+			}
+		}
+	}
+
+	// Sequence
 	switch (this->step_of_sequence)
 	{
 	case 0:
@@ -259,8 +274,8 @@ void sfml_objects::render(int &current_step, int current_window)
 	}
 
 	// Executing Back to menu button
-	if (this->step_of_sequence != 0 && data_box.red_button)
-		this->display_text(this->window_width / 2, this->window_height - 100, "Zaslon przycisk potwierdzenia aby wyjsc z sekwencji", 52);
+	/*if (this->step_of_sequence != 0 && data_box.red_button)
+		this->display_text(this->window_width / 2, this->window_height - 100, "Zaslon przycisk potwierdzenia aby wyjsc z sekwencji", 52);*/
 
 	this->window->display();
 }

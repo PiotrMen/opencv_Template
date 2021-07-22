@@ -108,6 +108,9 @@ public:
 	// Functions
 	char check_character(int key_number, bool shift_pressed, bool & caps_lock_pressed);
 
+	int current_menu_window;
+	std::vector<sf::RectangleShape> vector_rectangles;
+
 private:
 
 	//vector assigment
@@ -116,8 +119,6 @@ private:
 	//displaying underline
 	void display_underline();
 
-	std::vector<sf::RectangleShape> vector_rectangles;
-	std::vector <sData> vector_displaying_articles;
 	bool rectangles_saved = false;
 	// length of sides in pixels
 	int backward_length_button_x;
@@ -140,7 +141,6 @@ private:
 	bool falling_edge = false;
 	bool rising_edge_saved;
 	bool falling_edge_detected = false;
-	int current_menu_window;
 	bool falling_edge_saved;
 	
 	bool help_window_opened;
@@ -149,11 +149,13 @@ private:
 	bool underline_detected_previous = false;
 
 	// vector of unique connectors from list
-	std::vector <sData> connectors_list;
+	std::vector <sData> vector_displaying_articles;
 
 	//Name of csv sequence
 	std::string sequence_name;
 
+	int which_box_is_writing = 0;
+	std::vector <sData> connectors_list;
 
 	//one time display if match boxes section
 	bool if_clear=true;
@@ -162,7 +164,6 @@ private:
 	bool change_number = false;
 
 	sData empty;
-	int which_box_is_writing = 0;
 	std::string previous_string;
 };
 
