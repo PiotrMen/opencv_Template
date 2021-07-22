@@ -73,6 +73,24 @@ void sfml_objects::display_text(int pos_x, int pos_y, std::string text, float si
 	this->window->draw(text_);
 }
 
+void sfml_objects::display_text(int pos_x, int pos_y, std::string text, float size, sf::Color color)
+{
+	sf::Font font_;
+	if (!font_.loadFromFile("resources/mermaid/Mermaid1001.ttf"))
+	{
+		std::cerr << "Could not load font" << std::endl;
+		exit(1);
+	}
+	sf::Text text_;
+	text_.setFillColor(color);
+	text_.setFont(font_);
+	text_.setString(text);
+	text_.setCharacterSize(size);
+	text_.setOrigin(0, 0);     //set origins to 0
+	text_.setPosition(pos_x, pos_y);
+	this->window->draw(text_);
+}
+
 //Accessors
 const bool sfml_objects::getWindowIsOpen()
 {
@@ -165,6 +183,12 @@ void sfml_objects::update(int &current_step, int &current_window)
 		// sfml data to opencv
 		data_box.boxes = lighting_rectangles;
 		data_box.is_sequence_activated = this->sequence_activated;
+		
+		// Initializing sequence list
+
+		list.push_back("1.1 Pobranie " + sequence[0].name);				//Actual step
+		list.push_back("1.2 Instalacja " + sequence[0].name);			//Following step
+
 		this->step_of_sequence = 1;
 	}
 	
@@ -177,6 +201,16 @@ void sfml_objects::update(int &current_step, int &current_window)
 	if (data_box.green_button && this->step_of_sequence == 2)
 	{
 		this->article_installed = true;
+	}
+
+	// Sequence is active
+	if (step_of_sequence != 0)
+	{
+		//// Reducing list to 4 elements
+		//if (list.size() > 4)
+		//{
+		//	list.erase(list.begin());
+		//}
 	}
 
 	this->sequence_previous_state = this->sequence_activated;
@@ -210,6 +244,13 @@ void sfml_objects::render(int &current_step, int current_window)
 		{
 			this->step_of_sequence = 2;
 			this->article_taken = false;
+
+			// New element in list
+			if(current_step > 0 && current_step < sequence.size() - 1)
+				list.erase(list.begin());
+			if(sequence.size() > current_step + 1)
+				list.push_back(std::to_string(current_step + 2) + "." + std::to_string(1) + " Pobranie " + sequence[current_step + 1].name);
+			
 		}
 		break;
 	}
@@ -231,6 +272,12 @@ void sfml_objects::render(int &current_step, int current_window)
 		else 
 		if (this->article_installed)
 		{
+			// New element in list
+			if (current_step > 0 && current_step < sequence.size() - 1)
+				list.erase(list.begin());
+			if (sequence.size() > current_step + 1)
+				list.push_back(std::to_string(current_step + 2) + "." + std::to_string(2) + " Instalacja " + sequence[current_step + 1].name);
+
 			this->step_of_sequence = 1;
 			current_step++;
 			this->article_installed = false;
@@ -239,28 +286,47 @@ void sfml_objects::render(int &current_step, int current_window)
 		break;
 	}
 	}
-
 	data_box.step_in_sequence = this->step_of_sequence;
 
 	// Drawing
 	if (this->step_of_sequence != 0)
 	{
 		this->display_texture(this->green_button_x, this->green_button_y, "green_circle.png", this->button_size, 0);   //displaying basic graphics 
-		this->display_texture(this->red_button_x, this->red_button_y, "red_circle.png", this->button_size, 0);
 		this->display_text(this->green_button_x, this->green_button_y + ((this->red_button_length_y*button_size)) / 2, "Continue", 40); //displaying texts
-		this->display_text(this->red_button_x, this->red_button_y + ((this->red_button_length_y * button_size)) / 2, "Back to menu", 40);
-
-		// current step trzeba bêdzie zmieniæ póŸniej na krok sekwencji kiedy zostanie zaimplementowana
 
 		if (sequence.size() != 0)
 		{
 			this->display_text(1700, 50, ("Aktualny krok: " + std::to_string(current_step + 1) + "/" + std::to_string(sequence.size())), 40);  //displaying "aktualny krok" in corner 
 		}
-	}
 
-	// Executing Back to menu button
-	if (this->step_of_sequence != 0 && data_box.red_button)
-		this->display_text(this->window_width / 2, this->window_height - 100, "Zaslon przycisk potwierdzenia aby wyjsc z sekwencji", 52);
+		// Drawing sequence list
+
+
+		if (current_step == 0 && step_of_sequence == 1)
+		{
+			this->display_text(10, 880, list[0], 30, sf::Color::Yellow);
+			this->display_text(10, 930, list[1], 30, sf::Color::Red);
+		}
+		else if (current_step == 0 && step_of_sequence == 2)
+		{
+			this->display_text(10, 880, list[0], 30, sf::Color::Green);
+			this->display_text(10, 930, list[1], 30, sf::Color::Yellow);
+			this->display_text(10, 9800, list[2], 30, sf::Color::Red);
+		}
+		else if (current_step == sequence.size() - 1 && step_of_sequence == 2)
+		{
+			this->display_text(20, 880, list[1], 30, sf::Color::Green);
+			this->display_text(10, 930, list[2], 30, sf::Color::Green);
+			this->display_text(10, 980, list[3], 30, sf::Color::Yellow);
+		}
+		else
+		{
+			this->display_text(10, 880, list[0], 30, sf::Color::Green);
+			this->display_text(10, 930, list[1], 30, sf::Color::Green);
+			this->display_text(10, 980, list[2], 30, sf::Color::Yellow);
+			this->display_text(10, 1030, list[3], 30, sf::Color::Red);
+		}
+	}
 
 	this->window->display();
 }

@@ -60,6 +60,7 @@ public:
 	//Displaying objects
 	void display_texture(int pos_x, int pos_y, std::string file_path, float scale, float rotation);
 	void display_text(int pos_x, int pos_y, std::string text, float size);
+	void display_text(int pos_x, int pos_y, std::string text, float size, sf::Color color);
 
 	//Accessors
 	const bool getWindowIsOpen();
@@ -72,6 +73,11 @@ public:
 	void pollEvents(int &current_step, int &current_window);
 	void update(int &current_step, int &current_window);
 	void render(int &current_step, int current_window);
+
+private:
+
+	std::vector <std::string> list;											// Displays 2 previous, actual and following step in sequence
+
 };
 
 #endif
