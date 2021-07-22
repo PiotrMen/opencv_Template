@@ -64,7 +64,7 @@ void sfml_objects::display_text(int pos_x, int pos_y, std::string text, float si
 		exit(1);
 	}
 	sf::Text text_;
-	text_.setFillColor(sf::Color::Black);
+	text_.setFillColor(sf::Color::White);
 	text_.setFont(font_);
 	text_.setString(text);
 	text_.setCharacterSize(size);
@@ -185,8 +185,8 @@ void sfml_objects::update(int &current_step, int &current_window)
 
 void sfml_objects::render(int &current_step, int current_window)
 {
-	this->window->clear(sf::Color(255, 255, 255, 255));
-
+	//this->window->clear(sf::Color(255, 255, 255, 255));
+	this->window->clear(sf::Color(0, 0, 0, 255));
 	// Sequence
 
 	switch (this->step_of_sequence)
