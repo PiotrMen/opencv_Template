@@ -45,8 +45,8 @@ public:
 	//delete article button
 
 	//coordinates 
-	int Tracing_button_x;
-	int Tracing_button_y;
+	int Calibration_button_x;
+	int Calibration_button_y;
 
 	//start sequention
 	bool start_sequention;
@@ -90,7 +90,7 @@ public:
 	bool detecting_blue_button();
 	bool detecting_Upload_file_button();
 	bool detecting_Match_boxes_button();
-	bool detecting_Connectors_options_button();
+	bool detecting_calibration_button();
 	bool detecting_backward_button();
 
 	//Detecting rising/falling edges

@@ -9,21 +9,12 @@ sfml_objects::sfml_objects()
 	this->window = new sf::RenderWindow(sf::VideoMode(window_width, window_height), "Window", sf::Style::Fullscreen);
 
 	int k;
-	for (int i = 0; i < 20; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		sf::RectangleShape rect;
-		if (i >= 10) {
-			k = mm_to_pixels_converter(175);
-			rect = making_rectangle(mm_to_pixels_converter(60 + (i * 120) - 1200), 150 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(165), sf::Color::Green, 0);
-			this->lighting_rectangles.push_back(rect);
-		}
-		else {
-			k = 0;
-			rect = making_rectangle(mm_to_pixels_converter(60 + (i * 120)), 150 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(165), sf::Color::Green, 0);
-			this->lighting_rectangles.push_back(rect);
-		}
-
-		k = k + 100;
+		k = 120;
+		rect = making_rectangle(mm_to_pixels_converter(60 + (i * 120)), 150 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(315), sf::Color::Green, 0);
+		this->lighting_rectangles.push_back(rect);
 	}
 }
 
@@ -258,7 +249,7 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 {
 	this->window->clear(sf::Color(0, 0, 0, 255));
 	
-
+	this->menu_window = current_menu_window;
 	if (current_menu_window == 2) {
 
 		for (int i = 0; i < v_rectangles.size(); i++) {
@@ -388,6 +379,32 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 	data_box.detecting_box = false;
 
 	//
+
+	//Calibration tape points on table
+	if (this->menu_window == 3) {
+		sf::RectangleShape rectangle_;
+		for (int i = 0; i < this->lighting_rectangles.size(); i++) {
+			//sf::RectangleShape rectangle_;
+
+			rectangle_.setSize(sf::Vector2f(mm_to_pixels_converter(95), mm_to_pixels_converter(25)));
+			rectangle_.setOrigin(sf::Vector2f(rectangle_.getSize().x / 2, rectangle_.getSize().y / 2));
+			rectangle_.setPosition(this->lighting_rectangles[i].getPosition().x, this->lighting_rectangles[i].getPosition().y + this->lighting_rectangles[i].getSize().y/2+ mm_to_pixels_converter(25));
+			rectangle_.setFillColor(sf::Color::Green);
+			//rectangle_.setOutlineThickness(5);
+			//rectangle_.setOutlineColor(sf::Color::White);
+			
+			this->window->draw(rectangle_);
+		}
+
+		rectangle_.setSize(sf::Vector2f(mm_to_pixels_converter(45), mm_to_pixels_converter(50)));
+		rectangle_.setOrigin(sf::Vector2f(this->green_button_length_x / 2, this->green_button_length_y / 2));
+		rectangle_.setPosition(this->green_button_x, this->green_button_y);
+		rectangle_.setFillColor(sf::Color::Green);
+		this->window->draw(rectangle_);
+
+
+		this->display_text(this->window_width/2, 800, "Jesli jestes pewna/y ze tasmy znajduja sie w podswietlonych na zielono miejscach to zatwierdz na komputerze", 40);
+	}
 
 	this->window->display();
 }

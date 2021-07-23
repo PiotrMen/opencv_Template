@@ -15,20 +15,13 @@ menu_sfml_objects::menu_sfml_objects()
 	this->menu_window->setPosition(sf::Vector2i(0, -1080));
 	this->enable_writing = false;
 
-	for (int i = 0; i < 20; i++) {
+	for (int i = 0; i < 10; i++) {
 		rectangles_saved = true;
 		int k;
 		sf::RectangleShape rect;
-		if (i >= 10) {
-			k = mm_to_pixels_converter(175);
-			rect = making_rectangle(mm_to_pixels_converter(60 + (i * 120) - 1200), 400 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(165), sf::Color::Red, 0);
-			this->vector_rectangles.push_back(rect);
-		}
-		else {
-			k = 0;
-			rect = making_rectangle(mm_to_pixels_converter(60 + (i * 120)), 400 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(165), sf::Color::Red, 0);
-			this->vector_rectangles.push_back(rect);
-		}
+		k = 120;
+		rect = making_rectangle(mm_to_pixels_converter(60 + (i * 120)), 400 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(315), sf::Color::Red, 0);
+		this->vector_rectangles.push_back(rect);
 	}
 }
 
@@ -73,8 +66,8 @@ void menu_sfml_objects::init_buttons_coords(){
 	this->installation_of_connectors_button_y = load_csv_button_y + 200;
 
 	//coordinates for connectors options button
-	this->Tracing_button_x = this->menu_window_width / 2;
-	this->Tracing_button_y = installation_of_connectors_button_y + 200;
+	this->Calibration_button_x = this->menu_window_width / 2;
+	this->Calibration_button_y = installation_of_connectors_button_y + 200;
 }
 
 void menu_sfml_objects::init_button_size(float percentege_size, float menu_button_percentege_size)
@@ -157,9 +150,9 @@ bool menu_sfml_objects::detecting_Match_boxes_button()
 	return false;
 }
 
-bool menu_sfml_objects::detecting_Connectors_options_button()
+bool menu_sfml_objects::detecting_calibration_button()
 {
-	if (((sf::Mouse::getPosition(*this->menu_window).x >= this->Tracing_button_x - ((this->Upload_file_length_button_x * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).x <= this->Tracing_button_x + ((this->Upload_file_length_button_x * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y >= this->Tracing_button_y - ((this->Upload_file_length_button_y * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y <= this->Tracing_button_y + ((this->Upload_file_length_button_y * this->menu_button_size) / 2))))
+	if (((sf::Mouse::getPosition(*this->menu_window).x >= this->Calibration_button_x - ((this->Upload_file_length_button_x * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).x <= this->Calibration_button_x + ((this->Upload_file_length_button_x * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y >= this->Calibration_button_y - ((this->Upload_file_length_button_y * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y <= this->Calibration_button_y + ((this->Upload_file_length_button_y * this->menu_button_size) / 2))))
 	{
 		return true;
 	}
@@ -338,8 +331,8 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		this->current_menu_window = 2;
 	}
 
-	//Moving to connectors options section
-	if (falling_edge_saved && detecting_Connectors_options_button() && this->current_menu_window == 0) {
+	// section
+	if (falling_edge_saved && detecting_calibration_button() && this->current_menu_window == 0) {
 		this->current_menu_window = 3;
 	}
 
@@ -452,6 +445,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 				this->which_box_is_writing = this->which_box_chosen;
 				change_number = true;
 				vector_displaying_articles[which_box_is_writing].serial_number = 0;
+				vector_displaying_articles[which_box_is_writing].name = "";
 				vector_rectangles[which_box_is_writing].setFillColor(sf::Color::Red);
 				connectors_list[which_box_is_writing].repeated_number = false;
 				connectors_list[which_box_is_writing].wrong_number = false;
@@ -463,6 +457,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		{
 			change_number = true;
 			vector_displaying_articles[which_box_is_writing].serial_number = 0;
+			vector_displaying_articles[which_box_is_writing].name = "";
 			vector_rectangles[which_box_is_writing].setFillColor(sf::Color::Red);
 			connectors_list[which_box_is_writing].repeated_number = false;
 			connectors_list[which_box_is_writing].wrong_number = false;
@@ -525,6 +520,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		for (int i = 0; i < connectors_list.size(); i++) {
 			if ((vector_displaying_articles[which_box_is_writing].serial_number == connectors_list[i].serial_number)) {
 				vector_rectangles[which_box_is_writing].setFillColor(sf::Color::Green);
+				vector_displaying_articles[which_box_is_writing].name = connectors_list[i].name;
 				connectors_list[i].matched_rectangle = which_box_is_writing;
 				connectors_list[which_box_is_writing].wrong_number = false;
 				connectors_list[which_box_is_writing].repeated_number = false;
@@ -552,7 +548,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		}
 
 		//chcecking if 7 characters
-		if (searching_text.size() >= 7 && vector_displaying_articles.size() <= 20 && !change_number) {
+		if (searching_text.size() >= 7 && vector_displaying_articles.size() <= 10 && !change_number) {
 			vector_displaying_articles.push_back(this->empty);
 			which_box_is_writing++;
 			searching_text.clear();
@@ -575,7 +571,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		}
 
 		//deleting last empty connetor
-		if (connectors_list.size() <= which_box_is_writing || vector_displaying_articles.size() > 20) {
+		if (connectors_list.size() <= which_box_is_writing || vector_displaying_articles.size() > 10) {
 			vector_displaying_articles.erase(vector_displaying_articles.end() - 1);
 			which_box_is_writing--;
 			if_clear = true;
@@ -628,10 +624,11 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		if_clear = true;
 		if_display = true;
 
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 10; i++) {
 			vector_rectangles[i].setFillColor(sf::Color::Red);
 		}
 	}
+
 }
 
 
@@ -667,10 +664,10 @@ void menu_sfml_objects::render(int current_step, int current_window)
 			this->display_texture(this->installation_of_connectors_button_x, this->installation_of_connectors_button_y, "grey_button.png", this->menu_button_size, 0);
 
 		//Displaying delete button graphics
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && detecting_Connectors_options_button())
-			this->display_texture(this->Tracing_button_x, this->Tracing_button_y, "grey_pushed.png", this->menu_button_size, 0);
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && detecting_calibration_button())
+			this->display_texture(this->Calibration_button_x, this->Calibration_button_y, "grey_pushed.png", this->menu_button_size, 0);
 		else
-			this->display_texture(this->Tracing_button_x, this->Tracing_button_y, "grey_button.png", this->menu_button_size, 0);
+			this->display_texture(this->Calibration_button_x, this->Calibration_button_y, "grey_button.png", this->menu_button_size, 0);
 
 		//Displaying blue button
 		this->display_texture(this->blue_button_x, this->blue_button_y, "blue_circle.png", this->button_size, 0);
@@ -683,7 +680,7 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		//Texts
 		this->display_text(this->load_csv_button_x, this->load_csv_button_y - 10, "Zaladuj plik .csv", 80);
 		this->display_text(this->installation_of_connectors_button_x, this->installation_of_connectors_button_y - 10, "Montaz zlaczek", 80);
-		this->display_text(this->Tracing_button_x, this->Tracing_button_y - 10, "Ustawienia zlaczek", 80);
+		this->display_text(this->Calibration_button_x, this->Calibration_button_y - 10, "Kalibracja system", 80);
 		this->display_text(this->menu_window_width / 2, 130, "Menu", 200);
 
 		// Current sequence name
@@ -704,8 +701,8 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		if (detecting_Match_boxes_button())
 			this->display_texture(this->installation_of_connectors_button_x, this->installation_of_connectors_button_y + 85, "UnderLine.png", this->menu_button_size - 0.2, 0);
 
-		if (detecting_Connectors_options_button())
-			this->display_texture(this->Tracing_button_x, this->Tracing_button_y + 85, "UnderLine.png", this->menu_button_size - 0.2, 0);
+		if (detecting_calibration_button())
+			this->display_texture(this->Calibration_button_x, this->Calibration_button_y + 85, "UnderLine.png", this->menu_button_size - 0.2, 0);
 
 	}
 
@@ -789,7 +786,7 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
 
 		//displaying rectangles
-		for (int i = 0; i < 20; i++){
+		for (int i = 0; i < 10; i++){
 			this->menu_window->draw(this->vector_rectangles[i]);
 			this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y-30, std::to_string(i+1), 120);
 		}
@@ -805,6 +802,9 @@ void menu_sfml_objects::render(int current_step, int current_window)
 
 			if(connectors_list[i].repeated_number)
 				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 90, "Powtorzony numer", 20);
+
+			if (!connectors_list[i].wrong_number && !connectors_list[i].repeated_number && vector_displaying_articles[i].name != "")
+				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 120, vector_displaying_articles[i].name, 20);
 		}
 
 		//displaying start sequention button
@@ -840,7 +840,7 @@ void menu_sfml_objects::render(int current_step, int current_window)
 	if (this->current_menu_window == 202 && if_clear)
 	{
 		//displaying rectangles
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 10; i++) {
 			this->menu_window->draw(this->vector_rectangles[i]);
 			this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 30, std::to_string(i + 1), 120);
 		}
@@ -869,9 +869,9 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		this->if_clear = false;
 	}
 
-	//tracing section displaying
+	//Calibration section section displaying
 	if (this->current_menu_window == 3) {
-		this->display_text(this->menu_window_width / 2, 130, "Ustawienia zlaczek", 200);
+		this->display_text(this->menu_window_width / 2, 130, "Kalibracja systemu", 200);
 
 		//Displaying blue button
 		this->display_texture(this->blue_button_x, this->blue_button_y, "blue_circle.png", this->button_size, 0);
@@ -879,6 +879,9 @@ void menu_sfml_objects::render(int current_step, int current_window)
 
 		//displaying backward in section
 		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+
+		this->display_text(this->menu_window_width / 2, 430, "Kalibrowanie punktow charakterystycznych:", 100);
+		this->display_text(this->menu_window_width / 2, 530, "Sprawdz czy tasmy znajduja sie w podswietlonych miejscach", 60);
 	}
 	if (this->current_menu_window == 103)
 	{

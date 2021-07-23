@@ -29,7 +29,7 @@ void load_csv_database(std::vector <sData> &articles_in_boxes, std::vector <sDat
 			article.serial_number = stoi(match_groups[1]);
 			article.name = match_groups[2];
 
-			if (iterator < 20)
+			if (iterator < 10)
 			{
 				articles_in_boxes.push_back(article);
 			}
@@ -133,7 +133,7 @@ void load_csv_sequence(std::vector <sData> &sequence, std::string file_name, std
 
 	// Checking if sequence can be performed
 
-	if (connectors_list.size() > 20) // Sequence can not be performed
+	if (connectors_list.size() > 10) // Sequence can not be performed
 	{
 		connectors_list.clear();
 		sequence.clear();

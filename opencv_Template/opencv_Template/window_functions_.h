@@ -79,7 +79,7 @@ public:
 private:
 
 	std::vector <std::string> list;											// Displays 2 previous, actual and following step in sequence
-
+	int menu_window;
 };
 
 #endif
