@@ -445,6 +445,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 				this->which_box_is_writing = this->which_box_chosen;
 				change_number = true;
 				vector_displaying_articles[which_box_is_writing].serial_number = 0;
+				vector_displaying_articles[which_box_is_writing].name = "";
 				vector_rectangles[which_box_is_writing].setFillColor(sf::Color::Red);
 				connectors_list[which_box_is_writing].repeated_number = false;
 				connectors_list[which_box_is_writing].wrong_number = false;
@@ -456,6 +457,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		{
 			change_number = true;
 			vector_displaying_articles[which_box_is_writing].serial_number = 0;
+			vector_displaying_articles[which_box_is_writing].name = "";
 			vector_rectangles[which_box_is_writing].setFillColor(sf::Color::Red);
 			connectors_list[which_box_is_writing].repeated_number = false;
 			connectors_list[which_box_is_writing].wrong_number = false;
@@ -518,6 +520,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		for (int i = 0; i < connectors_list.size(); i++) {
 			if ((vector_displaying_articles[which_box_is_writing].serial_number == connectors_list[i].serial_number)) {
 				vector_rectangles[which_box_is_writing].setFillColor(sf::Color::Green);
+				vector_displaying_articles[which_box_is_writing].name = connectors_list[i].name;
 				connectors_list[i].matched_rectangle = which_box_is_writing;
 				connectors_list[which_box_is_writing].wrong_number = false;
 				connectors_list[which_box_is_writing].repeated_number = false;
@@ -788,6 +791,9 @@ void menu_sfml_objects::render(int current_step, int current_window)
 
 			if(connectors_list[i].repeated_number)
 				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 90, "Powtorzony numer", 20);
+
+			if (!connectors_list[i].wrong_number && !connectors_list[i].repeated_number && vector_displaying_articles[i].name != "")
+				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 120, vector_displaying_articles[i].name, 20);
 		}
 
 		//displaying start sequention button
