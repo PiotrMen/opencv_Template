@@ -15,20 +15,13 @@ menu_sfml_objects::menu_sfml_objects()
 	this->menu_window->setPosition(sf::Vector2i(0, -1080));
 	this->enable_writing = false;
 
-	for (int i = 0; i < 20; i++) {
+	for (int i = 0; i < 10; i++) {
 		rectangles_saved = true;
 		int k;
 		sf::RectangleShape rect;
-		if (i >= 10) {
-			k = mm_to_pixels_converter(175);
-			rect = making_rectangle(mm_to_pixels_converter(60 + (i * 120) - 1200), 400 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(165), sf::Color::Red, 0);
-			this->vector_rectangles.push_back(rect);
-		}
-		else {
-			k = 0;
-			rect = making_rectangle(mm_to_pixels_converter(60 + (i * 120)), 400 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(165), sf::Color::Red, 0);
-			this->vector_rectangles.push_back(rect);
-		}
+		k = 120;
+		rect = making_rectangle(mm_to_pixels_converter(60 + (i * 120)), 400 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(315), sf::Color::Red, 0);
+		this->vector_rectangles.push_back(rect);
 	}
 }
 
@@ -552,7 +545,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		}
 
 		//chcecking if 7 characters
-		if (searching_text.size() >= 7 && vector_displaying_articles.size() <= 20 && !change_number) {
+		if (searching_text.size() >= 7 && vector_displaying_articles.size() <= 10 && !change_number) {
 			vector_displaying_articles.push_back(this->empty);
 			which_box_is_writing++;
 			searching_text.clear();
@@ -575,7 +568,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		}
 
 		//deleting last empty connetor
-		if (connectors_list.size() <= which_box_is_writing || vector_displaying_articles.size() > 20) {
+		if (connectors_list.size() <= which_box_is_writing || vector_displaying_articles.size() > 10) {
 			vector_displaying_articles.erase(vector_displaying_articles.end() - 1);
 			which_box_is_writing--;
 			if_clear = true;
@@ -617,7 +610,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		if_clear = true;
 		if_display = true;
 
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 10; i++) {
 			vector_rectangles[i].setFillColor(sf::Color::Red);
 		}
 	}
@@ -779,7 +772,7 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
 
 		//displaying rectangles
-		for (int i = 0; i < 20; i++){
+		for (int i = 0; i < 10; i++){
 			this->menu_window->draw(this->vector_rectangles[i]);
 			this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y-30, std::to_string(i+1), 120);
 		}
@@ -830,7 +823,7 @@ void menu_sfml_objects::render(int current_step, int current_window)
 	if (this->current_menu_window == 202 && if_clear)
 	{
 		//displaying rectangles
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 10; i++) {
 			this->menu_window->draw(this->vector_rectangles[i]);
 			this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 30, std::to_string(i + 1), 120);
 		}

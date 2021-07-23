@@ -9,21 +9,12 @@ sfml_objects::sfml_objects()
 	this->window = new sf::RenderWindow(sf::VideoMode(window_width, window_height), "Window", sf::Style::Fullscreen);
 
 	int k;
-	for (int i = 0; i < 20; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		sf::RectangleShape rect;
-		if (i >= 10) {
-			k = mm_to_pixels_converter(175);
-			rect = making_rectangle(mm_to_pixels_converter(60 + (i * 120) - 1200), 150 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(165), sf::Color::Green, 0);
-			this->lighting_rectangles.push_back(rect);
-		}
-		else {
-			k = 0;
-			rect = making_rectangle(mm_to_pixels_converter(60 + (i * 120)), 150 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(165), sf::Color::Green, 0);
-			this->lighting_rectangles.push_back(rect);
-		}
-
-		k = k + 100;
+		k = 120;
+		rect = making_rectangle(mm_to_pixels_converter(60 + (i * 120)), 150 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(315), sf::Color::Green, 0);
+		this->lighting_rectangles.push_back(rect);
 	}
 }
 
