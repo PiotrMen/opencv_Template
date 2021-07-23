@@ -599,6 +599,17 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 			if_display = true;
 		}
 	}
+	// Sequence active
+	if (this->current_menu_window == 202)
+	{
+		// Handling back to menu button
+		if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->menu_window_width - 200, this->menu_window_height - 150, 124, 124, 1, this->menu_window))
+			data_box.is_sequence_activated = false;
+
+		// Handling step back button
+		if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->backward_button_x, this->backward_button_y, this->backward_length_button_x, this->backward_length_button_y, 1, this->menu_window))
+			data_box.step_back = true;
+	}
 
 	if (this->current_menu_window == 202 && detecting_sequation_ending()) {
 		//back to basic menu
@@ -825,7 +836,7 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		this->if_clear = true;
 	}
 
-	//freezed screen when sequetion started
+	//freezed screen when sequence started
 	if (this->current_menu_window == 202 && if_clear)
 	{
 		//displaying rectangles
@@ -846,6 +857,14 @@ void menu_sfml_objects::render(int current_step, int current_window)
 			if (connectors_list[i].repeated_number)
 				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 90, "Powtorzony numer", 20);
 		}
+
+		// Displaying step back in sequence
+		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+		this->display_text(this->backward_button_x, this->backward_button_y + 75, "Cofnij krok", 30);
+
+		// Displaying back to menu in sequence
+		this->display_texture(this->menu_window_width - 200, this->menu_window_height - 150, "red_circle.png", this->button_size, 0);
+		this->display_text(this->menu_window_width - 200, this->menu_window_height - 75, "Powrot do menu", 30);
 
 		this->if_clear = false;
 	}

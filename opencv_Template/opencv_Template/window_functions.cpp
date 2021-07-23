@@ -159,6 +159,24 @@ void sfml_objects::pollEvents(int &current_step)
 			{
 			case sf::Mouse::Right:
 			{
+
+				// do testow, przechodzenie do kolejnego kroku na prawy przycisk myszy w window functions
+				if (this->step_of_sequence == 1)
+				{
+					data_box.detecting_box = true;
+					
+					Sleep(500);
+				}
+
+
+				if (this->step_of_sequence == 2)
+				{
+					data_box.green_button = true;
+					Sleep(500);
+				}
+
+				//
+
 				break;
 			}
 
@@ -203,16 +221,35 @@ void sfml_objects::update(int &current_step)
 		this->article_installed = true;
 	}
 
-	// Sequence is active
-	if (step_of_sequence != 0)
+	// Go back to previous step in sequence
+
+	if (data_box.step_back == true)
 	{
-		//// Reducing list to 4 elements
-		//if (list.size() > 4)
-		//{
-		//	list.erase(list.begin());
-		//}
+		if (this->step_of_sequence == 2)
+		{
+			this->step_of_sequence = 1;
+
+			if (current_step < sequence.size() - 1)
+				list.pop_back();
+			if(current_step > 0)
+				list.insert(list.begin(), 1, std::to_string(current_step) + "." + std::to_string(1) + " Pobranie " + sequence[current_step - 1].name);
+			data_box.step_back = false;
+		}
+		else if (this->step_of_sequence == 1 && current_step > 0)
+		{
+			this->step_of_sequence = 2;
+			current_step--;
+
+			if (current_step < sequence.size())
+				list.pop_back();
+			if(current_step > 0)
+				list.insert(list.begin(), 1, std::to_string(current_step) + "." + std::to_string(2) + " Instalacja " + sequence[current_step - 1].name);
+			data_box.step_back = false;
+		}
 	}
 
+	if (data_box.is_sequence_activated == false)
+		step_of_sequence = 0;
 	this->sequence_previous_state = this->sequence_activated;
 }
 
@@ -249,6 +286,7 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 		current_step = 0;
 		article_installed = false;
 		article_taken = false;
+		list.clear();
 		break;
 	}
 	case 1: 	// Lighting boxes from witch user takes article
@@ -267,7 +305,8 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 				list.erase(list.begin());
 			if(sequence.size() > current_step + 1)
 				list.push_back(std::to_string(current_step + 2) + "." + std::to_string(1) + " Pobranie " + sequence[current_step + 1].name);
-			
+			if (current_step == sequence.size() - 1)
+				list.erase(list.begin());
 		}
 		break;
 	}
@@ -294,7 +333,6 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 				list.erase(list.begin());
 			if (sequence.size() > current_step + 1)
 				list.push_back(std::to_string(current_step + 2) + "." + std::to_string(2) + " Instalacja " + sequence[current_step + 1].name);
-
 			this->step_of_sequence = 1;
 			current_step++;
 			this->article_installed = false;
@@ -328,13 +366,13 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 		{
 			this->display_text(10, 880, list[0], 30, sf::Color::Green);
 			this->display_text(10, 930, list[1], 30, sf::Color::Yellow);
-			this->display_text(10, 9800, list[2], 30, sf::Color::Red);
+			this->display_text(10, 980, list[2], 30, sf::Color::Red);
 		}
 		else if (current_step == sequence.size() - 1 && step_of_sequence == 2)
 		{
-			this->display_text(20, 880, list[1], 30, sf::Color::Green);
-			this->display_text(10, 930, list[2], 30, sf::Color::Green);
-			this->display_text(10, 980, list[3], 30, sf::Color::Yellow);
+			this->display_text(20, 880, list[0], 30, sf::Color::Green);
+			this->display_text(10, 930, list[1], 30, sf::Color::Green);
+			this->display_text(10, 980, list[2], 30, sf::Color::Yellow);
 		}
 		else
 		{
@@ -344,6 +382,12 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 			this->display_text(10, 1030, list[3], 30, sf::Color::Red);
 		}
 	}
+	// do testow, przechodzenie do kolejnego kroku na prawy przycisk myszy w window functions
+
+	data_box.green_button = false;
+	data_box.detecting_box = false;
+
+	//
 
 	this->window->display();
 }

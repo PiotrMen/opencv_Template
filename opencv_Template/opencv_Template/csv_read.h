@@ -34,9 +34,11 @@ struct sGlobal_data
 	float measurement;
 	bool global_exit;
 	std::vector<sf::RectangleShape> boxes;
-	int step_in_sequence = 0;
 
+	int step_in_sequence = 0;
 	int current_step = 0;
+
+	bool step_back = false;					// true if user wants to go back to previous step in sequence
 };
 
 

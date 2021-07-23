@@ -3,6 +3,7 @@
 #include "opencv2/opencv.hpp"
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <Windows.h>
 #include "Universal_functions.h"
 
 
