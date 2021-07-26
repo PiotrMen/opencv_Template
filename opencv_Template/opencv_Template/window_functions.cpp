@@ -8,13 +8,19 @@ sfml_objects::sfml_objects()
 	this->window_width = 1920;
 	this->window = new sf::RenderWindow(sf::VideoMode(window_width, window_height), "Window", sf::Style::Fullscreen);
 
-	int k;
 	for (int i = 0; i < 10; i++)
 	{
-		sf::RectangleShape rect;
-		k = 120;
-		rect = making_rectangle(mm_to_pixels_converter(60 + (i * 120)), 150 + k, mm_to_pixels_converter(110), mm_to_pixels_converter(315), sf::Color::Green, 0);
-		this->lighting_rectangles.push_back(rect);
+		sf::RectangleShape rect_empty;
+		sf::RectangleShape rect_filled;
+		rect_empty = making_rectangle(mm_to_pixels_converter(60 + (i * 120)), 262, mm_to_pixels_converter(110), mm_to_pixels_converter(315), sf::Color::Green, 0);
+		if(i == 0 || i == 9 || i == 4 || i == 5)
+			rect_filled = making_rectangle(mm_to_pixels_converter(60 + (i * 120)), 290, mm_to_pixels_converter(120), mm_to_pixels_converter(315), sf::Color::Green, 0);
+		else if(i < 4)
+			rect_filled = making_rectangle(mm_to_pixels_converter(60 + (i * 120)) - mm_to_pixels_converter(17 - i * 5), 290, mm_to_pixels_converter(120), mm_to_pixels_converter(315), sf::Color::Green, 0);
+		else
+			rect_filled = making_rectangle(mm_to_pixels_converter(60 + (i * 120)) + mm_to_pixels_converter(i * 5 - 28), 290, mm_to_pixels_converter(120), mm_to_pixels_converter(315), sf::Color::Green, 0);
+		this->outline_rectangles.push_back(rect_empty);
+		this->lighting_rectangles.push_back(rect_filled);
 	}
 }
 
@@ -255,9 +261,9 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 		for (int i = 0; i < v_rectangles.size(); i++) {
 			if (v_rectangles[i].getFillColor() == (sf::Color::Green)) {
 				sf::RectangleShape rectangle_;
-				rectangle_.setSize(sf::Vector2f(this->lighting_rectangles[i].getSize().x, this->lighting_rectangles[i].getSize().y));
+				rectangle_.setSize(sf::Vector2f(this->outline_rectangles[i].getSize().x, this->outline_rectangles[i].getSize().y));
 				rectangle_.setOrigin(sf::Vector2f(rectangle_.getSize().x / 2, rectangle_.getSize().y / 2));
-				rectangle_.setPosition(this->lighting_rectangles[i].getPosition().x, this->lighting_rectangles[i].getPosition().y);
+				rectangle_.setPosition(this->outline_rectangles[i].getPosition().x, this->outline_rectangles[i].getPosition().y);
 				rectangle_.setFillColor(sf::Color::Black);
 				rectangle_.setOutlineThickness(5);
 				rectangle_.setOutlineColor(sf::Color::White);
@@ -375,20 +381,20 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 	}
 	// do testow, przechodzenie do kolejnego kroku na prawy przycisk myszy w window functions
 
-	data_box.green_button = false;
-	data_box.detecting_box = false;
+	//data_box.green_button = false;
+	//data_box.detecting_box = false;
 
 	//
 
 	//Calibration tape points on table
 	if (this->menu_window == 3) {
 		sf::RectangleShape rectangle_;
-		for (int i = 0; i < this->lighting_rectangles.size(); i++) {
+		for (int i = 0; i < this->outline_rectangles.size(); i++) {
 			//sf::RectangleShape rectangle_;
 
 			rectangle_.setSize(sf::Vector2f(mm_to_pixels_converter(95), mm_to_pixels_converter(25)));
 			rectangle_.setOrigin(sf::Vector2f(rectangle_.getSize().x / 2, rectangle_.getSize().y / 2));
-			rectangle_.setPosition(this->lighting_rectangles[i].getPosition().x, this->lighting_rectangles[i].getPosition().y + this->lighting_rectangles[i].getSize().y/2+ mm_to_pixels_converter(25));
+			rectangle_.setPosition(this->outline_rectangles[i].getPosition().x, this->outline_rectangles[i].getPosition().y + this->outline_rectangles[i].getSize().y/2+ mm_to_pixels_converter(25));
 			rectangle_.setFillColor(sf::Color::Green);
 			//rectangle_.setOutlineThickness(5);
 			//rectangle_.setOutlineColor(sf::Color::White);
