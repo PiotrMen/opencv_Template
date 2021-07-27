@@ -282,8 +282,8 @@ void thread_vision::operator()(int index)
 
 	while (true)
 	{
-		std::vector<cv::Point>coordinates_reordered = image_calibration(camera);
-		cv::Mat imgWarp = getWarp(this->image, coordinates_reordered, 1920, 1080);
+	//	std::vector<cv::Point>coordinates_reordered = image_calibration(camera);
+	//	cv::Mat imgWarp = getWarp(this->image, coordinates_reordered, 1920, 1080);
 
 		m.lock();
 		if (data_box.is_sequence_activated != this->is_sequence_activated)
@@ -364,7 +364,6 @@ void thread_vision::operator()(int index)
 			cv::waitKey(33);
 		}
 
-		imshow("main", imgWarp);
 		//else if(!data_box.camera_calibration){
 		//	cv::destroyAllWindows();
 		//}

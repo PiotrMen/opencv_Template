@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include "csv_read.h"
+#include <SFML/System/Time.hpp>
 
 class menu_sfml_objects
 {
@@ -165,6 +166,12 @@ private:
 
 	sData empty;
 	std::string previous_string;
+
+	//Camera calibration variables
+	sf::Time time_compare = sf::seconds(30);
+	sf::Time real_time;
+	int displaying_time;
+	sf::Clock clock;
 };
 
 #endif

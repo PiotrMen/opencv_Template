@@ -30,7 +30,7 @@ struct sGlobal_data
 
 	bool green_button;
 	bool detecting_box;
-	bool camera_calibration = true;
+	bool camera_calibration;
 	bool global_exit;
 	std::vector<sf::RectangleShape> boxes;
 

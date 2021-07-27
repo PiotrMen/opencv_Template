@@ -253,7 +253,10 @@ void sfml_objects::update(int &current_step)
 
 void sfml_objects::render(int &current_step, int current_menu_window, std::vector<sf::RectangleShape>v_rectangles)
 {
-	this->window->clear(sf::Color(0, 0, 0, 255));
+	if (this->menu_window == 301) 
+		this->window->clear(sf::Color(255, 255, 255, 255));
+	else
+		this->window->clear(sf::Color(0, 0, 0, 255));
 	
 	this->menu_window = current_menu_window;
 	if (current_menu_window == 2) {

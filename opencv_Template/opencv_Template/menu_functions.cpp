@@ -382,6 +382,24 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		help_window_opened = true;
 	}
 
+	//Calibration Camera section
+	if (unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window) && falling_edge_saved && current_menu_window == 3) {
+		this->current_menu_window = 301;
+		data_box.camera_calibration = true;
+		this->clock.restart();
+	}
+
+	if (this->current_menu_window == 301) {
+		this->real_time = this->clock.getElapsedTime();
+		this->displaying_time = this->time_compare.asSeconds() - this->real_time.asSeconds();
+		if (this->real_time >= this->time_compare) {
+			data_box.camera_calibration = false;
+			this->clock.restart();
+			this->real_time = this->clock.restart();
+			this->current_menu_window = 0;
+		}
+	}
+
 	//Displaying help windows
 
 //Menu help window
@@ -882,7 +900,26 @@ void menu_sfml_objects::render(int current_step, int current_window)
 
 		this->display_text(this->menu_window_width / 2, 430, "Kalibrowanie punktow charakterystycznych:", 100);
 		this->display_text(this->menu_window_width / 2, 530, "Sprawdz czy tasmy znajduja sie w podswietlonych miejscach", 60);
+
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window)) {
+			this->display_texture(960, 950, "grey_pushed.png", this->menu_button_size, 0);
+			this->display_text(960, 930, "Zatwierdz", 100);
+		}
+		else {
+			this->display_texture(960, 950, "grey_button.png", this->menu_button_size, 0);
+			this->display_text(960, 930, "Zatwierdz", 100);
+		}
+		if (unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window))
+			this->display_texture(960, 950 + 85, "UnderLine.png", this->menu_button_size - 0.2, 0);
 	}
+
+	if (this->current_menu_window == 301) {
+		this->display_text(this->menu_window_width / 2, 130, "Kalibracja kamery", 200);
+		this->display_text(this->menu_window_width / 2, 430, "Trwa kalibracja kamery, prosze poczekac", 100);
+		this->display_text(this->menu_window_width / 2, 630, std::to_string(this->displaying_time) +" s:", 100);
+		this->display_text(this->menu_window_width / 2, 830, "Sprawdz czy nic nie znajduje sie na stole", 60);
+	}
+
 	if (this->current_menu_window == 103)
 	{
 		this->display_text(this->menu_window_width / 2, 130, "Pomoc", 200);
