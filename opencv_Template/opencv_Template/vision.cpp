@@ -9,6 +9,8 @@ cv::Mat thread_vision::button_filters(int select_button)
 	//  1 - Confirmation button
 
 	cv::Mat Kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
+
+	//dla zera do usuniecia bo nie ma czerwonego przycisku
 	if (select_button == 0) {
 
 		// Cropping image
@@ -205,7 +207,7 @@ void thread_vision::init_boxes()
 			cv::Point BR(data_box.boxes[i].getPosition().x + data_box.boxes[i].getSize().x / 2 + 8, data_box.boxes[i].getPosition().y + data_box.boxes[i].getSize().y / 2 + 30);
 			boxes.push_back(cv::Rect(TL, BR));
 		}
-		else if (i == 19)
+		else if (i == 19) //do usuniecia bo jest teraz 10 pudelek
 		{
 			cv::Point TL(data_box.boxes[i].getPosition().x - data_box.boxes[i].getSize().x / 2, data_box.boxes[i].getPosition().y + 65);
 			cv::Point BR(data_box.boxes[i].getPosition().x + data_box.boxes[i].getSize().x / 2 + 8, data_box.boxes[i].getPosition().y + data_box.boxes[i].getSize().y / 2 + 65);
@@ -254,7 +256,8 @@ void thread_vision::operator()(int index)
 			cv::Mat red_button_image = button_filters(0);
 			cv::Mat green_button_image = button_filters(1);
 
-			if (this->box_flag) {
+			//download detection section
+			if (this->box_flag) { 
 				this->real_time = this->clock.getElapsedTime();
 				if (this->real_time >= this->time_compare) {
 					this->box_flag = false;
@@ -263,12 +266,13 @@ void thread_vision::operator()(int index)
 				}
 			}
 
-			//m.lock();
+			//do usuniecia bo zamiast tego lista bedzie
 			if (check_pattern(red_button_image, cv::Point(50, 700), 500, 700))
 				this->red_button = false;
 			else
 				this->red_button = true;
 
+			//additional secure
 			if (!this->box_flag && data_box.step_in_sequence == 2) {
 				if (check_pattern(green_button_image, cv::Point(1505, 705), 500, 700))
 					this->green_button = false;
@@ -280,6 +284,7 @@ void thread_vision::operator()(int index)
 
 			cv::Mat box = box_filters();
 
+			//boxes detection
 			if (data_box.step_in_sequence == 1) {
 				if (check_pattern_one_rect(box, TL_of_window, 5000, 7000))
 					this->box_detection = false;
@@ -289,12 +294,13 @@ void thread_vision::operator()(int index)
 					this->clock.restart();
 				}
 			}
-			//m.unlock();
 
+			//accept button detection
 			if (this->green_button && this->box_detection) {
 				this->green_button = false;
 				this->box_detection = false;
 			}
+
 			//  Communication between threads
 
 			m.lock();
@@ -322,6 +328,7 @@ void thread_vision::operator()(int index)
 			cv::destroyAllWindows();
 		}
 
+		//exit program variable
 		if (data_box.global_exit)
 			break;
 
