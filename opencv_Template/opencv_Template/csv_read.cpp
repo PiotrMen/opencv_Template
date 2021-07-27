@@ -183,3 +183,52 @@ std::string load_txt_help(std::string filename)
 		return "Nie mozna odczytac pliku";
 	}
 }
+
+void load_table_coordinates(std::vector <cv::Point> &points)
+{
+	std::ifstream file;
+	file.open("resources/Zapisane wspolrzedne stolu.txt");
+	points.clear();
+
+	if (file.is_open())
+	{
+		std::string buffor;
+
+		std::getline(file, buffor);
+		std::getline(file, buffor);
+
+		for (int i = 0; i < 4; i++)
+		{
+			cv::Point temporary_point;
+
+			std::getline(file, buffor);
+
+			std::smatch match_coordinates;
+			std::regex pattern("\(([0-9]*),([0-9]*)\)");
+
+			std::regex_search(buffor, match_coordinates, pattern);
+
+			temporary_point.x = std::stoi(match_coordinates[2]);
+			temporary_point.y = std::stoi(match_coordinates[3]);
+			points.push_back(temporary_point);
+		}
+	}
+	file.close();
+}
+void save_table_coordinates(std::vector <cv::Point> points)
+{
+	std::ofstream file;
+	file.open("resources/Zapisane wspolrzedne stolu.txt");
+	std::string readme = "Niniejszy plik s³u¿y do przechowywania wartoœci wspó³rzêdnych sto³u, które zapisane zosta³y po ukoñczeniu poprzedniej kalibracji. Nie zaleca siê edytowania wartoœci rêcznie. W celu przekalibrowania systemu, nale¿y go uruchomiæ, klikn¹æ przycisk \"Kalibracja systemu\" a nastêpnie wykonywaæ wyœwietlane instrukcje.";
+
+	if (file.is_open())
+	{
+		file << readme << std::endl;
+		file << std::endl;
+		for (int i = 0; i < 4; i++)
+		{
+			file << "(" << std::to_string(points[i].x) << "," << std::to_string(points[i].y) << ")" << std::endl;
+		}
+	}
+	file.close();
+}
