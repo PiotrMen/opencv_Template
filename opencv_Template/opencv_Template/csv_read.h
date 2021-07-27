@@ -29,8 +29,8 @@ struct sGlobal_data
 	bool is_sequence_activated;
 
 	bool green_button;
-	bool red_button;
 	bool detecting_box;
+	bool camera_calibration = true;
 	float measurement;
 	bool global_exit;
 	std::vector<sf::RectangleShape> boxes;

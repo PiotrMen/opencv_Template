@@ -18,18 +18,21 @@ public:
 
 private:
 
-	cv::Mat button_filters(int select_button);
+	cv::Mat button_filters();
 	cv::Mat box_filters();
 	void display_Tracksbars(int &hmin, int &hmax, int &smin, int &smax, int &vmin, int &vmax);
 	bool check_pattern(cv::Mat input_image, cv::Point dxdy, int lower_value, int upper_value);
 	bool check_pattern_one_rect(cv::Mat input_image, cv::Point dxdy, int lower_value, int upper_value);
 	void init_boxes();
+	void image_calibration(cv::VideoCapture cam);
+	std::vector<cv::Point> find_contours_for_calib(cv::Mat mask);
+	std::vector<cv::Point> reorder(std::vector<cv::Point> points);
+	cv::Mat getWarp(cv::Mat img, std::vector<cv::Point> points, float w, float h);
 
 	cv::Mat image;
 	cv::Mat trackbars_img;
 
 	bool green_button;
-	bool red_button;
 	bool box_detection;
 
 	std::vector <cv::Rect> boxes;
