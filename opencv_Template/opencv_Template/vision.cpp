@@ -199,7 +199,7 @@ std::vector<cv::Point> thread_vision::find_contours_for_calib(cv::Mat mask) {
 	return conPoly[index];
 }
 
-void thread_vision::image_calibration(cv::VideoCapture cam) {
+std::vector<cv::Point> thread_vision::image_calibration(cv::VideoCapture cam) {
 	cam.read(this->image);
 	cv::rotate(this->image, this->image, cv::ROTATE_180);
 	cv::Mat img_filtered;
@@ -224,9 +224,8 @@ void thread_vision::image_calibration(cv::VideoCapture cam) {
 
 	std::vector<cv::Point> coordinates = find_contours_for_calib(mask);
 	std::vector<cv::Point> coordinates_reordered = reorder(coordinates);
-	cv::Mat imgWarp = getWarp(this->image, coordinates_reordered, 1920, 1080);
-	cv::imshow("imagewarp", imgWarp);
 	cv::waitKey(33);
+	return coordinates_reordered;
 }
 
 void thread_vision::display_Tracksbars(int &hmin, int &hmax, int &smin, int &smax, int &vmin, int &vmax) {
@@ -283,7 +282,8 @@ void thread_vision::operator()(int index)
 
 	while (true)
 	{
-		//image_calibration(camera);
+		std::vector<cv::Point>coordinates_reordered = image_calibration(camera);
+		cv::Mat imgWarp = getWarp(this->image, coordinates_reordered, 1920, 1080);
 
 		m.lock();
 		if (data_box.is_sequence_activated != this->is_sequence_activated)
@@ -363,6 +363,8 @@ void thread_vision::operator()(int index)
 
 			cv::waitKey(33);
 		}
+
+		imshow("main", imgWarp);
 		//else if(!data_box.camera_calibration){
 		//	cv::destroyAllWindows();
 		//}

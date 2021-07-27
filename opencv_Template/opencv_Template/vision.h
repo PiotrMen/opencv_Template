@@ -24,7 +24,7 @@ private:
 	bool check_pattern(cv::Mat input_image, cv::Point dxdy, int lower_value, int upper_value);
 	bool check_pattern_one_rect(cv::Mat input_image, cv::Point dxdy, int lower_value, int upper_value);
 	void init_boxes();
-	void image_calibration(cv::VideoCapture cam);
+	std::vector<cv::Point> image_calibration(cv::VideoCapture cam);
 	std::vector<cv::Point> find_contours_for_calib(cv::Mat mask);
 	std::vector<cv::Point> reorder(std::vector<cv::Point> points);
 	cv::Mat getWarp(cv::Mat img, std::vector<cv::Point> points, float w, float h);
