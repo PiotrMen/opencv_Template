@@ -392,8 +392,11 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 	if (this->current_menu_window == 301) {
 		this->real_time = this->clock.getElapsedTime();
 		this->displaying_time = this->time_compare.asSeconds() - this->real_time.asSeconds();
-		if (this->real_time >= this->time_compare) {
+
+		if (this->real_time >= this->time_send_info)
 			data_box.camera_calibration = false;
+
+		if (this->real_time >= this->time_compare) {
 			this->clock.restart();
 			this->real_time = this->clock.restart();
 			this->current_menu_window = 0;

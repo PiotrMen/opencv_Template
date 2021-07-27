@@ -168,7 +168,8 @@ private:
 	std::string previous_string;
 
 	//Camera calibration variables
-	sf::Time time_compare = sf::seconds(30);
+	sf::Time time_compare = sf::seconds(40);
+	sf::Time time_send_info = sf::seconds(38);
 	sf::Time real_time;
 	int displaying_time;
 	sf::Clock clock;

@@ -278,12 +278,20 @@ void thread_vision::operator()(int index)
 	camera.set(cv::CAP_PROP_FRAME_HEIGHT, 1080);
 	int hmin = 0, hmax = 179, smin = 0, smax = 255, vmin = 0, vmax = 255;
 
+	load_table_coordinates(this->coordinates_reordered);
 
 
 	while (true)
 	{
-	//	std::vector<cv::Point>coordinates_reordered = image_calibration(camera);
-	//	cv::Mat imgWarp = getWarp(this->image, coordinates_reordered, 1920, 1080);
+		if (data_box.camera_calibration) {
+			this->calibration_flag = data_box.camera_calibration;
+			this->coordinates_reordered = image_calibration(camera);
+		}
+		if (this->calibration_flag && !data_box.camera_calibration) {
+			save_table_coordinates(this->coordinates_reordered);
+			load_table_coordinates(this->coordinates_reordered);
+			this->calibration_flag = false;
+		}
 
 		m.lock();
 		if (data_box.is_sequence_activated != this->is_sequence_activated)
@@ -301,59 +309,59 @@ void thread_vision::operator()(int index)
 			// Camera trigger
 			camera.read(image);
 			cv::rotate(image, image, cv::ROTATE_180);
-
+			this->image = getWarp(this->image, coordinates_reordered, 1920, 1080);
 			cv::Mat green_button_image = button_filters();
 
-			//download detection section
-			if (this->box_flag) { 
-				this->real_time = this->clock.getElapsedTime();
-				if (this->real_time >= this->time_compare) {
-					this->box_flag = false;
-					this->clock.restart();
-					this->real_time = this->clock.restart();
-				}
-			}
+			////download detection section
+			//if (this->box_flag) { 
+			//	this->real_time = this->clock.getElapsedTime();
+			//	if (this->real_time >= this->time_compare) {
+			//		this->box_flag = false;
+			//		this->clock.restart();
+			//		this->real_time = this->clock.restart();
+			//	}
+			//}
 
-			//additional secure
-			if (!this->box_flag && data_box.step_in_sequence == 2) {
-				if (check_pattern(green_button_image, cv::Point(1505, 705), 500, 700))
-					this->green_button = false;
-				else {
-					this->green_button = true;
-					this->clock.restart();
-				}
-			}
+			////additional secure
+			//if (!this->box_flag && data_box.step_in_sequence == 2) {
+			//	if (check_pattern(green_button_image, cv::Point(1505, 705), 500, 700))
+			//		this->green_button = false;
+			//	else {
+			//		this->green_button = true;
+			//		this->clock.restart();
+			//	}
+			//}
 
-			cv::Mat box = box_filters();
+			//cv::Mat box = box_filters();
 
-			//boxes detection
-			if (data_box.step_in_sequence == 1) {
-				if (check_pattern_one_rect(box, TL_of_window, 5000, 7000))
-					this->box_detection = false;
-				else {
-					this->box_detection = true;
-					this->box_flag = true;
-					this->clock.restart();
-				}
-			}
+			////boxes detection
+			//if (data_box.step_in_sequence == 1) {
+			//	if (check_pattern_one_rect(box, TL_of_window, 5000, 7000))
+			//		this->box_detection = false;
+			//	else {
+			//		this->box_detection = true;
+			//		this->box_flag = true;
+			//		this->clock.restart();
+			//	}
+			//}
 
-			//accept button detection
-			if (this->green_button && this->box_detection) {
-				this->green_button = false;
-				this->box_detection = false;
-			}
+			////accept button detection
+			//if (this->green_button && this->box_detection) {
+			//	this->green_button = false;
+			//	this->box_detection = false;
+			//}
 
-			//  Communication between threads
+			////  Communication between threads
 
-			m.lock();
+			//m.lock();
 
-			if (data_box.green_button != this->green_button) 
-				data_box.green_button = this->green_button;
+			//if (data_box.green_button != this->green_button) 
+			//	data_box.green_button = this->green_button;
 
-			if(data_box.detecting_box != this->box_detection)
-				data_box.detecting_box = this->box_detection;
+			//if(data_box.detecting_box != this->box_detection)
+			//	data_box.detecting_box = this->box_detection;
 
-			m.unlock();
+			//m.unlock();
 
 			//thread_vision::display_Tracksbars(hmin, hmax, smin, smax, vmin, vmax);
 
