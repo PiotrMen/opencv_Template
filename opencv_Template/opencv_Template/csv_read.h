@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include "opencv2/opencv.hpp"
 #include <regex>
 #include <fstream>
 #include <iomanip>
@@ -27,11 +28,15 @@ struct sData
 struct sGlobal_data
 {
 	bool is_sequence_activated;
-
+	
+	// Vision
 	bool green_button;
 	bool detecting_box;
 	bool camera_calibration = true;
 	bool global_exit;
+
+	std::vector<cv::Point> table_coordinates;
+
 	std::vector<sf::RectangleShape> boxes;
 
 	int step_in_sequence = 0;
@@ -49,5 +54,8 @@ void load_csv_sequence(std::vector <sData> &sequence, std::string file_name, std
 void generate_connectors_list(const std::vector <sData> &sequence, std::vector <sData> &connectors_list);
 
 std::string load_txt_help(std::string filename);
+
+void load_table_coordinates(std::vector <cv::Point> &points);
+void save_table_coordinates(std::vector <cv::Point> points);
 
 #endif // !CSV_READ_H
