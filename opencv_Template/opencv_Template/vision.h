@@ -27,7 +27,7 @@ private:
 	std::vector<cv::Point> image_calibration(cv::VideoCapture cam);
 	std::vector<cv::Point> find_contours_for_calib(cv::Mat mask);
 	std::vector<cv::Point> reorder(std::vector<cv::Point> points);
-	cv::Mat getWarp(cv::Mat img, std::vector<cv::Point> points, float w, float h);
+	//void getWarp(std::vector<cv::Point> points, float w, float h);
 
 	cv::Mat image;
 	cv::Mat trackbars_img;

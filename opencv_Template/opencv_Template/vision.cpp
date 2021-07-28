@@ -140,14 +140,24 @@ bool thread_vision::check_pattern_one_rect(cv::Mat input_image, cv::Point dxdy, 
 	}
 }
 
-cv::Mat thread_vision::getWarp(cv::Mat img, std::vector<cv::Point> points, float w, float h) {
+//void thread_vision::getWarp(std::vector<cv::Point> points, float w, float h) {
+//	cv::Mat imgWarp;
+//	cv::Point2f src[4] = { points[0],points[1],points[2],points[3] };
+//	cv::Point2f dst[4] = { {0.0f,0.0f},{w,0.0f},{0.0f,h},{w,h} };
+//	cv::Mat matrix = cv::getPerspectiveTransform(src, dst);
+//	cv::warpPerspective(this->image, imgWarp, matrix, cv::Point(w, h));
+//
+//	this->image = imgWarp;
+//}
+
+void getWarp(cv::Mat &img, std::vector<cv::Point> points, float w, float h) {
 	cv::Mat imgWarp;
 	cv::Point2f src[4] = { points[0],points[1],points[2],points[3] };
 	cv::Point2f dst[4] = { {0.0f,0.0f},{w,0.0f},{0.0f,h},{w,h} };
 	cv::Mat matrix = cv::getPerspectiveTransform(src, dst);
 	cv::warpPerspective(img, imgWarp, matrix, cv::Point(w, h));
 
-	return imgWarp;
+	img = imgWarp;
 }
 
 std::vector<cv::Point> thread_vision::reorder(std::vector<cv::Point> points) {
@@ -281,6 +291,17 @@ void thread_vision::operator()(int index)
 	load_table_coordinates(this->coordinates_reordered);
 
 
+	std::vector <cv::Mat> pictures;
+	int indeks = 0;
+	std::vector<std::thread> vect;
+	bool increment;
+
+	for (int i = 0; i < 6; i++)
+	{
+		cv::Mat temp;
+		pictures.push_back(temp);
+	}
+
 	while (true)
 	{
 		if (data_box.camera_calibration) {
@@ -304,12 +325,41 @@ void thread_vision::operator()(int index)
 			{
 				init_boxes();
 			}
-			
+
 
 			// Camera trigger
 			camera.read(image);
 			cv::rotate(image, image, cv::ROTATE_180);
-			this->image = getWarp(this->image, coordinates_reordered, 1920, 1080);
+
+			//for (int i = 0; i < 6; i++)
+			//{
+			//	camera.read(image);
+			//	cv::rotate(image, image, cv::ROTATE_180);
+			//	pictures.push_back(image);
+			//	vect.push_back(std::thread(getWarp, std::ref(pictures[i]), this->coordinates_reordered, 1920, 1080));
+			//	cv::waitKey(400);
+			//}
+
+			if (!image.empty())
+			{
+				pictures[indeks] = image;
+				increment = true;
+			}
+
+			if (vect.size() < 6)
+				vect.push_back(std::thread(getWarp, std::ref(pictures[indeks]), this->coordinates_reordered, 1920, 1080));
+			else
+				vect[indeks] = std::thread(getWarp, std::ref(pictures[indeks]), this->coordinates_reordered, 1920, 1080);
+			for (int i = 0;i < vect.size(); i++)
+			{
+				if(vect[i].joinable())
+				{
+					imshow("main", pictures[i]);
+					vect[i].join();
+					cv::waitKey(1);
+				}
+			}
+			//this->image = getWarp(this->image, coordinates_reordered, 1920, 1080);
 			cv::Mat green_button_image = button_filters();
 
 			////download detection section
@@ -366,10 +416,16 @@ void thread_vision::operator()(int index)
 			//thread_vision::display_Tracksbars(hmin, hmax, smin, smax, vmin, vmax);
 
 			//showing image
-			//imshow("box", box);
-			imshow("main", image);
+			//imshow("box", box)
 
-			cv::waitKey(33);
+			if (increment)
+			{
+				if (indeks == 5)
+					indeks = 0;
+				else
+					indeks++;
+			}
+			increment = false;
 		}
 
 		//else if(!data_box.camera_calibration){
