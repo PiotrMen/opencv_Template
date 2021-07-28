@@ -304,6 +304,7 @@ void thread_vision::operator()(int index)
 			{
 				init_boxes();
 			}
+			
 
 			// Camera trigger
 			camera.read(image);

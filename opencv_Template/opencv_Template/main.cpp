@@ -8,7 +8,6 @@
 #include "csv_read.h"
 #include "Universal_functions.h"
 #include "vision.h"
-#include "image_filters.h"
 
 std::mutex m;
 
@@ -36,15 +35,12 @@ int main()
 
 
 	std::thread th(thread_vision(), 1);
-	std::vector <std::thread> threads;
-	for (int i = 0; i < std::thread::hardware_concurrency() - 2 && i < 6; i++)
-	{
-		threads.push_back(std::thread (image_filters(), i));
-	}
+
 	while (objects.getWindowIsOpen() && menu_objects.getWindowIsOpen())
 	{
 		//Menu update
 		menu_objects.update(data_box.current_step, current_window);
+
 		//Update
 		objects.update(data_box.current_step);
 
@@ -54,13 +50,12 @@ int main()
 		//Render
 		objects.render(data_box.current_step, menu_objects.current_menu_window, menu_objects.vector_rectangles);
 
+		std::cout << std::thread::hardware_concurrency() << std::endl;
+
+		//std::cout << data_box.red_button << "   " << data_box.green_button << std::endl;
 		if (data_box.global_exit) 
 			break;
 
-	}
-	for (int i = 0; i < threads.size(); i++)
-	{
-		threads[i].join();
 	}
 	th.join();
 	return 0;
