@@ -50,8 +50,6 @@ int main()
 		//Render
 		objects.render(data_box.current_step, menu_objects.current_menu_window, menu_objects.vector_rectangles);
 
-		std::cout << std::thread::hardware_concurrency() << std::endl;
-
 		//std::cout << data_box.red_button << "   " << data_box.green_button << std::endl;
 		if (data_box.global_exit) 
 			break;

@@ -150,14 +150,17 @@ bool thread_vision::check_pattern_one_rect(cv::Mat input_image, cv::Point dxdy, 
 //	this->image = imgWarp;
 //}
 
-void getWarp(cv::Mat &img, std::vector<cv::Point> points, float w, float h) {
+void getWarp(cv::Mat img, std::vector<cv::Point> points, float w, float h) {
+	sf::Clock clock_getWarp;
+	sf::Time elapsed1 = clock_getWarp.getElapsedTime();
 	cv::Mat imgWarp;
 	cv::Point2f src[4] = { points[0],points[1],points[2],points[3] };
 	cv::Point2f dst[4] = { {0.0f,0.0f},{w,0.0f},{0.0f,h},{w,h} };
 	cv::Mat matrix = cv::getPerspectiveTransform(src, dst);
 	cv::warpPerspective(img, imgWarp, matrix, cv::Point(w, h));
-
 	img = imgWarp;
+	std::cout << elapsed1.asMicroseconds() << std::endl;
+	clock_getWarp.restart();
 }
 
 std::vector<cv::Point> thread_vision::reorder(std::vector<cv::Point> points) {
@@ -293,14 +296,15 @@ void thread_vision::operator()(int index)
 
 	std::vector <cv::Mat> pictures;
 	int indeks = 0;
+	int indeks_join = 1;
 	std::vector<std::thread> vect;
-	bool increment;
+	bool increment = false;
 
-	for (int i = 0; i < 6; i++)
-	{
-		cv::Mat temp;
-		pictures.push_back(temp);
-	}
+	//for (int i = 0; i < 6; i++)
+	//{
+	//	cv::Mat temp;
+	//	pictures.push_back(temp);
+	//}
 
 	while (true)
 	{
@@ -328,6 +332,7 @@ void thread_vision::operator()(int index)
 
 
 			// Camera trigger
+			this->image = cv::Mat();
 			camera.read(image);
 			cv::rotate(image, image, cv::ROTATE_180);
 
@@ -339,26 +344,40 @@ void thread_vision::operator()(int index)
 			//	vect.push_back(std::thread(getWarp, std::ref(pictures[i]), this->coordinates_reordered, 1920, 1080));
 			//	cv::waitKey(400);
 			//}
-
 			if (!image.empty())
 			{
-				pictures[indeks] = image;
+				//imshow("main", image);
+				
+				if (pictures.size() < 6)
+					pictures.push_back(image);
+				else
+					pictures[indeks] = image;
 				increment = true;
-			}
 
-			if (vect.size() < 6)
-				vect.push_back(std::thread(getWarp, std::ref(pictures[indeks]), this->coordinates_reordered, 1920, 1080));
-			else
-				vect[indeks] = std::thread(getWarp, std::ref(pictures[indeks]), this->coordinates_reordered, 1920, 1080);
-			for (int i = 0;i < vect.size(); i++)
-			{
-				if(vect[i].joinable())
-				{
-					imshow("main", pictures[i]);
-					vect[i].join();
-					cv::waitKey(1);
+				if (vect.size() < 6)
+					vect.push_back(std::thread(getWarp, pictures[indeks], this->coordinates_reordered, 1920, 1080));
+				else
+					vect[indeks] = std::thread(getWarp, pictures[indeks], this->coordinates_reordered, 1920, 1080);
+
+			}
+			
+			if (vect.size() == 6) {
+				if (vect[indeks_join].joinable()) {
+					vect[indeks_join].join();
+					imshow("main", pictures[indeks_join]);
+					cv::waitKey(33);
 				}
 			}
+
+			//for (int i = 0;i < vect.size(); i++)
+			//{
+			//	if(vect[i].joinable())
+			//	{
+			//		imshow("main", pictures[i]);
+			//	vect[i].join();
+			//		cv::waitKey(33);
+			//	}
+			//}
 			//this->image = getWarp(this->image, coordinates_reordered, 1920, 1080);
 			cv::Mat green_button_image = button_filters();
 
@@ -420,10 +439,18 @@ void thread_vision::operator()(int index)
 
 			if (increment)
 			{
-				if (indeks == 5)
+				if (indeks == 5 && indeks_join == 0) {
 					indeks = 0;
-				else
+					indeks_join++;
+				}
+				else if (indeks_join == 5 && indeks == 4) {
 					indeks++;
+					indeks_join = 0;
+				}
+				else {
+					indeks++;
+					indeks_join++;
+				}
 			}
 			increment = false;
 		}
@@ -433,8 +460,11 @@ void thread_vision::operator()(int index)
 		//}
 
 		//exit program variable
-		if (data_box.global_exit)
+		if (data_box.global_exit) {
+			for(int i =0; i<vect.size();i++)
+				vect[i].join();
 			break;
+		}
 
 	}
 }
