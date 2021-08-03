@@ -35,8 +35,8 @@ void sfml_objects::init_button_size(float percentege_size)
 	this->green_button_length_y = 124;
 
 	//coordinates for green button
-	this->green_button_x = this->window_width - 75 - ((this->green_button_length_x / 2) * percentege_size / 100);  // 150 - number of pixels from bounds
-	this->green_button_y = this->window_height - 75 - ((this->green_button_length_y / 2) * percentege_size / 100);
+	this->green_button_x = this->window_width - 50 - ((this->green_button_length_x / 2) * percentege_size / 100);  // 150 - number of pixels from bounds
+	this->green_button_y = this->window_height - 28 - ((this->green_button_length_y / 2) * percentege_size / 100);
 
 	//red button
 	this->red_button_length_x = 124;
@@ -362,11 +362,15 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 			this->display_text(10, 880, list[0], 30, sf::Color::Yellow);
 			this->display_text(10, 930, list[1], 30, sf::Color::Red);
 		}
-		else if (current_step == 0 && step_of_sequence == 2)
+		else if (current_step == 0 && step_of_sequence == 2 && sequence.size() > 1)
 		{
 			this->display_text(10, 880, list[0], 30, sf::Color::Green);
 			this->display_text(10, 930, list[1], 30, sf::Color::Yellow);
 			this->display_text(10, 980, list[2], 30, sf::Color::Red);
+		}
+		else if (current_step == 0 && step_of_sequence == 2 && sequence.size() == 1)
+		{
+			this->display_text(10, 930, list[0], 30, sf::Color::Yellow);
 		}
 		else if (current_step == sequence.size() - 1 && step_of_sequence == 2)
 		{
