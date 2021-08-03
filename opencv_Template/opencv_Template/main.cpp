@@ -11,6 +11,7 @@
 
 
 std::mutex m;
+std::mutex m2;
 
 // Sequence vector
 std::vector <sData> sequence;

@@ -636,6 +636,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		this->vector_displaying_articles.clear();
 		this->connectors_list.clear();
 		sequence.clear();
+		//data_box.is_sequence_activated = false;
 		this->start_sequention = false;
 		this->which_box_is_writing = 0;
 		this->which_box_chosen = 0;

@@ -11,6 +11,7 @@
 
 // Mutex
 extern std::mutex m;
+extern std::mutex m2;
 
 // Sequence vector declaration
 extern std::vector <sData> sequence;

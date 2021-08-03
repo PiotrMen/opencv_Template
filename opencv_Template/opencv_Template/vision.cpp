@@ -13,7 +13,7 @@ cv::Mat thread_vision::button_filters()
 		// Filters
 		cv::cvtColor(cropped_image, cropped_image, cv::COLOR_BGR2GRAY);
 		cv::GaussianBlur(cropped_image, cropped_image, cv::Size(3, 3), 3, 0);
-		cv::Canny(cropped_image, cropped_image, 200,255);
+		cv::Canny(cropped_image, cropped_image, 200, 255);
 		cv::dilate(cropped_image, cropped_image, Kernel);
 
 		//Pomocnicze trackbary
@@ -397,7 +397,7 @@ void thread_vision::operator()(int index)
 
 			////additional secure
 			if (!this->box_flag && data_box.step_in_sequence == 2) {
-				if (check_pattern(green_button_image, cv::Point(1605, 805), 500, 700))
+				if (check_pattern_one_rect(green_button_image, cv::Point(1605, 805), 2000, 7000))
 					this->green_button = false;
 				else {
 					this->green_button = true;
@@ -406,8 +406,11 @@ void thread_vision::operator()(int index)
 			}
 
 			cv::Mat box;
+
+			m2.lock();
 			if(sequence.size()!=0)
 				box = box_filters();
+			m2.unlock();
 
 			////boxes detection
 			if (data_box.step_in_sequence == 1) {
