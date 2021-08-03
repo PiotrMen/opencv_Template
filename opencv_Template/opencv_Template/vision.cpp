@@ -442,7 +442,7 @@ void thread_vision::operator()(int index)
 
 			//showing image
 		//	imshow("box", box);
-			//imshow("green", green_button_image);
+			imshow("green", green_button_image);
 			imshow("main", image);
 
 			cv::waitKey(1);

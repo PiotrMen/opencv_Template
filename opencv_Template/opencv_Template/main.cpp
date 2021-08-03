@@ -9,6 +9,7 @@
 #include "Universal_functions.h"
 #include "vision.h"
 
+
 std::mutex m;
 
 // Sequence vector
@@ -20,6 +21,8 @@ sGlobal_data data_box;
 
 int main()
 {
+	ShowWindow(GetConsoleWindow(), SW_HIDE);
+
 	menu_sfml_objects menu_objects;
 	sfml_objects objects;
 
