@@ -4,14 +4,42 @@
 cv::Mat thread_vision::button_filters() 
 {
 	cv::Mat cropped_image;
+	cv::Mat hist_image;
 	cv::Mat Kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
 
 		// Cropping image
 		cv::Rect crop_region(1605, 805, 315, 275);
 		cropped_image = image(crop_region);
+		cv::MatND histogram;
+		int histSize = 256;
+		const int* channel_numbers = {0};
+		float channel_range[] = {0.0,256.0};
+		const float* channel_ranges = channel_range;
+		int number_bins = histSize;
+
+		
 
 		// Filters
 		cv::cvtColor(cropped_image, cropped_image, cv::COLOR_BGR2GRAY);
+
+
+		hist_image = cropped_image;
+		cv::calcHist(&hist_image, 1, 0, cv::Mat(), histogram, 1, &number_bins, &channel_ranges);
+
+		int hist_w = 512, hist_h = 400;
+		int bin_w = cvRound((double)hist_w / histSize);
+		cv::Mat histImage(hist_h, hist_w, CV_8UC3, cv::Scalar(0, 0, 0));
+		normalize(histogram, histogram, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat());
+		for (int i = 1; i < histSize; i++)
+		{
+			line(histImage, cv::Point(bin_w*(i - 1), hist_h - cvRound(histogram.at<float>(i - 1))),
+				cv::Point(bin_w*(i), hist_h - cvRound(histogram.at<float>(i))),
+				cv::Scalar(255, 0, 0), 2, 8, 0);
+		}
+		cv::imshow("Source image", cropped_image);
+		imshow("calcHist Demo", histImage);
+		cv::waitKey(1);
+
 		cv::GaussianBlur(cropped_image, cropped_image, cv::Size(3, 3), 3, 0);
 		cv::Canny(cropped_image, cropped_image, 200, 255);
 		cv::dilate(cropped_image, cropped_image, Kernel);
