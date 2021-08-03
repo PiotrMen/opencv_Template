@@ -7,13 +7,13 @@ cv::Mat thread_vision::button_filters()
 	cv::Mat Kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
 
 		// Cropping image
-		cv::Rect crop_region(1505, 705, 350, 350);
+		cv::Rect crop_region(1605, 805, 315, 275);
 		cropped_image = image(crop_region);
 
 		// Filters
 		cv::cvtColor(cropped_image, cropped_image, cv::COLOR_BGR2GRAY);
 		cv::GaussianBlur(cropped_image, cropped_image, cv::Size(3, 3), 3, 0);
-		cv::Canny(cropped_image, cropped_image, 84, 255);
+		cv::Canny(cropped_image, cropped_image, 200,255);
 		cv::dilate(cropped_image, cropped_image, Kernel);
 
 		//Pomocnicze trackbary
@@ -30,7 +30,6 @@ cv::Mat thread_vision::button_filters()
 cv::Mat thread_vision::box_filters()
 {
 	cv::Mat cropped_image;
-
 	m.lock();
 	cropped_image = image(boxes[sequence[data_box.current_step].matched_rectangle]);
 	TL_of_window = boxes[sequence[data_box.current_step].matched_rectangle].tl();
@@ -255,14 +254,14 @@ void thread_vision::init_boxes()
 	{
 		if (i < 9)
 		{
-			cv::Point TL(data_box.boxes[i].getPosition().x - data_box.boxes[i].getSize().x / 2 + 10, data_box.boxes[i].getPosition().y + 30);
-			cv::Point BR(data_box.boxes[i].getPosition().x + data_box.boxes[i].getSize().x / 2 + 40, data_box.boxes[i].getPosition().y + data_box.boxes[i].getSize().y / 2 + 30);
+			cv::Point TL(data_box.boxes[i].getPosition().x - data_box.boxes[i].getSize().x / 2, data_box.boxes[i].getPosition().y + 215);
+			cv::Point BR(data_box.boxes[i].getPosition().x + data_box.boxes[i].getSize().x / 2 + 10, data_box.boxes[i].getPosition().y + data_box.boxes[i].getSize().y / 2 + 130);
 			boxes.push_back(cv::Rect(TL, BR));
 		}
 		else if (i == 9)
 		{
-			cv::Point TL(data_box.boxes[i].getPosition().x - data_box.boxes[i].getSize().x / 2, data_box.boxes[i].getPosition().y + 30);
-			cv::Point BR(data_box.boxes[i].getPosition().x + data_box.boxes[i].getSize().x / 2 + 8, data_box.boxes[i].getPosition().y + data_box.boxes[i].getSize().y / 2 + 30);
+			cv::Point TL(data_box.boxes[i].getPosition().x - data_box.boxes[i].getSize().x / 2, data_box.boxes[i].getPosition().y + 130);
+			cv::Point BR(data_box.boxes[i].getPosition().x + data_box.boxes[i].getSize().x / 2, data_box.boxes[i].getPosition().y + data_box.boxes[i].getSize().y / 2 + 130);
 			boxes.push_back(cv::Rect(TL, BR));
 		}
 
@@ -354,6 +353,8 @@ void thread_vision::operator()(int index)
 
 	while (true)
 	{
+		sf::Clock clock2; // starts the clock
+
 		if (data_box.camera_calibration) {
 			this->calibration_flag = data_box.camera_calibration;
 			this->coordinates_reordered = image_calibration(camera);
@@ -377,83 +378,84 @@ void thread_vision::operator()(int index)
 				init_boxes();
 			}
 			
-
 			// Camera trigger
 			camera.read(image);
 			cv::rotate(image, image, cv::ROTATE_180);
-
-			cv::remap(image, image, transformation_x, transformation_y, cv::INTER_CUBIC);  // INTER_NEAREST oko³o 20ms // INTER_CUBIC okolo 120ms  //INTER_LANCZOS4 okolo 240ms
+			cv::remap(image, image, transformation_x, transformation_y, cv::INTER_CUBIC); // INTER_NEAREST oko³o 20ms // INTER_CUBIC okolo 120ms  //INTER_LANCZOS4 okolo 240ms
 		//	this->image = getWarp(this->image, coordinates_reordered, 1920, 1080);
 			cv::Mat green_button_image = button_filters();
 
-			////download detection section
-			//if (this->box_flag) { 
-			//	this->real_time = this->clock.getElapsedTime();
-			//	if (this->real_time >= this->time_compare) {
-			//		this->box_flag = false;
-			//		this->clock.restart();
-			//		this->real_time = this->clock.restart();
-			//	}
-			//}
+			//download detection section
+			if (this->box_flag) { 
+				this->real_time = this->clock.getElapsedTime();
+				if (this->real_time >= this->time_compare) {
+					this->box_flag = false;
+					this->clock.restart();
+					this->real_time = this->clock.restart();
+				}
+			}
 
 			////additional secure
-			//if (!this->box_flag && data_box.step_in_sequence == 2) {
-			//	if (check_pattern(green_button_image, cv::Point(1505, 705), 500, 700))
-			//		this->green_button = false;
-			//	else {
-			//		this->green_button = true;
-			//		this->clock.restart();
-			//	}
-			//}
+			if (!this->box_flag && data_box.step_in_sequence == 2) {
+				if (check_pattern(green_button_image, cv::Point(1605, 805), 500, 700))
+					this->green_button = false;
+				else {
+					this->green_button = true;
+					this->clock.restart();
+				}
+			}
 
-			//cv::Mat box = box_filters();
+			cv::Mat box;
+			if(sequence.size()!=0)
+				box = box_filters();
 
 			////boxes detection
-			//if (data_box.step_in_sequence == 1) {
-			//	if (check_pattern_one_rect(box, TL_of_window, 5000, 7000))
-			//		this->box_detection = false;
-			//	else {
-			//		this->box_detection = true;
-			//		this->box_flag = true;
-			//		this->clock.restart();
-			//	}
-			//}
+			if (data_box.step_in_sequence == 1) {
+				if (check_pattern_one_rect(box, TL_of_window, 5000, 7000))
+					this->box_detection = false;
+				else {
+					this->box_detection = true;
+					this->box_flag = true;
+					this->clock.restart();
+				}
+			}
 
-			////accept button detection
-			//if (this->green_button && this->box_detection) {
-			//	this->green_button = false;
-			//	this->box_detection = false;
-			//}
+			//accept button detection
+			if (this->green_button && this->box_detection) {
+				this->green_button = false;
+				this->box_detection = false;
+			}
 
 			////  Communication between threads
 
-			//m.lock();
+			m.lock();
 
-			//if (data_box.green_button != this->green_button) 
-			//	data_box.green_button = this->green_button;
+			if (data_box.green_button != this->green_button) 
+				data_box.green_button = this->green_button;
 
-			//if(data_box.detecting_box != this->box_detection)
-			//	data_box.detecting_box = this->box_detection;
+			if(data_box.detecting_box != this->box_detection)
+				data_box.detecting_box = this->box_detection;
 
-			//m.unlock();
+			m.unlock();
 
 			//thread_vision::display_Tracksbars(hmin, hmax, smin, smax, vmin, vmax);
 
 			//showing image
-			//imshow("box", box);
+		//	imshow("box", box);
+			//imshow("green", green_button_image);
 			imshow("main", image);
 
 			cv::waitKey(1);
 		}
-
-		//else if(!data_box.camera_calibration){
-		//	cv::destroyAllWindows();
-		//}
+		else
+			cv::destroyAllWindows();
 
 		//exit program variable
 		if (data_box.global_exit)
 			break;
-
+		sf::Time elapsed1 = clock2.getElapsedTime();
+		std::cout << elapsed1.asMilliseconds() << std::endl;
+		clock2.restart();
 	}
 }
 
