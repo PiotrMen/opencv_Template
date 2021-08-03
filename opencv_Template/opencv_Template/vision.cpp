@@ -270,6 +270,60 @@ void thread_vision::init_boxes()
 	m.unlock();
 }
 
+void thread_vision::set_warp_parameters(float w, float h)
+{
+	// do testow
+	cv::Point2f src[4] = { coordinates_reordered[0],coordinates_reordered[1],coordinates_reordered[2],coordinates_reordered[3] };
+	cv::Point2f dst[4] = { {0.0f,0.0f},{w,0.0f},{0.0f,h},{w,h} };
+
+	cv::Mat transformationMatrix = cv::getPerspectiveTransform(src, dst);
+
+	// Since the camera won't be moving, let's pregenerate the remap LUT
+	cv::Mat inverseTransMatrix;
+	cv::invert(transformationMatrix, inverseTransMatrix);
+
+	// Generate the warp matrix
+	cv::Mat map_x, map_y, srcTM;
+	srcTM = inverseTransMatrix.clone(); // If WARP_INVERSE, set srcTM to transformationMatrix
+
+	map_x.create(image.size(), CV_32FC1);
+	map_y.create(image.size(), CV_32FC1);
+
+	double M11, M12, M13, M21, M22, M23, M31, M32, M33;
+	M11 = srcTM.at<double>(0, 0);
+	M12 = srcTM.at<double>(0, 1);
+	M13 = srcTM.at<double>(0, 2);
+	M21 = srcTM.at<double>(1, 0);
+	M22 = srcTM.at<double>(1, 1);
+	M23 = srcTM.at<double>(1, 2);
+	M31 = srcTM.at<double>(2, 0);
+	M32 = srcTM.at<double>(2, 1);
+	M33 = srcTM.at<double>(2, 2);
+
+	for (int y = 0; y < image.rows; y++) {
+		double fy = (double)y;
+		for (int x = 0; x < image.cols; x++) {
+			double fx = (double)x;
+			double w = ((M31 * fx) + (M32 * fy) + M33);
+			w = w != 0.0f ? 1.f / w : 0.0f;
+			float new_x = (float)((M11 * fx) + (M12 * fy) + M13) * w;
+			float new_y = (float)((M21 * fx) + (M22 * fy) + M23) * w;
+			map_x.at<float>(y, x) = new_x;
+			map_y.at<float>(y, x) = new_y;
+		}
+	}
+
+	// This creates a fixed-point representation of the mapping resulting in ~4% CPU savings
+	//cv::Mat transformation_x, transformation_y;
+	this->transformation_x.create(image.size(), CV_16SC2);
+	this->transformation_y.create(image.size(), CV_16UC1);
+	cv::convertMaps(map_x, map_y, this->transformation_x, this->transformation_y, false);
+
+	// If the fixed-point representation causes issues, replace it with this code
+	//transformation_x = map_x.clone();
+	//transformation_y = map_y.clone();
+}
+
 void thread_vision::operator()(int index)
 {
 	//Initialization
@@ -280,6 +334,23 @@ void thread_vision::operator()(int index)
 
 	load_table_coordinates(this->coordinates_reordered);
 
+	camera.read(image);
+	cv::rotate(image, image, cv::ROTATE_180);
+	set_warp_parameters(1920, 1080);
+
+	// Do testowania bez ekranu
+
+	//while (true)
+	//{
+	//	// Camera trigger
+	//	camera.read(image);
+	//	cv::rotate(image, image, cv::ROTATE_180);
+	//	cv::remap(image, image, transformation_x, transformation_y, cv::INTER_CUBIC);  // INTER_NEAREST oko³o 20ms // INTER_CUBIC okolo 120ms  //INTER_LANCZOS4 okolo 240ms
+	//	//this->image = getWarp(this->image, coordinates_reordered, 1920, 1080);
+	//	cv::Mat green_button_image = button_filters();
+	//	imshow("main", image);
+	//	cv::waitKey(1);
+	//}
 
 	while (true)
 	{
@@ -290,6 +361,7 @@ void thread_vision::operator()(int index)
 		if (this->calibration_flag && !data_box.camera_calibration) {
 			save_table_coordinates(this->coordinates_reordered);
 			load_table_coordinates(this->coordinates_reordered);
+			set_warp_parameters(1920, 1080);
 			this->calibration_flag = false;
 		}
 
@@ -309,7 +381,9 @@ void thread_vision::operator()(int index)
 			// Camera trigger
 			camera.read(image);
 			cv::rotate(image, image, cv::ROTATE_180);
-			this->image = getWarp(this->image, coordinates_reordered, 1920, 1080);
+
+			cv::remap(image, image, transformation_x, transformation_y, cv::INTER_CUBIC);  // INTER_NEAREST oko³o 20ms // INTER_CUBIC okolo 120ms  //INTER_LANCZOS4 okolo 240ms
+		//	this->image = getWarp(this->image, coordinates_reordered, 1920, 1080);
 			cv::Mat green_button_image = button_filters();
 
 			////download detection section
@@ -369,7 +443,7 @@ void thread_vision::operator()(int index)
 			//imshow("box", box);
 			imshow("main", image);
 
-			cv::waitKey(33);
+			cv::waitKey(1);
 		}
 
 		//else if(!data_box.camera_calibration){

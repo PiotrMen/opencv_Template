@@ -28,6 +28,7 @@ private:
 	std::vector<cv::Point> find_contours_for_calib(cv::Mat mask);
 	std::vector<cv::Point> reorder(std::vector<cv::Point> points);
 	cv::Mat getWarp(cv::Mat img, std::vector<cv::Point> points, float w, float h);
+	void set_warp_parameters(float w, float h);
 
 	cv::Mat image;
 	cv::Mat trackbars_img;
@@ -52,6 +53,7 @@ private:
 	bool calibration_flag;
 
 	std::vector<cv::Point>coordinates_reordered;
+	cv::Mat transformation_x, transformation_y; // Matrix x and y are used for warping image
 };
 
 
