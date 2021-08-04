@@ -35,8 +35,8 @@ void sfml_objects::init_button_size(float percentege_size)
 	this->green_button_length_y = 124;
 
 	//coordinates for green button
-	this->green_button_x = this->window_width - 50 - ((this->green_button_length_x / 2) * percentege_size / 100);  // 150 - number of pixels from bounds
-	this->green_button_y = this->window_height - 28 - ((this->green_button_length_y / 2) * percentege_size / 100);
+	this->green_button_x = this->window_width - 75 - ((this->green_button_length_x / 2) * percentege_size / 100);  // 150 - number of pixels from bounds
+	this->green_button_y = this->window_height - 50 - ((this->green_button_length_y / 2) * percentege_size / 100);
 
 	//red button
 	this->red_button_length_x = 124;
@@ -410,7 +410,7 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 		}
 
 		rectangle_.setSize(sf::Vector2f(mm_to_pixels_converter(45), mm_to_pixels_converter(50)));
-		rectangle_.setOrigin(sf::Vector2f(this->green_button_length_x / 2, this->green_button_length_y / 2));
+		rectangle_.setOrigin(sf::Vector2f(mm_to_pixels_converter(45) / 2, mm_to_pixels_converter(50) / 2));
 		rectangle_.setPosition(this->green_button_x, this->green_button_y);
 		rectangle_.setFillColor(sf::Color::Green);
 		this->window->draw(rectangle_);
