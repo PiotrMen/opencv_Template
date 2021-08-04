@@ -277,6 +277,23 @@ void menu_sfml_objects::pollEvents(int &current_step, int &current_window)
 			if (event.key.code == sf::Keyboard::Enter && searching_text.size() > 0)
 			{
 				this->current_menu_window = 0;
+
+				//clearing vectors
+				this->vector_displaying_articles.clear();
+				this->connectors_list.clear();
+				sequence.clear();
+				this->start_sequention = false;
+				this->which_box_is_writing = 0;
+				this->which_box_chosen = 0;
+				this->display_start_sequention = false;
+
+				for (int i = 0; i < 10; i++) {
+					vector_rectangles[i].setFillColor(sf::Color::Red);
+				}
+
+				//Clearing global vector
+				data_box.boxes.clear();
+
 				// Execute loading
 				load_csv_sequence(sequence, searching_text, connectors_list);
 				sequence_name = searching_text;
@@ -489,7 +506,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		this->start_sequention = false;
 		this->enable_writing = true;
 
-		if (previous_string.size() < searching_text.size()) {
+		if (previous_string.size() != searching_text.size()) {
 			if_clear = true;
 			if_display = true;
 		}
