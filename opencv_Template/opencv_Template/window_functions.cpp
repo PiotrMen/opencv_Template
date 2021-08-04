@@ -417,11 +417,11 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 			this->window->draw(rectangle_);
 		}
 
-		rectangle_.setSize(sf::Vector2f(mm_to_pixels_converter(45), mm_to_pixels_converter(50)));
-		rectangle_.setOrigin(sf::Vector2f(mm_to_pixels_converter(45) / 2, mm_to_pixels_converter(50) / 2));
-		rectangle_.setPosition(this->green_button_x, this->green_button_y);
-		rectangle_.setFillColor(sf::Color::Green);
-		this->window->draw(rectangle_);
+		//rectangle_.setSize(sf::Vector2f(mm_to_pixels_converter(45), mm_to_pixels_converter(50)));
+		//rectangle_.setOrigin(sf::Vector2f(mm_to_pixels_converter(45) / 2, mm_to_pixels_converter(50) / 2));
+		//rectangle_.setPosition(this->green_button_x, this->green_button_y);
+		//rectangle_.setFillColor(sf::Color::Green);
+		//this->window->draw(rectangle_);
 
 
 		this->display_text(this->window_width/2, 800, "Jesli jestes pewna/y ze tasmy znajduja sie w podswietlonych na zielono miejscach to zatwierdz na komputerze", 40);
