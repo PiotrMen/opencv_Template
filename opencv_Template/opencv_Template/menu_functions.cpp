@@ -637,11 +637,11 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 	if (this->current_menu_window == 202)
 	{
 		// Handling back to menu button
-		if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->menu_window_width - 200, this->menu_window_height - 150, 124, 124, 1, this->menu_window))
+		if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->menu_window_width - 200, this->menu_window_height - 150, 124, 124, 1, this->menu_window) && this->timer_flag)
 			data_box.is_sequence_activated = false;
 
 		// Handling step back button
-		if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->backward_button_x, this->backward_button_y, this->backward_length_button_x, this->backward_length_button_y, 1, this->menu_window))
+		if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->backward_button_x, this->backward_button_y, this->backward_length_button_x, this->backward_length_button_y, 1, this->menu_window) && this->timer_flag)
 			data_box.step_back = true;
 
 		//Handling text depends of global timer

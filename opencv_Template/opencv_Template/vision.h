@@ -34,6 +34,7 @@ private:
 
 	cv::Mat image;
 	cv::Mat trackbars_img;
+	cv::Mat box;
 
 	bool green_button;
 	bool box_detection;

@@ -559,16 +559,15 @@ void thread_vision::operator()(int index)
 				}
 			}
 
-			cv::Mat box;
 
 			m2.lock();
 			if(sequence.size()!=0)
-				box = box_filters();
+				this->box = box_filters();
 			m2.unlock();
 
 			////boxes detection
 			if (data_box.step_in_sequence == 1) {
-				if (check_pattern_one_rect(box, TL_of_window, 5000, 7000))
+				if (check_pattern_one_rect(this->box, TL_of_window, 5000, 7000))
 					this->box_detection = false;
 				else {
 					this->box_detection = true;
@@ -586,15 +585,15 @@ void thread_vision::operator()(int index)
 
 			////  Communication between threads
 
-			m.lock();
+			//m.lock();
 
-			if (data_box.green_button != this->green_button) 
-				data_box.green_button = this->green_button;
+			//if (data_box.green_button != this->green_button) 
+			//	data_box.green_button = this->green_button;
 
-			if(data_box.detecting_box != this->box_detection)
-				data_box.detecting_box = this->box_detection;
+			//if(data_box.detecting_box != this->box_detection)
+			//	data_box.detecting_box = this->box_detection;
 
-			m.unlock();
+			//m.unlock();
 
 			//thread_vision::display_Tracksbars(hmin, hmax, smin, smax, vmin, vmax);
 

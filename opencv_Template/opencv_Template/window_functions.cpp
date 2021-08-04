@@ -218,12 +218,12 @@ void sfml_objects::update(int &current_step)
 	// Checking if article was taken
 	if (data_box.detecting_box && this->step_of_sequence == 1)
 	{
-		//this->article_taken = true;
+		this->article_taken = true;
 	}
 	// Waiting for confirmation in step 2
 	if (data_box.green_button && this->step_of_sequence == 2)
 	{
-		//this->article_installed = true;
+		this->article_installed = true;
 	}
 
 	// Go back to previous step in sequence
@@ -238,7 +238,6 @@ void sfml_objects::update(int &current_step)
 				list.pop_back();
 			if(current_step > 0)
 				list.insert(list.begin(), 1, std::to_string(current_step) + "." + std::to_string(1) + " Pobranie " + sequence[current_step - 1].name);
-			data_box.step_back = false;
 		}
 		else if (this->step_of_sequence == 1 && current_step > 0)
 		{
@@ -249,8 +248,8 @@ void sfml_objects::update(int &current_step)
 				list.pop_back();
 			if(current_step > 0)
 				list.insert(list.begin(), 1, std::to_string(current_step) + "." + std::to_string(2) + " Instalacja " + sequence[current_step - 1].name);
-			data_box.step_back = false;
 		}
+		data_box.step_back = false;
 	}
 
 	if (data_box.is_sequence_activated == false)
