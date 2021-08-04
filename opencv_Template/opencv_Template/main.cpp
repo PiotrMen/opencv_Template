@@ -22,7 +22,8 @@ sGlobal_data data_box;
 
 int main()
 {
-	ShowWindow(GetConsoleWindow(), SW_HIDE);
+	ShowWindow(GetConsoleWindow(), SW_NORMAL);
+	//ShowWindow(GetConsoleWindow(), SW_HIDE);
 
 	menu_sfml_objects menu_objects;
 	sfml_objects objects;

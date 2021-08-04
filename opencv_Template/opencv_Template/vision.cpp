@@ -5,7 +5,7 @@ cv::Mat thread_vision::button_filters()
 {
 	cv::Mat cropped_image;
 	cv::Mat hist_image;
-	cv::Mat Kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
+	cv::Mat Kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(9, 9));
 
 		// Cropping image
 		cv::Rect crop_region(1605, 805, 315, 275);
@@ -36,12 +36,12 @@ cv::Mat thread_vision::button_filters()
 				cv::Point(bin_w*(i), hist_h - cvRound(histogram.at<float>(i))),
 				cv::Scalar(255, 0, 0), 2, 8, 0);
 		}
-		cv::imshow("Source image", cropped_image);
-		imshow("calcHist Demo", histImage);
+		//cv::imshow("Source image", cropped_image);
+	//	imshow("calcHist Demo", histImage);
 		cv::waitKey(1);
 
 		cv::GaussianBlur(cropped_image, cropped_image, cv::Size(3, 3), 3, 0);
-		cv::Canny(cropped_image, cropped_image, 200, 255);
+		cv::Canny(cropped_image, cropped_image, 50, 255);
 		cv::dilate(cropped_image, cropped_image, Kernel);
 
 		//Pomocnicze trackbary
@@ -53,6 +53,74 @@ cv::Mat thread_vision::button_filters()
 		//imshow("Przycisk" + std::to_string(select_button), cropped_image);
 
 		return cropped_image;
+}
+cv::Mat thread_vision::button_filter()
+{
+	cv::Mat cropped_image;
+	cv::Mat mask;
+	cv::Mat hist_image;
+	cv::Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
+	cv::Mat kerneldil = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(6, 6));
+
+
+	// Cropping image
+	cv::Rect crop_region(1605, 805, 315, 275);
+	cropped_image = image(crop_region);
+	//cv::MatND histogram;
+
+	cv::Scalar lower(148, 230, 55);
+	cv::Scalar upper(244, 255, 239);
+	cv::inRange(cropped_image, lower, upper, mask);
+
+	cv::morphologyEx(mask, mask, cv::MORPH_OPEN, kernel);
+	cv::dilate(mask, mask, kerneldil);
+
+	imshow("mask1", mask);
+
+
+	//int histSize = 256;
+	//const int* channel_numbers = { 0 };
+	//float channel_range[] = { 0.0,256.0 };
+	//const float* channel_ranges[] = { channel_range };
+	//int number_bins = histSize;
+
+	//std::vector<cv::Mat> bgr_image;
+	//cv::split(cropped_image, bgr_image);
+
+	//// Filters
+	//hist_image = cropped_image;
+
+	//bool uniform = true, accumulate = false;
+	//cv::Mat b_hist, g_hist, r_hist;
+	//calcHist(&bgr_image[0], 1, 0, cv::Mat(), b_hist, 1, &histSize, channel_ranges, uniform, accumulate);
+	//calcHist(&bgr_image[1], 1, 0, cv::Mat(), g_hist, 1, &histSize, channel_ranges, uniform, accumulate);
+	//calcHist(&bgr_image[2], 1, 0, cv::Mat(), r_hist, 1, &histSize, channel_ranges, uniform, accumulate);
+
+	//int hist_w = 512, hist_h = 400;
+	//int bin_w = cvRound((double)hist_w / histSize);
+	//cv::Mat histImage(hist_h, hist_w, CV_8UC3, cv::Scalar(0, 0, 0));
+	//normalize(b_hist, b_hist, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat());
+	//normalize(g_hist, g_hist, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat());
+	//normalize(r_hist, r_hist, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat());
+
+	//for (int i = 1; i < histSize; i++)
+	//{
+	//	line(histImage, cv::Point(bin_w*(i - 1), hist_h - cvRound(b_hist.at<float>(i - 1))),
+	//		cv::Point(bin_w*(i), hist_h - cvRound(b_hist.at<float>(i))),
+	//		cv::Scalar(255, 0, 0), 2, 8, 0);
+	//	line(histImage, cv::Point(bin_w*(i - 1), hist_h - cvRound(g_hist.at<float>(i - 1))),
+	//		cv::Point(bin_w*(i), hist_h - cvRound(g_hist.at<float>(i))),
+	//		cv::Scalar(0, 255, 0), 2, 8, 0);
+	//	line(histImage, cv::Point(bin_w*(i - 1), hist_h - cvRound(r_hist.at<float>(i - 1))),
+	//		cv::Point(bin_w*(i), hist_h - cvRound(r_hist.at<float>(i))),
+	//		cv::Scalar(0, 0, 255), 2, 8, 0);
+	//}
+	//cv::imshow("Source image", cropped_image);
+	//imshow("calcHist Demo", histImage);
+	//cv::waitKey(1);
+
+
+	return mask;
 }
 
 cv::Mat thread_vision::box_filters()
@@ -123,6 +191,52 @@ bool thread_vision::check_pattern(cv::Mat input_image, cv::Point dxdy, int lower
 		return false;
 	}
 }
+
+bool thread_vision::check_pattern_circle(cv::Mat input_image, cv::Point dxdy, int lower_value, int upper_value)
+{
+	std::vector<std::vector<cv::Point>> contours;
+	std::vector<cv::Vec4i> hierarchy;
+
+	cv::findContours(input_image, contours, hierarchy, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+
+	std::vector<std::vector<cv::Point>> conPoly(contours.size());
+	cv::Rect boundRect(dxdy, input_image.size());
+
+	int area = 0;
+	int counter = 0;
+
+	for (int i = 0; i < contours.size(); i++)
+	{
+		//Approximation
+		float peri = cv::arcLength(contours[i], true);
+		cv::approxPolyDP(contours[i], conPoly[i], 0.02*peri, true);
+
+		//Searching rectangle
+		if ((int)conPoly[i].size() == 8 && contourArea(contours[i]) > 3000)
+		{
+			if(area<contourArea(contours[i]))
+				area = contourArea(contours[i]);
+		}
+
+		// Rysowanie konturów
+		if ((int)conPoly[i].size() == 8)
+			cv::drawContours(image, conPoly, i, cv::Scalar(0, 255, 0), 1, cv::LINE_8, -1, 0, dxdy);
+	}
+	//Wyswietlanie wartosci pól
+   std::cout << area << std::endl;
+
+	if (area > lower_value && area < upper_value)
+	{
+		cv::rectangle(image, boundRect, cv::Scalar(0, 255, 0), 5);
+		return true;
+	}
+	else
+	{
+		cv::rectangle(image, boundRect, cv::Scalar(0, 0, 255), 5);
+		return false;
+	}
+}
+
 bool thread_vision::check_pattern_one_rect(cv::Mat input_image, cv::Point dxdy, int lower_value, int upper_value)
 {
 	std::vector<std::vector<cv::Point>> contours;
@@ -258,7 +372,7 @@ std::vector<cv::Point> thread_vision::image_calibration(cv::VideoCapture cam) {
 void thread_vision::display_Tracksbars(int &hmin, int &hmax, int &smin, int &smax, int &vmin, int &vmax) {
 	cv::Mat imageHSV;
 	cv::Mat mask;
-	cv::cvtColor(this->trackbars_img, imageHSV, cv::COLOR_BGR2GRAY);
+	//cv::cvtColor(this->trackbars_img, imageHSV, cv::COLOR_BGR2GRAY);
 
 	cv::namedWindow("Trackbars", (640, 200));
 	cv::createTrackbar("Hue Min", "Trackbars", &hmin, 179);
@@ -411,7 +525,7 @@ void thread_vision::operator()(int index)
 			cv::rotate(image, image, cv::ROTATE_180);
 			cv::remap(image, image, transformation_x, transformation_y, cv::INTER_CUBIC); // INTER_NEAREST oko³o 20ms // INTER_CUBIC okolo 120ms  //INTER_LANCZOS4 okolo 240ms
 		//	this->image = getWarp(this->image, coordinates_reordered, 1920, 1080);
-			cv::Mat green_button_image = button_filters();
+			cv::Mat green_button_image = button_filter();
 
 			//download detection section
 			if (this->box_flag) { 
@@ -425,7 +539,7 @@ void thread_vision::operator()(int index)
 
 			////additional secure
 			if (!this->box_flag && data_box.step_in_sequence == 2) {
-				if (check_pattern_one_rect(green_button_image, cv::Point(1605, 805), 2000, 7000))
+				if (check_pattern_circle(green_button_image, cv::Point(1605, 805), 9000, 14000))
 					this->green_button = false;
 				else {
 					this->green_button = true;
@@ -450,6 +564,7 @@ void thread_vision::operator()(int index)
 					this->clock.restart();
 				}
 			}
+
 
 			//accept button detection
 			if (this->green_button && this->box_detection) {
