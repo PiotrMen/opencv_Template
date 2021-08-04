@@ -192,30 +192,38 @@ void sfml_objects::update(int &current_step)
 {
 	this->pollEvents(current_step);
 
+	if (!this->timer_flag)
+		this->timer_flag = data_box.timer_done;
+
 	if (!this->sequence_previous_state && this->sequence_activated)
 	{
+		this->sequence_start_flag = true;
+	}
 
+	if (this->sequence_start_flag && this->timer_flag)
+	{
 		// sfml data to opencv
 		data_box.boxes = lighting_rectangles;
 		data_box.is_sequence_activated = this->sequence_activated;
-		
+
 		// Initializing sequence list
 
 		list.push_back("1.1 Pobranie " + sequence[0].name);				//Actual step
 		list.push_back("1.2 Instalacja " + sequence[0].name);			//Following step
 
 		this->step_of_sequence = 1;
+		this->sequence_start_flag = false;
 	}
 	
 	// Checking if article was taken
 	if (data_box.detecting_box && this->step_of_sequence == 1)
 	{
-		this->article_taken = true;
+		//this->article_taken = true;
 	}
 	// Waiting for confirmation in step 2
 	if (data_box.green_button && this->step_of_sequence == 2)
 	{
-		this->article_installed = true;
+		//this->article_installed = true;
 	}
 
 	// Go back to previous step in sequence

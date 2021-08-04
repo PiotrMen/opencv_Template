@@ -513,7 +513,19 @@ void thread_vision::operator()(int index)
 			this->is_sequence_activated = data_box.is_sequence_activated;
 		m.unlock();
 
-		if (this->is_sequence_activated)
+		if (!this->timer_flag) {
+			m.lock();
+			data_box.real_time_calibration_camera = this->clock.getElapsedTime();
+
+			if (data_box.real_time_calibration_camera >= this->time_calibration_camera) {
+				this->timer_flag = true;
+				data_box.timer_done = true;
+			}
+			m.unlock();
+		}
+
+
+		if (this->is_sequence_activated && this->timer_flag)
 		{
 			if (boxes.size() == 0)
 			{

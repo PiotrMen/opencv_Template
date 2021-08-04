@@ -34,6 +34,9 @@ struct sGlobal_data
 	bool detecting_box;
 	bool camera_calibration;
 	bool global_exit;
+	bool timer_done;
+
+	sf::Time real_time_calibration_camera;
 
 	std::vector<cv::Point> table_coordinates;
 

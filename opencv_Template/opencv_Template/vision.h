@@ -48,10 +48,13 @@ private:
 	bool is_sequence_activated = false;
 
 	sf::Time time_compare = sf::seconds(3);
+	sf::Time time_calibration_camera = sf::seconds(30);
+
 	sf::Time real_time;
 	sf::Clock clock;
 
 	bool box_flag;
+	bool timer_flag;
 	bool calibration_flag;
 
 	std::vector<cv::Point>coordinates_reordered;

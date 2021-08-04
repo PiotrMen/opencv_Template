@@ -626,6 +626,17 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		// Handling step back button
 		if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->backward_button_x, this->backward_button_y, this->backward_length_button_x, this->backward_length_button_y, 1, this->menu_window))
 			data_box.step_back = true;
+
+		//Handling text depends of global timer
+		
+		if (!this->timer_flag) {
+			this->timer_flag = data_box.timer_done;
+			this->real_time_calibration_freezed_screen = data_box.real_time_calibration_camera;
+			this->displaying_time = this->invert_time_freezed_screen.asSeconds() - this->real_time_calibration_freezed_screen.asSeconds();
+			if_clear = true;
+			if_display = true;
+		}
+
 	}
 
 	if (this->current_menu_window == 202 && detecting_sequation_ending()) {
@@ -887,6 +898,11 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		// Displaying back to menu in sequence
 		this->display_texture(this->menu_window_width - 200, this->menu_window_height - 150, "red_circle.png", this->button_size, 0);
 		this->display_text(this->menu_window_width - 200, this->menu_window_height - 75, "Powrot do menu", 30);
+
+		if (!this->timer_flag) {
+			this->display_text(920, 935, "Trwa kalibracja", 80);
+			this->display_text(1270, 935, std::to_string(this->displaying_time) + " s:", 80);
+		}
 
 		this->if_clear = false;
 	}

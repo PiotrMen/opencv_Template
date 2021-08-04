@@ -171,8 +171,15 @@ private:
 	sf::Time time_compare = sf::seconds(40);
 	sf::Time time_send_info = sf::seconds(38);
 	sf::Time real_time;
+
+	sf::Time real_time_calibration_freezed_screen;
+	sf::Time invert_time_freezed_screen = sf::seconds(30);
+
 	int displaying_time;
 	sf::Clock clock;
+
+	//global timer variable
+	bool timer_flag;
 };
 
 #endif
