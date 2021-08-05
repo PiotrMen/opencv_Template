@@ -7,20 +7,22 @@ sfml_objects::sfml_objects()
 	this->window_height = 1080;
 	this->window_width = 1920;
 	this->window = new sf::RenderWindow(sf::VideoMode(window_width, window_height), "Window", sf::Style::Fullscreen);
+	this->window->setPosition(sf::Vector2i(0, -1080));
 
 	for (int i = 0; i < 10; i++)
 	{
 		sf::RectangleShape rect_empty;
 		sf::RectangleShape rect_filled;
 		rect_empty = making_rectangle(mm_to_pixels_converter(60 + (i * 120)), 262, mm_to_pixels_converter(110), mm_to_pixels_converter(315), sf::Color::Green, 0);
-		if(i == 0 || i == 9 || i == 4 || i == 5)
+		/*if(i == 0 || i == 9 || i == 4 || i == 5)
 			rect_filled = making_rectangle(mm_to_pixels_converter(60 + (i * 120)), 290, mm_to_pixels_converter(120), mm_to_pixels_converter(315), sf::Color::Green, 0);
 		else if(i < 4)
 			rect_filled = making_rectangle(mm_to_pixels_converter(60 + (i * 120)) - mm_to_pixels_converter(17 - i * 5), 290, mm_to_pixels_converter(120), mm_to_pixels_converter(315), sf::Color::Green, 0);
 		else
-			rect_filled = making_rectangle(mm_to_pixels_converter(60 + (i * 120)) + mm_to_pixels_converter(i * 5 - 28), 290, mm_to_pixels_converter(120), mm_to_pixels_converter(315), sf::Color::Green, 0);
+			rect_filled = making_rectangle(mm_to_pixels_converter(60 + (i * 120)) + mm_to_pixels_converter(i * 5 - 28), 290, mm_to_pixels_converter(120), mm_to_pixels_converter(315), sf::Color::Green, 0);*/
 		this->outline_rectangles.push_back(rect_empty);
-		this->lighting_rectangles.push_back(rect_filled);
+		this->lighting_rectangles.push_back(rect_empty);
+		//this->lighting_rectangles.push_back(rect_filled);
 	}
 }
 
@@ -64,6 +66,24 @@ void sfml_objects::display_texture(int pos_x, int pos_y, std::string file_path, 
 	texture.setOrigin(sf::Vector2f(texture.getTexture()->getSize().x * 0.5, texture.getTexture()->getSize().y * 0.5));         //set origins of images to center
 	texture.setPosition(pos_x, pos_y);
 	texture.setScale(scale, scale);
+	texture.setRotation(rotation);
+
+	this->window->draw(texture);
+}
+
+void sfml_objects::display_texture(int pos_x, int pos_y, std::string file_path, int width, int height, float rotation)
+{
+	sf::Texture texture_;
+	if (!texture_.loadFromFile("resources/" + file_path))
+	{
+		std::cerr << "Could not load texture" << std::endl;
+		exit(1);
+	}
+	sf::Sprite texture;
+	texture.setTexture(texture_);
+	texture.setOrigin(sf::Vector2f(texture.getTexture()->getSize().x * 0.5, texture.getTexture()->getSize().y * 0.5));         //set origins of images to center
+	texture.setPosition(pos_x, pos_y);
+	texture.setScale(width/texture.getGlobalBounds().width, height/texture.getGlobalBounds().height);
 	texture.setRotation(rotation);
 
 	this->window->draw(texture);
@@ -144,12 +164,6 @@ void sfml_objects::pollEvents(int &current_step)
 			this->window->close();
 			break;
 
-		case sf::Event::KeyPressed:
-			if (event.key.code == sf::Keyboard::Escape)
-			{
-				this->window->close();
-			}
-			break;
 		case sf::Event::MouseButtonPressed:
 		{
 			switch (event.key.code)
@@ -321,7 +335,7 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 	{
 		// Obliczanie wyswietlania dokladnego miejsca polozenia na szynie DIN
 
-		this->window->draw(making_rectangle(160 + actual_length + sequence[current_step].width / 2, 740 - sequence[current_step].height / 2, sequence[current_step].width, sequence[current_step].height, sf::Color::Green, false));
+		//this->window->draw(making_rectangle(160 + actual_length + sequence[current_step].width / 2, 740 - sequence[current_step].height / 2, sequence[current_step].width, sequence[current_step].height, sf::Color::Green, false));
 
 		//Handling end of sequence
 		if (this->article_installed && current_step + 1 == sequence.size())
@@ -354,7 +368,10 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 	if (this->step_of_sequence != 0)
 	{
 		this->display_texture(this->green_button_x, this->green_button_y, "green_circle.png", this->button_size, 0);   //displaying basic graphics 
-		this->display_text(this->green_button_x, this->green_button_y + ((this->red_button_length_y*button_size)) / 2, "Continue", 40); //displaying texts
+		this->display_text(this->green_button_x, this->green_button_y + ((this->red_button_length_y*button_size)) / 2, "Kontynuuj", 40); //displaying texts
+
+		//this->display_texture(this->window_width/2 -100, this->green_button_y, "14.png", mm_to_pixels_converter(2.2),mm_to_pixels_converter(36.5), 0);   //displaying basic graphics 
+		//this->display_texture(this->window_width / 2 + 100, this->green_button_y, "26.png", mm_to_pixels_converter(6.2), mm_to_pixels_converter(66.4), 0);   //displaying basic graphics 
 
 		if (sequence.size() != 0)
 		{
