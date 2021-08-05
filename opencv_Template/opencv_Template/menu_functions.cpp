@@ -249,10 +249,10 @@ void menu_sfml_objects::pollEvents(int &current_step, int &current_window)
 			break;
 
 		case sf::Event::KeyPressed:
-			if (event.key.code == sf::Keyboard::Escape)
-			{
-				this->menu_window->close();
-			}
+		//	if (event.key.code == sf::Keyboard::Escape)
+		//	{
+		//		data_box.global_exit = true;
+		//	}
 
 			// Handling CapsLock 
 			if (event.key.code == -1)

@@ -10,35 +10,35 @@ cv::Mat thread_vision::button_filters()
 		// Cropping image
 		cv::Rect crop_region(1605, 805, 315, 275);
 		cropped_image = image(crop_region);
-		cv::MatND histogram;
-		int histSize = 256;
-		const int* channel_numbers = {0};
-		float channel_range[] = {0.0,256.0};
-		const float* channel_ranges = channel_range;
-		int number_bins = histSize;
+	//	cv::MatND histogram;
+	//	int histSize = 256;
+	//	const int* channel_numbers = {0};
+	//	float channel_range[] = {0.0,256.0};
+	//	const float* channel_ranges = channel_range;
+	//	int number_bins = histSize;
 
-		
+	//	
 
-		// Filters
-		cv::cvtColor(cropped_image, cropped_image, cv::COLOR_BGR2GRAY);
+	//	// Filters
+	//	cv::cvtColor(cropped_image, cropped_image, cv::COLOR_BGR2GRAY);
 
 
-		hist_image = cropped_image;
-		cv::calcHist(&hist_image, 1, 0, cv::Mat(), histogram, 1, &number_bins, &channel_ranges);
+	//	hist_image = cropped_image;
+	//	cv::calcHist(&hist_image, 1, 0, cv::Mat(), histogram, 1, &number_bins, &channel_ranges);
 
-		int hist_w = 512, hist_h = 400;
-		int bin_w = cvRound((double)hist_w / histSize);
-		cv::Mat histImage(hist_h, hist_w, CV_8UC3, cv::Scalar(0, 0, 0));
-		normalize(histogram, histogram, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat());
-		for (int i = 1; i < histSize; i++)
-		{
-			line(histImage, cv::Point(bin_w*(i - 1), hist_h - cvRound(histogram.at<float>(i - 1))),
-				cv::Point(bin_w*(i), hist_h - cvRound(histogram.at<float>(i))),
-				cv::Scalar(255, 0, 0), 2, 8, 0);
-		}
-		//cv::imshow("Source image", cropped_image);
-	//	imshow("calcHist Demo", histImage);
-		cv::waitKey(1);
+	//	int hist_w = 512, hist_h = 400;
+	//	int bin_w = cvRound((double)hist_w / histSize);
+	//	cv::Mat histImage(hist_h, hist_w, CV_8UC3, cv::Scalar(0, 0, 0));
+	//	normalize(histogram, histogram, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat());
+	//	for (int i = 1; i < histSize; i++)
+	//	{
+	//		line(histImage, cv::Point(bin_w*(i - 1), hist_h - cvRound(histogram.at<float>(i - 1))),
+	//			cv::Point(bin_w*(i), hist_h - cvRound(histogram.at<float>(i))),
+	//			cv::Scalar(255, 0, 0), 2, 8, 0);
+	//	}
+	//	//cv::imshow("Source image", cropped_image);
+	////	imshow("calcHist Demo", histImage);
+	//	cv::waitKey(1);
 
 		cv::GaussianBlur(cropped_image, cropped_image, cv::Size(3, 3), 3, 0);
 		cv::Canny(cropped_image, cropped_image, 50, 255);
@@ -75,7 +75,7 @@ cv::Mat thread_vision::button_filter()
 	cv::morphologyEx(mask, mask, cv::MORPH_OPEN, kernel);
 	cv::dilate(mask, mask, kerneldil);
 
-	imshow("mask1", mask);
+	//imshow("mask1", mask);
 
 
 	//int histSize = 256;
@@ -83,26 +83,21 @@ cv::Mat thread_vision::button_filter()
 	//float channel_range[] = { 0.0,256.0 };
 	//const float* channel_ranges[] = { channel_range };
 	//int number_bins = histSize;
-
 	//std::vector<cv::Mat> bgr_image;
 	//cv::split(cropped_image, bgr_image);
-
 	//// Filters
 	//hist_image = cropped_image;
-
 	//bool uniform = true, accumulate = false;
 	//cv::Mat b_hist, g_hist, r_hist;
 	//calcHist(&bgr_image[0], 1, 0, cv::Mat(), b_hist, 1, &histSize, channel_ranges, uniform, accumulate);
 	//calcHist(&bgr_image[1], 1, 0, cv::Mat(), g_hist, 1, &histSize, channel_ranges, uniform, accumulate);
 	//calcHist(&bgr_image[2], 1, 0, cv::Mat(), r_hist, 1, &histSize, channel_ranges, uniform, accumulate);
-
 	//int hist_w = 512, hist_h = 400;
 	//int bin_w = cvRound((double)hist_w / histSize);
 	//cv::Mat histImage(hist_h, hist_w, CV_8UC3, cv::Scalar(0, 0, 0));
 	//normalize(b_hist, b_hist, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat());
 	//normalize(g_hist, g_hist, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat());
 	//normalize(r_hist, r_hist, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat());
-
 	//for (int i = 1; i < histSize; i++)
 	//{
 	//	line(histImage, cv::Point(bin_w*(i - 1), hist_h - cvRound(b_hist.at<float>(i - 1))),
@@ -126,24 +121,51 @@ cv::Mat thread_vision::button_filter()
 cv::Mat thread_vision::box_filters()
 {
 	cv::Mat cropped_image;
+	cv::Mat hist_image;
 	m.lock();
 	cropped_image = image(boxes[sequence[data_box.current_step].matched_rectangle]);
 	TL_of_window = boxes[sequence[data_box.current_step].matched_rectangle].tl();
 	m.unlock();
 
 
-	cv::Mat Kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
+	cv::Mat Kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(7, 7));
 	// Filters
 	cv::cvtColor(cropped_image, cropped_image, cv::COLOR_BGR2GRAY);
+
+	//cv::MatND histogram;
+	//int histSize = 256;
+	//const int* channel_numbers = { 0 };
+	//float channel_range[] = { 0.0,256.0 };
+	//const float* channel_ranges = channel_range;
+	//int number_bins = histSize;
+
+
+	//hist_image = cropped_image;
+	//cv::calcHist(&hist_image, 1, 0, cv::Mat(), histogram, 1, &number_bins, &channel_ranges);
+
+	//int hist_w = 512, hist_h = 400;
+	//int bin_w = cvRound((double)hist_w / histSize);
+	//cv::Mat histImage(hist_h, hist_w, CV_8UC3, cv::Scalar(0, 0, 0));
+	//normalize(histogram, histogram, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat());
+	//for (int i = 1; i < histSize; i++)
+	//{
+	//	line(histImage, cv::Point(bin_w*(i - 1), hist_h - cvRound(histogram.at<float>(i - 1))),
+	//		cv::Point(bin_w*(i), hist_h - cvRound(histogram.at<float>(i))),
+	//		cv::Scalar(255, 0, 0), 2, 8, 0);
+	//}
+	//imshow("calcHist Demo", histImage);
+
 	cv::GaussianBlur(cropped_image, cropped_image, cv::Size(3, 3), 3, 0);
-	cv::Canny(cropped_image, cropped_image, 50, 255);
+	cv::threshold(cropped_image, cropped_image, 0, 255, cv::THRESH_OTSU);
+	cv::imshow("Source image", cropped_image);
+	cv::Canny(cropped_image, cropped_image, 0, 255);
 	cv::dilate(cropped_image, cropped_image, Kernel);
+
+	imshow("filtered", cropped_image);
+	cv::waitKey(1);
 
 	return cropped_image;
 }
-
-
-
 
 
 bool thread_vision::check_pattern(cv::Mat input_image, cv::Point dxdy, int lower_value, int upper_value)
@@ -223,7 +245,7 @@ bool thread_vision::check_pattern_circle(cv::Mat input_image, cv::Point dxdy, in
 			cv::drawContours(image, conPoly, i, cv::Scalar(0, 255, 0), 1, cv::LINE_8, -1, 0, dxdy);
 	}
 	//Wyswietlanie wartosci pól
-   std::cout << area << std::endl;
+  // std::cout << area << std::endl;
 
 	if (area > lower_value && area < upper_value)
 	{
@@ -475,6 +497,8 @@ void thread_vision::operator()(int index)
 
 	load_table_coordinates(this->coordinates_reordered);
 
+	bool first_loop_missed = false;
+
 	camera.read(image);
 	cv::rotate(image, image, cv::ROTATE_180);
 	set_warp_parameters(1920, 1080);
@@ -566,15 +590,19 @@ void thread_vision::operator()(int index)
 			m2.unlock();
 
 			////boxes detection
-			if (data_box.step_in_sequence == 1) {
+			if (data_box.step_in_sequence == 1 && first_loop_missed) {
 				if (check_pattern_one_rect(this->box, TL_of_window, 5000, 7000))
 					this->box_detection = false;
 				else {
 					this->box_detection = true;
 					this->box_flag = true;
+					imshow("box", box);
+					cv::waitKey(1);
 					this->clock.restart();
 				}
 			}
+			else
+				first_loop_missed = true;
 
 
 			//accept button detection
@@ -599,7 +627,7 @@ void thread_vision::operator()(int index)
 
 			//showing image
 		//	imshow("box", box);
-			imshow("green", green_button_image);
+			//imshow("green", green_button_image);
 			imshow("main", image);
 
 			cv::waitKey(1);
