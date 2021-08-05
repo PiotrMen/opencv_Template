@@ -595,8 +595,6 @@ void thread_vision::operator()(int index)
 				else {
 					this->box_detection = true;
 					this->box_flag = true;
-					imshow("box", box);
-					cv::waitKey(1);
 					this->clock.restart();
 				}
 			}
