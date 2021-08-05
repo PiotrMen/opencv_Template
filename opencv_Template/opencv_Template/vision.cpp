@@ -157,11 +157,10 @@ cv::Mat thread_vision::box_filters()
 
 	cv::GaussianBlur(cropped_image, cropped_image, cv::Size(3, 3), 3, 0);
 	cv::threshold(cropped_image, cropped_image, 0, 255, cv::THRESH_OTSU);
-	cv::imshow("Source image", cropped_image);
 	cv::Canny(cropped_image, cropped_image, 0, 255);
 	cv::dilate(cropped_image, cropped_image, Kernel);
 
-	imshow("filtered", cropped_image);
+	//imshow("filtered", cropped_image);
 	cv::waitKey(1);
 
 	return cropped_image;
@@ -288,7 +287,7 @@ bool thread_vision::check_pattern_one_rect(cv::Mat input_image, cv::Point dxdy, 
 			cv::drawContours(image, conPoly, i, cv::Scalar(0, 255, 0), 1, cv::LINE_8, -1, 0, dxdy);
 	}
 	//Wyswietlanie wartosci pól
-	std::cout << area << std::endl;
+	//std::cout << area << std::endl;
 
 	//
 	if (std::abs(area) > lower_value && std::abs(area) < upper_value)
@@ -418,13 +417,13 @@ void thread_vision::init_boxes()
 	{
 		if (i < 9)
 		{
-			cv::Point TL(data_box.boxes[i].getPosition().x - data_box.boxes[i].getSize().x / 2, data_box.boxes[i].getPosition().y + 215);
+			cv::Point TL(data_box.boxes[i].getPosition().x - data_box.boxes[i].getSize().x / 2, data_box.boxes[i].getPosition().y + 235);
 			cv::Point BR(data_box.boxes[i].getPosition().x + data_box.boxes[i].getSize().x / 2 + 10, data_box.boxes[i].getPosition().y + data_box.boxes[i].getSize().y / 2 + 130);
 			boxes.push_back(cv::Rect(TL, BR));
 		}
 		else if (i == 9)
 		{
-			cv::Point TL(data_box.boxes[i].getPosition().x - data_box.boxes[i].getSize().x / 2, data_box.boxes[i].getPosition().y + 130);
+			cv::Point TL(data_box.boxes[i].getPosition().x - data_box.boxes[i].getSize().x / 2, data_box.boxes[i].getPosition().y + 235);
 			cv::Point BR(data_box.boxes[i].getPosition().x + data_box.boxes[i].getSize().x / 2, data_box.boxes[i].getPosition().y + data_box.boxes[i].getSize().y / 2 + 130);
 			boxes.push_back(cv::Rect(TL, BR));
 		}
@@ -591,7 +590,7 @@ void thread_vision::operator()(int index)
 
 			////boxes detection
 			if (data_box.step_in_sequence == 1 && first_loop_missed) {
-				if (check_pattern_one_rect(this->box, TL_of_window, 5000, 7000))
+				if (check_pattern_one_rect(this->box, TL_of_window, 6000, 8000))
 					this->box_detection = false;
 				else {
 					this->box_detection = true;
@@ -613,15 +612,15 @@ void thread_vision::operator()(int index)
 
 			////  Communication between threads
 
-			//m.lock();
+			m.lock();
 
-			//if (data_box.green_button != this->green_button) 
-			//	data_box.green_button = this->green_button;
+			if (data_box.green_button != this->green_button) 
+				data_box.green_button = this->green_button;
 
-			//if(data_box.detecting_box != this->box_detection)
-			//	data_box.detecting_box = this->box_detection;
+			if(data_box.detecting_box != this->box_detection)
+				data_box.detecting_box = this->box_detection;
 
-			//m.unlock();
+			m.unlock();
 
 			//thread_vision::display_Tracksbars(hmin, hmax, smin, smax, vmin, vmax);
 

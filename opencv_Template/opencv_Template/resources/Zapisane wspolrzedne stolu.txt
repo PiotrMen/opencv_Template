@@ -1,6 +1,6 @@
 Niniejszy plik s³u¿y do przechowywania wartoœci wspó³rzêdnych sto³u, które zapisane zosta³y po ukoñczeniu poprzedniej kalibracji. Nie zaleca siê edytowania wartoœci rêcznie. W celu przekalibrowania systemu, nale¿y go uruchomiæ, klikn¹æ przycisk "Kalibracja systemu" a nastêpnie wykonywaæ wyœwietlane instrukcje.
 
-(273,144)
-(1478,137)
-(381,757)
-(1406,749)
+(333,131)
+(1537,127)
+(431,741)
+(1457,742)
