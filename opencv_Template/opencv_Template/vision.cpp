@@ -160,7 +160,7 @@ cv::Mat thread_vision::box_filters()
 	cv::Canny(cropped_image, cropped_image, 0, 255);
 	cv::dilate(cropped_image, cropped_image, Kernel);
 
-	//imshow("filtered", cropped_image);
+	imshow("filtered", cropped_image);
 	cv::waitKey(1);
 
 	return cropped_image;
@@ -417,14 +417,14 @@ void thread_vision::init_boxes()
 	{
 		if (i < 9)
 		{
-			cv::Point TL(data_box.boxes[i].getPosition().x - data_box.boxes[i].getSize().x / 2, data_box.boxes[i].getPosition().y + 235);
-			cv::Point BR(data_box.boxes[i].getPosition().x + data_box.boxes[i].getSize().x / 2 + 10, data_box.boxes[i].getPosition().y + data_box.boxes[i].getSize().y / 2 + 130);
+			cv::Point TL(data_box.boxes[i].getPosition().x - data_box.boxes[i].getSize().x / 2 + 5, data_box.boxes[i].getPosition().y + 255);
+			cv::Point BR(data_box.boxes[i].getPosition().x + data_box.boxes[i].getSize().x / 2 + 5, data_box.boxes[i].getPosition().y + data_box.boxes[i].getSize().y / 2 + 75);
 			boxes.push_back(cv::Rect(TL, BR));
 		}
 		else if (i == 9)
 		{
-			cv::Point TL(data_box.boxes[i].getPosition().x - data_box.boxes[i].getSize().x / 2, data_box.boxes[i].getPosition().y + 235);
-			cv::Point BR(data_box.boxes[i].getPosition().x + data_box.boxes[i].getSize().x / 2, data_box.boxes[i].getPosition().y + data_box.boxes[i].getSize().y / 2 + 130);
+			cv::Point TL(data_box.boxes[i].getPosition().x - data_box.boxes[i].getSize().x / 2 + 5, data_box.boxes[i].getPosition().y + 255);
+			cv::Point BR(data_box.boxes[i].getPosition().x + data_box.boxes[i].getSize().x / 2 + 5, data_box.boxes[i].getPosition().y + data_box.boxes[i].getSize().y / 2 + 75);
 			boxes.push_back(cv::Rect(TL, BR));
 		}
 
@@ -625,7 +625,12 @@ void thread_vision::operator()(int index)
 			//showing image
 		//	imshow("box", box);
 			//imshow("green", green_button_image);
-			imshow("main", image);
+			//imshow("main", image);
+
+			// Reseting both detections
+
+			this->green_button = false;
+			this->box_detection = false;
 
 			cv::waitKey(1);
 		}
