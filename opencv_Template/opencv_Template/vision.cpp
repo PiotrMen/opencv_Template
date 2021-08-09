@@ -183,8 +183,8 @@ cv::Mat thread_vision::Other_box_filters(int i)
 	cv::Canny(cropped_image, cropped_image, 0, 255);
 	cv::dilate(cropped_image, cropped_image, Kernel);
 
-	//imshow("filtered", cropped_image);
-	//cv::waitKey(1);
+	imshow("filtered", cropped_image);
+	cv::waitKey(1);
 
 	return cropped_image;
 }
@@ -619,7 +619,7 @@ void thread_vision::operator()(int index)
 					this->clock.restart();
 				}
 				std::cout << box_detection << std::endl;
-				if (!this->box_detection) {
+				if (!this->box_detection && sequence.size()>0) {
 					for (int i = 0; i < boxes.size(); i++) {
 						if (i != this->current_step) {
 							cv::Mat other_box = Other_box_filters(i);
@@ -648,10 +648,11 @@ void thread_vision::operator()(int index)
 				first_loop_missed = true;
 
 			this->wrong = false;
-			m.lock();
-			this->current_step = data_box.current_step;
-			m.unlock();
-
+			if (sequence.size() != 0) {
+				m.lock();
+				this->current_step = sequence[data_box.current_step].matched_rectangle;
+				m.unlock();
+			}
 			//accept button detection
 			if (this->green_button && this->box_detection) {
 				this->green_button = false;
@@ -660,15 +661,15 @@ void thread_vision::operator()(int index)
 
 			////  Communication between threads
 
-			//m.lock();
+			m.lock();
 
-			//if (data_box.green_button != this->green_button) 
-			//	data_box.green_button = this->green_button;
+			if (data_box.green_button != this->green_button) 
+				data_box.green_button = this->green_button;
 
-			//if(data_box.detecting_box != this->box_detection)
-			//	data_box.detecting_box = this->box_detection;
+			if(data_box.detecting_box != this->box_detection)
+				data_box.detecting_box = this->box_detection;
 
-			//m.unlock();
+			m.unlock();
 
 			//thread_vision::display_Tracksbars(hmin, hmax, smin, smax, vmin, vmax);
 
@@ -676,7 +677,7 @@ void thread_vision::operator()(int index)
 		//	imshow("box", box);
 			//imshow("green", green_button_image);
 
-			//imshow("main", image);
+			imshow("main", image);
 			cv::waitKey(1);
 			sf::Time elapsed1 = clock2.getElapsedTime();
 			std::cout << elapsed1.asMilliseconds() << std::endl;
