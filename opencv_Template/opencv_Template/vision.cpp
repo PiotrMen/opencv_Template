@@ -166,28 +166,6 @@ cv::Mat thread_vision::box_filters()
 	return cropped_image;
 }
 
-cv::Mat thread_vision::Other_box_filters(int i)
-{
-	cv::Mat cropped_image;
-	cv::Mat hist_image;
-	cropped_image = image(boxes[i]);
-
-
-	cv::Mat Kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(7, 7));
-	// Filters
-	cv::cvtColor(cropped_image, cropped_image, cv::COLOR_BGR2GRAY);
-
-
-	cv::GaussianBlur(cropped_image, cropped_image, cv::Size(3, 3), 3, 0);
-	cv::threshold(cropped_image, cropped_image, 0, 255, cv::THRESH_OTSU);
-	cv::Canny(cropped_image, cropped_image, 0, 255);
-	cv::dilate(cropped_image, cropped_image, Kernel);
-
-	imshow("filtered", cropped_image);
-	cv::waitKey(1);
-
-	return cropped_image;
-}
 
 bool thread_vision::check_pattern(cv::Mat input_image, cv::Point dxdy, int lower_value, int upper_value)
 {
@@ -439,14 +417,14 @@ void thread_vision::init_boxes()
 	{
 		if (i < 9)
 		{
-			cv::Point TL(data_box.boxes[i].getPosition().x - data_box.boxes[i].getSize().x / 2, data_box.boxes[i].getPosition().y + 235);
-			cv::Point BR(data_box.boxes[i].getPosition().x + data_box.boxes[i].getSize().x / 2 + 10, data_box.boxes[i].getPosition().y + data_box.boxes[i].getSize().y / 2 + 130);
+			cv::Point TL(data_box.boxes[i].getPosition().x - data_box.boxes[i].getSize().x / 2 + 5, data_box.boxes[i].getPosition().y + 255);
+			cv::Point BR(data_box.boxes[i].getPosition().x + data_box.boxes[i].getSize().x / 2 + 5, data_box.boxes[i].getPosition().y + data_box.boxes[i].getSize().y / 2 + 75);
 			boxes.push_back(cv::Rect(TL, BR));
 		}
 		else if (i == 9)
 		{
-			cv::Point TL(data_box.boxes[i].getPosition().x - data_box.boxes[i].getSize().x / 2, data_box.boxes[i].getPosition().y + 235);
-			cv::Point BR(data_box.boxes[i].getPosition().x + data_box.boxes[i].getSize().x / 2, data_box.boxes[i].getPosition().y + data_box.boxes[i].getSize().y / 2 + 130);
+			cv::Point TL(data_box.boxes[i].getPosition().x - data_box.boxes[i].getSize().x / 2 + 5, data_box.boxes[i].getPosition().y + 255);
+			cv::Point BR(data_box.boxes[i].getPosition().x + data_box.boxes[i].getSize().x / 2 + 5, data_box.boxes[i].getPosition().y + data_box.boxes[i].getSize().y / 2 + 75);
 			boxes.push_back(cv::Rect(TL, BR));
 		}
 
@@ -541,6 +519,7 @@ void thread_vision::operator()(int index)
 	while (true)
 	{
 		sf::Clock clock2; // starts the clock
+
 		if (data_box.camera_calibration) {
 			this->calibration_flag = data_box.camera_calibration;
 			this->coordinates_reordered = image_calibration(camera);
@@ -618,41 +597,11 @@ void thread_vision::operator()(int index)
 					this->box_flag = true;
 					this->clock.restart();
 				}
-				std::cout << box_detection << std::endl;
-				if (!this->box_detection && sequence.size()>0) {
-					for (int i = 0; i < boxes.size(); i++) {
-						if (i != this->current_step) {
-							cv::Mat other_box = Other_box_filters(i);
-							if (!check_pattern_one_rect(other_box, boxes[i].tl(), 6000, 8000)) {
-								this->wrong = true;
-								m.lock();
-								data_box.wrong_box = true;
-								m.unlock();
-							}
-							if (!this->wrong && i == boxes.size() - 1) {
-								m.lock();
-								data_box.wrong_box = false;
-								m.unlock();
-							}
-						}
-					}
-				}
-				else {
-					m.lock();
-					data_box.wrong_box = false;
-					m.unlock();
-				}
-
 			}
 			else
 				first_loop_missed = true;
 
-			this->wrong = false;
-			if (sequence.size() != 0) {
-				m.lock();
-				this->current_step = sequence[data_box.current_step].matched_rectangle;
-				m.unlock();
-			}
+
 			//accept button detection
 			if (this->green_button && this->box_detection) {
 				this->green_button = false;
@@ -676,12 +625,14 @@ void thread_vision::operator()(int index)
 			//showing image
 		//	imshow("box", box);
 			//imshow("green", green_button_image);
+			//imshow("main", image);
 
-			imshow("main", image);
+			// Reseting both detections
+
+			this->green_button = false;
+			this->box_detection = false;
+
 			cv::waitKey(1);
-			sf::Time elapsed1 = clock2.getElapsedTime();
-			std::cout << elapsed1.asMilliseconds() << std::endl;
-			clock2.restart();
 		}
 		else
 			cv::destroyAllWindows();
@@ -689,6 +640,9 @@ void thread_vision::operator()(int index)
 		//exit program variable
 		if (data_box.global_exit)
 			break;
+		sf::Time elapsed1 = clock2.getElapsedTime();
+		std::cout << elapsed1.asMilliseconds() << std::endl;
+		clock2.restart();
 	}
 }
 

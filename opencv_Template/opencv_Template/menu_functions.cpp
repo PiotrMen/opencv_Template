@@ -12,6 +12,7 @@ menu_sfml_objects::menu_sfml_objects()
 	this->working_field_height = 675;
 	this->working_field_width = 1200;
 	this->menu_window = new sf::RenderWindow(sf::VideoMode(menu_window_width, menu_window_height), "Menu", sf::Style::Fullscreen);
+	//this->menu_window->setPosition(sf::Vector2i(0, -1080));
 	this->enable_writing = false;
 
 	for (int i = 0; i < 10; i++) {
@@ -273,7 +274,7 @@ void menu_sfml_objects::pollEvents(int &current_step, int &current_window)
 
 
 			// Handling Enter if input is in place
-			if (event.key.code == sf::Keyboard::Enter && searching_text.size() > 0)
+			if (event.key.code == sf::Keyboard::Enter && searching_text.size() > 0 && current_menu_window == 1)
 			{
 				this->current_menu_window = 0;
 
@@ -905,6 +906,9 @@ void menu_sfml_objects::render(int current_step, int current_window)
 
 			if (connectors_list[i].repeated_number)
 				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 90, "Powtorzony numer", 20);
+
+			if (!connectors_list[i].wrong_number && !connectors_list[i].repeated_number && vector_displaying_articles[i].name != "")
+				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 120, vector_displaying_articles[i].name, 18);
 		}
 
 		// Displaying step back in sequence
@@ -967,6 +971,7 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		this->display_text(this->menu_window_width / 2, this->menu_window_height / 2, load_txt_help("help_trasowanie.txt"), 34);
 
 	}
+
 
 	if(if_display)
 	this->menu_window->display();

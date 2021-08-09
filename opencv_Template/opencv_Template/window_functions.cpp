@@ -174,16 +174,16 @@ void sfml_objects::pollEvents(int &current_step)
 				// do testow, przechodzenie do kolejnego kroku na prawy przycisk myszy w window functions
 				if (this->step_of_sequence == 1)
 				{
-					data_box.detecting_box = true;
-					
-					Sleep(500);
+					//data_box.detecting_box = true;
+					//
+					//Sleep(500);
 				}
 
 
 				if (this->step_of_sequence == 2)
 				{
-					data_box.green_button = true;
-					Sleep(500);
+					//data_box.green_button = true;
+					//Sleep(500);
 				}
 
 				//
@@ -370,11 +370,13 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 		this->display_texture(this->green_button_x, this->green_button_y, "green_circle.png", this->button_size, 0);   //displaying basic graphics 
 		this->display_text(this->green_button_x, this->green_button_y + ((this->red_button_length_y*button_size)) / 2, "Kontynuuj", 40); //displaying texts
 
+		for (int i = 0; i < sequence.size(); i++)
+			this->display_text(mm_to_pixels_converter(60 + (i * 120)), 600, sequence[i].name, 18);
+
 		if (sequence.size() != 0)
 		{
-			this->display_text(1700, 50, ("Aktualny krok: " + std::to_string(current_step + 1) + "/" + std::to_string(sequence.size())), 40);  //displaying "aktualny krok" in corner 
+			this->display_text(10, 790, ("Aktualny krok: " + std::to_string(current_step + 1) + "/" + std::to_string(sequence.size())), 46, sf::Color::White);  //displaying "aktualny krok" in corner 		}
 		}
-
 		// Drawing sequence list
 
 
