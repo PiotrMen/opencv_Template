@@ -21,6 +21,7 @@ private:
 	cv::Mat button_filters();
 	cv::Mat button_filter();
 	cv::Mat box_filters();
+	cv::Mat Other_box_filters(int i);
 	void display_Tracksbars(int &hmin, int &hmax, int &smin, int &smax, int &vmin, int &vmax);
 	bool check_pattern(cv::Mat input_image, cv::Point dxdy, int lower_value, int upper_value);
 	bool check_pattern_circle(cv::Mat input_image, cv::Point dxdy, int lower_value, int upper_value);
@@ -60,6 +61,9 @@ private:
 
 	std::vector<cv::Point>coordinates_reordered;
 	cv::Mat transformation_x, transformation_y; // Matrix x and y are used for warping image
+
+	int current_step;
+	bool wrong;
 };
 
 

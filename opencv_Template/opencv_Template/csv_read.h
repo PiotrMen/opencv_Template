@@ -35,6 +35,7 @@ struct sGlobal_data
 	bool camera_calibration;
 	bool global_exit;
 	bool timer_done;
+	bool wrong_box;
 
 	sf::Time real_time_calibration_camera;
 

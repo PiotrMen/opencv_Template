@@ -406,6 +406,11 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 			this->display_text(10, 980, list[2], 30, sf::Color::Yellow);
 			this->display_text(10, 1030, list[3], 30, sf::Color::Red);
 		}
+
+		if (data_box.wrong_box) {
+			this->display_texture(this->window_width/2, 700, "red_circlebigger.png", 0.5, 0);
+			this->display_text(this->window_width / 2, 800, "Zle pobrany artykol", 40);
+		}
 	}
 	// do testow, przechodzenie do kolejnego kroku na prawy przycisk myszy w window functions
 
