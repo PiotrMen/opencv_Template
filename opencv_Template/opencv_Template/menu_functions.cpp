@@ -12,7 +12,7 @@ menu_sfml_objects::menu_sfml_objects()
 	this->working_field_height = 675;
 	this->working_field_width = 1200;
 	this->menu_window = new sf::RenderWindow(sf::VideoMode(menu_window_width, menu_window_height), "Menu", sf::Style::Fullscreen);
-	this->menu_window->setPosition(sf::Vector2i(0, -1080));
+	//this->menu_window->setPosition(sf::Vector2i(0, -1080));
 	this->enable_writing = false;
 
 	for (int i = 0; i < 10; i++) {
@@ -274,7 +274,7 @@ void menu_sfml_objects::pollEvents(int &current_step, int &current_window)
 
 
 			// Handling Enter if input is in place
-			if (event.key.code == sf::Keyboard::Enter && searching_text.size() > 0)
+			if (event.key.code == sf::Keyboard::Enter && searching_text.size() > 0 && current_menu_window == 1)
 			{
 				this->current_menu_window = 0;
 

@@ -7,7 +7,7 @@ sfml_objects::sfml_objects()
 	this->window_height = 1080;
 	this->window_width = 1920;
 	this->window = new sf::RenderWindow(sf::VideoMode(window_width, window_height), "Window", sf::Style::Fullscreen);
-	//this->window->setPosition(sf::Vector2i(0, -1080));
+	this->window->setPosition(sf::Vector2i(0, -1080));
 
 	for (int i = 0; i < 10; i++)
 	{
