@@ -660,7 +660,6 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		
 		if (!this->timer_flag) {
 			this->timer_flag = data_box.timer_done;
-			std::cout << timer_flag << "		"<< detecting_sequation_ending() << std::endl;
 			this->real_time_calibration_freezed_screen = data_box.real_time_calibration_camera;
 			this->displaying_time = this->invert_time_freezed_screen.asSeconds() - this->real_time_calibration_freezed_screen.asSeconds();
 			Sleep(300);
@@ -870,6 +869,10 @@ void menu_sfml_objects::render(int current_step, int current_window)
 			if (!connectors_list[i].wrong_number && !connectors_list[i].repeated_number && vector_displaying_articles[i].name != "")
 				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 120, vector_displaying_articles[i].name, 20);
 		}
+
+		//displaying helpful text
+		if (!this->display_start_sequention)
+			this->display_text(960, 935, "Zeskanuj i poloz na stole zgodnie z instrukcja", 50);
 
 		//displaying start sequention button
 		if (this->display_start_sequention) {
