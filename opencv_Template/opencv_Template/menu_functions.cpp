@@ -873,6 +873,10 @@ void menu_sfml_objects::render(int current_step, int current_window)
 				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 120, vector_displaying_articles[i].name, 20);
 		}
 
+		//displaying helpful text
+		if (!this->display_start_sequention)
+			this->display_text(960, 935, "Zeskanuj i poloz na stole zgodnie z instrukcja", 50);
+
 		//displaying start sequention button
 		if (this->display_start_sequention) {
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window) && this->display_start_sequention) {

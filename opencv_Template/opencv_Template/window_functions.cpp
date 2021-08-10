@@ -285,18 +285,26 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 		for (int i = 0; i < v_rectangles.size(); i++) {
 			if (v_rectangles[i].getFillColor() == (sf::Color::Green)) {
 				sf::RectangleShape rectangle_;
-					//sf::RectangleShape rectangle_;
 
-					rectangle_.setSize(sf::Vector2f(mm_to_pixels_converter(95), mm_to_pixels_converter(25)));
-					rectangle_.setOrigin(sf::Vector2f(rectangle_.getSize().x / 2, rectangle_.getSize().y / 2));
-					rectangle_.setPosition(this->outline_rectangles[i].getPosition().x, this->outline_rectangles[i].getPosition().y + this->outline_rectangles[i].getSize().y / 2);
-					rectangle_.setFillColor(sf::Color::Red);
-					//rectangle_.setOutlineThickness(5);
-					//rectangle_.setOutlineColor(sf::Color::White);
+				rectangle_.setSize(sf::Vector2f(mm_to_pixels_converter(95), mm_to_pixels_converter(25)));
+				rectangle_.setOrigin(sf::Vector2f(rectangle_.getSize().x / 2, rectangle_.getSize().y / 2));
+				rectangle_.setPosition(this->outline_rectangles[i].getPosition().x, this->outline_rectangles[i].getPosition().y + this->outline_rectangles[i].getSize().y / 2);
+				rectangle_.setFillColor(sf::Color::Red);
 
-					this->window->draw(rectangle_);
+				this->window->draw(rectangle_);
 			}
 		}
+
+		//displaying helpful graphics
+		this->display_texture(this->window_width / 2 -300 , 780, "dobry_wzor.png", 0.35, 0);
+		this->display_texture(this->window_width / 2 + 300, 780, "Zly_wzor.png", 0.35, 0);
+		this->display_texture(this->window_width / 2 , 780, "Zly_wzor2.png", 0.35, 0);
+
+		//displaying good and wrong example
+		this->display_texture(this->window_width / 2 - 300, 1020, "green_accept.png", 0.20, 0);
+		this->display_texture(this->window_width / 2 + 300, 1020, "red_wrong.png", 0.20, 0);
+		this->display_texture(this->window_width / 2, 1020, "red_wrong.png", 0.20, 0);
+
 	}
 
 	// Sequence
