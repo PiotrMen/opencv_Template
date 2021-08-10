@@ -40,10 +40,11 @@ int main()
 	int current_window = 0;
 
 
-	std::thread th(thread_vision(), 0);
+	std::thread th(thread_vision(), 1);
 
 	while (objects.getWindowIsOpen() && menu_objects.getWindowIsOpen())
 	{
+		sf::Clock clock2; // starts the clock
 		//Menu update
 		menu_objects.update(data_box.current_step, current_window);
 
@@ -53,8 +54,10 @@ int main()
 		objects.sequence_activated = menu_objects.start_sequention;
 
 		menu_objects.render(data_box.current_step, current_window);
-		//Render
+
 		objects.render(data_box.current_step, menu_objects.current_menu_window, menu_objects.vector_rectangles);
+
+		//Render
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 			data_box.global_exit = true;
@@ -63,6 +66,9 @@ int main()
 		if (data_box.global_exit) 
 			break;
 
+		sf::Time elapsed1 = clock2.getElapsedTime();
+		std::cout << elapsed1.asMilliseconds() << std::endl;
+		clock2.restart();
 	}
 	th.join();
 	return 0;

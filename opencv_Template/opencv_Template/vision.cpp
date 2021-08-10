@@ -554,6 +554,13 @@ void thread_vision::operator()(int index)
 		}
 
 		m.lock();
+		if (this->calibration_boxes != data_box.calibration_box) {
+			this->calibration_boxes = data_box.calibration_box;
+		}
+		m.unlock();
+
+		//std::cout << calibration_boxes << std::endl;
+		m.lock();
 		if (data_box.is_sequence_activated != this->is_sequence_activated)
 			this->is_sequence_activated = data_box.is_sequence_activated;
 		m.unlock();
@@ -620,7 +627,6 @@ void thread_vision::operator()(int index)
 					this->clock.restart();
 				}
 
-				std::cout << box_detection << std::endl;
 				if (!this->box_detection && sequence.size() > 0) {
 					for (int i = 0; i < boxes.size(); i++) {
 						if (i != this->current_step) {
@@ -664,15 +670,15 @@ void thread_vision::operator()(int index)
 
 			////  Communication between threads
 
-			//m.lock();
+			m.lock();
 
-			//if (data_box.green_button != this->green_button) 
-			//	data_box.green_button = this->green_button;
+			if (data_box.green_button != this->green_button) 
+				data_box.green_button = this->green_button;
 
-			//if(data_box.detecting_box != this->box_detection)
-			//	data_box.detecting_box = this->box_detection;
+			if(data_box.detecting_box != this->box_detection)
+				data_box.detecting_box = this->box_detection;
 
-			//m.unlock();
+			m.unlock();
 
 			//thread_vision::display_Tracksbars(hmin, hmax, smin, smax, vmin, vmax);
 
@@ -695,7 +701,7 @@ void thread_vision::operator()(int index)
 		if (data_box.global_exit)
 			break;
 		sf::Time elapsed1 = clock2.getElapsedTime();
-	//	std::cout << elapsed1.asMilliseconds() << std::endl;
+		//std::cout << elapsed1.asMicroseconds() << std::endl;
 		clock2.restart();
 	}
 }

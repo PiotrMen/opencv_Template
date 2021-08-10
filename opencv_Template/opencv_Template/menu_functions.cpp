@@ -648,6 +648,9 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 			if_display = true;
 		}
 	}
+	else {
+	data_box.calibration_box = false;
+	}
 	// Sequence active
 	if (this->current_menu_window == 202)
 	{
@@ -768,8 +771,6 @@ void menu_sfml_objects::render(int current_step, int current_window)
 
 		if (detecting_calibration_button())
 			this->display_texture(this->Calibration_button_x, this->Calibration_button_y + 85, "UnderLine.png", this->menu_button_size - 0.2, 0);
-
-		this->menu_window->display();
 	}
 
 	if (this->current_menu_window == 100)
@@ -842,6 +843,9 @@ void menu_sfml_objects::render(int current_step, int current_window)
 
 	//match boxes section displaying
 	if (this->current_menu_window == 2 && if_clear) {
+
+		std::cout << if_clear << "    " << if_display << std::endl;
+
 		this->display_text(this->menu_window_width / 2, 130, "Zeskanuj pudelka", 200);
 
 		//Displaying blue button
@@ -992,8 +996,7 @@ void menu_sfml_objects::render(int current_step, int current_window)
 
 	}
 
-	std::cout << if_display << "      " << if_clear << std::endl;
-	if(if_display && this->current_menu_window != 0)
+	if(if_display)
 	this->menu_window->display();
 	if (!if_clear)
 		if_display = false;

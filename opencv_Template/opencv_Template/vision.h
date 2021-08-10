@@ -64,6 +64,8 @@ private:
 
 	int current_step;
 	bool wrong;
+
+	bool calibration_boxes;
 };
 
 

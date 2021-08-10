@@ -276,11 +276,25 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 {
 	if (this->menu_window == 301) 
 		this->window->clear(sf::Color(255, 255, 255, 255));
-	else
+	else if(if_clear)
 		this->window->clear(sf::Color(0, 0, 0, 255));
 	
+	for (int i = 0; i < v_rectangles.size(); i++) {
+		if (v_rectangles[i].getFillColor() == (sf::Color::Green)) {
+			this->green_rect_counter++;
+		}
+	}
+
+	if ((this->green_rect_counter != this->previos_loop_green_rect_counter) || current_menu_window != 2) {
+		this->previos_loop_green_rect_counter = this->green_rect_counter;
+		if_clear = true;
+		if_display = true;
+	}
+
+	this->green_rect_counter = 0;
+
 	this->menu_window = current_menu_window;
-	if (current_menu_window == 2) {
+	if (current_menu_window == 2 && if_clear) {
 
 		for (int i = 0; i < v_rectangles.size(); i++) {
 			if (v_rectangles[i].getFillColor() == (sf::Color::Green)) {
@@ -292,8 +306,12 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 				rectangle_.setFillColor(sf::Color::Red);
 
 				this->window->draw(rectangle_);
+
+				//start calibration boxes
+				data_box.calibration_box = true;
 			}
 		}
+
 
 		//displaying helpful graphics
 		this->display_texture(this->window_width / 2 -300 , 780, "dobry_wzor.png", 0.35, 0);
@@ -304,7 +322,7 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 		this->display_texture(this->window_width / 2 - 300, 1020, "green_accept.png", 0.20, 0);
 		this->display_texture(this->window_width / 2 + 300, 1020, "red_wrong.png", 0.20, 0);
 		this->display_texture(this->window_width / 2, 1020, "red_wrong.png", 0.20, 0);
-
+		if_clear = false;
 	}
 
 	// Sequence
@@ -457,6 +475,11 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 		this->display_text(this->window_width/2, 800, "Jesli jestes pewna/y ze tasmy znajduja sie w podswietlonych na zielono miejscach to zatwierdz na komputerze", 40);
 	}
 
-	this->window->display();
+	if (if_display)
+		this->window->display();
+	if (!if_clear)
+		if_display = false;
+	else
+		if_display = true;
 }
 
