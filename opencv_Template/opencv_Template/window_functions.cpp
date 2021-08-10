@@ -285,14 +285,16 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 		for (int i = 0; i < v_rectangles.size(); i++) {
 			if (v_rectangles[i].getFillColor() == (sf::Color::Green)) {
 				sf::RectangleShape rectangle_;
-				rectangle_.setSize(sf::Vector2f(this->outline_rectangles[i].getSize().x, this->outline_rectangles[i].getSize().y));
-				rectangle_.setOrigin(sf::Vector2f(rectangle_.getSize().x / 2, rectangle_.getSize().y / 2));
-				rectangle_.setPosition(this->outline_rectangles[i].getPosition().x, this->outline_rectangles[i].getPosition().y);
-				rectangle_.setFillColor(sf::Color::Black);
-				rectangle_.setOutlineThickness(5);
-				rectangle_.setOutlineColor(sf::Color::White);
+					//sf::RectangleShape rectangle_;
 
-				this->window->draw(rectangle_);
+					rectangle_.setSize(sf::Vector2f(mm_to_pixels_converter(95), mm_to_pixels_converter(25)));
+					rectangle_.setOrigin(sf::Vector2f(rectangle_.getSize().x / 2, rectangle_.getSize().y / 2));
+					rectangle_.setPosition(this->outline_rectangles[i].getPosition().x, this->outline_rectangles[i].getPosition().y + this->outline_rectangles[i].getSize().y / 2);
+					rectangle_.setFillColor(sf::Color::Red);
+					//rectangle_.setOutlineThickness(5);
+					//rectangle_.setOutlineColor(sf::Color::White);
+
+					this->window->draw(rectangle_);
 			}
 		}
 	}

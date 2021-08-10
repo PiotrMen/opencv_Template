@@ -160,7 +160,7 @@ cv::Mat thread_vision::box_filters()
 	cv::Canny(cropped_image, cropped_image, 0, 255);
 	cv::dilate(cropped_image, cropped_image, Kernel);
 
-	imshow("filtered", cropped_image);
+	//imshow("filtered", cropped_image);
 	cv::waitKey(1);
 
 	return cropped_image;
@@ -183,7 +183,7 @@ cv::Mat thread_vision::Other_box_filters(int i)
 	cv::Canny(cropped_image, cropped_image, 0, 255);
 	cv::dilate(cropped_image, cropped_image, Kernel);
 
-	imshow("filtered", cropped_image);
+	//imshow("filtered", cropped_image);
 	cv::waitKey(1);
 
 	return cropped_image;
@@ -679,7 +679,7 @@ void thread_vision::operator()(int index)
 			//showing image
 		//	imshow("box", box);
 			//imshow("green", green_button_image);
-			//imshow("main", image);
+			imshow("main", image);
 
 			// Reseting both detections
 
