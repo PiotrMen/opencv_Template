@@ -249,12 +249,12 @@ void menu_sfml_objects::pollEvents(int &current_step, int &current_window)
 			break;
 
 		case sf::Event::KeyPressed:
-		//	if (event.key.code == sf::Keyboard::Escape)
-		//	{
-		//		data_box.global_exit = true;
-		//	}
+			//	if (event.key.code == sf::Keyboard::Escape)
+			//	{
+			//		data_box.global_exit = true;
+			//	}
 
-			// Handling CapsLock 
+				// Handling CapsLock 
 			if (event.key.code == -1)
 			{
 				if (caps_lock_pressed == true)
@@ -266,6 +266,11 @@ void menu_sfml_objects::pollEvents(int &current_step, int &current_window)
 					caps_lock_pressed = true;
 				}
 			}
+			//if ((event.key.code == sf::Keyboard::LAlt || event.key.code == sf::Keyboard::RAlt) || event.key.code == sf::Keyboard::Tab)
+			//{
+			//	if_display = true;
+			//	if_clear = true;
+			//}
 
 			// Handling Shift
 			shift_pressed = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift);
@@ -318,21 +323,28 @@ void menu_sfml_objects::pollEvents(int &current_step, int &current_window)
 			}
 			break;
 
-		case sf::Event::MouseButtonPressed:
+		//case sf::Event::MouseButtonPressed:
 
-			switch (event.key.code)
-			{
-			case sf::Mouse::Left:
+		//	switch (event.key.code)
+		//	{
+		//	case sf::Mouse::Left:
 
-				break;
-			}
-			break;
+		//		break;
+		//	}
+		//	break;
 		}
 	}
 }
 
 void menu_sfml_objects::update(int &current_step, int &current_window)
 {
+	if (!this->was_window_idle && this->menu_window->hasFocus())
+	{
+		if_display = true;
+		if_clear = true;
+	}
+	this->was_window_idle = this->menu_window->hasFocus();
+
 	this->pollEvents(current_step, current_window);
 	rising_edge_saved = detecting_rising_edge_left_mouse_button();
 	falling_edge_saved = detecting_falling_edge_left_mouse_button();
@@ -648,8 +660,10 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		
 		if (!this->timer_flag) {
 			this->timer_flag = data_box.timer_done;
+			std::cout << timer_flag << "		"<< detecting_sequation_ending() << std::endl;
 			this->real_time_calibration_freezed_screen = data_box.real_time_calibration_camera;
 			this->displaying_time = this->invert_time_freezed_screen.asSeconds() - this->real_time_calibration_freezed_screen.asSeconds();
+			Sleep(300);
 			if_clear = true;
 			if_display = true;
 		}
@@ -887,7 +901,7 @@ void menu_sfml_objects::render(int current_step, int current_window)
 	}
 
 	//freezed screen when sequence started
-	if (this->current_menu_window == 202 && if_clear)
+	if (this->current_menu_window == 202 && if_clear) // && if_clear
 	{
 		//displaying rectangles
 		for (int i = 0; i < 10; i++) {

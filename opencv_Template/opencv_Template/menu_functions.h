@@ -5,6 +5,7 @@
 #include <vector>
 #include "csv_read.h"
 #include <SFML/System/Time.hpp>
+#include <Windows.h>
 
 class menu_sfml_objects
 {
@@ -177,6 +178,9 @@ private:
 
 	int displaying_time;
 	sf::Clock clock;
+
+	// contains data about last state of window
+	bool was_window_idle = false;
 
 	//global timer variable
 	bool timer_flag;
