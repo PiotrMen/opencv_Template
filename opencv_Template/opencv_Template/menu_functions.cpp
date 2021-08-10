@@ -12,6 +12,9 @@ menu_sfml_objects::menu_sfml_objects()
 	this->working_field_height = 675;
 	this->working_field_width = 1200;
 	this->menu_window = new sf::RenderWindow(sf::VideoMode(menu_window_width, menu_window_height), "Menu", sf::Style::Fullscreen);
+	this->menu_window->requestFocus();
+	this->menu_window->setMouseCursorGrabbed(true);
+
 	//this->menu_window->setPosition(sf::Vector2i(0, -1080));
 	this->enable_writing = false;
 
@@ -338,7 +341,7 @@ void menu_sfml_objects::pollEvents(int &current_step, int &current_window)
 
 void menu_sfml_objects::update(int &current_step, int &current_window)
 {
-	if (!this->was_window_idle && this->menu_window->hasFocus())
+	if ((!this->was_window_idle && this->menu_window->hasFocus()) || (this->was_window_idle && !this->menu_window->hasFocus()))
 	{
 		if_display = true;
 		if_clear = true;
@@ -660,10 +663,8 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		
 		if (!this->timer_flag) {
 			this->timer_flag = data_box.timer_done;
-			std::cout << timer_flag << "		"<< detecting_sequation_ending() << std::endl;
 			this->real_time_calibration_freezed_screen = data_box.real_time_calibration_camera;
 			this->displaying_time = this->invert_time_freezed_screen.asSeconds() - this->real_time_calibration_freezed_screen.asSeconds();
-			Sleep(300);
 			if_clear = true;
 			if_display = true;
 		}
@@ -768,6 +769,7 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		if (detecting_calibration_button())
 			this->display_texture(this->Calibration_button_x, this->Calibration_button_y + 85, "UnderLine.png", this->menu_button_size - 0.2, 0);
 
+		this->menu_window->display();
 	}
 
 	if (this->current_menu_window == 100)
@@ -986,8 +988,8 @@ void menu_sfml_objects::render(int current_step, int current_window)
 
 	}
 
-
-	if(if_display)
+	std::cout << if_display << "      " << if_clear << std::endl;
+	if(if_display && this->current_menu_window != 0)
 	this->menu_window->display();
 	if (!if_clear)
 		if_display = false;

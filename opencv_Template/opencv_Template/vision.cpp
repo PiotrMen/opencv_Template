@@ -664,22 +664,22 @@ void thread_vision::operator()(int index)
 
 			////  Communication between threads
 
-			m.lock();
+			//m.lock();
 
-			if (data_box.green_button != this->green_button) 
-				data_box.green_button = this->green_button;
+			//if (data_box.green_button != this->green_button) 
+			//	data_box.green_button = this->green_button;
 
-			if(data_box.detecting_box != this->box_detection)
-				data_box.detecting_box = this->box_detection;
+			//if(data_box.detecting_box != this->box_detection)
+			//	data_box.detecting_box = this->box_detection;
 
-			m.unlock();
+			//m.unlock();
 
 			//thread_vision::display_Tracksbars(hmin, hmax, smin, smax, vmin, vmax);
 
 			//showing image
 		//	imshow("box", box);
 			//imshow("green", green_button_image);
-			imshow("main", image);
+			//imshow("main", image);
 
 			// Reseting both detections
 

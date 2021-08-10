@@ -22,24 +22,25 @@ sGlobal_data data_box;
 
 int main()
 {
-	ShowWindow(GetConsoleWindow(), SW_NORMAL);
+	//ShowWindow(GetConsoleWindow(), SW_NORMAL);
 	//ShowWindow(GetConsoleWindow(), SW_HIDE);
 
-	menu_sfml_objects menu_objects;
 	sfml_objects objects;
+	menu_sfml_objects menu_objects;
+
 
 	//coordinates of buttons
 	menu_objects.init_buttons_coords();
 	//size of buttons
 	objects.init_button_size(100);
-	menu_objects.init_button_size(100,120);
+	menu_objects.init_button_size(100, 120);
 
 
 	//int current_step = 0;	// step of current article
 	int current_window = 0;
 
 
-	std::thread th(thread_vision(), 1);
+	std::thread th(thread_vision(), 0);
 
 	while (objects.getWindowIsOpen() && menu_objects.getWindowIsOpen())
 	{
