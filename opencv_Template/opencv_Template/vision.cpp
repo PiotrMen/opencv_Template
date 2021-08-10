@@ -166,6 +166,28 @@ cv::Mat thread_vision::box_filters()
 	return cropped_image;
 }
 
+cv::Mat thread_vision::Other_box_filters(int i)
+{
+	cv::Mat cropped_image;
+	cv::Mat hist_image;
+	cropped_image = image(boxes[i]);
+
+
+	cv::Mat Kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(7, 7));
+	// Filters
+	cv::cvtColor(cropped_image, cropped_image, cv::COLOR_BGR2GRAY);
+
+
+	cv::GaussianBlur(cropped_image, cropped_image, cv::Size(3, 3), 3, 0);
+	cv::threshold(cropped_image, cropped_image, 0, 255, cv::THRESH_OTSU);
+	cv::Canny(cropped_image, cropped_image, 0, 255);
+	cv::dilate(cropped_image, cropped_image, Kernel);
+
+	imshow("filtered", cropped_image);
+	cv::waitKey(1);
+
+	return cropped_image;
+}
 
 bool thread_vision::check_pattern(cv::Mat input_image, cv::Point dxdy, int lower_value, int upper_value)
 {
@@ -597,9 +619,41 @@ void thread_vision::operator()(int index)
 					this->box_flag = true;
 					this->clock.restart();
 				}
+
+				std::cout << box_detection << std::endl;
+				if (!this->box_detection && sequence.size() > 0) {
+					for (int i = 0; i < boxes.size(); i++) {
+						if (i != this->current_step) {
+							cv::Mat other_box = Other_box_filters(i);
+							if (!check_pattern_one_rect(other_box, boxes[i].tl(), 6000, 8000)) {
+								this->wrong = true;
+								m.lock();
+								data_box.wrong_box = true;
+								m.unlock();
+							}
+							if (!this->wrong && i == boxes.size() - 1) {
+								m.lock();
+								data_box.wrong_box = false;
+								m.unlock();
+							}
+						}
+					}
+				}
+				else {
+					m.lock();
+					data_box.wrong_box = false;
+					m.unlock();
+				}
 			}
 			else
 				first_loop_missed = true;
+
+			this->wrong = false;
+			if (sequence.size() != 0) {
+				m.lock();
+				this->current_step = sequence[data_box.current_step].matched_rectangle;
+				m.unlock();
+			}
 
 
 			//accept button detection

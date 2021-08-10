@@ -410,8 +410,8 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 		}
 
 		if (data_box.wrong_box) {
-			this->display_texture(this->window_width/2, 700, "red_circlebigger.png", 0.5, 0);
-			this->display_text(this->window_width / 2, 800, "Zle pobrany artykul", 40);
+			this->display_texture(this->window_width/2, 750, "red_circlebigger.png", 0.5, 0);
+			this->display_text(this->window_width / 2, 850, "Zle pobrany artykul", 40);
 		}
 	}
 	// do testow, przechodzenie do kolejnego kroku na prawy przycisk myszy w window functions
