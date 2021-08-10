@@ -679,7 +679,7 @@ void thread_vision::operator()(int index)
 			//showing image
 		//	imshow("box", box);
 			//imshow("green", green_button_image);
-			//imshow("main", image);
+			imshow("main", image);
 
 			// Reseting both detections
 
