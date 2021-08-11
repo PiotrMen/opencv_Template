@@ -1,43 +1,39 @@
 #include "csv_read.h"
 
-void load_csv_database(std::vector <sData> &articles_in_boxes, std::vector <sData> &left_articles)
+void load_csv_database(std::vector <sData> &database)
 {
 	std::ifstream file;
-	file.open("resources/baza_zlaczek.csv");
+	file.open("resources/baza zlaczek.csv");
 
 	if (file.is_open())
 	{
 		std::string buffor;
 
-		for(int iterator = 0; std::getline(file, buffor); iterator++)
+		while(std::getline(file, buffor))
 		{
 			sData article;
 
-			// 2 cases
-			// 1 - there is "," included in name
-			// 2 - there is no "," included in name
-
 			std::smatch match_groups;
-			std::regex regex_case_1("([0-9]{7}),\"(.*)\"");
-			std::regex regex_case_2("([0-9]{7}),(.*)");
+			std::regex regex_pattern("[0-9]*,([0-9]{7}),\"?([^\"]*)\"?,\"?([^\"]*)\"?,\"?([0-9,]*)\"?");
 
-			std::regex_search(buffor, match_groups, regex_case_1);
-			if (match_groups[0] == "")
-			{
-				std:regex_search(buffor, match_groups, regex_case_2);
-			}
-			article.serial_number = stoi(match_groups[1]);
-			article.name = match_groups[2];
+			std::regex_search(buffor, match_groups, regex_pattern);
 
-			if (iterator < 10)
+			if (match_groups[0] != "")
 			{
-				articles_in_boxes.push_back(article);
+				//Serial number
+				article.serial_number = stoi(match_groups[1]);
+				//Name
+				article.name = match_groups[2];
+				//Width of element
+				std::string stof_converter = match_groups[3];
+				std::replace(stof_converter.begin(), stof_converter.end(), ',', '.');
+				article.width = stof(stof_converter);
+				//Height of element
+				stof_converter = match_groups[4];
+				std::replace(stof_converter.begin(), stof_converter.end(), ',', '.');
+				article.height = stof(stof_converter);
 			}
-			else
-			{
-				left_articles.push_back(article);
-			}
-			//articles.push_back(article);
+			database.push_back(article);
 		}
 	}
 	file.close();

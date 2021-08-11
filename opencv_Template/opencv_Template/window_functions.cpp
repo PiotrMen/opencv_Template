@@ -202,7 +202,7 @@ void sfml_objects::pollEvents(int &current_step)
 	}
 }
 
-void sfml_objects::update(int &current_step)
+void sfml_objects::update(int &current_step, std::vector <sData> &database)
 {
 	this->pollEvents(current_step);
 
@@ -224,6 +224,20 @@ void sfml_objects::update(int &current_step)
 
 		list.push_back("1.1 Pobranie " + sequence[0].name);				//Actual step
 		list.push_back("1.2 Instalacja " + sequence[0].name);			//Following step
+
+		// Checking if sequence elements match with database
+		for (int i = 0; i < sequence.size(); i++)
+		{
+			for (int k = 0; k < database.size(); k++)
+			{
+				if (sequence[i].serial_number == database[k].serial_number)
+				{
+					sequence[i].height = database[k].height;
+					sequence[i].width = database[k].width;
+				}
+			}
+		}
+
 
 		this->step_of_sequence = 1;
 		this->sequence_start_flag = false;
@@ -272,7 +286,7 @@ void sfml_objects::update(int &current_step)
 }
 
 
-void sfml_objects::render(int &current_step, int current_menu_window, std::vector<sf::RectangleShape>v_rectangles)
+void sfml_objects::render(int &current_step, int current_menu_window, std::vector<sf::RectangleShape>v_rectangles, std::vector <sData> &database)
 {
 	if (this->menu_window == 301) 
 		this->window->clear(sf::Color(255, 255, 255, 255));
@@ -343,9 +357,7 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 	}
 	case 2:		// Installing article on DIN
 	{
-		// Obliczanie wyswietlania dokladnego miejsca polozenia na szynie DIN
 
-		//this->window->draw(making_rectangle(160 + actual_length + sequence[current_step].width / 2, 740 - sequence[current_step].height / 2, sequence[current_step].width, sequence[current_step].height, sf::Color::Green, false));
 
 		//Handling end of sequence
 		if (this->article_installed && current_step + 1 == sequence.size())
@@ -423,11 +435,39 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 			this->display_texture(this->window_width/2, 750, "red_circlebigger.png", 0.5, 0);
 			this->display_text(this->window_width / 2, 850, "Zle pobrany artykul", 40);
 		}
+
+		// Drawing elements on DIN
+		//if (menu_window == 202)
+		//{
+		//	if (this->step_of_sequence == 1)
+		//	{
+		//		for (int i = 0; i < current_step; i++)
+		//		{
+		//			display_texture(400 + i*80, 800, "baza zlaczek/" + std::to_string(sequence[i].serial_number) + ".png", mm_to_pixels_converter(sequence[i].width), mm_to_pixels_converter(sequence[i].height), 0);
+		//		}
+		//	}
+		//	else if (this->step_of_sequence == 2)
+		//	{
+		//		for (int i = 0; i <= current_step; i++)
+		//		{
+		//			display_texture(400 + i*80, 800, "baza zlaczek/" + std::to_string(sequence[i].serial_number) + ".png", mm_to_pixels_converter(sequence[i].width), mm_to_pixels_converter(sequence[i].height), 0);
+		//		}
+		//	}
+		//}
+
 	}
 	// do testow, przechodzenie do kolejnego kroku na prawy przycisk myszy w window functions
 
 	//data_box.green_button = false;
 	//data_box.detecting_box = false;
+
+	if (this->menu_window == 2)
+	{
+		for (int i = 0; i < sequence.size(); i++)
+		{
+			display_texture(400 + i * 80, 800, "baza zlaczek/" + std::to_string(sequence[i].serial_number) + ".png", mm_to_pixels_converter(sequence[i].width), mm_to_pixels_converter(sequence[i].height), 0);
+		}
+	}
 
 	//
 
