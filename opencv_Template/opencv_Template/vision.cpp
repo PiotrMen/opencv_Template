@@ -553,11 +553,23 @@ void thread_vision::operator()(int index)
 			this->calibration_flag = false;
 		}
 
+
+		//checking if boxes on position section
 		m.lock();
 		if (this->calibration_boxes != data_box.calibration_box) {
 			this->calibration_boxes = data_box.calibration_box;
 		}
 		m.unlock();
+
+		if (this->calibration_boxes) {
+			// Camera trigger
+			cv::Mat calib_boxes_img;
+			camera.read(calib_boxes_img);
+			cv::rotate(calib_boxes_img, calib_boxes_img, cv::ROTATE_180);
+			cv::remap(calib_boxes_img, calib_boxes_img, transformation_x, transformation_y, cv::INTER_CUBIC);
+			//imshow("calib_boxes",calib_boxes_img);
+			//cv::waitKey(1);
+		}
 
 		//std::cout << calibration_boxes << std::endl;
 		m.lock();
@@ -694,14 +706,14 @@ void thread_vision::operator()(int index)
 
 			cv::waitKey(1);
 		}
-		else
+		else if(!this->calibration_boxes)
 			cv::destroyAllWindows();
 
 		//exit program variable
 		if (data_box.global_exit)
 			break;
 		sf::Time elapsed1 = clock2.getElapsedTime();
-		//std::cout << elapsed1.asMicroseconds() << std::endl;
+		std::cout << elapsed1.asMilliseconds() << std::endl;
 		clock2.restart();
 	}
 }

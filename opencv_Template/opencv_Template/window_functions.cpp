@@ -22,8 +22,12 @@ sfml_objects::sfml_objects()
 			rect_filled = making_rectangle(mm_to_pixels_converter(60 + (i * 120)) + mm_to_pixels_converter(i * 5 - 28), 290, mm_to_pixels_converter(120), mm_to_pixels_converter(315), sf::Color::Green, 0);*/
 		this->outline_rectangles.push_back(rect_empty);
 		this->lighting_rectangles.push_back(rect_empty);
+
 		//this->lighting_rectangles.push_back(rect_filled);
 	}
+
+	// sfml data to opencv
+	data_box.boxes = lighting_rectangles;
 }
 
 
@@ -219,7 +223,6 @@ void sfml_objects::update(int &current_step)
 	if (this->sequence_start_flag && this->timer_flag)
 	{
 		// sfml data to opencv
-		data_box.boxes = lighting_rectangles;
 		data_box.is_sequence_activated = this->sequence_activated;
 
 		// Initializing sequence list
@@ -380,6 +383,8 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 		//Handling end of sequence
 		if (this->article_installed && current_step + 1 == sequence.size())
 		{
+			data_box.last_step_of_sequence = true;
+
 			this->step_of_sequence = 0;
 
 			this->article_installed = false;

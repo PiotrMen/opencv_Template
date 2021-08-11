@@ -299,9 +299,6 @@ void menu_sfml_objects::pollEvents(int &current_step, int &current_window)
 					vector_rectangles[i].setFillColor(sf::Color::Red);
 				}
 
-				//Clearing global vector
-				data_box.boxes.clear();
-
 				// Execute loading
 				load_csv_sequence(sequence, searching_text, connectors_list);
 				sequence_name = searching_text;
@@ -650,15 +647,17 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 			if_display = true;
 		}
 	}
-	else {
-	data_box.calibration_box = false;
-	}
+	else 
+		data_box.calibration_box = false;
+
 	// Sequence active
 	if (this->current_menu_window == 202)
 	{
 		// Handling back to menu button
-		if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->menu_window_width - 200, this->menu_window_height - 150, 124, 124, 1, this->menu_window) && this->timer_flag)
+		if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->menu_window_width - 200, this->menu_window_height - 150, 124, 124, 1, this->menu_window) && this->timer_flag) {
 			data_box.is_sequence_activated = false;
+			data_box.last_step_of_sequence = true;
+		}
 
 		// Handling step back button
 		if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->backward_button_x, this->backward_button_y, this->backward_length_button_x, this->backward_length_button_y, 1, this->menu_window) && this->timer_flag)
@@ -689,8 +688,10 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		this->which_box_is_writing = 0;
 		this->which_box_chosen = 0;
 
+		data_box.last_step_of_sequence = false;
+
 		//Clearing global vector
-		data_box.boxes.clear();
+		//data_box.boxes.clear();
 		if_clear = true;
 		if_display = true;
 

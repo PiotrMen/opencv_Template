@@ -44,7 +44,6 @@ int main()
 
 	while (objects.getWindowIsOpen() && menu_objects.getWindowIsOpen())
 	{
-		sf::Clock clock2; // starts the clock
 		//Menu update
 		menu_objects.update(data_box.current_step, current_window);
 
@@ -65,10 +64,6 @@ int main()
 		//std::cout << data_box.red_button << "   " << data_box.green_button << std::endl;
 		if (data_box.global_exit) 
 			break;
-
-		sf::Time elapsed1 = clock2.getElapsedTime();
-		std::cout << elapsed1.asMilliseconds() << std::endl;
-		clock2.restart();
 	}
 	th.join();
 	return 0;
