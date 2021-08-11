@@ -471,7 +471,7 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 			this->display_text(this->window_width / 2, 850, "Zle pobrany artykul", 40);
 		}
 
-<<<<<<< HEAD
+
 		// Drawing elements on DIN
 		//if (menu_window == 202)
 		//{
@@ -491,22 +491,20 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 		//	}
 		//}
 
-=======
 		if_clear = false;
->>>>>>> 0149fb53e63ee3e1a18329755c9abef5db5dd152
 	}
 	// do testow, przechodzenie do kolejnego kroku na prawy przycisk myszy w window functions
 
 	//data_box.green_button = false;
 	//data_box.detecting_box = false;
 
-	if (this->menu_window == 2)
-	{
-		for (int i = 0; i < sequence.size(); i++)
-		{
-			display_texture(400 + i * 80, 800, "baza zlaczek/" + std::to_string(sequence[i].serial_number) + ".png", mm_to_pixels_converter(sequence[i].width), mm_to_pixels_converter(sequence[i].height), 0);
-		}
-	}
+	//if (this->menu_window == 2)
+	//{
+	//	for (int i = 0; i < sequence.size(); i++)
+	//	{
+	//		display_texture(400 + i * 80, 800, "baza zlaczek/" + std::to_string(sequence[i].serial_number) + ".png", mm_to_pixels_converter(sequence[i].width), mm_to_pixels_converter(sequence[i].height), 0);
+	//	}
+	//}
 
 	//
 
