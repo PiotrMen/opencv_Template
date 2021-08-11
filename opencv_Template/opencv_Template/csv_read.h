@@ -37,6 +37,10 @@ struct sGlobal_data
 	bool timer_done;
 	bool wrong_box;
 
+	bool last_step_of_sequence;
+
+	bool calibration_box;
+
 	sf::Time real_time_calibration_camera;
 
 	std::vector<cv::Point> table_coordinates;
@@ -45,6 +49,8 @@ struct sGlobal_data
 
 	int step_in_sequence = 0;
 	int current_step = 0;
+
+	int connectors_list_size;
 
 	bool step_back = false;					// true if user wants to go back to previous step in sequence
 };

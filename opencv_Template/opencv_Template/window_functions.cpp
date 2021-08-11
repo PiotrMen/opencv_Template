@@ -22,8 +22,12 @@ sfml_objects::sfml_objects()
 			rect_filled = making_rectangle(mm_to_pixels_converter(60 + (i * 120)) + mm_to_pixels_converter(i * 5 - 28), 290, mm_to_pixels_converter(120), mm_to_pixels_converter(315), sf::Color::Green, 0);*/
 		this->outline_rectangles.push_back(rect_empty);
 		this->lighting_rectangles.push_back(rect_empty);
+
 		//this->lighting_rectangles.push_back(rect_filled);
 	}
+
+	// sfml data to opencv
+	data_box.boxes = lighting_rectangles;
 }
 
 
@@ -212,12 +216,13 @@ void sfml_objects::update(int &current_step, std::vector <sData> &database)
 	if (!this->sequence_previous_state && this->sequence_activated)
 	{
 		this->sequence_start_flag = true;
+		if_clear = true;
+		if_display = true;
 	}
 
 	if (this->sequence_start_flag && this->timer_flag)
 	{
 		// sfml data to opencv
-		data_box.boxes = lighting_rectangles;
 		data_box.is_sequence_activated = this->sequence_activated;
 
 		// Initializing sequence list
@@ -283,18 +288,42 @@ void sfml_objects::update(int &current_step, std::vector <sData> &database)
 	if (data_box.is_sequence_activated == false)
 		step_of_sequence = 0;
 	this->sequence_previous_state = this->sequence_activated;
+
+	if ((this->step_of_sequence != this->previous_step_of_sequence)||(data_box.wrong_box != this->previous_wrong_state)) {
+		if_clear = true;
+		if_display = true;
+	}
+	this->previous_wrong_state = data_box.wrong_box;
+	this->previous_step_of_sequence = this->step_of_sequence;
 }
 
 
 void sfml_objects::render(int &current_step, int current_menu_window, std::vector<sf::RectangleShape>v_rectangles, std::vector <sData> &database)
 {
+	//freezing window function
+	for (int i = 0; i < v_rectangles.size(); i++) {
+		if (v_rectangles[i].getFillColor() == (sf::Color::Green)) {
+			this->green_rect_counter++;
+		}
+	}
+
+	if (this->green_rect_counter != this->previos_loop_green_rect_counter) {
+		this->previos_loop_green_rect_counter = this->green_rect_counter;
+		if_clear = true;
+		if_display = true;
+	}
+
+
+	this->green_rect_counter = 0;
+
 	if (this->menu_window == 301) 
 		this->window->clear(sf::Color(255, 255, 255, 255));
-	else
+	else if(if_clear)
 		this->window->clear(sf::Color(0, 0, 0, 255));
-	
+
+
 	this->menu_window = current_menu_window;
-	if (current_menu_window == 2) {
+	if (current_menu_window == 2 && if_clear) {
 
 		for (int i = 0; i < v_rectangles.size(); i++) {
 			if (v_rectangles[i].getFillColor() == (sf::Color::Green)) {
@@ -306,8 +335,12 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 				rectangle_.setFillColor(sf::Color::Red);
 
 				this->window->draw(rectangle_);
+
+				//start calibration boxes
+				data_box.calibration_box = true;
 			}
 		}
+
 
 		//displaying helpful graphics
 		this->display_texture(this->window_width / 2 -300 , 780, "dobry_wzor.png", 0.35, 0);
@@ -318,7 +351,7 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 		this->display_texture(this->window_width / 2 - 300, 1020, "green_accept.png", 0.20, 0);
 		this->display_texture(this->window_width / 2 + 300, 1020, "red_wrong.png", 0.20, 0);
 		this->display_texture(this->window_width / 2, 1020, "red_wrong.png", 0.20, 0);
-
+		if_clear = false;
 	}
 
 	// Sequence
@@ -362,6 +395,8 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 		//Handling end of sequence
 		if (this->article_installed && current_step + 1 == sequence.size())
 		{
+			data_box.last_step_of_sequence = true;
+
 			this->step_of_sequence = 0;
 
 			this->article_installed = false;
@@ -387,7 +422,7 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 	data_box.step_in_sequence = this->step_of_sequence;
 
 	// Drawing
-	if (this->step_of_sequence != 0)
+	if (this->step_of_sequence != 0 && if_clear)
 	{
 		this->display_texture(this->green_button_x, this->green_button_y, "green_circle.png", this->button_size, 0);   //displaying basic graphics 
 		this->display_text(this->green_button_x, this->green_button_y + ((this->red_button_length_y*button_size)) / 2, "Kontynuuj", 40); //displaying texts
@@ -436,6 +471,7 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 			this->display_text(this->window_width / 2, 850, "Zle pobrany artykul", 40);
 		}
 
+<<<<<<< HEAD
 		// Drawing elements on DIN
 		//if (menu_window == 202)
 		//{
@@ -455,6 +491,9 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 		//	}
 		//}
 
+=======
+		if_clear = false;
+>>>>>>> 0149fb53e63ee3e1a18329755c9abef5db5dd152
 	}
 	// do testow, przechodzenie do kolejnego kroku na prawy przycisk myszy w window functions
 
@@ -497,6 +536,11 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 		this->display_text(this->window_width/2, 800, "Jesli jestes pewna/y ze tasmy znajduja sie w podswietlonych na zielono miejscach to zatwierdz na komputerze", 40);
 	}
 
-	this->window->display();
+	if (if_display)
+		this->window->display();
+	if (!if_clear)
+		if_display = false;
+	else
+		if_display = true;
 }
 

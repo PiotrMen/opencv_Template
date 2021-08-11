@@ -79,12 +79,20 @@ public:
 
 private:
 
+	int previous_step_of_sequence = 0;
+
 	std::vector <std::string> list;											// Displays 2 previous, actual and following step in sequence
 	int menu_window;
 
 	//global timer variable
 	bool timer_flag;
 	bool sequence_start_flag;
+	bool if_clear = true;
+	bool if_display=true;
+
+	int green_rect_counter;
+	int previos_loop_green_rect_counter;
+	bool previous_wrong_state;
 };
 
 #endif
