@@ -22,7 +22,7 @@ sGlobal_data data_box;
 
 int main()
 {
-	//ShowWindow(GetConsoleWindow(), SW_NORMAL);
+	ShowWindow(GetConsoleWindow(), SW_NORMAL);
 	//ShowWindow(GetConsoleWindow(), SW_HIDE);
 
 	sfml_objects objects;
@@ -35,6 +35,14 @@ int main()
 	objects.init_button_size(100);
 	menu_objects.init_button_size(100, 120);
 
+	// Loading database
+	std::vector <sData> database;
+	load_csv_database(database);
+
+	for (int i = 0; i < database.size(); i++)
+	{
+		std::cout << database[i].serial_number << "  " << database[i].name << "  " << database[i].width << "  " << database[i].height << std::endl;
+	}
 
 	//int current_step = 0;	// step of current article
 	int current_window = 0;
@@ -48,15 +56,15 @@ int main()
 		menu_objects.update(data_box.current_step, current_window);
 
 		//Update
-		objects.update(data_box.current_step);
+		objects.update(data_box.current_step, database);
 
 		objects.sequence_activated = menu_objects.start_sequention;
 
 		menu_objects.render(data_box.current_step, current_window);
 
-		objects.render(data_box.current_step, menu_objects.current_menu_window, menu_objects.vector_rectangles);
-
 		//Render
+		objects.render(data_box.current_step, menu_objects.current_menu_window, menu_objects.vector_rectangles, database);
+
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 			data_box.global_exit = true;
