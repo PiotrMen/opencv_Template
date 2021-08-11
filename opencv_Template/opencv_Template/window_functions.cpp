@@ -77,20 +77,25 @@ void sfml_objects::display_texture(int pos_x, int pos_y, std::string file_path, 
 
 void sfml_objects::display_texture(int pos_x, int pos_y, std::string file_path, int width, int height, float rotation)
 {
+	//Function used for displaying textures of connectors on projector
+
 	sf::Texture texture_;
 	if (!texture_.loadFromFile("resources/" + file_path))
 	{
-		std::cerr << "Could not load texture" << std::endl;
-		exit(1);
+		sf::RectangleShape lacking_connector = making_rectangle(pos_x, pos_y, width, height, sf::Color::Green, false);
+		this->window->draw(lacking_connector);
 	}
-	sf::Sprite texture;
-	texture.setTexture(texture_);
-	texture.setOrigin(sf::Vector2f(texture.getTexture()->getSize().x * 0.5, texture.getTexture()->getSize().y * 0.5));         //set origins of images to center
-	texture.setPosition(pos_x, pos_y);
-	texture.setScale(width/texture.getGlobalBounds().width, height/texture.getGlobalBounds().height);
-	texture.setRotation(rotation);
+	else
+	{
+		sf::Sprite texture;
+		texture.setTexture(texture_);
+		texture.setOrigin(sf::Vector2f(texture.getTexture()->getSize().x * 0.5, texture.getTexture()->getSize().y * 0.5));         //set origins of images to center
+		texture.setPosition(pos_x, pos_y);
+		texture.setScale(width / texture.getGlobalBounds().width, height / texture.getGlobalBounds().height);
+		texture.setRotation(rotation);
 
-	this->window->draw(texture);
+		this->window->draw(texture);
+	}
 }
 
 //Displaying text
