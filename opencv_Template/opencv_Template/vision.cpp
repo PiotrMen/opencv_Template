@@ -628,7 +628,7 @@ void thread_vision::operator()(int index)
 				}
 
 				if (!this->box_detection && sequence.size() > 0) {
-					for (int i = 0; i < boxes.size(); i++) {
+					for (int i = 0; i < data_box.connectors_list_size; i++) {
 						if (i != this->current_step) {
 							cv::Mat other_box = Other_box_filters(i);
 							if (!check_pattern_one_rect(other_box, boxes[i].tl(), 6000, 8000)) {
@@ -637,7 +637,7 @@ void thread_vision::operator()(int index)
 								data_box.wrong_box = true;
 								m.unlock();
 							}
-							if (!this->wrong && i == boxes.size() - 1) {
+							if (!this->wrong && i == data_box.connectors_list_size - 1) {
 								m.lock();
 								data_box.wrong_box = false;
 								m.unlock();

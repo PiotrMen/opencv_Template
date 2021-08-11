@@ -79,6 +79,8 @@ public:
 
 private:
 
+	int previous_step_of_sequence = 0;
+
 	std::vector <std::string> list;											// Displays 2 previous, actual and following step in sequence
 	int menu_window;
 
@@ -90,6 +92,7 @@ private:
 
 	int green_rect_counter;
 	int previos_loop_green_rect_counter;
+	bool previous_wrong_state;
 };
 
 #endif

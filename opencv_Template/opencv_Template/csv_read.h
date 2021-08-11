@@ -48,6 +48,8 @@ struct sGlobal_data
 	int step_in_sequence = 0;
 	int current_step = 0;
 
+	int connectors_list_size;
+
 	bool step_back = false;					// true if user wants to go back to previous step in sequence
 };
 

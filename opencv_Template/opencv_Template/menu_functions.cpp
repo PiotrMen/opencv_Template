@@ -305,6 +305,7 @@ void menu_sfml_objects::pollEvents(int &current_step, int &current_window)
 				// Execute loading
 				load_csv_sequence(sequence, searching_text, connectors_list);
 				sequence_name = searching_text;
+				data_box.connectors_list_size = this->connectors_list.size();
 				searching_text.clear();
 			}
 			// Handling Enter if input is not in place
@@ -468,6 +469,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		// Execute loading
 		load_csv_sequence(sequence, searching_text, connectors_list);
 		sequence_name = searching_text;
+		data_box.connectors_list_size = this->connectors_list.size();
 		searching_text.clear();
 	}
 
