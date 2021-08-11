@@ -689,6 +689,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		this->which_box_chosen = 0;
 
 		data_box.last_step_of_sequence = false;
+		data_box.v_actual_scanning_box_size = 0;
 
 		//Clearing global vector
 		//data_box.boxes.clear();

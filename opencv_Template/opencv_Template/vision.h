@@ -27,6 +27,7 @@ private:
 	bool check_pattern_circle(cv::Mat input_image, cv::Point dxdy, int lower_value, int upper_value);
 	bool check_pattern_one_rect(cv::Mat input_image, cv::Point dxdy, int lower_value, int upper_value);
 	void init_boxes();
+	void init_calib_boxes();
 	std::vector<cv::Point> image_calibration(cv::VideoCapture cam);
 	std::vector<cv::Point> find_contours_for_calib(cv::Mat mask);
 	std::vector<cv::Point> reorder(std::vector<cv::Point> points);
@@ -41,6 +42,7 @@ private:
 	bool box_detection;
 
 	std::vector <cv::Rect> boxes;
+	std::vector <cv::Rect> calib_boxes;
 	cv::Point TL_of_window;
 
 	// Pomocnicze zmienne do ustalania tresholdu

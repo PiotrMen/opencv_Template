@@ -309,6 +309,7 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 
 	if (this->green_rect_counter != this->previos_loop_green_rect_counter) {
 		this->previos_loop_green_rect_counter = this->green_rect_counter;
+		data_box.v_actual_scanning_box_size = this->green_rect_counter;
 		if_clear = true;
 		if_display = true;
 	}
@@ -325,6 +326,9 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 	this->menu_window = current_menu_window;
 	if (current_menu_window == 2 && if_clear) {
 
+		//clearing vector of indexes 
+		data_box.index_accepted_boxes.clear();
+
 		for (int i = 0; i < v_rectangles.size(); i++) {
 			if (v_rectangles[i].getFillColor() == (sf::Color::Green)) {
 				sf::RectangleShape rectangle_;
@@ -338,6 +342,7 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 
 				//start calibration boxes
 				data_box.calibration_box = true;
+				data_box.index_accepted_boxes.push_back(i);
 			}
 		}
 
