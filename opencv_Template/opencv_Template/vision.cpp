@@ -454,6 +454,29 @@ void thread_vision::init_boxes()
 	m.unlock();
 }
 
+void thread_vision::init_calib_boxes()
+{
+	m.lock();
+	for (int i = 0; i < data_box.boxes.size(); i++)
+	{
+		if (i < 9)
+		{
+			cv::Point TL(data_box.boxes[i].getPosition().x - data_box.boxes[i].getSize().x / 2 + 5, data_box.boxes[i].getPosition().y + 300);
+			cv::Point BR(data_box.boxes[i].getPosition().x + data_box.boxes[i].getSize().x / 2 + 5, data_box.boxes[i].getPosition().y + data_box.boxes[i].getSize().y / 2 + 120);
+			this->calib_boxes.push_back(cv::Rect(TL, BR));
+		}
+		else if (i == 9)
+		{
+			cv::Point TL(data_box.boxes[i].getPosition().x - data_box.boxes[i].getSize().x / 2 + 5, data_box.boxes[i].getPosition().y + 300);
+			cv::Point BR(data_box.boxes[i].getPosition().x + data_box.boxes[i].getSize().x / 2 + 5, data_box.boxes[i].getPosition().y + data_box.boxes[i].getSize().y / 2 + 120);
+			this->calib_boxes.push_back(cv::Rect(TL, BR));
+		}
+
+	}
+	m.unlock();
+}
+
+
 void thread_vision::set_warp_parameters(float w, float h)
 {
 	// do testow
@@ -561,15 +584,35 @@ void thread_vision::operator()(int index)
 		}
 		m.unlock();
 
+		//checking if boxes on position section
 		if (this->calibration_boxes) {
+
+			if (this->boxes.size() == 0)
+			{
+				init_boxes();
+			}
+
+			if (this->calib_boxes.size() == 0)
+			{
+				init_calib_boxes();
+			}
+
 			// Camera trigger
-			cv::Mat calib_boxes_img;
-			camera.read(calib_boxes_img);
-			cv::rotate(calib_boxes_img, calib_boxes_img, cv::ROTATE_180);
-			cv::remap(calib_boxes_img, calib_boxes_img, transformation_x, transformation_y, cv::INTER_CUBIC);
-			//imshow("calib_boxes",calib_boxes_img);
-			//cv::waitKey(1);
+			camera.read(this->image);
+			cv::rotate(this->image, this->image, cv::ROTATE_180);
+			cv::remap(this->image, this->image, transformation_x, transformation_y, cv::INTER_CUBIC);
+			/*imshow("calib_boxes", this->image);
+			cv::waitKey(1);*/
+			m.lock();
+			for (int i = 0; i < data_box.index_accepted_boxes.size(); i++) {
+				cv::Mat tape_checking_img= Other_box_filters(data_box.index_accepted_boxes[i]);
+				imshow("calib_boxes", tape_checking_img);
+				cv::waitKey(1);
+			}
+			m.unlock();
 		}
+		else
+			cv::destroyWindow("calib_boxes");
 
 		//std::cout << calibration_boxes << std::endl;
 		m.lock();
@@ -591,11 +634,6 @@ void thread_vision::operator()(int index)
 
 		if (this->is_sequence_activated && this->timer_flag)
 		{
-			if (boxes.size() == 0)
-			{
-				init_boxes();
-			}
-			
 			// Camera trigger
 			camera.read(image);
 			cv::rotate(image, image, cv::ROTATE_180);
