@@ -39,44 +39,60 @@ void load_csv_database(std::vector <sData> &database)
 	file.close();
 }
 
-void save_csv_database(const std::vector <sData> &articles_in_boxes, const std::vector <sData> &left_articles)
+void save_csv_database(const std::vector <sData> &database)
 {
 	std::ofstream file;
-	file.open("resources/baza_zlaczek.csv");
+	file.open("resources/baza zlaczek.csv");
 
 	if (file.is_open())
 	{
-		for (int i = 0; i < articles_in_boxes.size(); i++)
+		for (int i = 0; i < database.size(); i++)
 		{
-			file << i + 1 << "," << articles_in_boxes[i].serial_number << ",";
+			file << i + 1 << "," << database[i].serial_number << ",";
 
 			// Searching if name has ","
-			size_t searching_point = articles_in_boxes[i].name.find(",");
+			size_t searching_point = database[i].name.find(",");
 
+			//Placing name in ""
 			if (searching_point != 0)
 			{
-				file << "\"" << articles_in_boxes[i].name << "\"\n";
+				file << "\"" << database[i].name << "\",";
 			}
 			else
 			{
-				file << articles_in_boxes[i].name << "\n";
+				file << database[i].name << ",";
 			}
-		}
-		for (int i = 0; i < left_articles.size(); i++)
-		{
-			file << i + 21 << "," << left_articles[i].serial_number << ",";
 
-			// Searching if name has ","
-			size_t searching_point = left_articles[i].name.find(",");
+			// Searching if width has "." and replacing it with ","
+			std::string width_str = std::to_string(database[i].width);
+			searching_point = width_str.find(".");
 
+			//Placing width in ""
 			if (searching_point != 0)
 			{
-				file << "\"" << left_articles[i].name << "\"\n";
+				std::replace(width_str.begin(), width_str.end(), '.', ',');
+				file << "\"" << width_str << "\",";
 			}
 			else
 			{
-				file << left_articles[i].name << "\n";
+				file << width_str << ",";
 			}
+
+			// Searching if height has "." and replacing it with ","
+			std::string height_str = std::to_string(database[i].height);
+			searching_point = height_str.find(".");
+
+			//Placing height in ""
+			if (searching_point != 0)
+			{
+				std::replace(height_str.begin(), height_str.end(), '.', ',');
+				file << "\"" << height_str << "\"\n";
+			}
+			else
+			{
+				file << height_str << "\n";
+			}
+
 		}
 	}
 	file.close();
@@ -93,31 +109,30 @@ void load_csv_sequence(std::vector <sData> &sequence, std::string file_name, std
 
 		std::getline(file, buffor);
 
-		while(std::getline(file, buffor))
+		while (std::getline(file, buffor))
 		{
 			sData article;
 
-			// 2 cases
-			// 1 - there is "," included in name
-			// 2 - there is no "," included in name
-
 			std::smatch match_groups;
-			std::regex regex_case_1("([0-9]{7}),\"(.*)\",([0-9]*),(([0-9]*)|\"([0 - 9], [0 - 9])\"),(([0-9]*)|\"([0 - 9], [0 - 9])\")");
-			std::regex regex_case_2("([0-9]{7}),(.*),([0-9]*),(([0-9]*)|\"([0 - 9], [0 - 9])\"),(([0-9]*)|\"([0 - 9], [0 - 9])\")");
+			std::regex regex_pattern("[0-9]*,([0-9]{7}),\"?([^\"]*)\"?,\"?([^\"]*)\"?,\"?([0-9,]*)\"?");
 
-			std::regex_search(buffor, match_groups, regex_case_1);
-			if (match_groups[0] == "")
+			std::regex_search(buffor, match_groups, regex_pattern);
+
+			if (match_groups[0] != "")
 			{
-			std:regex_search(buffor, match_groups, regex_case_2);
+				//Serial number
+				article.serial_number = stoi(match_groups[1]);
+				//Name
+				article.name = match_groups[2];
+				//Width of element
+				std::string stof_converter = match_groups[3];
+				std::replace(stof_converter.begin(), stof_converter.end(), ',', '.');
+				article.width = stof(stof_converter);
+				//Height of element
+				stof_converter = match_groups[4];
+				std::replace(stof_converter.begin(), stof_converter.end(), ',', '.');
+				article.height = stof(stof_converter);
 			}
-
-
-			article.serial_number = stoi(match_groups[1]);
-			article.name = match_groups[2];
-			article.quantity = stoi(match_groups[3]);
-			article.width = stof(match_groups[4]);
-			article.height = stof(match_groups[7]);
-
 			sequence.push_back(article);
 		}
 	}

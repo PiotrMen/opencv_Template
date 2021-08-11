@@ -58,7 +58,7 @@ struct sGlobal_data
 
 
 void load_csv_database(std::vector <sData> &database);
-void save_csv_database(const std::vector <sData> &articles_in_boxes, const std::vector <sData> &left_articles);
+void save_csv_database(const std::vector <sData> &database);
 
 void load_csv_sequence(std::vector <sData> &sequence, std::string file_name, std::vector <sData> &connectors_list);
 void generate_connectors_list(const std::vector <sData> &sequence, std::vector <sData> &connectors_list);
