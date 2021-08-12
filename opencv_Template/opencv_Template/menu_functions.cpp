@@ -901,6 +901,8 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		for (int i = 0; i < vector_displaying_articles.size(); i++) {
 			if(!connectors_list[i].repeated_number && vector_displaying_articles[i].serial_number != 0 && i != which_box_is_writing)
 				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y + 90, std::to_string(vector_displaying_articles[i].serial_number), 20);
+			if (!connectors_list[i].repeated_number && std::to_string(vector_displaying_articles[i].serial_number).size() == 7 && i == which_box_is_writing)
+				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y + 90, std::to_string(vector_displaying_articles[i].serial_number), 20);
 			if(connectors_list[i].wrong_number)
 				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 90, "Zly numer", 20);
 
