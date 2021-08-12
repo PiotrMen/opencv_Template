@@ -608,7 +608,7 @@ void thread_vision::operator()(int index)
 
 				//searching adding boxes
 				if (previous_info_accepted_boxes.size() < data_box.index_and_checked_info_accepted_boxes.size()) {
-					std::pair<int, bool> temp(data_box.index_and_checked_info_accepted_boxes[i].first, false);
+					std::pair<int, int> temp(data_box.index_and_checked_info_accepted_boxes[i].first, false);
 					previous_info_accepted_boxes.push_back(temp);
 				}
 
@@ -616,18 +616,18 @@ void thread_vision::operator()(int index)
 				cv::Mat tape_checking_img= Other_box_filters(data_box.index_and_checked_info_accepted_boxes[i].first);
 
 				//checking if tape visible
-				if (check_pattern_one_rect(tape_checking_img, TL_of_window, 6000, 8000)) {
-					std::pair<int, bool> temp(data_box.index_and_checked_info_accepted_boxes[i].first, true);
-					data_box.index_and_checked_info_accepted_boxes[i].swap(temp);
+				if (check_pattern_one_rect(tape_checking_img, TL_of_window, 6000, 8000) && data_box.index_and_checked_info_accepted_boxes[i].second != 2) {
+					std::pair<int, int> temp(data_box.index_and_checked_info_accepted_boxes[i].first, 1);
+					data_box.index_and_checked_info_accepted_boxes[i] = temp;
 
 					//detecting changing state
 					if (data_box.index_and_checked_info_accepted_boxes[i].second != this->previous_info_accepted_boxes[i].second)
 						data_box.checking_boxes_state = true;
 				}
-				else {
+				else if(!check_pattern_one_rect(tape_checking_img, TL_of_window, 6000, 8000) && data_box.index_and_checked_info_accepted_boxes[i].second != 2) {
 					//checking if non visible
-					std::pair<int, bool> temp(data_box.index_and_checked_info_accepted_boxes[i].first, false);
-					data_box.index_and_checked_info_accepted_boxes[i].swap(temp);
+					std::pair<int, int> temp(data_box.index_and_checked_info_accepted_boxes[i].first, 0);
+					data_box.index_and_checked_info_accepted_boxes[i]= temp;
 
 					//detecting changing state
 					if (data_box.index_and_checked_info_accepted_boxes[i].second != this->previous_info_accepted_boxes[i].second)

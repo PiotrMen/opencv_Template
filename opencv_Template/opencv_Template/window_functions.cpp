@@ -311,26 +311,27 @@ void sfml_objects::update(int &current_step, std::vector <sData> &database)
 
 void sfml_objects::render(int &current_step, int current_menu_window, std::vector<sf::RectangleShape>v_rectangles, std::vector <sData> &database, int which_box_is_writing)
 {
-	//freezing window function
-	for (int i = 0; i < v_rectangles.size(); i++) {
-		if (v_rectangles[i].getFillColor() == (sf::Color::Green)) {
-			this->green_rect_counter++;
-		}
-	}
 
-	//searching adding box
-	if (this->green_rect_counter > this->previos_loop_green_rect_counter) {
-		this->previos_loop_green_rect_counter = this->green_rect_counter;
-		if_clear = true;
-		if_display = true;
-	}
-	
-	//searching erasing box
-	if (this->green_rect_counter < this->previos_loop_green_rect_counter) {
-		this->clicked_box = true;
-		this->previos_loop_green_rect_counter = this->green_rect_counter;
-		if_clear = true;
-		if_display = true;
+	if (current_menu_window == 2) {
+
+		//freezing window function
+		for (int i = 0; i < v_rectangles.size(); i++) {
+			if (v_rectangles[i].getFillColor() == (sf::Color::Green)) {
+				this->green_rect_counter++;
+			}
+		}
+
+		//searching adding box
+		if (this->green_rect_counter > this->previos_loop_green_rect_counter) {
+			if_clear = true;
+			if_display = true;
+		}
+
+		//searching erasing box
+		if (data_box.clicked_box ) {
+			if_clear = true;
+			if_display = true;
+		}
 	}
 
 
@@ -343,34 +344,33 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 	this->menu_window = current_menu_window;
 	if (current_menu_window == 2 && if_clear) {
 
-		int counter = 0;
+		if ((this->previous_box_writing < which_box_is_writing)|| ((v_rectangles[data_box.connectors_list_size-1].getFillColor() == (sf::Color::Green)) && (data_box.connectors_list_size == this->previous_box_writing+1))) {
+			data_box.index_and_checked_info_accepted_boxes.push_back(std::make_pair(this->previous_box_writing, 0));
+			this->previous_box_writing++;
+			
+		}
 
 		for (int i = 0; i < v_rectangles.size(); i++) {
 			if (v_rectangles[i].getFillColor() == (sf::Color::Green)) {
-
-				counter++;
 				//start calibration boxes
 				data_box.calibration_box = true;
-
-				//adding box after erasing
-				if (counter > data_box.index_and_checked_info_accepted_boxes.size()) {
-					if (this->box_erased && i == (counter - 1)) {
-						data_box.index_and_checked_info_accepted_boxes.insert(data_box.index_and_checked_info_accepted_boxes.begin() + data_box.which_box_chosen, std::make_pair(data_box.which_box_chosen, 0));
-						this->box_erased = false;
-					}
-					else
-						data_box.index_and_checked_info_accepted_boxes.push_back(std::make_pair(i, 0));
-				}
-
-			}
-			//erasing box after clicking
-			if (this->clicked_box) {
-					data_box.index_and_checked_info_accepted_boxes.erase(data_box.index_and_checked_info_accepted_boxes.begin() + which_box_is_writing);
-					this->clicked_box = false;
-					this->box_erased = true;
 			}
 		}
-		
+
+		//adding box after erasing
+		if (this->green_rect_counter > this->previos_loop_green_rect_counter) {
+			if (this->box_erased) {
+				data_box.index_and_checked_info_accepted_boxes[data_box.which_box_chosen] = std::make_pair(data_box.which_box_chosen, 0);
+				this->box_erased = false;
+			}
+		}
+
+		//erasing box after clicking
+		if (data_box.clicked_box) {
+			data_box.index_and_checked_info_accepted_boxes[data_box.which_box_chosen] = std::make_pair(data_box.which_box_chosen, 2);
+			this->box_erased = true;
+			data_box.clicked_box = false;
+		}
 
 	for (int i = 0; i < data_box.index_and_checked_info_accepted_boxes.size(); i++) {
 		sf::RectangleShape rectangle_;
@@ -378,10 +378,12 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 		rectangle_.setSize(sf::Vector2f(mm_to_pixels_converter(95), mm_to_pixels_converter(25)));
 		rectangle_.setOrigin(sf::Vector2f(rectangle_.getSize().x / 2, rectangle_.getSize().y / 2));
 		rectangle_.setPosition(this->outline_rectangles[data_box.index_and_checked_info_accepted_boxes[i].first].getPosition().x, this->outline_rectangles[data_box.index_and_checked_info_accepted_boxes[i].first].getPosition().y + this->outline_rectangles[data_box.index_and_checked_info_accepted_boxes[i].first].getSize().y / 2);
-		if (!data_box.index_and_checked_info_accepted_boxes[i].second)
+		if (data_box.index_and_checked_info_accepted_boxes[i].second == 0)
 			rectangle_.setFillColor(sf::Color::Red);
-		else
+		else if(data_box.index_and_checked_info_accepted_boxes[i].second == 1)
 			rectangle_.setFillColor(sf::Color::Green);
+		else if (data_box.index_and_checked_info_accepted_boxes[i].second == 2)
+			rectangle_.setFillColor(sf::Color::Black);
 
 		this->window->draw(rectangle_);
 	}
@@ -399,6 +401,7 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 		if_clear = false;
 	}
 
+	this->previos_loop_green_rect_counter = this->green_rect_counter;
 	this->green_rect_counter = 0;
 
 

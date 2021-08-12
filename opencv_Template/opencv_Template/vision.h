@@ -64,7 +64,7 @@ private:
 	std::vector<cv::Point>coordinates_reordered;
 	cv::Mat transformation_x, transformation_y; // Matrix x and y are used for warping image
 
-	std::vector<std::pair<int, bool>> previous_info_accepted_boxes;
+	std::vector<std::pair<int, int>> previous_info_accepted_boxes;
 
 	int current_step;
 	bool wrong;

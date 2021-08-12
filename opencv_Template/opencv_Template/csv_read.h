@@ -48,13 +48,14 @@ struct sGlobal_data
 
 	std::vector<sf::RectangleShape> boxes;
 
-	std::vector<std::pair<int,bool>> index_and_checked_info_accepted_boxes;
+	std::vector<std::pair<int,int>> index_and_checked_info_accepted_boxes;
 
 	int step_in_sequence = 0;
 	int current_step = 0;
 	int connectors_list_size;
 
 	int which_box_chosen;
+	bool clicked_box;
 
 	bool step_back = false;					// true if user wants to go back to previous step in sequence
 };
