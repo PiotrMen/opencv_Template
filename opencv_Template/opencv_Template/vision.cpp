@@ -779,7 +779,7 @@ void thread_vision::operator()(int index)
 		if (data_box.global_exit)
 			break;
 		sf::Time elapsed1 = clock2.getElapsedTime();
-		std::cout << elapsed1.asMilliseconds() << std::endl;
+		//std::cout << elapsed1.asMilliseconds() << std::endl;
 		clock2.restart();
 	}
 }

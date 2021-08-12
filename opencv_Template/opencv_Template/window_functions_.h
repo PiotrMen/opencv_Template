@@ -87,6 +87,10 @@ private:
 	//global timer variable
 	bool timer_flag;
 	bool sequence_start_flag;
+	int displayed_time;
+	sf::Clock clock;
+	sf::Time time_elapsed;
+	int calibration_time;
 	bool if_clear = true;
 	bool if_display=true;
 

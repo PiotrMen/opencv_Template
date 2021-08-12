@@ -552,8 +552,9 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		}
 
 		//checking if numbers detected
-		if (searching_text.size() > 0 && searching_text.size() <= 7) {
-			if (searching_text[searching_text.length()-1] >= '0' && searching_text[searching_text.length()-1] <= '9')
+		if (searching_text.size() > 0 && searching_text.size() <= 7) 
+		{
+			if (searching_text[searching_text.length() - 1] >= '0' && searching_text[searching_text.length() - 1] <= '9')
 				vector_displaying_articles[which_box_is_writing].serial_number = stoi(searching_text);
 			else
 				searching_text.pop_back();
@@ -636,7 +637,11 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 					i++;
 				}
 				else
-					break;
+				{
+					this->display_start_sequention = false;
+					break;break;
+				}
+
 				if (connectors_list.size() <= i) {
 					this->display_start_sequention = true;
 				}
@@ -891,10 +896,10 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		}
 
 		//displaying texts on rectangle
-		this->display_text(vector_rectangles[which_box_is_writing].getPosition().x, vector_rectangles[which_box_is_writing].getPosition().y + 90, searching_text, 20);
-
+		if(searching_text.size() != 0)
+			this->display_text(vector_rectangles[which_box_is_writing].getPosition().x, vector_rectangles[which_box_is_writing].getPosition().y + 90, searching_text, 20);
 		for (int i = 0; i < vector_displaying_articles.size(); i++) {
-			if(!connectors_list[i].repeated_number && vector_displaying_articles[i].serial_number != 0)
+			if(!connectors_list[i].repeated_number && vector_displaying_articles[i].serial_number != 0 && i != which_box_is_writing)
 				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y + 90, std::to_string(vector_displaying_articles[i].serial_number), 20);
 			if(connectors_list[i].wrong_number)
 				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 90, "Zly numer", 20);
