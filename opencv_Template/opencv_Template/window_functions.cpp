@@ -8,7 +8,6 @@ sfml_objects::sfml_objects()
 	this->window_width = 1920;
 	this->window = new sf::RenderWindow(sf::VideoMode(window_width, window_height), "Window", sf::Style::Fullscreen);
 	this->window->setPosition(sf::Vector2i(0, -1080));
-
 	for (int i = 0; i < 10; i++)
 	{
 		sf::RectangleShape rect_empty;
@@ -352,12 +351,10 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 		if_display = true;
 	}
 
-
 	this->green_rect_counter = 0;
 
-	if (this->menu_window == 301)
-	{
 	if (this->menu_window == 301) 
+	{
 		this->window->clear(sf::Color(255, 255, 255, 255));
 	}
 	else if (if_clear || this->menu_window == 0)
