@@ -632,7 +632,11 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 					i++;
 				}
 				else
-					break;
+				{
+					this->display_start_sequention = false;
+					break;break;
+				}
+
 				if (connectors_list.size() <= i) {
 					this->display_start_sequention = true;
 				}

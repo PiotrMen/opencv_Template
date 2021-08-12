@@ -289,6 +289,25 @@ void sfml_objects::update(int &current_step, std::vector <sData> &database)
 		}
 		data_box.step_back = false;
 	}
+	if (this->menu_window == 3)
+	{
+		//this->calibration_time = data_box.real_time_calibration_camera.asSeconds() + 40;
+		this->clock.restart();
+		this->calibration_time = 39;
+	}
+
+	if (this->menu_window == 301)
+	{
+		this->time_elapsed = clock.getElapsedTime();
+		if ((int)this->time_elapsed.asSeconds() != 39 - this->displayed_time)
+		{
+			if (this->displayed_time >= 0)
+				this->displayed_time = this->calibration_time - (int)this->time_elapsed.asSeconds();
+			if_clear = true;
+			if_display = true;
+		}
+	}
+
 
 	if (data_box.is_sequence_activated == false)
 		step_of_sequence = 0;
@@ -322,10 +341,17 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 
 	this->green_rect_counter = 0;
 
-	if (this->menu_window == 301) 
+	if (this->menu_window == 301)
+	{
 		this->window->clear(sf::Color(255, 255, 255, 255));
-	else if(if_clear)
+	}
+	else if (if_clear || this->menu_window == 0)
+	{
+		if_clear = true;
+		if_display = true;
 		this->window->clear(sf::Color(0, 0, 0, 255));
+	}
+
 
 
 	this->menu_window = current_menu_window;
@@ -563,6 +589,12 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 
 
 		this->display_text(this->window_width/2, 800, "Jesli jestes pewna/y ze tasmy znajduja sie w podswietlonych na zielono miejscach to zatwierdz na komputerze", 40);
+	}
+	if (this->menu_window == 301)
+	{
+		this->display_text(250, 350, "Trwa kalibracja kamery, prosze poczekac:", 75, sf::Color::Black);
+		this->display_text(800, 650, std::to_string(this->displayed_time) + " s", 75, sf::Color::Black);
+		if_clear = false;
 	}
 
 	if (if_display)
