@@ -352,7 +352,15 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 		}
 	}
 
-	this->green_rect_counter = 0;
+	if (this->menu_window != current_menu_window) {
+		if_clear = true;
+		if_display = true;
+	}
+
+	if (this->previous_box_writing < which_box_is_writing) {
+		if_clear = true;
+		if_display = true;
+	}
 
 	if (this->menu_window == 301) 
 	{
@@ -366,14 +374,17 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 	}
 
 
-
 	this->menu_window = current_menu_window;
 	if (current_menu_window == 2 && if_clear) {
 
 		if ((this->previous_box_writing < which_box_is_writing)|| ((v_rectangles[data_box.connectors_list_size-1].getFillColor() == (sf::Color::Green)) && (data_box.connectors_list_size == this->previous_box_writing+1))) {
-			data_box.index_and_checked_info_accepted_boxes.push_back(std::make_pair(this->previous_box_writing, 0));
-			this->previous_box_writing++;
-			
+			if (data_box.connectors_list_size > data_box.index_and_checked_info_accepted_boxes.size()) {
+				if(v_rectangles[this->previous_box_writing].getFillColor() == (sf::Color::Green))
+					data_box.index_and_checked_info_accepted_boxes.push_back(std::make_pair(this->previous_box_writing, 0));
+				else
+					data_box.index_and_checked_info_accepted_boxes.push_back(std::make_pair(this->previous_box_writing, 2));
+				this->previous_box_writing++;
+			}
 		}
 
 		for (int i = 0; i < v_rectangles.size(); i++) {
@@ -426,6 +437,9 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 		this->display_texture(this->window_width / 2, 1020, "red_wrong.png", 0.20, 0);
 		if_clear = false;
 	}
+
+	//if (which_box_is_writing != 0)
+	//	this->previous_box_writing = which_box_is_writing;
 
 	this->previos_loop_green_rect_counter = this->green_rect_counter;
 	this->green_rect_counter = 0;
