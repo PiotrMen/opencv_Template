@@ -606,24 +606,30 @@ void thread_vision::operator()(int index)
 			m.lock();
 			for (int i = 0; i < data_box.index_and_checked_info_accepted_boxes.size(); i++) {
 
+				//searching adding boxes
 				if (previous_info_accepted_boxes.size() < data_box.index_and_checked_info_accepted_boxes.size()) {
 					std::pair<int, bool> temp(data_box.index_and_checked_info_accepted_boxes[i].first, false);
 					previous_info_accepted_boxes.push_back(temp);
 				}
-				//else {
-				//	this->previous_info_accepted_boxes = data_box.index_and_checked_info_accepted_boxes;
-				//}
 
+				//tape filters
 				cv::Mat tape_checking_img= Other_box_filters(data_box.index_and_checked_info_accepted_boxes[i].first);
+
+				//checking if tape visible
 				if (check_pattern_one_rect(tape_checking_img, TL_of_window, 6000, 8000)) {
 					std::pair<int, bool> temp(data_box.index_and_checked_info_accepted_boxes[i].first, true);
 					data_box.index_and_checked_info_accepted_boxes[i].swap(temp);
+
+					//detecting changing state
 					if (data_box.index_and_checked_info_accepted_boxes[i].second != this->previous_info_accepted_boxes[i].second)
-					data_box.checking_boxes_state = true;
+						data_box.checking_boxes_state = true;
 				}
 				else {
+					//checking if non visible
 					std::pair<int, bool> temp(data_box.index_and_checked_info_accepted_boxes[i].first, false);
 					data_box.index_and_checked_info_accepted_boxes[i].swap(temp);
+
+					//detecting changing state
 					if (data_box.index_and_checked_info_accepted_boxes[i].second != this->previous_info_accepted_boxes[i].second)
 						data_box.checking_boxes_state = true;
 				}

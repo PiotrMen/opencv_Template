@@ -95,8 +95,6 @@ private:
 	bool previous_wrong_state;
 	bool clicked_box;
 	bool box_erased;
-	int index_erased_box;
-	int previous_box_writing;
 };
 
 #endif
