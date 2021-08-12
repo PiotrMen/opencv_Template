@@ -63,7 +63,7 @@ int main()
 		menu_objects.render(data_box.current_step, current_window);
 
 		//Render
-		objects.render(data_box.current_step, menu_objects.current_menu_window, menu_objects.vector_rectangles, database);
+		objects.render(data_box.current_step, menu_objects.current_menu_window, menu_objects.vector_rectangles, database, menu_objects.which_box_is_writing);
 
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))

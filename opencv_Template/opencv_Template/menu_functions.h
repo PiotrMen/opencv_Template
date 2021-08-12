@@ -112,6 +112,7 @@ public:
 
 	int current_menu_window;
 	std::vector<sf::RectangleShape> vector_rectangles;
+	int which_box_is_writing = 0;
 
 private:
 
@@ -156,7 +157,6 @@ private:
 	//Name of csv sequence
 	std::string sequence_name;
 
-	int which_box_is_writing = 0;
 	std::vector <sData> connectors_list;
 
 	//one time display if match boxes section

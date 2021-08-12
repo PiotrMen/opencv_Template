@@ -75,7 +75,7 @@ public:
 	//Functions
 	void pollEvents(int &current_step);
 	void update(int &current_step, std::vector <sData> &database);
-	void render(int &current_step, int current_menu_window, std::vector<sf::RectangleShape>v_rectangles, std::vector <sData> &database);
+	void render(int &current_step, int current_menu_window, std::vector<sf::RectangleShape>v_rectangles, std::vector <sData> &database, int which_box_is_writing);
 
 private:
 
@@ -93,6 +93,10 @@ private:
 	int green_rect_counter;
 	int previos_loop_green_rect_counter;
 	bool previous_wrong_state;
+	bool clicked_box;
+	bool box_erased;
+	int index_erased_box;
+	int previous_box_writing;
 };
 
 #endif

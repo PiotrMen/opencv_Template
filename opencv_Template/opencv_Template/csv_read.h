@@ -36,6 +36,7 @@ struct sGlobal_data
 	bool global_exit;
 	bool timer_done;
 	bool wrong_box;
+	bool checking_boxes_state;
 
 	bool last_step_of_sequence;
 
@@ -47,12 +48,13 @@ struct sGlobal_data
 
 	std::vector<sf::RectangleShape> boxes;
 
-	std::vector<int> index_accepted_boxes;
+	std::vector<std::pair<int,bool>> index_and_checked_info_accepted_boxes;
 
 	int step_in_sequence = 0;
 	int current_step = 0;
 	int connectors_list_size;
-	int v_actual_scanning_box_size;
+
+	int which_box_chosen;
 
 	bool step_back = false;					// true if user wants to go back to previous step in sequence
 };

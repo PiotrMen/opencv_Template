@@ -494,6 +494,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		for (int i = 0; i < which_box_is_writing; i++) {
 			if (unieversal_detecting_collision_with_buttons(this->vector_rectangles[i].getPosition().x, this->vector_rectangles[i].getPosition().y, this->vector_rectangles[i].getGlobalBounds().width, this->vector_rectangles[i].getGlobalBounds().height, 1, this->menu_window) && falling_edge_saved && !change_number) {
 				this->which_box_chosen = i;
+				data_box.which_box_chosen = this->which_box_chosen;
 				this->which_box_is_writing = this->which_box_chosen;
 				change_number = true;
 				vector_displaying_articles[which_box_is_writing].serial_number = 0;
@@ -689,7 +690,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		this->which_box_chosen = 0;
 
 		data_box.last_step_of_sequence = false;
-		data_box.v_actual_scanning_box_size = 0;
+		//data_box.v_actual_scanning_box_size = 0;
 
 		//Clearing global vector
 		//data_box.boxes.clear();
