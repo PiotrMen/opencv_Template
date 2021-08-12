@@ -77,20 +77,25 @@ void sfml_objects::display_texture(int pos_x, int pos_y, std::string file_path, 
 
 void sfml_objects::display_texture(int pos_x, int pos_y, std::string file_path, int width, int height, float rotation)
 {
+	//Function used for displaying textures of connectors on projector
+
 	sf::Texture texture_;
 	if (!texture_.loadFromFile("resources/" + file_path))
 	{
-		std::cerr << "Could not load texture" << std::endl;
-		exit(1);
+		sf::RectangleShape lacking_connector = making_rectangle(pos_x, pos_y, width, height, sf::Color::Green, false);
+		this->window->draw(lacking_connector);
 	}
-	sf::Sprite texture;
-	texture.setTexture(texture_);
-	texture.setOrigin(sf::Vector2f(texture.getTexture()->getSize().x * 0.5, texture.getTexture()->getSize().y * 0.5));         //set origins of images to center
-	texture.setPosition(pos_x, pos_y);
-	texture.setScale(width/texture.getGlobalBounds().width, height/texture.getGlobalBounds().height);
-	texture.setRotation(rotation);
+	else
+	{
+		sf::Sprite texture;
+		texture.setTexture(texture_);
+		texture.setOrigin(sf::Vector2f(texture.getTexture()->getSize().x * 0.5, texture.getTexture()->getSize().y * 0.5));         //set origins of images to center
+		texture.setPosition(pos_x, pos_y);
+		texture.setScale(width / texture.getGlobalBounds().width, height / texture.getGlobalBounds().height);
+		texture.setRotation(rotation);
 
-	this->window->draw(texture);
+		this->window->draw(texture);
+	}
 }
 
 //Displaying text
@@ -443,6 +448,13 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 	{
 		this->window->draw(this->lighting_rectangles[sequence[current_step].matched_rectangle]);
 
+		int distance = 530;
+		for (int i = 0; i < current_step; i++)
+		{
+			distance = distance + mm_to_pixels_converter(sequence[i].width / 2);
+			display_texture(distance, 950, "baza zlaczek/" + std::to_string(sequence[i].serial_number) + ".png", mm_to_pixels_converter(sequence[i].width), mm_to_pixels_converter(sequence[i].height), 0);
+			distance = distance + mm_to_pixels_converter(sequence[i].width / 2);
+		}
 
 		// Handling 1 -> 2 transition
 		if (this->article_taken)
@@ -462,7 +474,13 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 	}
 	case 2:		// Installing article on DIN
 	{
-
+		int distance = 530;
+		for (int i = 0; i <= current_step; i++)
+		{
+			distance = distance + mm_to_pixels_converter(sequence[i].width / 2);
+			display_texture(distance, 950, "baza zlaczek/" + std::to_string(sequence[i].serial_number) + ".png", mm_to_pixels_converter(sequence[i].width), mm_to_pixels_converter(sequence[i].height), 0);
+			distance = distance + mm_to_pixels_converter(sequence[i].width / 2);
+		}
 
 		//Handling end of sequence
 		if (this->article_installed && current_step + 1 == sequence.size())
@@ -547,18 +565,23 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 		// Drawing elements on DIN
 		//if (menu_window == 202)
 		//{
+		//	int distance = 500;
 		//	if (this->step_of_sequence == 1)
 		//	{
 		//		for (int i = 0; i < current_step; i++)
 		//		{
-		//			display_texture(400 + i*80, 800, "baza zlaczek/" + std::to_string(sequence[i].serial_number) + ".png", mm_to_pixels_converter(sequence[i].width), mm_to_pixels_converter(sequence[i].height), 0);
+		//			distance = distance + mm_to_pixels_converter(sequence[i].width / 2);
+		//			display_texture(distance, 900, "baza zlaczek/" + std::to_string(sequence[i].serial_number) + ".png", mm_to_pixels_converter(sequence[i].width), mm_to_pixels_converter(sequence[i].height), 0);
+		//			distance = distance + mm_to_pixels_converter(sequence[i].width / 2);
 		//		}
 		//	}
 		//	else if (this->step_of_sequence == 2)
 		//	{
 		//		for (int i = 0; i <= current_step; i++)
 		//		{
-		//			display_texture(400 + i*80, 800, "baza zlaczek/" + std::to_string(sequence[i].serial_number) + ".png", mm_to_pixels_converter(sequence[i].width), mm_to_pixels_converter(sequence[i].height), 0);
+		//			distance = distance + mm_to_pixels_converter(sequence[i].width / 2);
+		//			display_texture(distance, 800, "baza zlaczek/" + std::to_string(sequence[i].serial_number) + ".png", mm_to_pixels_converter(sequence[i].width), mm_to_pixels_converter(sequence[i].height), 0);
+		//			distance = distance + mm_to_pixels_converter(sequence[i].width / 2);
 		//		}
 		//	}
 		//}
@@ -572,9 +595,12 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 
 	//if (this->menu_window == 2)
 	//{
+	//	int distance = 450;
 	//	for (int i = 0; i < sequence.size(); i++)
 	//	{
-	//		display_texture(400 + i * 80, 800, "baza zlaczek/" + std::to_string(sequence[i].serial_number) + ".png", mm_to_pixels_converter(sequence[i].width), mm_to_pixels_converter(sequence[i].height), 0);
+	//		distance = distance + mm_to_pixels_converter(sequence[i].width / 2);
+	//		display_texture(distance, 800, "baza zlaczek/" + std::to_string(sequence[i].serial_number) + ".png", mm_to_pixels_converter(sequence[i].width), mm_to_pixels_converter(sequence[i].height), 0);
+	//		distance = distance + mm_to_pixels_converter(sequence[i].width / 2);
 	//	}
 	//}
 

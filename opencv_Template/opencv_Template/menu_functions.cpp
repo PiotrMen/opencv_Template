@@ -98,6 +98,24 @@ void menu_sfml_objects::display_texture(int pos_x, int pos_y, std::string file_p
 
 	this->menu_window->draw(texture);
 }
+void menu_sfml_objects::display_texture(int pos_x, int pos_y, std::string file_path, float scale)
+{
+	//This function displays objects that are not guaranteed to exist
+	sf::Texture texture_;
+	if (!texture_.loadFromFile("resources/menu/graphics_of_articles/" + file_path))
+	{
+	}
+	else
+	{
+		sf::Sprite texture;
+		texture.setTexture(texture_);
+		texture.setOrigin(sf::Vector2f(texture.getTexture()->getSize().x * 0.5, texture.getTexture()->getSize().y * 0.5));         //set origins of images to center
+		texture.setPosition(pos_x, pos_y);
+		texture.setScale(scale, scale);
+
+		this->menu_window->draw(texture);
+	}
+}
 
 //Displaying text
 void menu_sfml_objects::display_text(int pos_x, int pos_y, std::string text, float size)
@@ -863,7 +881,10 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		//displaying rectangles
 		for (int i = 0; i < 10; i++){
 			this->menu_window->draw(this->vector_rectangles[i]);
-			this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y-30, std::to_string(i+1), 120);
+			if(this->vector_rectangles[i].getFillColor() == sf::Color::Red)
+				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y-30, std::to_string(i+1), 120);
+			else
+				display_texture(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y, std::to_string(vector_displaying_articles[i].serial_number) + ".png", 1);
 		}
 
 		//displaying texts on rectangle
@@ -879,7 +900,7 @@ void menu_sfml_objects::render(int current_step, int current_window)
 				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 90, "Powtorzony numer", 20);
 
 			if (!connectors_list[i].wrong_number && !connectors_list[i].repeated_number && vector_displaying_articles[i].name != "")
-				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 120, vector_displaying_articles[i].name, 20);
+				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 120, vector_displaying_articles[i].name, 16);
 		}
 
 		//displaying helpful text
@@ -921,7 +942,10 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		//displaying rectangles
 		for (int i = 0; i < 10; i++) {
 			this->menu_window->draw(this->vector_rectangles[i]);
-			this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 30, std::to_string(i + 1), 120);
+			if (this->vector_rectangles[i].getFillColor() == sf::Color::Red)
+				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 30, std::to_string(i + 1), 120);
+			else
+				display_texture(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y, std::to_string(vector_displaying_articles[i].serial_number) + ".png", 1);
 		}
 
 		//displaying texts on rectangle
@@ -937,7 +961,7 @@ void menu_sfml_objects::render(int current_step, int current_window)
 				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 90, "Powtorzony numer", 20);
 
 			if (!connectors_list[i].wrong_number && !connectors_list[i].repeated_number && vector_displaying_articles[i].name != "")
-				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 120, vector_displaying_articles[i].name, 18);
+				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 120, vector_displaying_articles[i].name, 16);
 		}
 
 		// Displaying step back in sequence
