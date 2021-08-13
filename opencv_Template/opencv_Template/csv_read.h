@@ -28,6 +28,8 @@ struct sData
 struct sGlobal_data
 {
 	bool is_sequence_activated;
+
+	std::string sequence_name;
 	
 	// Vision
 	bool green_button;

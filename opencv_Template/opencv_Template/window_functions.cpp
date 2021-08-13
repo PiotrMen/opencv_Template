@@ -403,10 +403,18 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 		}
 
 		//erasing box after clicking
-		if (data_box.clicked_box) {
+		if (data_box.clicked_box) 
+		{
 			data_box.index_and_checked_info_accepted_boxes[data_box.which_box_chosen] = std::make_pair(data_box.which_box_chosen, 2);
 			this->box_erased = true;
 			data_box.clicked_box = false;
+		}
+		for (int i = 0; i < data_box.index_and_checked_info_accepted_boxes.size(); i++)
+		{
+			if(v_rectangles[i].getFillColor() == sf::Color::Red)
+				data_box.index_and_checked_info_accepted_boxes[i] = std::make_pair(i, 2);
+			else if (data_box.index_and_checked_info_accepted_boxes[i].second == 2)
+				data_box.index_and_checked_info_accepted_boxes[i] = std::make_pair(i, 0);
 		}
 
 	for (int i = 0; i < data_box.index_and_checked_info_accepted_boxes.size(); i++) {
@@ -452,6 +460,18 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 	{
 		// Reseting sequence
 		data_box.is_sequence_activated = false;
+
+		if (this->sequence_name != data_box.sequence_name)
+		{
+			data_box.index_and_checked_info_accepted_boxes.clear();
+
+			this->green_rect_counter = 0;
+			this->previos_loop_green_rect_counter = 0;
+			this->previous_wrong_state = false;
+			this->box_erased = false;
+			this->previous_box_writing = 0;
+			this->sequence_name = data_box.sequence_name;
+		}
 		current_step = 0;
 		article_installed = false;
 		article_taken = false;
@@ -500,6 +520,15 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 		if (this->article_installed && current_step + 1 == sequence.size())
 		{
 			data_box.last_step_of_sequence = true;
+
+			data_box.index_and_checked_info_accepted_boxes.clear();
+
+			this->green_rect_counter = 0;
+			this->previos_loop_green_rect_counter = 0;
+			this->previous_wrong_state = false;
+			this->box_erased = false;
+			this->previous_box_writing = 0;
+
 
 			this->step_of_sequence = 0;
 

@@ -99,6 +99,8 @@ private:
 	bool previous_wrong_state;
 	bool box_erased;
 	int previous_box_writing;
+
+	std::string sequence_name; // Used to check if sequence was changed. If was, clear data 
 };
 
 #endif

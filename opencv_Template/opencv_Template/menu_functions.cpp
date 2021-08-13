@@ -305,22 +305,26 @@ void menu_sfml_objects::pollEvents(int &current_step, int &current_window)
 				this->current_menu_window = 0;
 
 				//clearing vectors
-				this->vector_displaying_articles.clear();
-				this->connectors_list.clear();
-				sequence.clear();
-				this->start_sequention = false;
-				this->which_box_is_writing = 0;
-				this->which_box_chosen = 0;
-				this->display_start_sequention = false;
+				if (sequence_name != searching_text)
+				{
+					this->vector_displaying_articles.clear();
+					this->connectors_list.clear();
+					sequence.clear();
+					this->start_sequention = false;
+					this->which_box_is_writing = 0;
+					this->which_box_chosen = 0;
+					this->display_start_sequention = false;
 
-				for (int i = 0; i < 10; i++) {
-					vector_rectangles[i].setFillColor(sf::Color::Red);
+					for (int i = 0; i < 10; i++) {
+						vector_rectangles[i].setFillColor(sf::Color::Red);
+					}
+
+					// Execute loading
+					load_csv_sequence(sequence, searching_text, connectors_list);
+					sequence_name = searching_text;
+					data_box.sequence_name = this->sequence_name;
+					data_box.connectors_list_size = this->connectors_list.size();
 				}
-
-				// Execute loading
-				load_csv_sequence(sequence, searching_text, connectors_list);
-				sequence_name = searching_text;
-				data_box.connectors_list_size = this->connectors_list.size();
 				searching_text.clear();
 			}
 			// Handling Enter if input is not in place
@@ -710,6 +714,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		this->vector_displaying_articles.clear();
 		this->connectors_list.clear();
 		sequence.clear();
+		data_box.sequence_name.clear();
 		//data_box.is_sequence_activated = false;
 		this->start_sequention = false;
 		this->which_box_is_writing = 0;
