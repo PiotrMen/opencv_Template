@@ -290,7 +290,6 @@ void sfml_objects::update(int &current_step, std::vector <sData> &database)
 	}
 	if (this->menu_window == 3)
 	{
-		//this->calibration_time = data_box.real_time_calibration_camera.asSeconds() + 40;
 		this->clock.restart();
 		this->calibration_time = 39;
 	}
@@ -359,11 +358,13 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 			{
 				data_box.index_and_checked_info_accepted_boxes[i] = std::make_pair(i, 2);
 				if_clear = true;
+				if_display = true;
 			}
 			else if (v_rectangles[i].getFillColor() == sf::Color::Green && data_box.index_and_checked_info_accepted_boxes[i].second == 2)
 			{
 				data_box.index_and_checked_info_accepted_boxes[i] = std::make_pair(i, 0);
 				if_clear = true;
+				if_display = true;
 			}
 		}
 	}
@@ -414,7 +415,7 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 		//adding box after erasing
 		if (this->green_rect_counter > this->previos_loop_green_rect_counter) {
 			if (this->box_erased) {
-				data_box.index_and_checked_info_accepted_boxes[data_box.which_box_chosen] = std::make_pair(data_box.which_box_chosen, 0);
+				//data_box.index_and_checked_info_accepted_boxes[data_box.which_box_chosen] = std::make_pair(data_box.which_box_chosen, 0);
 				this->box_erased = false;
 			}
 		}
@@ -422,7 +423,7 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 		//erasing box after clicking
 		if (data_box.clicked_box) 
 		{
-			data_box.index_and_checked_info_accepted_boxes[data_box.which_box_chosen] = std::make_pair(data_box.which_box_chosen, 2);
+			//data_box.index_and_checked_info_accepted_boxes[data_box.which_box_chosen] = std::make_pair(data_box.which_box_chosen, 2);
 			this->box_erased = true;
 			data_box.clicked_box = false;
 		}
@@ -614,32 +615,6 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 			this->display_texture(this->window_width/2, 750, "red_circlebigger.png", 0.5, 0);
 			this->display_text(this->window_width / 2, 850, "Zle pobrany artykul", 40);
 		}
-
-
-		// Drawing elements on DIN
-		//if (menu_window == 202)
-		//{
-		//	int distance = 500;
-		//	if (this->step_of_sequence == 1)
-		//	{
-		//		for (int i = 0; i < current_step; i++)
-		//		{
-		//			distance = distance + mm_to_pixels_converter(sequence[i].width / 2);
-		//			display_texture(distance, 900, "baza zlaczek/" + std::to_string(sequence[i].serial_number) + ".png", mm_to_pixels_converter(sequence[i].width), mm_to_pixels_converter(sequence[i].height), 0);
-		//			distance = distance + mm_to_pixels_converter(sequence[i].width / 2);
-		//		}
-		//	}
-		//	else if (this->step_of_sequence == 2)
-		//	{
-		//		for (int i = 0; i <= current_step; i++)
-		//		{
-		//			distance = distance + mm_to_pixels_converter(sequence[i].width / 2);
-		//			display_texture(distance, 800, "baza zlaczek/" + std::to_string(sequence[i].serial_number) + ".png", mm_to_pixels_converter(sequence[i].width), mm_to_pixels_converter(sequence[i].height), 0);
-		//			distance = distance + mm_to_pixels_converter(sequence[i].width / 2);
-		//		}
-		//	}
-		//}
-
 		if_clear = false;
 	}
 	// do testow, przechodzenie do kolejnego kroku na prawy przycisk myszy w window functions
@@ -647,42 +622,18 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 	//data_box.green_button = false;
 	//data_box.detecting_box = false;
 
-	//if (this->menu_window == 2)
-	//{
-	//	int distance = 450;
-	//	for (int i = 0; i < sequence.size(); i++)
-	//	{
-	//		distance = distance + mm_to_pixels_converter(sequence[i].width / 2);
-	//		display_texture(distance, 800, "baza zlaczek/" + std::to_string(sequence[i].serial_number) + ".png", mm_to_pixels_converter(sequence[i].width), mm_to_pixels_converter(sequence[i].height), 0);
-	//		distance = distance + mm_to_pixels_converter(sequence[i].width / 2);
-	//	}
-	//}
-
-	//
-
 	//Calibration tape points on table
 	if (this->menu_window == 3) {
 		sf::RectangleShape rectangle_;
 		for (int i = 0; i < this->outline_rectangles.size(); i++) {
-			//sf::RectangleShape rectangle_;
 
 			rectangle_.setSize(sf::Vector2f(mm_to_pixels_converter(95), mm_to_pixels_converter(25)));
 			rectangle_.setOrigin(sf::Vector2f(rectangle_.getSize().x / 2, rectangle_.getSize().y / 2));
 			rectangle_.setPosition(this->outline_rectangles[i].getPosition().x, this->outline_rectangles[i].getPosition().y + this->outline_rectangles[i].getSize().y/2+ mm_to_pixels_converter(25));
 			rectangle_.setFillColor(sf::Color::Green);
-			//rectangle_.setOutlineThickness(5);
-			//rectangle_.setOutlineColor(sf::Color::White);
 			
 			this->window->draw(rectangle_);
 		}
-
-		//rectangle_.setSize(sf::Vector2f(mm_to_pixels_converter(45), mm_to_pixels_converter(50)));
-		//rectangle_.setOrigin(sf::Vector2f(mm_to_pixels_converter(45) / 2, mm_to_pixels_converter(50) / 2));
-		//rectangle_.setPosition(this->green_button_x, this->green_button_y);
-		//rectangle_.setFillColor(sf::Color::Green);
-		//this->window->draw(rectangle_);
-
-
 		this->display_text(this->window_width/2, 800, "Jesli jestes pewna/y ze tasmy znajduja sie w podswietlonych na zielono miejscach to zatwierdz na komputerze", 40);
 	}
 	if (this->menu_window == 301)

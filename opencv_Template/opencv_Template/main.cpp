@@ -49,9 +49,14 @@ int main()
 
 
 	std::thread th(thread_vision(), 1);
-
+	
+	//sf::Clock zegar;
+	//sf::Time czas;
+	
 	while (objects.getWindowIsOpen() && menu_objects.getWindowIsOpen())
 	{
+		//zegar.restart();
+		
 		//Menu update
 		menu_objects.update(data_box.current_step, current_window);
 
@@ -64,8 +69,10 @@ int main()
 
 		//Render
 		objects.render(data_box.current_step, menu_objects.current_menu_window, menu_objects.vector_rectangles, database, menu_objects.which_box_is_writing);
-
-
+		
+		//czas = zegar.getElapsedTime();
+		//std::cout << czas.asMilliseconds() << std::endl;
+		
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 			data_box.global_exit = true;
 
