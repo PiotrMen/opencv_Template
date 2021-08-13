@@ -324,6 +324,8 @@ void sfml_objects::update(int &current_step, std::vector <sData> &database)
 		if_display = true;
 		data_box.checking_boxes_state = false;
 	}
+
+
 }
 
 
@@ -350,6 +352,20 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 			if_clear = true;
 			if_display = true;
 		}
+
+		for (int i = 0; i < data_box.index_and_checked_info_accepted_boxes.size(); i++)
+		{
+			if (v_rectangles[i].getFillColor() == sf::Color::Red && data_box.index_and_checked_info_accepted_boxes[i].second != 2)
+			{
+				data_box.index_and_checked_info_accepted_boxes[i] = std::make_pair(i, 2);
+				if_clear = true;
+			}
+			else if (v_rectangles[i].getFillColor() == sf::Color::Green && data_box.index_and_checked_info_accepted_boxes[i].second == 2)
+			{
+				data_box.index_and_checked_info_accepted_boxes[i] = std::make_pair(i, 0);
+				if_clear = true;
+			}
+		}
 	}
 
 	if (this->menu_window != current_menu_window) {
@@ -375,7 +391,8 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 
 
 	this->menu_window = current_menu_window;
-	if (current_menu_window == 2 && if_clear) {
+	if (current_menu_window == 2 && if_clear) 
+	{
 
 		if ((this->previous_box_writing < which_box_is_writing)|| ((v_rectangles[data_box.connectors_list_size-1].getFillColor() == (sf::Color::Green)) && (data_box.connectors_list_size == this->previous_box_writing+1))) {
 			if (data_box.connectors_list_size > data_box.index_and_checked_info_accepted_boxes.size()) {
@@ -409,29 +426,23 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 			this->box_erased = true;
 			data_box.clicked_box = false;
 		}
-		for (int i = 0; i < data_box.index_and_checked_info_accepted_boxes.size(); i++)
+
+		for (int i = 0; i < data_box.index_and_checked_info_accepted_boxes.size(); i++) 
 		{
-			if(v_rectangles[i].getFillColor() == sf::Color::Red)
-				data_box.index_and_checked_info_accepted_boxes[i] = std::make_pair(i, 2);
+			sf::RectangleShape rectangle_;
+
+			rectangle_.setSize(sf::Vector2f(mm_to_pixels_converter(95), mm_to_pixels_converter(25)));
+			rectangle_.setOrigin(sf::Vector2f(rectangle_.getSize().x / 2, rectangle_.getSize().y / 2));
+			rectangle_.setPosition(this->outline_rectangles[data_box.index_and_checked_info_accepted_boxes[i].first].getPosition().x, this->outline_rectangles[data_box.index_and_checked_info_accepted_boxes[i].first].getPosition().y + this->outline_rectangles[data_box.index_and_checked_info_accepted_boxes[i].first].getSize().y / 2);
+			if (data_box.index_and_checked_info_accepted_boxes[i].second == 0)
+				rectangle_.setFillColor(sf::Color::Red);
+			else if(data_box.index_and_checked_info_accepted_boxes[i].second == 1)
+				rectangle_.setFillColor(sf::Color::Green);
 			else if (data_box.index_and_checked_info_accepted_boxes[i].second == 2)
-				data_box.index_and_checked_info_accepted_boxes[i] = std::make_pair(i, 0);
+				rectangle_.setFillColor(sf::Color::Black);
+
+			this->window->draw(rectangle_);
 		}
-
-	for (int i = 0; i < data_box.index_and_checked_info_accepted_boxes.size(); i++) {
-		sf::RectangleShape rectangle_;
-
-		rectangle_.setSize(sf::Vector2f(mm_to_pixels_converter(95), mm_to_pixels_converter(25)));
-		rectangle_.setOrigin(sf::Vector2f(rectangle_.getSize().x / 2, rectangle_.getSize().y / 2));
-		rectangle_.setPosition(this->outline_rectangles[data_box.index_and_checked_info_accepted_boxes[i].first].getPosition().x, this->outline_rectangles[data_box.index_and_checked_info_accepted_boxes[i].first].getPosition().y + this->outline_rectangles[data_box.index_and_checked_info_accepted_boxes[i].first].getSize().y / 2);
-		if (data_box.index_and_checked_info_accepted_boxes[i].second == 0)
-			rectangle_.setFillColor(sf::Color::Red);
-		else if(data_box.index_and_checked_info_accepted_boxes[i].second == 1)
-			rectangle_.setFillColor(sf::Color::Green);
-		else if (data_box.index_and_checked_info_accepted_boxes[i].second == 2)
-			rectangle_.setFillColor(sf::Color::Black);
-
-		this->window->draw(rectangle_);
-	}
 
 
 		//displaying helpful graphics
