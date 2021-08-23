@@ -26,6 +26,7 @@ private:
 	bool check_pattern(cv::Mat input_image, cv::Point dxdy, int lower_value, int upper_value);
 	bool check_pattern_circle(cv::Mat input_image, cv::Point dxdy, int lower_value, int upper_value);
 	bool check_pattern_one_rect(cv::Mat input_image, cv::Point dxdy, int lower_value, int upper_value);
+	bool check_if_boxes_on_position(cv::Mat input_image, int index, int &hmin, int &hmax, int &smin, int &smax, int &vmin, int &vmax);
 	void init_boxes();
 	void init_calib_boxes();
 	std::vector<cv::Point> image_calibration(cv::VideoCapture cam);

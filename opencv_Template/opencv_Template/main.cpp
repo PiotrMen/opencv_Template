@@ -39,12 +39,6 @@ int main()
 	std::vector <sData> database;
 	load_csv_database(database);
 
-	for (int i = 0; i < database.size(); i++)
-	{
-		std::cout << database[i].serial_number << "  " << database[i].name << "  " << database[i].width << "  " << database[i].height << std::endl;
-	}
-
-	//int current_step = 0;	// step of current article
 	int current_window = 0;
 
 

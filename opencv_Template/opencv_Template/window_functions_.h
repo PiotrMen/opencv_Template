@@ -97,7 +97,6 @@ private:
 	int green_rect_counter;
 	int previos_loop_green_rect_counter;
 	bool previous_wrong_state;
-	bool box_erased;
 	int previous_box_writing;
 
 	std::string sequence_name; // Used to check if sequence was changed. If was, clear data 

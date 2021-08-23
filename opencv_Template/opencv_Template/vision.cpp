@@ -324,6 +324,51 @@ bool thread_vision::check_pattern_one_rect(cv::Mat input_image, cv::Point dxdy, 
 	}
 }
 
+bool thread_vision::check_if_boxes_on_position(cv::Mat input_image, int index, int &hmin, int &hmax, int &smin, int &smax, int &vmin, int &vmax) {
+	cv::Mat cropped_image;
+	cv::Rect box_area;
+	cv::Point point_tl (boxes[index].tl().x, boxes[index].tl().y - 100);
+	cv::Point point_br (boxes[index].br().x, boxes[index].br().y - 100);
+	box_area = cv::Rect(point_tl, point_br);
+	cropped_image = image(box_area);
+	
+
+	//cv::imshow("croped_boxes_", cropped_image);
+	cv::Mat Kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(6, 6));
+	cv::Mat kerneldil = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
+	// Filters
+	//cv::cvtColor(cropped_image, cropped_image, cv::COLOR_BGR2GRAY);
+
+	cv::Mat imageHSV;
+	cv::Mat mask;
+	cv::cvtColor(cropped_image, imageHSV, cv::COLOR_BGR2HSV);
+
+	//cv::namedWindow("Trackbars", (640, 200));
+	//cv::createTrackbar("Hue Min", "Trackbars", &hmin, 179);
+	//cv::createTrackbar("Hue Max", "Trackbars", &hmax, 179);
+	//cv::createTrackbar("Sat Min", "Trackbars", &smin, 255);
+	//cv::createTrackbar("Sat Max", "Trackbars", &smax, 255);
+	//cv::createTrackbar("Val Min", "Trackbars", &vmin, 255);
+	//cv::createTrackbar("Val Max", "Trackbars", &vmax, 255);
+
+	cv::Scalar lower(0, 28, 0);
+	cv::Scalar upper(179, 255, 220);
+	cv::inRange(imageHSV, lower, upper, mask);
+	cv::morphologyEx(mask, mask, cv::MORPH_OPEN, Kernel);
+
+	int TotalNumberOfPixels = mask.rows * mask.cols;
+	int WhitePixels = cv::countNonZero(mask);
+	//std::cout << "The number of pixels that are zero is " << ZeroPixels << std::endl;
+
+	//imshow("mask", mask);
+	//cv::imshow("croped_boxes", cropped_image);
+	//cv::waitKey(1);
+	if (WhitePixels >= TotalNumberOfPixels / 4)
+		return true; 
+	else
+		return false;
+}
+
 cv::Mat thread_vision::getWarp(cv::Mat img, std::vector<cv::Point> points, float w, float h) {
 	cv::Mat imgWarp;
 	cv::Point2f src[4] = { points[0],points[1],points[2],points[3] };
@@ -454,27 +499,27 @@ void thread_vision::init_boxes()
 	m.unlock();
 }
 
-void thread_vision::init_calib_boxes()
-{
-	m.lock();
-	for (int i = 0; i < data_box.boxes.size(); i++)
-	{
-		if (i < 9)
-		{
-			cv::Point TL(data_box.boxes[i].getPosition().x - data_box.boxes[i].getSize().x / 2 + 5, data_box.boxes[i].getPosition().y + 300);
-			cv::Point BR(data_box.boxes[i].getPosition().x + data_box.boxes[i].getSize().x / 2 + 5, data_box.boxes[i].getPosition().y + data_box.boxes[i].getSize().y / 2 + 120);
-			this->calib_boxes.push_back(cv::Rect(TL, BR));
-		}
-		else if (i == 9)
-		{
-			cv::Point TL(data_box.boxes[i].getPosition().x - data_box.boxes[i].getSize().x / 2 + 5, data_box.boxes[i].getPosition().y + 300);
-			cv::Point BR(data_box.boxes[i].getPosition().x + data_box.boxes[i].getSize().x / 2 + 5, data_box.boxes[i].getPosition().y + data_box.boxes[i].getSize().y / 2 + 120);
-			this->calib_boxes.push_back(cv::Rect(TL, BR));
-		}
-
-	}
-	m.unlock();
-}
+//void thread_vision::init_calib_boxes()
+//{
+//	m.lock();
+//	for (int i = 0; i < data_box.boxes.size(); i++)
+//	{
+//		if (i < 9)
+//		{
+//			cv::Point TL(data_box.boxes[i].getPosition().x - data_box.boxes[i].getSize().x / 2 + 5, data_box.boxes[i].getPosition().y + 300);
+//			cv::Point BR(data_box.boxes[i].getPosition().x + data_box.boxes[i].getSize().x / 2 + 5, data_box.boxes[i].getPosition().y + data_box.boxes[i].getSize().y / 2 + 120);
+//			this->calib_boxes.push_back(cv::Rect(TL, BR));
+//		}
+//		else if (i == 9)
+//		{
+//			cv::Point TL(data_box.boxes[i].getPosition().x - data_box.boxes[i].getSize().x / 2 + 5, data_box.boxes[i].getPosition().y + 300);
+//			cv::Point BR(data_box.boxes[i].getPosition().x + data_box.boxes[i].getSize().x / 2 + 5, data_box.boxes[i].getPosition().y + data_box.boxes[i].getSize().y / 2 + 120);
+//			this->calib_boxes.push_back(cv::Rect(TL, BR));
+//		}
+//
+//	}
+//	m.unlock();
+//}
 
 
 void thread_vision::set_warp_parameters(float w, float h)
@@ -592,11 +637,6 @@ void thread_vision::operator()(int index)
 				init_boxes();
 			}
 
-			if (this->calib_boxes.size() == 0)
-			{
-				init_calib_boxes();
-			}
-
 			// Camera trigger
 			camera.read(this->image);
 			cv::rotate(this->image, this->image, cv::ROTATE_180);
@@ -616,7 +656,7 @@ void thread_vision::operator()(int index)
 				cv::Mat tape_checking_img= Other_box_filters(data_box.index_and_checked_info_accepted_boxes[i].first);
 
 				//checking if tape visible
-				if (check_pattern_one_rect(tape_checking_img, TL_of_window, 6000, 8000) && data_box.index_and_checked_info_accepted_boxes[i].second != 2) {
+				if (check_pattern_one_rect(tape_checking_img, TL_of_window, 6000, 8000) && check_if_boxes_on_position(this->image, i, hmin, hmax, smin, smax, vmin, vmax) && data_box.index_and_checked_info_accepted_boxes[i].second != 2) {
 					std::pair<int, int> temp(data_box.index_and_checked_info_accepted_boxes[i].first, 1);
 					data_box.index_and_checked_info_accepted_boxes[i] = temp;
 
@@ -624,7 +664,7 @@ void thread_vision::operator()(int index)
 					if (data_box.index_and_checked_info_accepted_boxes[i].second != this->previous_info_accepted_boxes[i].second)
 						data_box.checking_boxes_state = true;
 				}
-				else if(!check_pattern_one_rect(tape_checking_img, TL_of_window, 6000, 8000) && data_box.index_and_checked_info_accepted_boxes[i].second != 2) {
+				else if((!check_pattern_one_rect(tape_checking_img, TL_of_window, 6000, 8000) || !check_if_boxes_on_position(this->image, i, hmin, hmax, smin, smax, vmin, vmax)) && data_box.index_and_checked_info_accepted_boxes[i].second != 2) {
 					//checking if non visible
 					std::pair<int, int> temp(data_box.index_and_checked_info_accepted_boxes[i].first, 0);
 					data_box.index_and_checked_info_accepted_boxes[i]= temp;
@@ -639,8 +679,6 @@ void thread_vision::operator()(int index)
 			this->previous_info_accepted_boxes = data_box.index_and_checked_info_accepted_boxes;
 			m.unlock();
 		}
-		else
-			cv::destroyWindow("calib_boxes");
 
 		//std::cout << calibration_boxes << std::endl;
 		m.lock();
@@ -694,6 +732,7 @@ void thread_vision::operator()(int index)
 			if(sequence.size()!=0)
 				this->box = box_filters();
 			m2.unlock();
+
 
 			////boxes detection
 			if (data_box.step_in_sequence == 1 && first_loop_missed) {

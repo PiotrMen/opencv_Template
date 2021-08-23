@@ -412,21 +412,9 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 			}
 		}
 
-		//adding box after erasing
-		if (this->green_rect_counter > this->previos_loop_green_rect_counter) {
-			if (this->box_erased) {
-				//data_box.index_and_checked_info_accepted_boxes[data_box.which_box_chosen] = std::make_pair(data_box.which_box_chosen, 0);
-				this->box_erased = false;
-			}
-		}
-
 		//erasing box after clicking
 		if (data_box.clicked_box) 
-		{
-			//data_box.index_and_checked_info_accepted_boxes[data_box.which_box_chosen] = std::make_pair(data_box.which_box_chosen, 2);
-			this->box_erased = true;
 			data_box.clicked_box = false;
-		}
 
 		for (int i = 0; i < data_box.index_and_checked_info_accepted_boxes.size(); i++) 
 		{
@@ -458,9 +446,6 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 		if_clear = false;
 	}
 
-	//if (which_box_is_writing != 0)
-	//	this->previous_box_writing = which_box_is_writing;
-
 	this->previos_loop_green_rect_counter = this->green_rect_counter;
 	this->green_rect_counter = 0;
 
@@ -480,7 +465,6 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 			this->green_rect_counter = 0;
 			this->previos_loop_green_rect_counter = 0;
 			this->previous_wrong_state = false;
-			this->box_erased = false;
 			this->previous_box_writing = 0;
 			this->sequence_name = data_box.sequence_name;
 		}
@@ -538,7 +522,6 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 			this->green_rect_counter = 0;
 			this->previos_loop_green_rect_counter = 0;
 			this->previous_wrong_state = false;
-			this->box_erased = false;
 			this->previous_box_writing = 0;
 
 

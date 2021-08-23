@@ -880,7 +880,7 @@ void menu_sfml_objects::render(int current_step, int current_window)
 	//match boxes section displaying
 	if (this->current_menu_window == 2 && if_clear) {
 
-		std::cout << if_clear << "    " << if_display << std::endl;
+	//	std::cout << if_clear << "    " << if_display << std::endl;
 
 		this->display_text(this->menu_window_width / 2, 130, "Zeskanuj pudelka", 200);
 
