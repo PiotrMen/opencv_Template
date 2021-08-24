@@ -784,7 +784,7 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		//Texts
 		this->display_text(this->load_csv_button_x, this->load_csv_button_y - 10, "Zaladuj plik .csv", 80);
 		this->display_text(this->installation_of_connectors_button_x, this->installation_of_connectors_button_y - 10, "Montaz zlaczek", 80);
-		this->display_text(this->Calibration_button_x, this->Calibration_button_y - 10, "Kalibracja system", 80);
+		this->display_text(this->Calibration_button_x, this->Calibration_button_y - 10, "Kalibracja systemu", 80);
 		this->display_text(this->menu_window_width / 2, 130, "Menu", 200);
 
 		// Current sequence name

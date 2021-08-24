@@ -185,8 +185,8 @@ cv::Mat thread_vision::Other_box_filters(int i)
 	cv::bitwise_not(cropped_image, cropped_image);
 
 	//if (i == 7) {
-	//	imshow("filtered", cropped_image);
-	//	cv::waitKey(1);
+		//imshow("filtered", cropped_image);
+		//cv::waitKey(1);
 	//}
 
 	return cropped_image;
@@ -367,7 +367,7 @@ bool thread_vision::check_if_boxes_on_position(cv::Mat input_image, int index, i
 
 	//if(index==7){
 	//imshow("mask", mask);
-	////cv::imshow("croped_boxes", cropped_image);
+	//cv::imshow("croped_boxes", cropped_image);
 	//cv::waitKey(1);
 	//}
 	if (WhitePixels >= TotalNumberOfPixels / 4)
@@ -710,7 +710,7 @@ void thread_vision::operator()(int index)
 			// Camera trigger
 			camera.read(image);
 			cv::rotate(image, image, cv::ROTATE_180);
-			cv::remap(image, image, transformation_x, transformation_y, cv::INTER_CUBIC); // INTER_NEAREST oko³o 20ms // INTER_CUBIC okolo 120ms  //INTER_LANCZOS4 okolo 240ms
+			cv::remap(image, image, transformation_x, transformation_y, cv::INTER_LINEAR); // INTER_NEAREST oko³o 20ms // INTER_CUBIC okolo 120ms  //INTER_LANCZOS4 okolo 240ms
 		//	this->image = getWarp(this->image, coordinates_reordered, 1920, 1080);
 			cv::Mat green_button_image = button_filter();
 
@@ -827,7 +827,7 @@ void thread_vision::operator()(int index)
 		if (data_box.global_exit)
 			break;
 		sf::Time elapsed1 = clock2.getElapsedTime();
-		//std::cout << elapsed1.asMilliseconds() << std::endl;
+		std::cout << elapsed1.asMilliseconds() << std::endl;
 		clock2.restart();
 	}
 }
