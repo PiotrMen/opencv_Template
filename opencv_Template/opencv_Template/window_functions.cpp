@@ -40,7 +40,7 @@ void sfml_objects::init_button_size(float percentege_size)
 	this->green_button_length_y = 124;
 
 	//coordinates for green button
-	this->green_button_x = this->window_width - 75 - ((this->green_button_length_x / 2) * percentege_size / 100);  // 150 - number of pixels from bounds
+	this->green_button_x = this->window_width - 75 - ((this->green_button_length_x / 2) * percentege_size / 100);  // 150 - number of pixels from 
 	this->green_button_y = this->window_height - 50 - ((this->green_button_length_y / 2) * percentege_size / 100);
 
 	//red button

@@ -129,6 +129,7 @@ cv::Mat thread_vision::box_filters()
 
 
 	cv::Mat Kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(7, 7));
+	cv::Mat kernel_open = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
 	// Filters
 	cv::cvtColor(cropped_image, cropped_image, cv::COLOR_BGR2GRAY);
 
@@ -157,11 +158,11 @@ cv::Mat thread_vision::box_filters()
 
 	cv::GaussianBlur(cropped_image, cropped_image, cv::Size(3, 3), 3, 0);
 	cv::threshold(cropped_image, cropped_image, 0, 255, cv::THRESH_OTSU);
-	cv::Canny(cropped_image, cropped_image, 0, 255);
-	cv::dilate(cropped_image, cropped_image, Kernel);
+	cv::morphologyEx(cropped_image, cropped_image, cv::MORPH_OPEN, kernel_open);
+	cv::bitwise_not(cropped_image, cropped_image);
 
 	//imshow("filtered", cropped_image);
-	cv::waitKey(1);
+	//cv::waitKey(1);
 
 	return cropped_image;
 }
@@ -172,7 +173,7 @@ cv::Mat thread_vision::Other_box_filters(int i)
 	cv::Mat hist_image;
 	cropped_image = image(boxes[i]);
 
-
+	cv::Mat kernel_open = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
 	cv::Mat Kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(7, 7));
 	// Filters
 	cv::cvtColor(cropped_image, cropped_image, cv::COLOR_BGR2GRAY);
@@ -180,11 +181,13 @@ cv::Mat thread_vision::Other_box_filters(int i)
 
 	cv::GaussianBlur(cropped_image, cropped_image, cv::Size(3, 3), 3, 0);
 	cv::threshold(cropped_image, cropped_image, 0, 255, cv::THRESH_OTSU);
-	cv::Canny(cropped_image, cropped_image, 0, 255);
-	cv::dilate(cropped_image, cropped_image, Kernel);
+	cv::morphologyEx(cropped_image, cropped_image, cv::MORPH_OPEN, kernel_open);
+	cv::bitwise_not(cropped_image, cropped_image);
 
-	//imshow("filtered", cropped_image);
-	cv::waitKey(1);
+	//if (i == 7) {
+	//	imshow("filtered", cropped_image);
+	//	cv::waitKey(1);
+	//}
 
 	return cropped_image;
 }
@@ -314,12 +317,12 @@ bool thread_vision::check_pattern_one_rect(cv::Mat input_image, cv::Point dxdy, 
 	//
 	if (std::abs(area) > lower_value && std::abs(area) < upper_value)
 	{
-		cv::rectangle(image, boundRect, cv::Scalar(0, 255, 0), 5);
+		//cv::rectangle(image, boundRect, cv::Scalar(0, 255, 0), 5);
 		return true;
 	}
 	else
 	{
-		cv::rectangle(image, boundRect, cv::Scalar(0, 0, 255), 5);
+		//cv::rectangle(image, boundRect, cv::Scalar(0, 0, 255), 5);
 		return false;
 	}
 }
@@ -327,7 +330,7 @@ bool thread_vision::check_pattern_one_rect(cv::Mat input_image, cv::Point dxdy, 
 bool thread_vision::check_if_boxes_on_position(cv::Mat input_image, int index, int &hmin, int &hmax, int &smin, int &smax, int &vmin, int &vmax) {
 	cv::Mat cropped_image;
 	cv::Rect box_area;
-	cv::Point point_tl (boxes[index].tl().x, boxes[index].tl().y - 100);
+	cv::Point point_tl (boxes[index].tl().x, boxes[index].br().y - 100 - mm_to_pixels_converter(112));
 	cv::Point point_br (boxes[index].br().x, boxes[index].br().y - 100);
 	box_area = cv::Rect(point_tl, point_br);
 	cropped_image = image(box_area);
@@ -351,6 +354,8 @@ bool thread_vision::check_if_boxes_on_position(cv::Mat input_image, int index, i
 	//cv::createTrackbar("Val Min", "Trackbars", &vmin, 255);
 	//cv::createTrackbar("Val Max", "Trackbars", &vmax, 255);
 
+	//cv::Scalar lower(0, 28, 0);
+	//cv::Scalar upper(179, 255, 220);
 	cv::Scalar lower(0, 28, 0);
 	cv::Scalar upper(179, 255, 220);
 	cv::inRange(imageHSV, lower, upper, mask);
@@ -360,9 +365,11 @@ bool thread_vision::check_if_boxes_on_position(cv::Mat input_image, int index, i
 	int WhitePixels = cv::countNonZero(mask);
 	//std::cout << "The number of pixels that are zero is " << ZeroPixels << std::endl;
 
+	//if(index==7){
 	//imshow("mask", mask);
-	//cv::imshow("croped_boxes", cropped_image);
+	////cv::imshow("croped_boxes", cropped_image);
 	//cv::waitKey(1);
+	//}
 	if (WhitePixels >= TotalNumberOfPixels / 4)
 		return true; 
 	else
@@ -656,7 +663,7 @@ void thread_vision::operator()(int index)
 				cv::Mat tape_checking_img= Other_box_filters(data_box.index_and_checked_info_accepted_boxes[i].first);
 
 				//checking if tape visible
-				if (check_pattern_one_rect(tape_checking_img, TL_of_window, 6000, 8000) && check_if_boxes_on_position(this->image, i, hmin, hmax, smin, smax, vmin, vmax) && data_box.index_and_checked_info_accepted_boxes[i].second != 2) {
+				if (check_pattern_one_rect(tape_checking_img, TL_of_window, 4000, 8000) && check_if_boxes_on_position(this->image, i, hmin, hmax, smin, smax, vmin, vmax) && data_box.index_and_checked_info_accepted_boxes[i].second != 2) {
 					std::pair<int, int> temp(data_box.index_and_checked_info_accepted_boxes[i].first, 1);
 					data_box.index_and_checked_info_accepted_boxes[i] = temp;
 
@@ -664,7 +671,7 @@ void thread_vision::operator()(int index)
 					if (data_box.index_and_checked_info_accepted_boxes[i].second != this->previous_info_accepted_boxes[i].second)
 						data_box.checking_boxes_state = true;
 				}
-				else if((!check_pattern_one_rect(tape_checking_img, TL_of_window, 6000, 8000) || !check_if_boxes_on_position(this->image, i, hmin, hmax, smin, smax, vmin, vmax)) && data_box.index_and_checked_info_accepted_boxes[i].second != 2) {
+				else if((!check_pattern_one_rect(tape_checking_img, TL_of_window, 4000, 8000) || !check_if_boxes_on_position(this->image, i, hmin, hmax, smin, smax, vmin, vmax)) && data_box.index_and_checked_info_accepted_boxes[i].second != 2) {
 					//checking if non visible
 					std::pair<int, int> temp(data_box.index_and_checked_info_accepted_boxes[i].first, 0);
 					data_box.index_and_checked_info_accepted_boxes[i]= temp;
@@ -736,7 +743,7 @@ void thread_vision::operator()(int index)
 
 			////boxes detection
 			if (data_box.step_in_sequence == 1 && first_loop_missed) {
-				if (check_pattern_one_rect(this->box, TL_of_window, 6000, 8000))
+				if (check_pattern_one_rect(this->box, TL_of_window, 4000, 8000))
 					this->box_detection = false;
 				else {
 					this->box_detection = true;
@@ -748,8 +755,10 @@ void thread_vision::operator()(int index)
 					for (int i = 0; i < data_box.connectors_list_size; i++) {
 						if (i != this->current_step) {
 							cv::Mat other_box = Other_box_filters(i);
-							if (!check_pattern_one_rect(other_box, boxes[i].tl(), 6000, 8000)) {
+							if (!check_pattern_one_rect(other_box, boxes[i].tl(), 4000, 8000)) {
 								this->wrong = true;
+								cv::imshow("other", other_box);
+								cv::waitKey(1);
 								m.lock();
 								data_box.wrong_box = true;
 								m.unlock();
