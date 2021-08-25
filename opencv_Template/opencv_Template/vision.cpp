@@ -161,8 +161,8 @@ cv::Mat thread_vision::box_filters()
 	cv::morphologyEx(cropped_image, cropped_image, cv::MORPH_OPEN, kernel_open);
 	cv::bitwise_not(cropped_image, cropped_image);
 
-	imshow("filtered", cropped_image);
-	cv::waitKey(1);
+	//imshow("filtered", cropped_image);
+	//cv::waitKey(1);
 
 	return cropped_image;
 }
@@ -763,21 +763,25 @@ void thread_vision::operator()(int index)
 					for (int i = 0; i < data_box.connectors_list_size; i++) {
 						if (i != this->current_step) {
 							cv::Mat other_box = Other_box_filters(i);
-							if (!check_pattern_one_rect(other_box, boxes[i].tl(), 4000, 8000)) {
+							if (!check_pattern_one_rect(other_box, boxes[i].tl(), 4000, 8000) && this->wrong_box_inc == 4) {
 								this->wrong = true;
-								cv::imshow("other", other_box);
-								cv::waitKey(1);
 								m.lock();
 								data_box.wrong_box = true;
+								this->wrong_box_inc = 0;
 								m.unlock();
 							}
-							if (!this->wrong && i == data_box.connectors_list_size - 1) {
+							else if (!check_pattern_one_rect(other_box, boxes[i].tl(), 4000, 8000))
+								this->wrong_box_inc++;
+							
+							if (!this->wrong && i == data_box.connectors_list_size - 1 && !(this->previous_wrong_box_inc < this->wrong_box_inc)) {
 								m.lock();
 								data_box.wrong_box = false;
+								this->wrong_box_inc = 0;
 								m.unlock();
 							}
 						}
 					}
+					this->previous_wrong_box_inc = this->wrong_box_inc;
 				}
 				else {
 					m.lock();
@@ -806,11 +810,29 @@ void thread_vision::operator()(int index)
 
 			m.lock();
 
-			if (data_box.green_button != this->green_button) 
-				data_box.green_button = this->green_button;
+			if (this->green_button != 0) {
+				std::cout << this->green_button << std::endl;
+			}
 
-			if(data_box.detecting_box != this->box_detection)
+			//sending green button signal
+			if (data_box.green_button != this->green_button && this->green_inc == 4) {
+				data_box.green_button = this->green_button;
+				this->green_inc = 0;
+			}
+			else if (data_box.green_button != this->green_button)
+				this->green_inc++;
+			else
+				this->green_inc = 0;
+
+			// sending boxes signal
+			if (data_box.detecting_box != this->box_detection && this->box_inc == 4) {
 				data_box.detecting_box = this->box_detection;
+				this->box_inc = 0;
+			}
+			else if (data_box.detecting_box != this->box_detection)
+				this->box_inc++;
+			else
+				this->box_inc = 0;
 
 			m.unlock();
 
@@ -836,7 +858,7 @@ void thread_vision::operator()(int index)
 			break;
 
 		sf::Time elapsed1 = clock2.getElapsedTime();
-		std::cout << elapsed1.asMilliseconds() << std::endl;
+		//std::cout << elapsed1.asMilliseconds() << std::endl;
 		clock2.restart();
 	}
 

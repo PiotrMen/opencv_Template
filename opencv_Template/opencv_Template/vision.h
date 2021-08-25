@@ -78,6 +78,12 @@ private:
 	bool wrong;
 
 	bool calibration_boxes;
+
+	int green_inc;
+	int box_inc;
+	int wrong_box_inc;
+	int previous_wrong_box_inc;
+	bool any_wrong_boxes_detected;
 };
 
 
