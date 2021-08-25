@@ -9,6 +9,13 @@
 #include <SFML/Graphics.hpp>
 #include "Universal_functions.h"
 #include <SFML/System/Time.hpp>
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+#include "opencv2/video.hpp"
+#include "opencv2/videoio.hpp"
+#include "opencv2/imgcodecs.hpp"
+
 
 class thread_vision
 {

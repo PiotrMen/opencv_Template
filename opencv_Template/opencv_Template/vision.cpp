@@ -161,8 +161,8 @@ cv::Mat thread_vision::box_filters()
 	cv::morphologyEx(cropped_image, cropped_image, cv::MORPH_OPEN, kernel_open);
 	cv::bitwise_not(cropped_image, cropped_image);
 
-	//imshow("filtered", cropped_image);
-	//cv::waitKey(1);
+	imshow("filtered", cropped_image);
+	cv::waitKey(1);
 
 	return cropped_image;
 }
@@ -589,6 +589,8 @@ void thread_vision::operator()(int index)
 	cv::VideoCapture camera(index);
 	camera.set(cv::CAP_PROP_FRAME_WIDTH, 1920);
 	camera.set(cv::CAP_PROP_FRAME_HEIGHT, 1080);
+	camera.set(cv::CAP_PROP_FPS, 30);
+	camera.set(cv::CAP_PROP_FOURCC, cv::VideoWriter::fourcc('M', 'J', 'P', 'G'));
 	int hmin = 0, hmax = 179, smin = 0, smax = 255, vmin = 0, vmax = 255;
 
 	load_table_coordinates(this->coordinates_reordered);
@@ -707,11 +709,17 @@ void thread_vision::operator()(int index)
 
 		if (this->is_sequence_activated && this->timer_flag)
 		{
+
 			// Camera trigger
 			camera.read(image);
+
+			//cv::waitKey(40);
+
 			cv::rotate(image, image, cv::ROTATE_180);
+
 			cv::remap(image, image, transformation_x, transformation_y, cv::INTER_LINEAR); // INTER_NEAREST oko³o 20ms // INTER_CUBIC okolo 120ms  //INTER_LANCZOS4 okolo 240ms
-		//	this->image = getWarp(this->image, coordinates_reordered, 1920, 1080);
+			//this->image = getWarp(this->image, coordinates_reordered, 1920, 1080);
+
 			cv::Mat green_button_image = button_filter();
 
 			//download detection section
@@ -826,10 +834,12 @@ void thread_vision::operator()(int index)
 		//exit program variable
 		if (data_box.global_exit)
 			break;
+
 		sf::Time elapsed1 = clock2.getElapsedTime();
 		std::cout << elapsed1.asMilliseconds() << std::endl;
 		clock2.restart();
 	}
+
 }
 
 
