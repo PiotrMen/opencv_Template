@@ -84,6 +84,8 @@ private:
 	int wrong_box_inc;
 	int previous_wrong_box_inc;
 	bool any_wrong_boxes_detected;
+
+	int amount_of_loops_to_change_state = 4;
 };
 
 

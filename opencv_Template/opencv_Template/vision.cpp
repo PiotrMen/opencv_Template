@@ -591,6 +591,7 @@ void thread_vision::operator()(int index)
 	camera.set(cv::CAP_PROP_FRAME_HEIGHT, 1080);
 	camera.set(cv::CAP_PROP_FPS, 30);
 	camera.set(cv::CAP_PROP_FOURCC, cv::VideoWriter::fourcc('M', 'J', 'P', 'G'));
+	//camera.set(cv::CAP_PROP_AUTO_EXPOSURE, 0.75);
 	int hmin = 0, hmax = 179, smin = 0, smax = 255, vmin = 0, vmax = 255;
 
 	load_table_coordinates(this->coordinates_reordered);
@@ -650,8 +651,8 @@ void thread_vision::operator()(int index)
 			camera.read(this->image);
 			cv::rotate(this->image, this->image, cv::ROTATE_180);
 			cv::remap(this->image, this->image, transformation_x, transformation_y, cv::INTER_CUBIC);
-			/*imshow("calib_boxes", this->image);
-			cv::waitKey(1);*/
+			//imshow("calib_boxes", this->image);
+			//cv::waitKey(1);
 			m.lock();
 			for (int i = 0; i < data_box.index_and_checked_info_accepted_boxes.size(); i++) {
 
@@ -763,7 +764,7 @@ void thread_vision::operator()(int index)
 					for (int i = 0; i < data_box.connectors_list_size; i++) {
 						if (i != this->current_step) {
 							cv::Mat other_box = Other_box_filters(i);
-							if (!check_pattern_one_rect(other_box, boxes[i].tl(), 4000, 8000) && this->wrong_box_inc == 4) {
+							if (!check_pattern_one_rect(other_box, boxes[i].tl(), 4000, 8000) && this->wrong_box_inc == this->amount_of_loops_to_change_state) {
 								this->wrong = true;
 								m.lock();
 								data_box.wrong_box = true;
@@ -810,12 +811,8 @@ void thread_vision::operator()(int index)
 
 			m.lock();
 
-			if (this->green_button != 0) {
-				std::cout << this->green_button << std::endl;
-			}
-
 			//sending green button signal
-			if (data_box.green_button != this->green_button && this->green_inc == 4) {
+			if (data_box.green_button != this->green_button && this->green_inc == this->amount_of_loops_to_change_state) {
 				data_box.green_button = this->green_button;
 				this->green_inc = 0;
 			}
@@ -825,7 +822,7 @@ void thread_vision::operator()(int index)
 				this->green_inc = 0;
 
 			// sending boxes signal
-			if (data_box.detecting_box != this->box_detection && this->box_inc == 4) {
+			if (data_box.detecting_box != this->box_detection && this->box_inc == this->amount_of_loops_to_change_state) {
 				data_box.detecting_box = this->box_detection;
 				this->box_inc = 0;
 			}
@@ -851,7 +848,7 @@ void thread_vision::operator()(int index)
 			cv::waitKey(1);
 		}
 		else if(!this->calibration_boxes)
-			cv::destroyAllWindows();
+			//cv::destroyAllWindows();
 
 		//exit program variable
 		if (data_box.global_exit)
