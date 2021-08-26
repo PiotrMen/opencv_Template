@@ -1,0 +1,11 @@
+Kalibracja:
+
+Ta sekcja odpowiada za skalibrowanie systemu w przypadku wprowadzenia go na nowe stanowisko lub w celu 
+naprawienia bledow wynikajacych z blednego ustawienia stolu lub zlego dobrania wspolrzednych mapowania.
+Kalibracja przebiega w następujących krokach: 
+
+1. Dopasowanie czarnych tasm - W celu skalibrowania stolu, naklej tasmy na stole zgodnie z zielonymi prostokatami
+wyswietlonymi przez projektor. Jesli tasmy sie z nimi pokrywaja, przejdz do kolejengo kroku.
+
+2. Odczyt wspolrzednych przez kamere - W celu skalibrowania kamery, upewnij sie ze nic nie znajduje sie na stole,
+a nastepnie odczekaj czas podany na monitorze. Gdy zakonczy sie kalibracja, program powroci do menu.

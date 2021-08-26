@@ -1,4 +1,5 @@
 Zaladuj plik .csv:
-Jest to pierwszy krok jaki nalezy wykonac przed rozpoczeciem trasowania badz montazu zlaczek. Nazwe pliku
-nalezy podac bez rozszerzenia (np. Przykladowa_nazwa"). Nalezy pamietac, ze system nie obsluguje sekwencji
+
+Jest to pierwszy krok jaki nalezy wykonac przed rozpoczeciem montazu zlaczek. Nazwe pliku nalezy podac bez 
+rozszerzenia (np. "Przykladowa_nazwa"). Nalezy pamietac, ze system nie obsluguje sekwencji
 wykorzystujacych wiecej niz 10 unikalnych zlaczek, dlatego nie wczyta pliku ktory nie spelnia tego wymagania.

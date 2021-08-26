@@ -509,15 +509,6 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		bool if_wrong = true;
 		display_underline();
 
-		if (rising_edge_saved && unieversal_detecting_collision_with_buttons(this->backward_button_x, this->backward_button_y, this->backward_length_button_x, this->backward_length_button_y, this->backward_scale, this->menu_window)) {
-			this->if_clear = true;
-			this->if_display = true;
-		}
-		if (falling_edge_saved && !unieversal_detecting_collision_with_buttons(this->backward_button_x, this->backward_button_y, this->backward_length_button_x, this->backward_length_button_y, this->backward_scale, this->menu_window)) {
-			this->if_clear = true;
-			this->if_display = true;
-		}
-
 		//if (vector_displaying_articles.size() - 1 == connectors_list.size())
 		//	which_box_is_writing++;
 
@@ -686,7 +677,6 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 			if_clear = true;
 			if_display = true;
 		}
-
 	}
 	else 
 		data_box.calibration_box = false;
@@ -829,10 +819,9 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		this->display_text(this->menu_window_width / 2, 130, "Pomoc", 200);
 
 		// Displaying backward in section
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(this->backward_button_x, this->backward_button_y,this->backward_length_button_x, this->backward_length_button_y,this->backward_scale,this->menu_window))
-			this->display_texture(this->backward_button_x, this->backward_button_y, "clicked_backward.png", this->backward_scale, 0);
-		else
-			this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+		this->display_text(this->backward_button_x, this->backward_button_y + 75, "Pomoc", 30);
+
 		// Displaying help
 		this->display_text(this->menu_window_width/2, this->menu_window_height/2, load_txt_help("help_menu.txt"), 34);
 
@@ -848,10 +837,8 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		this->display_text(this->blue_button_x, this->blue_button_y + 75, "Pomoc", 30);
 
 		//displaying backward in section
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(this->backward_button_x, this->backward_button_y, this->backward_length_button_x, this->backward_length_button_y, this->backward_scale, this->menu_window))
-			this->display_texture(this->backward_button_x, this->backward_button_y, "clicked_backward.png", this->backward_scale, 0);
-		else
-			this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+		this->display_text(this->backward_button_x, this->backward_button_y + 75, "Pomoc", 30);
 
 		//Displaying searching square
 		if (this->enable_writing == true || this->searching_text.size() > 0)
@@ -890,10 +877,8 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		this->display_text(this->menu_window_width / 2, 130, "Pomoc", 200);
 
 		// Displaying backward in section
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(this->backward_button_x, this->backward_button_y, this->backward_length_button_x, this->backward_length_button_y, this->backward_scale, this->menu_window))
-			this->display_texture(this->backward_button_x, this->backward_button_y, "clicked_backward.png", this->backward_scale, 0);
-		else
-			this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+		this->display_text(this->backward_button_x, this->backward_button_y + 75, "Pomoc", 30);
 
 		// Displaying help
 		this->display_text(this->menu_window_width / 2, this->menu_window_height / 2, load_txt_help("help_wczytanie_csv.txt"), 34);
@@ -912,10 +897,8 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		this->display_text(this->blue_button_x, this->blue_button_y + 75, "Pomoc", 30);
 
 		//displaying backward in section
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(this->backward_button_x, this->backward_button_y, this->backward_length_button_x, this->backward_length_button_y, this->backward_scale, this->menu_window))
-			this->display_texture(this->backward_button_x, this->backward_button_y, "clicked_backward.png", this->backward_scale, 0);
-		else
-			this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+		this->display_text(this->backward_button_x, this->backward_button_y + 75, "Pomoc", 30);
 
 		//displaying rectangles
 		for (int i = 0; i < 10; i++){
@@ -969,10 +952,8 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		this->display_text(this->menu_window_width / 2, 130, "Pomoc", 200);
 
 		// Displaying backward in section
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(this->backward_button_x, this->backward_button_y, this->backward_length_button_x, this->backward_length_button_y, this->backward_scale, this->menu_window))
-			this->display_texture(this->backward_button_x, this->backward_button_y, "clicked_backward.png", this->backward_scale, 0);
-		else
-			this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+		this->display_text(this->backward_button_x, this->backward_button_y + 75, "Pomoc", 30);
 
 		// Displaying help
 		this->display_text(this->menu_window_width / 2, this->menu_window_height / 2, load_txt_help("help_montaz_zlaczek.txt"), 34);
@@ -1009,11 +990,7 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		}
 
 		// Displaying step back in sequence
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(this->backward_button_x, this->backward_button_y, this->backward_length_button_x, this->backward_length_button_y, this->backward_scale, this->menu_window))
-			this->display_texture(this->backward_button_x, this->backward_button_y, "clicked_backward.png", this->backward_scale, 0);
-		else
-			this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
-
+		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
 		this->display_text(this->backward_button_x, this->backward_button_y + 75, "Cofnij krok", 30);
 
 		// Displaying back to menu in sequence
@@ -1037,10 +1014,8 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		this->display_text(this->blue_button_x, this->blue_button_y + 75, "Pomoc", 30);
 
 		//displaying backward in section
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(this->backward_button_x, this->backward_button_y, this->backward_length_button_x, this->backward_length_button_y, this->backward_scale, this->menu_window))
-			this->display_texture(this->backward_button_x, this->backward_button_y, "clicked_backward.png", this->backward_scale, 0);
-		else
-			this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+		this->display_text(this->backward_button_x, this->backward_button_y + 75, "Pomoc", 30);
 
 		this->display_text(this->menu_window_width / 2, 430, "Kalibrowanie punktow charakterystycznych:", 100);
 		this->display_text(this->menu_window_width / 2, 530, "Sprawdz czy tasmy znajduja sie w podswietlonych miejscach", 60);
@@ -1069,13 +1044,11 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		this->display_text(this->menu_window_width / 2, 130, "Pomoc", 200);
 
 		// Displaying backward in section
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(this->backward_button_x, this->backward_button_y, this->backward_length_button_x, this->backward_length_button_y, this->backward_scale, this->menu_window))
-			this->display_texture(this->backward_button_x, this->backward_button_y, "clicked_backward.png", this->backward_scale, 0);
-		else
-			this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+		this->display_text(this->backward_button_x, this->backward_button_y + 75, "Pomoc", 30);
 
 		// Displaying help
-		this->display_text(this->menu_window_width / 2, this->menu_window_height / 2, load_txt_help("help_trasowanie.txt"), 34);
+		this->display_text(this->menu_window_width / 2, this->menu_window_height / 2, load_txt_help("help_kalibracja.txt"), 34);
 
 	}
 
