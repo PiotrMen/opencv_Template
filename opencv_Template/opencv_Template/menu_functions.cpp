@@ -788,7 +788,11 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		this->display_text(this->blue_button_x, this->blue_button_y + 75, "Pomoc", 30);
 
 		//Displaying start button
-		this->display_texture(200, this->Start_button_y, "red_circle.png", this->button_size, 0);
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(200, this->Start_button_y, this->Start_button_length_x, this->Start_button_length_y, this->menu_button_size, this->menu_window))
+			this->display_texture(200, this->Start_button_y, "red_circle_clicked.png", this->button_size, 0);
+		else
+			this->display_texture(200, this->Start_button_y, "red_circle.png", this->button_size, 0);
+
 		this->display_text(200, this->Start_button_y + 75, "Exit", 30);
 
 		//Texts
@@ -796,6 +800,7 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		this->display_text(this->installation_of_connectors_button_x, this->installation_of_connectors_button_y - 10, "Montaz zlaczek", 80);
 		this->display_text(this->Calibration_button_x, this->Calibration_button_y - 10, "Kalibracja systemu", 80);
 		this->display_text(this->menu_window_width / 2, 130, "Menu", 200);
+
 
 		// Current sequence name
 		this->display_text(225, 30, "Zaladowana sekwencja:", 34);
