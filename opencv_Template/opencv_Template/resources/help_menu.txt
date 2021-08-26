@@ -4,7 +4,8 @@ Menu:
 podac bez rozszerzenia (np. "Przykladowa_nazwa"). Ten krok nalezy wykonac przed aktywowaniem kroku 2 lub 3.
 
 2. Montaz zlaczek - Ta sekcja odpowiada za przyspieszenie montazu zlaczek na szynie DIN. Na pierwszej stronie
-nalezy przypisac (poprzez skan lub wpisanie reczne) pudelka odpowiadajacym im polom. Po przypisaniu, nastepuje
-uruchomienie sekwencji przeprowadzajacej przez montaz.
+nalezy przypisac (poprzez skan lub wpisanie reczne) pudelka odpowiadajacym im polom. Po przypisaniu i ulozeniu
+pudelek na stole w odpowiadajacych im miejscach, nastepuje uruchomienie sekwencji przeprowadzajacej przez montaz.
 
-3. Trasowanie - 
+3. Kalibracja systemu - Ta sekcja odpowiada za skalibrowanie systemu na nowym stanowisku, lub naprawieniu bledow
+wynikajacych z blednej kalibracji kamery i projektora. 
