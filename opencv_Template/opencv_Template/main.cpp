@@ -29,7 +29,6 @@ int main()
 	sfml_objects objects;
 	menu_sfml_objects menu_objects;
 
-
 	//coordinates of buttons
 	menu_objects.init_buttons_coords();
 	//size of buttons

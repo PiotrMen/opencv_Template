@@ -809,7 +809,6 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 
 	}
 
-	std::cout << current_menu_window << std::endl;
 	this->previous_current_menu_window = this->current_menu_window;
 }
 
@@ -1100,7 +1099,9 @@ void menu_sfml_objects::render(int current_step, int current_window)
 	//Live charts section
 	if (this->current_menu_window == 203 && if_clear) {
 
-		//display go to Live Charts
+		Live_chart_display_texture(71,796, "menu/axis.png", 1, this->menu_window);
+
+		//display back to 202
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window)) {
 			this->display_texture(960, 950, "grey_pushed.png", this->menu_button_size, 0);
 			this->display_text(960, 935, "Wyswietl wykresy", 100);

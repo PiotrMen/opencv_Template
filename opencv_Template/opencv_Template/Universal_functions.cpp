@@ -39,3 +39,57 @@ bool detecting_sequation_ending() {
 	else
 		return false;
 }
+
+void Universal_display_texture(int pos_x, int pos_y, std::string file_path, float scale, float rotation, sf::RenderWindow *window)
+{
+	sf::Texture texture_;
+	if (!texture_.loadFromFile("resources/" + file_path))
+	{
+		std::cerr << "Could not load texture" << std::endl;
+		exit(1);
+	}
+	sf::Sprite texture;
+	texture.setTexture(texture_);
+	texture.setOrigin(sf::Vector2f(texture.getTexture()->getSize().x * 0.5, texture.getTexture()->getSize().y * 0.5));         //set origins of images to center
+	texture.setPosition(pos_x, pos_y);
+	texture.setScale(scale, scale);
+	texture.setRotation(rotation);
+
+	window->draw(texture);
+}
+void Universal_display_texture(int pos_x, int pos_y, std::string file_path, float scale, sf::RenderWindow *window)
+{
+	//This function displays objects that are not guaranteed to exist
+	sf::Texture texture_;
+	if (!texture_.loadFromFile("resources/" + file_path))
+	{
+	}
+	else
+	{
+		sf::Sprite texture;
+		texture.setTexture(texture_);
+		texture.setOrigin(sf::Vector2f(texture.getTexture()->getSize().x * 0.5, texture.getTexture()->getSize().y * 0.5));         //set origins of images to center
+		texture.setPosition(pos_x, pos_y);
+		texture.setScale(scale, scale);
+
+		window->draw(texture);
+	}
+}
+void Live_chart_display_texture(int pos_x, int pos_y, std::string file_path, float scale, sf::RenderWindow *window)
+{
+	//This function displays objects that are not guaranteed to exist
+	sf::Texture texture_;
+	if (!texture_.loadFromFile("resources/" + file_path))
+	{
+	}
+	else
+	{
+		sf::Sprite texture;
+		texture.setTexture(texture_);
+		texture.setOrigin(sf::Vector2f(texture.getPosition().x+71, texture.getTexture()->getSize().y-71));         //set origins of images to center
+		texture.setPosition(pos_x, pos_y);
+		texture.setScale(scale, scale);
+
+		window->draw(texture);
+	}
+}
