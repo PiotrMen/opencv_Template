@@ -666,23 +666,30 @@ void thread_vision::operator()(int index)
 				cv::Mat tape_checking_img= Other_box_filters(data_box.index_and_checked_info_accepted_boxes[i].first);
 
 				//checking if tape visible
-				if (check_pattern_one_rect(tape_checking_img, TL_of_window, 4000, 8000) && check_if_boxes_on_position(this->image, i, hmin, hmax, smin, smax, vmin, vmax) && data_box.index_and_checked_info_accepted_boxes[i].second != 2) {
+				if (check_pattern_one_rect(tape_checking_img, TL_of_window, 4000, 8000) && check_if_boxes_on_position(this->image, i, hmin, hmax, smin, smax, vmin, vmax) && data_box.index_and_checked_info_accepted_boxes[i].second != 2) 
+				{
 					std::pair<int, int> temp(data_box.index_and_checked_info_accepted_boxes[i].first, 1);
+					data_box.index_and_checked_info_accepted_boxes[i] = temp;
+					this->setting_boxes_inc[i] = 0;
+					//detecting changing state
+					if (data_box.index_and_checked_info_accepted_boxes[i].second != this->previous_info_accepted_boxes[i].second)
+						data_box.checking_boxes_state = true;
+				}
+				else if ((!check_pattern_one_rect(tape_checking_img, TL_of_window, 4000, 8000) || !check_if_boxes_on_position(this->image, i, hmin, hmax, smin, smax, vmin, vmax)) && data_box.index_and_checked_info_accepted_boxes[i].second != 2 && this->setting_boxes_inc[i] == 4)
+				{
+					//checking if non visible
+					std::pair<int, int> temp(data_box.index_and_checked_info_accepted_boxes[i].first, 0);
 					data_box.index_and_checked_info_accepted_boxes[i] = temp;
 
 					//detecting changing state
 					if (data_box.index_and_checked_info_accepted_boxes[i].second != this->previous_info_accepted_boxes[i].second)
 						data_box.checking_boxes_state = true;
 				}
-				else if((!check_pattern_one_rect(tape_checking_img, TL_of_window, 4000, 8000) || !check_if_boxes_on_position(this->image, i, hmin, hmax, smin, smax, vmin, vmax)) && data_box.index_and_checked_info_accepted_boxes[i].second != 2) {
-					//checking if non visible
-					std::pair<int, int> temp(data_box.index_and_checked_info_accepted_boxes[i].first, 0);
-					data_box.index_and_checked_info_accepted_boxes[i]= temp;
-
-					//detecting changing state
-					if (data_box.index_and_checked_info_accepted_boxes[i].second != this->previous_info_accepted_boxes[i].second)
-						data_box.checking_boxes_state = true;
+				else if ((!check_pattern_one_rect(tape_checking_img, TL_of_window, 4000, 8000) || !check_if_boxes_on_position(this->image, i, hmin, hmax, smin, smax, vmin, vmax)) && data_box.index_and_checked_info_accepted_boxes[i].second != 2)
+				{
+					this->setting_boxes_inc[i]++;
 				}
+
 				//imshow("calib_boxes", tape_checking_img);
 				//cv::waitKey(1);
 			}
