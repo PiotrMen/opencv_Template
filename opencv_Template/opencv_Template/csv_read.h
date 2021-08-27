@@ -8,7 +8,7 @@
 #include <regex>
 #include <fstream>
 #include <iomanip>
-#include <regex>
+
 
 
 struct sData
@@ -60,8 +60,8 @@ struct sGlobal_data
 	bool clicked_box;
 
 	bool step_back = false;					// true if user wants to go back to previous step in sequence
-};
 
+};
 
 
 void load_csv_database(std::vector <sData> &database);

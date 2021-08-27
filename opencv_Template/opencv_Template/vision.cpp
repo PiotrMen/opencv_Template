@@ -618,7 +618,7 @@ void thread_vision::operator()(int index)
 
 	while (true)
 	{
-		sf::Clock clock2; // starts the clock
+		//sf::Clock clock2; // starts the clock
 
 		if (data_box.camera_calibration) {
 			this->calibration_flag = data_box.camera_calibration;
@@ -855,15 +855,15 @@ void thread_vision::operator()(int index)
 			cv::waitKey(1);
 		}
 		else if(!this->calibration_boxes)
-			cv::destroyAllWindows();
+			//cv::destroyAllWindows();
 
 		//exit program variable
-		if (data_box.global_exit) 
+		if (data_box.global_exit)
 			break;
 
-		sf::Time elapsed1 = clock2.getElapsedTime();
+		//sf::Time elapsed1 = clock2.getElapsedTime();
 		//std::cout << elapsed1.asMilliseconds() << std::endl;
-		clock2.restart();
+		//clock2.restart();
 	}
 
 }
