@@ -118,6 +118,8 @@ public:
 
 private:
 
+	bool detecting_rising_edge(bool signal);
+	bool detecting_falling_edge(bool signal);
 	//vector assigment
 	void assign_sequence();
 
@@ -141,12 +143,21 @@ private:
 	//if display start sequention button
 	bool display_start_sequention;
 
+	//Edges
 	bool rising_edge = false;
 	bool rising_edge_detected = false;
 	bool falling_edge = false;
 	bool rising_edge_saved;
 	bool falling_edge_detected = false;
 	bool falling_edge_saved;
+
+	//Edges_on_signal_trigger
+	bool rising_edge_signal = false;
+	bool rising_edge_detected_signal = false;
+	bool falling_edge_signal = false;
+	bool rising_edge_saved_signal;
+	bool falling_edge_detected_signal = false;
+	bool falling_edge_saved_signal;
 	
 	bool help_window_opened;
 
@@ -186,6 +197,8 @@ private:
 
 	//global timer variable
 	bool timer_flag;
+
+	int previous_current_menu_window;
 };
 
 #endif

@@ -43,7 +43,7 @@ int main()
 	int current_window = 0;
 
 
-	std::thread th(thread_vision(), 1);
+	std::thread th(thread_vision(), 0);
 	
 	//sf::Clock zegar;
 	//sf::Time czas;
@@ -51,7 +51,7 @@ int main()
 	while (objects.getWindowIsOpen() && menu_objects.getWindowIsOpen())
 	{
 		//zegar.restart();
-		
+
 		//Menu update
 		menu_objects.update(data_box.current_step, current_window);
 
