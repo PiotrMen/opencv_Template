@@ -820,7 +820,7 @@ void menu_sfml_objects::render(int current_step, int current_window)
 
 		// Displaying backward in section
 		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
-		this->display_text(this->backward_button_x, this->backward_button_y + 75, "Pomoc", 30);
+		this->display_text(this->backward_button_x, this->backward_button_y + 75, "Powrot", 30);
 
 		// Displaying help
 		this->display_text(this->menu_window_width/2, this->menu_window_height/2, load_txt_help("help_menu.txt"), 34);
@@ -838,7 +838,7 @@ void menu_sfml_objects::render(int current_step, int current_window)
 
 		//displaying backward in section
 		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
-		this->display_text(this->backward_button_x, this->backward_button_y + 75, "Pomoc", 30);
+		this->display_text(this->backward_button_x, this->backward_button_y + 75, "Powrot", 30);
 
 		//Displaying searching square
 		if (this->enable_writing == true || this->searching_text.size() > 0)
@@ -878,7 +878,7 @@ void menu_sfml_objects::render(int current_step, int current_window)
 
 		// Displaying backward in section
 		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
-		this->display_text(this->backward_button_x, this->backward_button_y + 75, "Pomoc", 30);
+		this->display_text(this->backward_button_x, this->backward_button_y + 75, "Powrot", 30);
 
 		// Displaying help
 		this->display_text(this->menu_window_width / 2, this->menu_window_height / 2, load_txt_help("help_wczytanie_csv.txt"), 34);
@@ -898,7 +898,7 @@ void menu_sfml_objects::render(int current_step, int current_window)
 
 		//displaying backward in section
 		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
-		this->display_text(this->backward_button_x, this->backward_button_y + 75, "Pomoc", 30);
+		this->display_text(this->backward_button_x, this->backward_button_y + 75, "Powrot", 30);
 
 		//displaying rectangles
 		for (int i = 0; i < 10; i++){
@@ -953,7 +953,7 @@ void menu_sfml_objects::render(int current_step, int current_window)
 
 		// Displaying backward in section
 		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
-		this->display_text(this->backward_button_x, this->backward_button_y + 75, "Pomoc", 30);
+		this->display_text(this->backward_button_x, this->backward_button_y + 75, "Powrot", 30);
 
 		// Displaying help
 		this->display_text(this->menu_window_width / 2, this->menu_window_height / 2, load_txt_help("help_montaz_zlaczek.txt"), 34);
@@ -1015,7 +1015,7 @@ void menu_sfml_objects::render(int current_step, int current_window)
 
 		//displaying backward in section
 		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
-		this->display_text(this->backward_button_x, this->backward_button_y + 75, "Pomoc", 30);
+		this->display_text(this->backward_button_x, this->backward_button_y + 75, "Powrot", 30);
 
 		this->display_text(this->menu_window_width / 2, 430, "Kalibrowanie punktow charakterystycznych:", 100);
 		this->display_text(this->menu_window_width / 2, 530, "Sprawdz czy tasmy znajduja sie w podswietlonych miejscach", 60);
@@ -1045,7 +1045,7 @@ void menu_sfml_objects::render(int current_step, int current_window)
 
 		// Displaying backward in section
 		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
-		this->display_text(this->backward_button_x, this->backward_button_y + 75, "Pomoc", 30);
+		this->display_text(this->backward_button_x, this->backward_button_y + 75, "Powrot", 30);
 
 		// Displaying help
 		this->display_text(this->menu_window_width / 2, this->menu_window_height / 2, load_txt_help("help_kalibracja.txt"), 34);

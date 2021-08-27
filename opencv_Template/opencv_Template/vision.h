@@ -82,6 +82,7 @@ private:
 	int green_inc;
 	int box_inc;
 	int wrong_box_inc;
+	int setting_boxes_inc[10] = { 0,0,0,0,0,0,0,0,0,0 };
 	int previous_wrong_box_inc;
 	bool any_wrong_boxes_detected;
 
