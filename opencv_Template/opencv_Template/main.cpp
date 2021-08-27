@@ -8,6 +8,7 @@
 #include "csv_read.h"
 #include "Universal_functions.h"
 #include "vision.h"
+#include "live_chart.h"
 
 
 std::mutex m;
