@@ -28,7 +28,6 @@ int main()
 	sfml_objects objects;
 	menu_sfml_objects menu_objects;
 
-
 	//coordinates of buttons
 	menu_objects.init_buttons_coords();
 	//size of buttons
@@ -42,7 +41,7 @@ int main()
 	int current_window = 0;
 
 
-	std::thread th(thread_vision(), 0);
+	std::thread th(thread_vision(), 1);
 	
 	//sf::Clock zegar;
 	//sf::Time czas;
