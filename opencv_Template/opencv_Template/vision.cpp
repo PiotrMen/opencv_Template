@@ -855,7 +855,7 @@ void thread_vision::operator()(int index)
 			cv::waitKey(1);
 		}
 		else if(!this->calibration_boxes)
-			//cv::destroyAllWindows();
+			cv::destroyAllWindows();
 
 		//exit program variable
 		if (data_box.global_exit)

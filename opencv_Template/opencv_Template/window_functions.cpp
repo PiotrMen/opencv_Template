@@ -267,7 +267,7 @@ void sfml_objects::update(int &current_step, std::vector <sData> &database)
 
 	if (data_box.step_back == true)
 	{
-		if (this->step_of_sequence == 2)
+		if (this->step_of_sequence == 2 && sequence.size() > 1)
 		{
 			this->step_of_sequence = 1;
 
@@ -275,6 +275,11 @@ void sfml_objects::update(int &current_step, std::vector <sData> &database)
 				list.pop_back();
 			if(current_step > 0)
 				list.insert(list.begin(), 1, std::to_string(current_step) + "." + std::to_string(1) + " Pobranie " + sequence[current_step - 1].name);
+		}
+		else if (this->step_of_sequence == 2 && sequence.size() == 1)
+		{
+			list.insert(list.begin(), 1, std::to_string(1) + "." + std::to_string(1) + " Pobranie " + sequence[0].name);
+			this->step_of_sequence = 1;
 		}
 		else if (this->step_of_sequence == 1 && current_step > 0)
 		{
