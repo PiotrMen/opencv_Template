@@ -4,6 +4,11 @@ cLive_chart::cLive_chart(int pos_x, int pos_y, int size) {
 	this->pos_x = pos_x;
 	this->pos_y = pos_y;
 	this->size = size;
+	this->coefficient = 0.893;
+	this->first_bar = (170 + 83) / 769.0;
+	this->second_bar =(320 + 83) / 769.0;
+	this->third_bar = (470 + 83) / 769.0;
+	this->fourth_bar = (620 + 83)/ 769.0;
 }
 
  bool cLive_chart::detecting_rising_edge(bool signal) {
@@ -224,7 +229,7 @@ void cLive_chart::Live_chart_axis_display(std::string file_path, sf::RenderWindo
 {
 	//This function displays objects that are not guaranteed to exist
 	sf::Texture texture_;
-	if (!texture_.loadFromFile("resources/" + file_path))
+	if (!texture_.loadFromFile("resources/menu/" + file_path))
 	{
 	}
 	else
@@ -232,10 +237,28 @@ void cLive_chart::Live_chart_axis_display(std::string file_path, sf::RenderWindo
 		sf::Sprite texture;
 		texture.setTexture(texture_);
 		this->scale = this->size / texture.getGlobalBounds().width;
-		int wynik = texture.getGlobalBounds().width;
-		texture.setOrigin(sf::Vector2f(71*this->scale, texture.getTexture()->getSize().y - (71*this->scale)));         //set origins of images to center
 		texture.setPosition(this->pos_x, this->pos_y);
 		texture.setScale(scale, scale);
+		this->image_size = texture.getGlobalBounds().width;
+
+		window->draw(texture);
+	}
+}
+
+void cLive_chart::Live_chart_bars_display(int pos_x, int pos_y, std::string file_path, sf::RenderWindow *window)
+{
+	//This function displays objects that are not guaranteed to exist
+	sf::Texture texture_;
+	if (!texture_.loadFromFile("resources/menu/" + file_path))
+	{
+	}
+	else
+	{
+		sf::Sprite texture;
+		texture.setTexture(texture_);
+		texture.setOrigin(sf::Vector2f(2*texture.getTexture()->getSize().x, texture.getTexture()->getSize().y));         //set origins of images to center
+		texture.setPosition(pos_x, pos_y+1);
+		texture.setScale(this->scale*0.5, this->scale);
 
 		window->draw(texture);
 	}
@@ -284,7 +307,11 @@ void cLive_chart::render(bool &if_clear, bool &if_display, sf::RenderWindow *men
 		if (if_clear)
 			menu_window->clear(sf::Color(255, 255, 255, 255));
 
-		Live_chart_axis_display("menu/axis.png", menu_window);
+		this->Live_chart_axis_display("axis.png", menu_window);
+		this->Live_chart_bars_display(this->image_size*this->first_bar+this->pos_x, this->image_size*this->coefficient+this->pos_y, "Blue_column.png", menu_window);
+		this->Live_chart_bars_display(this->image_size*this->second_bar + this->pos_x, this->image_size*this->coefficient + this->pos_y, "green_column.png", menu_window);
+		this->Live_chart_bars_display(this->image_size*this->third_bar + this->pos_x, this->image_size*this->coefficient + this->pos_y, "yellow_column.png", menu_window);
+		this->Live_chart_bars_display(this->image_size*this->fourth_bar + this->pos_x, this->image_size*this->coefficient + this->pos_y, "pink_column.png", menu_window);
 
 		//display back to 202
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, menu_window)) {

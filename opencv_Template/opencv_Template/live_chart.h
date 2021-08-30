@@ -19,12 +19,19 @@ private:
 	bool detecting_rising_edge_left_mouse_button();
 	bool detecting_falling_edge_left_mouse_button();
 	void Live_chart_axis_display(std::string file_path,sf::RenderWindow *window);
+	void Live_chart_bars_display(int pos_x, int pos_y, std::string file_path, sf::RenderWindow *window);
 
 	//Position in pixels and size of Live Chart
 	int pos_x;
 	int pos_y;
 	int size;
 	float scale;
+	int image_size;
+	float coefficient;
+	float first_bar;
+	float second_bar;
+	float third_bar;
+	float fourth_bar;
 
 	// Times represented on chart
 	float max_sequence_time;
