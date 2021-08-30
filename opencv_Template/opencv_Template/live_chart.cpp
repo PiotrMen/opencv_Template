@@ -257,7 +257,7 @@ void cLive_chart::Live_chart_bars_display(int pos_x, int pos_y, std::string file
 		sf::Sprite texture;
 		texture.setTexture(texture_);
 		texture.setOrigin(sf::Vector2f(2*texture.getTexture()->getSize().x, texture.getTexture()->getSize().y));         //set origins of images to center
-		texture.setPosition(pos_x, pos_y+1);
+		texture.setPosition(pos_x, pos_y+2);
 
 		texture.setScale(this->scale*0.5, this->scale * time_scale);
 
