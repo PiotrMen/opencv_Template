@@ -245,7 +245,7 @@ void cLive_chart::Live_chart_axis_display(std::string file_path, sf::RenderWindo
 	}
 }
 
-void cLive_chart::Live_chart_bars_display(int pos_x, int pos_y, std::string file_path, sf::RenderWindow *window)
+void cLive_chart::Live_chart_bars_display(int pos_x, int pos_y, std::string file_path, float time_scale,sf::RenderWindow *window)
 {
 	//This function displays objects that are not guaranteed to exist
 	sf::Texture texture_;
@@ -258,7 +258,8 @@ void cLive_chart::Live_chart_bars_display(int pos_x, int pos_y, std::string file
 		texture.setTexture(texture_);
 		texture.setOrigin(sf::Vector2f(2*texture.getTexture()->getSize().x, texture.getTexture()->getSize().y));         //set origins of images to center
 		texture.setPosition(pos_x, pos_y+1);
-		texture.setScale(this->scale*0.5, this->scale);
+
+		texture.setScale(this->scale*0.5, this->scale * time_scale);
 
 		window->draw(texture);
 	}
@@ -270,6 +271,8 @@ void cLive_chart::update(int &current_menu_window, bool &if_clear, bool &if_disp
 	this->rising_edge_saved = detecting_rising_edge_left_mouse_button();
 	this->falling_edge_saved = detecting_falling_edge_left_mouse_button();
 	this->current_menu_window = current_menu_window;
+
+	this->calculating_bars();
 
 
 	if (data_box.is_sequence_activated == false)
@@ -308,10 +311,10 @@ void cLive_chart::render(bool &if_clear, bool &if_display, sf::RenderWindow *men
 			menu_window->clear(sf::Color(255, 255, 255, 255));
 
 		this->Live_chart_axis_display("axis.png", menu_window);
-		this->Live_chart_bars_display(this->image_size*this->first_bar+this->pos_x, this->image_size*this->coefficient+this->pos_y, "Blue_column.png", menu_window);
-		this->Live_chart_bars_display(this->image_size*this->second_bar + this->pos_x, this->image_size*this->coefficient + this->pos_y, "green_column.png", menu_window);
-		this->Live_chart_bars_display(this->image_size*this->third_bar + this->pos_x, this->image_size*this->coefficient + this->pos_y, "yellow_column.png", menu_window);
-		this->Live_chart_bars_display(this->image_size*this->fourth_bar + this->pos_x, this->image_size*this->coefficient + this->pos_y, "pink_column.png", menu_window);
+		this->Live_chart_bars_display(this->image_size*this->first_bar+this->pos_x, this->image_size*this->coefficient+this->pos_y, "pink_column.png",this->scale_max, menu_window);
+		this->Live_chart_bars_display(this->image_size*this->second_bar + this->pos_x, this->image_size*this->coefficient + this->pos_y, "Blue_column.png", this->scale_min, menu_window);
+		this->Live_chart_bars_display(this->image_size*this->third_bar + this->pos_x, this->image_size*this->coefficient + this->pos_y, "yellow_column.png", this->scale_mean, menu_window);
+		this->Live_chart_bars_display(this->image_size*this->fourth_bar + this->pos_x, this->image_size*this->coefficient + this->pos_y, "green_column.png", this->scale_present, menu_window);
 
 		//display back to 202
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, menu_window)) {
@@ -339,85 +342,65 @@ void cLive_chart::calculating_bars()
 {
 	// Zmienne do przypisania pozniej
 
-	int max_height = 800;
-	int x = 200; // Wysokosc obrazka przed przeskalowaniem
-	float scale_max = 0, scale_min = 0, scale_mean = 0, scale_present = 0;
+	float max_height = (this->size*this->coefficient)-100;
+	float x = 200; // Wysokosc obrazka przed przeskalowaniem
 	
 	// if max_sequence_time is longest
 	if (this->max_sequence_time >= this->min_sequence_time && this->max_sequence_time >= this->time_mean_value && this->max_sequence_time >= this->present_time)
 	{
-		this->max_time_bar.setScale(1, max_height / x);	
-	}
-	else
-	{
+		this->scale_max = max_height / x;
+
 		// Calculating min time bar height
-		scale_min = this->min_sequence_time / this->max_sequence_time;
-		this->min_time_bar.setScale(1, max_height * scale_min / x);
+		this->scale_min = (this->min_sequence_time / this->max_sequence_time) * max_height / x;
 
 		// Calculating average time bar height
-		scale_mean = this->time_mean_value / this->max_sequence_time;
-		this->average_time_bar.setScale(1, max_height * scale_mean / x);
+		this->scale_mean = (this->time_mean_value / this->max_sequence_time) * max_height / x;
 
 		// Calculating present time bar height
-		scale_present = this->present_time / this->max_sequence_time;
-		this->present_time_bar.setScale(1, max_height * scale_present / x);
+		this->scale_present = (this->present_time / this->max_sequence_time) * max_height / x;
+
 	}
 	// if min_sequence_time is longest
-	if (this->min_sequence_time >= this->max_sequence_time && this->min_sequence_time >= this->time_mean_value && this->min_sequence_time >= this->present_time)
+	else if (this->min_sequence_time >= this->max_sequence_time && this->min_sequence_time >= this->time_mean_value && this->min_sequence_time >= this->present_time)
 	{
-		this->min_time_bar.setScale(1, max_height / x);
-	}
-	else
-	{
+		this->scale_min = max_height / x;
+
 		// Calculating max time bar height
-		scale_max = this->max_sequence_time / this->min_sequence_time;
-		this->max_time_bar.setScale(1, max_height * scale_max / x);
+		this->scale_max = this->max_sequence_time / this->min_sequence_time * max_height / x;
 
 		// Calculating average time bar height
-		scale_mean = this->time_mean_value / this->min_sequence_time;
-		this->average_time_bar.setScale(1, max_height * scale_mean / x);
+		this->scale_mean = this->time_mean_value / this->min_sequence_time * max_height / x;
 
 		// Calculating present time bar height
-		scale_present = this->present_time / this->min_sequence_time;
-		this->present_time_bar.setScale(1, max_height * scale_present / x);
+		this->scale_present = this->present_time / this->min_sequence_time * max_height / x;
 	}
 	// if mean value is longest
-	if (this->time_mean_value >= this->min_sequence_time && this->time_mean_value >= this->max_sequence_time && this->time_mean_value >= this->present_time)
+	else if (this->time_mean_value >= this->min_sequence_time && this->time_mean_value >= this->max_sequence_time && this->time_mean_value >= this->present_time)
 	{
-		this->average_time_bar.setScale(1, max_height / x);
-	}
-	else
-	{
+		this->scale_mean = max_height / x;
+
 		// Calculating max time bar height
-		scale_max = this->max_sequence_time / this->time_mean_value;
-		this->max_time_bar.setScale(1, max_height * scale_max / x);
+		this->scale_max = this->max_sequence_time / this->time_mean_value * max_height / x;
 
 		// Calculating average time bar height
-		scale_min = this->min_sequence_time / this->time_mean_value;
-		this->min_time_bar.setScale(1, max_height * scale_min / x);
+		this->scale_min = this->min_sequence_time / this->time_mean_value * max_height / x;
 
 		// Calculating present time bar height
-		scale_present = this->present_time / this->time_mean_value;
-		this->present_time_bar.setScale(1, max_height * scale_present / x);
+		this->scale_present = this->present_time / this->time_mean_value * max_height / x;
 	}
 	// if present time is longest
-	if (this->present_time >= this->min_sequence_time && this->present_time >= this->max_sequence_time && this->present_time >= this->time_mean_value)
+	else if (this->present_time >= this->min_sequence_time && this->present_time >= this->max_sequence_time && this->present_time >= this->time_mean_value)
 	{
-		this->present_time_bar.setScale(1, max_height / x);
-	}
-	else
-	{
+		this->scale_present = max_height / x;
+
 		// Calculating max time bar height
-		scale_max = this->max_sequence_time / this->present_time;
-		this->max_time_bar.setScale(1, max_height * scale_max / x);
+		this->scale_max = this->max_sequence_time / this->present_time * max_height / x;
 
 		// Calculating average time bar height
-		scale_min = this->min_sequence_time / this->present_time;
-		this->min_time_bar.setScale(1, max_height * scale_min / x);
+		this->scale_min = this->min_sequence_time / this->present_time * max_height / x;
 
 		// Calculating present time bar height
-		scale_mean = this->time_mean_value / this->present_time;
-		this->average_time_bar.setScale(1, max_height * scale_mean / x);
+		this->scale_mean = this->time_mean_value / this->present_time * max_height / x;
 	}
 
 }

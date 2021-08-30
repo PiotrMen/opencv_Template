@@ -39,6 +39,7 @@ int main()
 	// Loading database
 	std::vector <sData> database;
 	load_csv_database(database);
+	live_chart.load_statistics();
 
 	int current_window = 0;
 
