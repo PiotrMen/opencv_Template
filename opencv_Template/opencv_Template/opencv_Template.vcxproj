@@ -160,6 +160,7 @@
   <ItemGroup>
     <ClCompile Include="adding_article.cpp" />
     <ClCompile Include="csv_read.cpp" />
+    <ClCompile Include="live_chart.cpp" />
     <ClCompile Include="menu_functions.cpp" />
     <ClCompile Include="Universal_functions.cpp" />
     <ClCompile Include="vision.cpp" />
@@ -168,6 +169,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="csv_read.h" />
+    <ClInclude Include="live_chart.h" />
     <ClInclude Include="menu_functions.h" />
     <ClInclude Include="Universal_functions.h" />
     <ClInclude Include="vision.h" />
