@@ -34,10 +34,6 @@ public:
 	int load_csv_button_x;
 	int load_csv_button_y;
 
-	//length of sides in pixels
-	int Upload_file_length_button_x;
-	int Upload_file_length_button_y;
-
 	//add articles button
 
 	//coordinates 
@@ -54,7 +50,6 @@ public:
 	bool start_sequention;
 
 	float button_size; //scaled button size (percentage)
-	float menu_button_size;
 
 	sf::RenderWindow *menu_window;
 	sf::Event event;
@@ -116,6 +111,10 @@ public:
 	std::vector<sf::RectangleShape> vector_rectangles;
 	int which_box_is_writing = 0;
 
+	//one time display if match boxes section
+	bool if_clear = true;
+	bool if_display = true;
+
 private:
 
 	bool detecting_rising_edge(bool signal);
@@ -155,9 +154,7 @@ private:
 	bool rising_edge_signal = false;
 	bool rising_edge_detected_signal = false;
 	bool falling_edge_signal = false;
-	bool rising_edge_saved_signal;
 	bool falling_edge_detected_signal = false;
-	bool falling_edge_saved_signal;
 	
 	bool help_window_opened;
 
@@ -171,10 +168,6 @@ private:
 	std::string sequence_name;
 
 	std::vector <sData> connectors_list;
-
-	//one time display if match boxes section
-	bool if_clear=true;
-	bool if_display = true;
 
 	bool change_number = false;
 

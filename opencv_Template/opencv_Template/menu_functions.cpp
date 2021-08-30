@@ -57,8 +57,8 @@ void menu_sfml_objects::init_buttons_coords(){
 	this->backward_button_y = this->menu_window_height - 150;
 
 	//length of sides for Select article button
-	this->Upload_file_length_button_x = 707;
-	this->Upload_file_length_button_y = 120;
+	data_box.Upload_file_length_button_x = 707;
+	data_box.Upload_file_length_button_y = 120;
 
 	//coordinates for Upload file button
 	this->load_csv_button_x = this->menu_window_width / 2;
@@ -76,7 +76,7 @@ void menu_sfml_objects::init_buttons_coords(){
 void menu_sfml_objects::init_button_size(float percentege_size, float menu_button_percentege_size)
 {
 	this->button_size = percentege_size / 100;
-	this->menu_button_size = menu_button_percentege_size / 100;
+	data_box.menu_button_size = menu_button_percentege_size / 100;
 	this->backward_scale = 0.25;
 }
 
@@ -155,7 +155,7 @@ bool menu_sfml_objects::detecting_blue_button()
 
 bool menu_sfml_objects::detecting_Upload_file_button()
 {
-	if (((sf::Mouse::getPosition(*this->menu_window).x >= this->load_csv_button_x - ((this->Upload_file_length_button_x * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).x <= this->load_csv_button_x + ((this->Upload_file_length_button_x * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y >= this->load_csv_button_y - ((this->Upload_file_length_button_y * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y <= this->load_csv_button_y + ((this->Upload_file_length_button_y * this->menu_button_size) / 2))))
+	if (((sf::Mouse::getPosition(*this->menu_window).x >= this->load_csv_button_x - ((data_box.Upload_file_length_button_x * data_box.menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).x <= this->load_csv_button_x + ((data_box.Upload_file_length_button_x * data_box.menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y >= this->load_csv_button_y - ((data_box.Upload_file_length_button_y * data_box.menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y <= this->load_csv_button_y + ((data_box.Upload_file_length_button_y * data_box.menu_button_size) / 2))))
 	{
 		return true;
 	}
@@ -164,7 +164,7 @@ bool menu_sfml_objects::detecting_Upload_file_button()
 
 bool menu_sfml_objects::detecting_Match_boxes_button()
 {
-	if (((sf::Mouse::getPosition(*this->menu_window).x >= this->installation_of_connectors_button_x - ((this->Upload_file_length_button_x * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).x <= this->installation_of_connectors_button_x + ((this->Upload_file_length_button_x * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y >= this->installation_of_connectors_button_y - ((this->Upload_file_length_button_y * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y <= this->installation_of_connectors_button_y + ((this->Upload_file_length_button_y * this->menu_button_size) / 2))))
+	if (((sf::Mouse::getPosition(*this->menu_window).x >= this->installation_of_connectors_button_x - ((data_box.Upload_file_length_button_x * data_box.menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).x <= this->installation_of_connectors_button_x + ((data_box.Upload_file_length_button_x * data_box.menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y >= this->installation_of_connectors_button_y - ((data_box.Upload_file_length_button_y * data_box.menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y <= this->installation_of_connectors_button_y + ((data_box.Upload_file_length_button_y * data_box.menu_button_size) / 2))))
 	{
 		return true;
 	}
@@ -173,7 +173,7 @@ bool menu_sfml_objects::detecting_Match_boxes_button()
 
 bool menu_sfml_objects::detecting_calibration_button()
 {
-	if (((sf::Mouse::getPosition(*this->menu_window).x >= this->Calibration_button_x - ((this->Upload_file_length_button_x * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).x <= this->Calibration_button_x + ((this->Upload_file_length_button_x * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y >= this->Calibration_button_y - ((this->Upload_file_length_button_y * this->menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y <= this->Calibration_button_y + ((this->Upload_file_length_button_y * this->menu_button_size) / 2))))
+	if (((sf::Mouse::getPosition(*this->menu_window).x >= this->Calibration_button_x - ((data_box.Upload_file_length_button_x * data_box.menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).x <= this->Calibration_button_x + ((data_box.Upload_file_length_button_x * data_box.menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y >= this->Calibration_button_y - ((data_box.Upload_file_length_button_y * data_box.menu_button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y <= this->Calibration_button_y + ((data_box.Upload_file_length_button_y * data_box.menu_button_size) / 2))))
 	{
 		return true;
 	}
@@ -276,7 +276,7 @@ void menu_sfml_objects::assign_sequence()
 //displaying underline
 void menu_sfml_objects::display_underline()
 {
-	bool is_detected = unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window);
+	bool is_detected = unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window);
 
 	if (is_detected != underline_detected_previous)
 	{
@@ -408,7 +408,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		sequence_name.clear();
 	
 
-	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->load_csv_button_x, this->load_csv_button_y, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window) && this->current_menu_window == 0) {
+	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->load_csv_button_x, this->load_csv_button_y, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window) && this->current_menu_window == 0) {
 		//current_window = 1;
 		this->current_menu_window = 1;
 	}
@@ -422,7 +422,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		this->current_menu_window = 3;
 	}
 
-	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(200, this->Start_button_y, this->Start_button_length_x, this->Start_button_length_y, this->menu_button_size, this->menu_window) && this->current_menu_window == 0)
+	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(200, this->Start_button_y, this->Start_button_length_x, this->Start_button_length_y, data_box.menu_button_size, this->menu_window) && this->current_menu_window == 0)
 		data_box.global_exit = true;
 
 	//Backing to basic menu view
@@ -469,7 +469,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 	}
 
 	//Calibration Camera section
-	if (unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window) && falling_edge_saved && current_menu_window == 3) {
+	if (unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window) && falling_edge_saved && current_menu_window == 3) {
 		this->current_menu_window = 301;
 		data_box.camera_calibration = true;
 		this->clock.restart();
@@ -492,23 +492,23 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 	//Displaying help windows
 
 //Menu help window
-	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->blue_button_x, this->blue_button_y, this->blue_button_length_x, this->blue_button_length_y, this->menu_button_size, this->menu_window) && this->current_menu_window == 0 && help_window_opened == false)
+	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->blue_button_x, this->blue_button_y, this->blue_button_length_x, this->blue_button_length_y, data_box.menu_button_size, this->menu_window) && this->current_menu_window == 0 && help_window_opened == false)
 	{
 		this->current_menu_window = 100;
 	}
 
 	//Loading .csv help window
-	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->blue_button_x, this->blue_button_y, this->blue_button_length_x, this->blue_button_length_y, this->menu_button_size, this->menu_window) && this->current_menu_window == 1 && help_window_opened == false)
+	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->blue_button_x, this->blue_button_y, this->blue_button_length_x, this->blue_button_length_y, data_box.menu_button_size, this->menu_window) && this->current_menu_window == 1 && help_window_opened == false)
 	{
 		this->current_menu_window = 101;
 	}
 	//Matching boxes help window
-	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->blue_button_x, this->blue_button_y, this->blue_button_length_x, this->blue_button_length_y, this->menu_button_size, this->menu_window) && this->current_menu_window == 2 && help_window_opened == false)
+	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->blue_button_x, this->blue_button_y, this->blue_button_length_x, this->blue_button_length_y, data_box.menu_button_size, this->menu_window) && this->current_menu_window == 2 && help_window_opened == false)
 	{
 		this->current_menu_window = 102;
 	}
 	//Tracing help window
-	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->blue_button_x, this->blue_button_y, this->blue_button_length_x, this->blue_button_length_y, this->menu_button_size, this->menu_window) && this->current_menu_window == 3 && help_window_opened == false)
+	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->blue_button_x, this->blue_button_y, this->blue_button_length_x, this->blue_button_length_y, data_box.menu_button_size, this->menu_window) && this->current_menu_window == 3 && help_window_opened == false)
 	{
 		this->current_menu_window = 103;
 	}
@@ -696,13 +696,13 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		}
 
 		//start window clear if mouse is on start sequention button
-		if ((rising_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window) && this->display_start_sequention) || (falling_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window) && this->display_start_sequention)) {
+		if ((rising_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window) && this->display_start_sequention) || (falling_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window) && this->display_start_sequention)) {
 			if_clear = true;
 			if_display = true;
 		}
 
 		//start sequention if button pushed or enter pressed
-		if ((falling_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window) && this->display_start_sequention && !data_box.is_sequence_activated) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && this->display_start_sequention && !this->start_sequention))
+		if ((falling_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window) && this->display_start_sequention && !data_box.is_sequence_activated) || (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) && this->display_start_sequention && !this->start_sequention))
 		{
 			this->start_sequention = true;
 			this->display_start_sequention = false;
@@ -739,19 +739,19 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		}
 
 		//start window clear if mouse is on display live charts button
-		if ((rising_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window)) || (falling_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window))) {
+		if ((rising_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window)) || (falling_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window))) {
 			if_clear = true;
 			if_display = true;
 		}
 
 		//start window clear underline on display live charts button
-		if (detecting_falling_edge(unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window) && current_menu_window == 202) || (detecting_rising_edge(unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window) && current_menu_window == 202))) {
+		if (detecting_falling_edge(unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window) && current_menu_window == 202) || (detecting_rising_edge(unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window) && current_menu_window == 202))) {
 			if_clear = true;
 			if_display = true;
 		}
 
 		//going to 203
-		if ((this->previous_current_menu_window==this->current_menu_window)&&(falling_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window))) {
+		if ((this->previous_current_menu_window==this->current_menu_window)&&(falling_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window))) {
 			this->current_menu_window = 203;
 			if_clear = true;
 			if_display = true;
@@ -786,28 +786,28 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		}
 	}
 
-	if (this->current_menu_window == 203) {
+	//if (this->current_menu_window == 203) {
 
-		//start window clear if mouse is on display live charts button
-		if ((rising_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window)) || (falling_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window))) {
-			if_clear = true;
-			if_display = true;
-		}
+	//	//start window clear if mouse is on display live charts button
+	//	if ((rising_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window)) || (falling_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window))) {
+	//		if_clear = true;
+	//		if_display = true;
+	//	}
 
-		//start window clear underline on display live charts button
-		if (detecting_falling_edge(unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window) && current_menu_window == 203) || (detecting_rising_edge(unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window) && current_menu_window == 203))) {
-			if_clear = true;
-			if_display = true;
-		}
+	//	//start window clear underline on display live charts button
+	//	if (detecting_falling_edge(unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window) && current_menu_window == 203) || (detecting_rising_edge(unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window) && current_menu_window == 203))) {
+	//		if_clear = true;
+	//		if_display = true;
+	//	}
 
-		//backing to 202
-		if ((this->previous_current_menu_window == this->current_menu_window) && (falling_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window))) {
-			this->current_menu_window = 202;
-			if_clear = true;
-			if_display = true;
-		}
+	//	//backing to 202
+	//	if ((this->previous_current_menu_window == this->current_menu_window) && (falling_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window))) {
+	//		this->current_menu_window = 202;
+	//		if_clear = true;
+	//		if_display = true;
+	//	}
 
-	}
+	//}
 
 	this->previous_current_menu_window = this->current_menu_window;
 }
@@ -836,28 +836,28 @@ void menu_sfml_objects::render(int current_step, int current_window)
 	if (this->current_menu_window == 0) {
 		//Displaying Upload file graphics
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && detecting_Upload_file_button())
-			this->display_texture(this->load_csv_button_x, this->load_csv_button_y, "grey_pushed.png", this->menu_button_size, 0);
+			this->display_texture(this->load_csv_button_x, this->load_csv_button_y, "grey_pushed.png", data_box.menu_button_size, 0);
 		else
-			this->display_texture(this->load_csv_button_x, this->load_csv_button_y, "grey_button.png", this->menu_button_size, 0);
+			this->display_texture(this->load_csv_button_x, this->load_csv_button_y, "grey_button.png", data_box.menu_button_size, 0);
 
 		//Displaying edit button graphics
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && detecting_Match_boxes_button())
-			this->display_texture(this->installation_of_connectors_button_x, this->installation_of_connectors_button_y, "grey_pushed.png", this->menu_button_size, 0);
+			this->display_texture(this->installation_of_connectors_button_x, this->installation_of_connectors_button_y, "grey_pushed.png", data_box.menu_button_size, 0);
 		else
-			this->display_texture(this->installation_of_connectors_button_x, this->installation_of_connectors_button_y, "grey_button.png", this->menu_button_size, 0);
+			this->display_texture(this->installation_of_connectors_button_x, this->installation_of_connectors_button_y, "grey_button.png", data_box.menu_button_size, 0);
 
 		//Displaying delete button graphics
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && detecting_calibration_button())
-			this->display_texture(this->Calibration_button_x, this->Calibration_button_y, "grey_pushed.png", this->menu_button_size, 0);
+			this->display_texture(this->Calibration_button_x, this->Calibration_button_y, "grey_pushed.png", data_box.menu_button_size, 0);
 		else
-			this->display_texture(this->Calibration_button_x, this->Calibration_button_y, "grey_button.png", this->menu_button_size, 0);
+			this->display_texture(this->Calibration_button_x, this->Calibration_button_y, "grey_button.png", data_box.menu_button_size, 0);
 
 		//Displaying blue button
 		this->display_texture(this->blue_button_x, this->blue_button_y, "blue_circle.png", this->button_size, 0);
 		this->display_text(this->blue_button_x, this->blue_button_y + 75, "Pomoc", 30);
 
 		//Displaying start button
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(200, this->Start_button_y, this->Start_button_length_x, this->Start_button_length_y, this->menu_button_size, this->menu_window))
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(200, this->Start_button_y, this->Start_button_length_x, this->Start_button_length_y, data_box.menu_button_size, this->menu_window))
 			this->display_texture(200, this->Start_button_y, "red_circle_clicked.png", this->button_size, 0);
 		else
 			this->display_texture(200, this->Start_button_y, "red_circle.png", this->button_size, 0);
@@ -884,13 +884,13 @@ void menu_sfml_objects::render(int current_step, int current_window)
 
 		//UnderLines
 		if (detecting_Upload_file_button())
-			this->display_texture(this->load_csv_button_x, this->load_csv_button_y + 85, "UnderLine.png", this->menu_button_size - 0.2, 0);
+			this->display_texture(this->load_csv_button_x, this->load_csv_button_y + 85, "UnderLine.png", data_box.menu_button_size - 0.2, 0);
 
 		if (detecting_Match_boxes_button())
-			this->display_texture(this->installation_of_connectors_button_x, this->installation_of_connectors_button_y + 85, "UnderLine.png", this->menu_button_size - 0.2, 0);
+			this->display_texture(this->installation_of_connectors_button_x, this->installation_of_connectors_button_y + 85, "UnderLine.png", data_box.menu_button_size - 0.2, 0);
 
 		if (detecting_calibration_button())
-			this->display_texture(this->Calibration_button_x, this->Calibration_button_y + 85, "UnderLine.png", this->menu_button_size - 0.2, 0);
+			this->display_texture(this->Calibration_button_x, this->Calibration_button_y + 85, "UnderLine.png", data_box.menu_button_size - 0.2, 0);
 	}
 
 	if (this->current_menu_window == 100)
@@ -936,11 +936,11 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		{
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(990, 800, 707, 120, 1, this->menu_window))
 			{
-				this->display_texture(990, 800, "grey_pushed.png", this->menu_button_size, 0);
+				this->display_texture(990, 800, "grey_pushed.png", data_box.menu_button_size, 0);
 			}
 			else
 			{
-				this->display_texture(990, 800, "grey_button.png", this->menu_button_size, 0);
+				this->display_texture(990, 800, "grey_button.png", data_box.menu_button_size, 0);
 			}
 			this->display_text(990, 785, "Zatwierdz plik .csv", 80);
 
@@ -1012,16 +1012,16 @@ void menu_sfml_objects::render(int current_step, int current_window)
 
 		//displaying start sequention button
 		if (this->display_start_sequention) {
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window) && this->display_start_sequention) {
-				this->display_texture(960, 950, "grey_pushed.png", this->menu_button_size, 0);
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window) && this->display_start_sequention) {
+				this->display_texture(960, 950, "grey_pushed.png", data_box.menu_button_size, 0);
 				this->display_text(960, 935, "Start sekwencji", 100);
 			}
 			else {
-				this->display_texture(960, 950, "grey_button.png", this->menu_button_size, 0);
+				this->display_texture(960, 950, "grey_button.png", data_box.menu_button_size, 0);
 				this->display_text(960, 935, "Start sekwencji", 100);
 			}
-			if(unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window))
-				this->display_texture(960, 950 + 85, "UnderLine.png", this->menu_button_size - 0.2, 0);
+			if(unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window))
+				this->display_texture(960, 950 + 85, "UnderLine.png", data_box.menu_button_size - 0.2, 0);
 		}
 		this->if_clear = false;
 	}
@@ -1082,16 +1082,16 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		}
 		
 		//display go to Live Charts
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window)) {
-			this->display_texture(960, 950, "grey_pushed.png", this->menu_button_size, 0);
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window)) {
+			this->display_texture(960, 950, "grey_pushed.png", data_box.menu_button_size, 0);
 			this->display_text(960, 935, "Wyswietl wykresy", 100);
 		}
 		else {
-			this->display_texture(960, 950, "grey_button.png", this->menu_button_size, 0);
+			this->display_texture(960, 950, "grey_button.png", data_box.menu_button_size, 0);
 			this->display_text(960, 935, "Wyswietl wykresy", 100);
 		}
-		if (unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window))
-			this->display_texture(960, 950 + 85, "UnderLine.png", this->menu_button_size - 0.2, 0);
+		if (unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window))
+			this->display_texture(960, 950 + 85, "UnderLine.png", data_box.menu_button_size - 0.2, 0);
 
 		this->if_clear = false;
 	}
@@ -1099,19 +1099,19 @@ void menu_sfml_objects::render(int current_step, int current_window)
 	//Live charts section
 	if (this->current_menu_window == 203 && if_clear) {
 
-		Live_chart_display_texture(71,796, "menu/axis.png", 1, this->menu_window);
+		Live_chart_display_texture(71, 796, "menu/axis.png", 0.2, this->menu_window);
 
 		//display back to 202
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window)) {
-			this->display_texture(960, 950, "grey_pushed.png", this->menu_button_size, 0);
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window)) {
+			this->display_texture(960, 950, "grey_pushed.png", data_box.menu_button_size, 0);
 			this->display_text(960, 935, "Wyswietl wykresy", 100);
 		}
 		else {
-			this->display_texture(960, 950, "grey_button.png", this->menu_button_size, 0);
+			this->display_texture(960, 950, "grey_button.png", data_box.menu_button_size, 0);
 			this->display_text(960, 935, "Wyswietl wykresy", 100);
 		}
-		if (unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window))
-			this->display_texture(960, 950 + 85, "UnderLine.png", this->menu_button_size - 0.2, 0);
+		if (unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window))
+			this->display_texture(960, 950 + 85, "UnderLine.png", data_box.menu_button_size - 0.2, 0);
 
 		this->if_clear = false;
 	}
@@ -1131,16 +1131,16 @@ void menu_sfml_objects::render(int current_step, int current_window)
 		this->display_text(this->menu_window_width / 2, 430, "Kalibrowanie punktow charakterystycznych:", 100);
 		this->display_text(this->menu_window_width / 2, 530, "Sprawdz czy tasmy znajduja sie w podswietlonych miejscach", 60);
 
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window)) {
-			this->display_texture(960, 950, "grey_pushed.png", this->menu_button_size, 0);
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window)) {
+			this->display_texture(960, 950, "grey_pushed.png", data_box.menu_button_size, 0);
 			this->display_text(960, 930, "Zatwierdz", 100);
 		}
 		else {
-			this->display_texture(960, 950, "grey_button.png", this->menu_button_size, 0);
+			this->display_texture(960, 950, "grey_button.png", data_box.menu_button_size, 0);
 			this->display_text(960, 930, "Zatwierdz", 100);
 		}
-		if (unieversal_detecting_collision_with_buttons(960, 950, this->Upload_file_length_button_x, this->Upload_file_length_button_y, this->menu_button_size, this->menu_window))
-			this->display_texture(960, 950 + 85, "UnderLine.png", this->menu_button_size - 0.2, 0);
+		if (unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window))
+			this->display_texture(960, 950 + 85, "UnderLine.png", data_box.menu_button_size - 0.2, 0);
 	}
 
 	if (this->current_menu_window == 301) {

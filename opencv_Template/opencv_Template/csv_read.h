@@ -61,6 +61,11 @@ struct sGlobal_data
 
 	bool step_back = false;					// true if user wants to go back to previous step in sequence
 
+	//global coords of menu buttons
+	int Upload_file_length_button_x;
+	int Upload_file_length_button_y;
+	float menu_button_size;
+
 };
 
 
