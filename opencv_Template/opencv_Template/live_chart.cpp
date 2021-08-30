@@ -1,5 +1,72 @@
 #include "live_chart.h"
 
+ bool cLive_chart::detecting_rising_edge(bool signal) {
+	if (this->rising_edge_signal == false && signal) {
+		this->rising_edge_detected_signal = true;
+	}
+	else {
+		this->rising_edge_signal = false;
+	}
+	if (signal) {
+		this->rising_edge_signal = true;
+	}
+	if (this->rising_edge_detected_signal) {
+		this->rising_edge_detected_signal = false;
+		return true;
+	}
+	return false;
+}
+
+bool cLive_chart::detecting_falling_edge(bool signal) {
+	if (this->falling_edge_signal == true && !signal) {
+		this->falling_edge_detected_signal = true;
+		this->falling_edge_signal = false;
+	}
+	if (signal) {
+		this->falling_edge_signal = true;
+	}
+	if (this->falling_edge_detected_signal) {
+		this->falling_edge_detected_signal = false;
+		this->falling_edge_signal = false;
+		return true;
+	}
+	return false;
+}
+
+bool cLive_chart::detecting_rising_edge_left_mouse_button() {
+	if (this->rising_edge == false && sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+		this->rising_edge_detected = true;
+	}
+	else {
+		this->rising_edge = false;
+	}
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+		this->rising_edge = true;
+	}
+	if (this->rising_edge_detected) {
+		this->rising_edge_detected = false;
+		return true;
+	}
+	return false;
+}
+
+bool cLive_chart::detecting_falling_edge_left_mouse_button() {
+	if (this->falling_edge == true && !sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+		this->falling_edge_detected = true;
+		this->falling_edge = false;
+	}
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+		this->falling_edge = true;
+	}
+	if (this->falling_edge_detected) {
+		this->falling_edge_detected = false;
+		this->falling_edge = false;
+		return true;
+	}
+	return false;
+}
+
+
 void cLive_chart::load_statistics()
 {
 	std::ifstream file;
@@ -145,4 +212,66 @@ void cLive_chart::add_new_time(float new_time)
 	for (int i = 0; i < this->sequence_times.size(); i++)
 		this->time_mean_value = this->time_mean_value + this->sequence_times[i];
 	this->time_mean_value = this->time_mean_value / this->sequence_times.size();
+}
+
+void cLive_chart::update(int &current_menu_window, bool &if_clear, bool &if_display, sf::RenderWindow *menu_window) {
+
+	this->rising_edge_saved = detecting_rising_edge_left_mouse_button();
+	this->falling_edge_saved = detecting_falling_edge_left_mouse_button();
+	this->current_menu_window = current_menu_window;
+	this->if_clear = if_clear;
+	this->if_display = if_display;
+
+	if (current_menu_window == 203) {
+		//start window clear if mouse is on display live charts button
+		if ((rising_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, menu_window)) || (falling_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, menu_window))) {
+			if_clear = true;
+			if_display = true;
+		}
+		//start window clear underline on display live charts button
+		if (detecting_falling_edge(unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, menu_window) && current_menu_window == 203) || (detecting_rising_edge(unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, menu_window) && current_menu_window == 203))) {
+			if_clear = true;
+			if_display = true;
+		}
+		//backing to 202
+		if ((this->previous_current_menu_window == current_menu_window) && (falling_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, menu_window))) {
+			current_menu_window = 202;
+			if_clear = true;
+			if_display = true;
+		}
+		this->previous_current_menu_window = current_menu_window;
+	}
+}
+
+void cLive_chart::render(sf::RenderWindow *menu_window) {
+
+	//Live charts section
+	if (this->current_menu_window == 203 && this->if_clear) {
+
+		if (if_clear)
+			menu_window->clear(sf::Color(255, 255, 255, 255));
+
+		Live_chart_display_texture(71, 796, "menu/axis.png", 0.2, menu_window);
+
+		//display back to 202
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, menu_window)) {
+			Universal_display_texture(960, 950, "menu/grey_pushed.png", data_box.menu_button_size, 0, menu_window);
+			Universal_display_text(960, 935, "Wyswietl wykresy", 100, menu_window);
+		}
+		else {
+			Universal_display_texture(960, 950, "menu/grey_button.png", data_box.menu_button_size, 0, menu_window);
+			Universal_display_text(960, 935, "Wyswietl wykresy", 100, menu_window);
+		}
+		if (unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, menu_window))
+			Universal_display_texture(960, 950 + 85, "menu/UnderLine.png", data_box.menu_button_size - 0.2, 0, menu_window);
+
+		this->if_clear = false;
+
+		if (if_display)
+			menu_window->display();
+		if (!if_clear)
+			if_display = false;
+		else
+			if_display = true;
+	}
 }
