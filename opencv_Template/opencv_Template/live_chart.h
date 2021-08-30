@@ -17,11 +17,18 @@ public:
 	float min_sequence_time;
 	std::vector<float> sequence_times;
 
+	int oldest_time_recorded_iterator;
+
+	float time_mean_value;
+
 public:
 
 	// Loading and saving statistics in csv file
 	void load_statistics();
 	void save_statistics();
+	
+	// Ads new time to the csv file after sequence is over
+	void add_new_time(float new_time);
 };
 
 
