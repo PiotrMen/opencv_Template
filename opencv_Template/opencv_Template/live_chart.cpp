@@ -1,5 +1,11 @@
 #include "live_chart.h"
 
+cLive_chart::cLive_chart(int pos_x, int pos_y, int size) {
+	this->pos_x = pos_x;
+	this->pos_y = pos_y;
+	this->size = size;
+}
+
  bool cLive_chart::detecting_rising_edge(bool signal) {
 	if (this->rising_edge_signal == false && signal) {
 		this->rising_edge_detected_signal = true;
@@ -216,11 +222,10 @@ void cLive_chart::add_new_time(float new_time)
 
 void cLive_chart::update(int &current_menu_window, bool &if_clear, bool &if_display, sf::RenderWindow *menu_window) {
 
+	this->if_active = true;
 	this->rising_edge_saved = detecting_rising_edge_left_mouse_button();
 	this->falling_edge_saved = detecting_falling_edge_left_mouse_button();
 	this->current_menu_window = current_menu_window;
-	this->if_clear = if_clear;
-	this->if_display = if_display;
 
 	if (current_menu_window == 203) {
 		//start window clear if mouse is on display live charts button
@@ -243,10 +248,10 @@ void cLive_chart::update(int &current_menu_window, bool &if_clear, bool &if_disp
 	}
 }
 
-void cLive_chart::render(sf::RenderWindow *menu_window) {
+void cLive_chart::render(bool &if_clear, bool &if_display, sf::RenderWindow *menu_window) {
 
 	//Live charts section
-	if (this->current_menu_window == 203 && this->if_clear) {
+	if (this->current_menu_window == 203 && if_clear) {
 
 		if (if_clear)
 			menu_window->clear(sf::Color(255, 255, 255, 255));
@@ -265,7 +270,7 @@ void cLive_chart::render(sf::RenderWindow *menu_window) {
 		if (unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, menu_window))
 			Universal_display_texture(960, 950 + 85, "menu/UnderLine.png", data_box.menu_button_size - 0.2, 0, menu_window);
 
-		this->if_clear = false;
+		if_clear = false;
 
 		if (if_display)
 			menu_window->display();

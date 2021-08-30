@@ -18,6 +18,12 @@ private:
 	bool detecting_falling_edge(bool signal);
 	bool detecting_rising_edge_left_mouse_button();
 	bool detecting_falling_edge_left_mouse_button();
+
+	//Position in pixels and size of Live Chart
+	int pos_x;
+	int pos_y;
+	int size;
+
 	// Times represented on chart
 	float max_sequence_time;
 	float min_sequence_time;
@@ -25,8 +31,6 @@ private:
 
 	int previous_current_menu_window;
 	int current_menu_window;
-	bool if_clear;
-	bool if_display;
 
 	//Edges
 	bool rising_edge = false;
@@ -48,12 +52,16 @@ private:
 
 public:
 
+	//Constructor
+	cLive_chart(int pos_x, int pos_y, int size);
+
+	bool if_active;
 	// Loading and saving statistics in csv file
 	void load_statistics();
 	void save_statistics();
 
 	void update(int &current_menu_window, bool &if_clear, bool &if_display, sf::RenderWindow *menu_window);
-	void render(sf::RenderWindow *menu_window);
+	void render(bool &if_clear, bool &if_display, sf::RenderWindow *menu_window);
 	
 	// Ads new time to the csv file after sequence is over
 	void add_new_time(float new_time);

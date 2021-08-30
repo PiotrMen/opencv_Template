@@ -99,7 +99,7 @@ public:
 	//Functions
 	void pollEvents(int &current_step, int &current_window);
 	void update(int &current_step, int &current_window);
-	void render(int current_step, int current_window);
+	void render(int current_step, bool live_chart);
 
 	
 	// adding_article.cpp
@@ -192,6 +192,8 @@ private:
 	bool timer_flag;
 
 	int previous_current_menu_window;
+
+	bool live_chart_active;
 };
 
 #endif

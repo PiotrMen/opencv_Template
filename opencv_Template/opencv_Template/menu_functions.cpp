@@ -739,19 +739,19 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		}
 
 		//start window clear if mouse is on display live charts button
-		if ((rising_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window)) || (falling_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window))) {
+		if (this->live_chart_active && ((rising_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window)) || (falling_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window)))) {
 			if_clear = true;
 			if_display = true;
 		}
 
 		//start window clear underline on display live charts button
-		if (detecting_falling_edge(unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window) && current_menu_window == 202) || (detecting_rising_edge(unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window) && current_menu_window == 202))) {
+		if (this->live_chart_active && (detecting_falling_edge(unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window) && current_menu_window == 202) || (detecting_rising_edge(unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window) && current_menu_window == 202)))) {
 			if_clear = true;
 			if_display = true;
 		}
 
 		//going to 203
-		if ((this->previous_current_menu_window==this->current_menu_window)&&(falling_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window))) {
+		if ((this->previous_current_menu_window==this->current_menu_window)&&(falling_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window))&&this->live_chart_active) {
 			this->current_menu_window = 203;
 			if_clear = true;
 			if_display = true;
@@ -805,8 +805,10 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 //203 live charts section
 
 
-void menu_sfml_objects::render(int current_step, int current_window)
+void menu_sfml_objects::render(int current_step, bool live_chart)
 {
+	this->live_chart_active = live_chart;
+
 	if (if_clear)
 		this->menu_window->clear(sf::Color(255, 255, 255, 255));
 	//Basic menu window
@@ -1058,40 +1060,21 @@ void menu_sfml_objects::render(int current_step, int current_window)
 			this->display_text(1270, 935, std::to_string(this->displaying_time) + " s:", 80);
 		}
 		
-		//display go to Live Charts
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window)) {
-			this->display_texture(960, 950, "grey_pushed.png", data_box.menu_button_size, 0);
-			this->display_text(960, 935, "Wyswietl wykresy", 100);
+		if (live_chart) {
+			//display go to Live Charts
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window)) {
+				this->display_texture(960, 950, "grey_pushed.png", data_box.menu_button_size, 0);
+				this->display_text(960, 935, "Wyswietl wykresy", 100);
+			}
+			else {
+				this->display_texture(960, 950, "grey_button.png", data_box.menu_button_size, 0);
+				this->display_text(960, 935, "Wyswietl wykresy", 100);
+			}
+			if (unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window))
+				this->display_texture(960, 950 + 85, "UnderLine.png", data_box.menu_button_size - 0.2, 0);
 		}
-		else {
-			this->display_texture(960, 950, "grey_button.png", data_box.menu_button_size, 0);
-			this->display_text(960, 935, "Wyswietl wykresy", 100);
-		}
-		if (unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window))
-			this->display_texture(960, 950 + 85, "UnderLine.png", data_box.menu_button_size - 0.2, 0);
-
 		this->if_clear = false;
 	}
-
-	////Live charts section
-	//if (this->current_menu_window == 203 && if_clear) {
-
-	//	Live_chart_display_texture(71, 796, "menu/axis.png", 0.2, this->menu_window);
-
-	//	//display back to 202
-	//	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window)) {
-	//		this->display_texture(960, 950, "grey_pushed.png", data_box.menu_button_size, 0);
-	//		this->display_text(960, 935, "Wyswietl wykresy", 100);
-	//	}
-	//	else {
-	//		this->display_texture(960, 950, "grey_button.png", data_box.menu_button_size, 0);
-	//		this->display_text(960, 935, "Wyswietl wykresy", 100);
-	//	}
-	//	if (unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window))
-	//		this->display_texture(960, 950 + 85, "UnderLine.png", data_box.menu_button_size - 0.2, 0);
-
-	//	this->if_clear = false;
-	//}
 
 	//Calibration section section displaying
 	if (this->current_menu_window == 3) {
