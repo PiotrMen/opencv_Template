@@ -94,21 +94,3 @@ void Universal_display_text(int pos_x, int pos_y, std::string text, float size, 
 	text_.setPosition(pos_x, pos_y);
 	window->draw(text_);
 }
-void Live_chart_display_texture(int pos_x, int pos_y, std::string file_path, float scale, sf::RenderWindow *window)
-{
-	//This function displays objects that are not guaranteed to exist
-	sf::Texture texture_;
-	if (!texture_.loadFromFile("resources/" + file_path))
-	{
-	}
-	else
-	{
-		sf::Sprite texture;
-		texture.setTexture(texture_);
-		texture.setOrigin(sf::Vector2f(texture.getPosition().x+71, texture.getTexture()->getSize().y-71));         //set origins of images to center
-		texture.setPosition(pos_x, pos_y);
-		texture.setScale(scale, scale);
-
-		window->draw(texture);
-	}
-}

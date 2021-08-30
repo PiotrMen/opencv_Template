@@ -28,7 +28,7 @@ int main()
 
 	sfml_objects objects;
 	menu_sfml_objects menu_objects;
-	cLive_chart live_chart(71, 796, 796);
+	cLive_chart live_chart(400, 796, 200);
 
 	//coordinates of buttons
 	menu_objects.init_buttons_coords();
@@ -65,8 +65,8 @@ int main()
 		//Render
 		objects.render(data_box.current_step, menu_objects.current_menu_window, menu_objects.vector_rectangles, database, menu_objects.which_box_is_writing);
 		
-		live_chart.update(menu_objects.current_menu_window, menu_objects.if_clear, menu_objects.if_display, menu_objects.menu_window);
-		live_chart.render(menu_objects.if_clear, menu_objects.if_display, menu_objects.menu_window);
+		/*live_chart.update(menu_objects.current_menu_window, menu_objects.if_clear, menu_objects.if_display, menu_objects.menu_window);
+		live_chart.render(menu_objects.if_clear, menu_objects.if_display, menu_objects.menu_window);*/
 
 		//czas = zegar.getElapsedTime();
 		//std::cout << czas.asMilliseconds() << std::endl;
