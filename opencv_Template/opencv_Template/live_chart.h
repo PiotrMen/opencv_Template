@@ -70,7 +70,9 @@ private:
 	//Timer
 
 	sf::Clock sequence_clock;
-	sf::Time time_of_sequence;
+
+	sf::Clock refresh_clock;
+	sf::Time refresh_time;
 
 public:
 

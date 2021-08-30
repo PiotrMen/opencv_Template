@@ -144,6 +144,10 @@ void cLive_chart::load_statistics()
 
 	}
 	file.close();
+
+	for (int i = 0; i < this->sequence_times.size(); i++)
+		this->time_mean_value = this->time_mean_value + this->sequence_times[i];
+	this->time_mean_value = this->time_mean_value / this->sequence_times.size();
 }
 void cLive_chart::save_statistics()
 {
@@ -212,7 +216,6 @@ void cLive_chart::add_new_time(float new_time)
 			this->oldest_time_recorded_iterator = 0;
 		else
 			this->oldest_time_recorded_iterator++;
-
 	}
 	else
 	{
@@ -278,7 +281,19 @@ void cLive_chart::update(int &current_menu_window, bool &if_clear, bool &if_disp
 	if (data_box.is_sequence_activated == false)
 		this->sequence_clock.restart();
 	else
-		this->time_of_sequence = this->sequence_clock.getElapsedTime();
+	{
+		sf::Time sequence_time = this->sequence_clock.getElapsedTime();
+		this->refresh_time = this->refresh_clock.getElapsedTime();
+
+		if (refresh_time.asSeconds() >= 1)
+		{
+			this->refresh_clock.restart();
+			if_clear = true;
+			if_display = true;
+		}
+		this->present_time = sequence_time.asMilliseconds() * 0.001;
+	}
+
 
 
 	if (current_menu_window == 203) {
