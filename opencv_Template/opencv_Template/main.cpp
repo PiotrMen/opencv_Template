@@ -28,7 +28,7 @@ int main()
 
 	sfml_objects objects;
 	menu_sfml_objects menu_objects;
-	cLive_chart live_chart(120, 1000, 1000);
+	cLive_chart live_chart(0, 0, 769);
 
 	//coordinates of buttons
 	menu_objects.init_buttons_coords();
