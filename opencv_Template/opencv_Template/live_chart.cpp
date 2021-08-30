@@ -183,6 +183,9 @@ void cLive_chart::update(int &current_menu_window, bool &if_clear, bool &if_disp
 
 	this->rising_edge_saved = detecting_rising_edge_left_mouse_button();
 	this->falling_edge_saved = detecting_falling_edge_left_mouse_button();
+	this->current_menu_window = current_menu_window;
+	this->if_clear = if_clear;
+	this->if_display = if_display;
 
 	if (current_menu_window == 203) {
 
@@ -206,4 +209,37 @@ void cLive_chart::update(int &current_menu_window, bool &if_clear, bool &if_disp
 		}
 	}
 	this->previous_current_menu_window = current_menu_window;
+}
+
+void cLive_chart::render(sf::RenderWindow *menu_window) {
+
+	//if (if_clear)
+	//	menu_window->clear(sf::Color(255, 255, 255, 255));
+
+	//Live charts section
+	if (this->current_menu_window == 203 && this->if_clear) {
+
+		Live_chart_display_texture(71, 796, "menu/axis.png", 0.2, menu_window);
+
+		//display back to 202
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, menu_window)) {
+			Universal_display_texture(960, 950, "grey_pushed.png", data_box.menu_button_size, 0, menu_window);
+			Universal_display_text(960, 935, "Wyswietl wykresy", 100,menu_window);
+		}
+		else {
+			Universal_display_texture(960, 950, "grey_button.png", data_box.menu_button_size, 0, menu_window);
+			Universal_display_text(960, 935, "Wyswietl wykresy", 100,menu_window);
+		}
+		if (unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, menu_window))
+			Universal_display_texture(960, 950 + 85, "UnderLine.png", data_box.menu_button_size - 0.2, 0, menu_window);
+
+		this->if_clear = false;
+	}
+
+	//if (if_display)
+	//	menu_window->display();
+	//if (!if_clear)
+	//	if_display = false;
+	//else
+	//	if_display = true;
 }

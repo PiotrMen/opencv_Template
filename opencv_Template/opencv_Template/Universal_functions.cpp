@@ -75,6 +75,25 @@ void Universal_display_texture(int pos_x, int pos_y, std::string file_path, floa
 		window->draw(texture);
 	}
 }
+
+//Displaying text
+void Universal_display_text(int pos_x, int pos_y, std::string text, float size, sf::RenderWindow *window)
+{
+	sf::Font font_;
+	if (!font_.loadFromFile("resources/mermaid/Mermaid1001.ttf"))
+	{
+		std::cerr << "Could not load font" << std::endl;
+		exit(1);
+	}
+	sf::Text text_;
+	text_.setFillColor(sf::Color::Black);
+	text_.setFont(font_);
+	text_.setString(text);
+	text_.setCharacterSize(size);
+	text_.setOrigin((text_.getGlobalBounds().left + text_.getGlobalBounds().width) / 2, (text_.getGlobalBounds().height + text_.getGlobalBounds().top) / 2);     //set origins of text to center
+	text_.setPosition(pos_x, pos_y);
+	window->draw(text_);
+}
 void Live_chart_display_texture(int pos_x, int pos_y, std::string file_path, float scale, sf::RenderWindow *window)
 {
 	//This function displays objects that are not guaranteed to exist

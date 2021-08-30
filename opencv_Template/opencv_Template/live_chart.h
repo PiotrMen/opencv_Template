@@ -25,6 +25,9 @@ private:
 	std::vector<float> sequence_times;
 
 	int previous_current_menu_window;
+	int current_menu_window;
+	bool if_clear;
+	bool if_display;
 
 	//Edges
 	bool rising_edge = false;
@@ -46,7 +49,7 @@ public:
 	void load_statistics();
 	void save_statistics();
 	void update(int &current_menu_window, bool &if_clear, bool &if_display, sf::RenderWindow *menu_window);
-	void render();
+	void render(sf::RenderWindow *menu_window);
 };
 
 

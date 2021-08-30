@@ -32,6 +32,7 @@ sf::RectangleShape making_rectangle(int pos_x, int pos_y, int size_x, int size_y
 
 void Universal_display_texture(int pos_x, int pos_y, std::string file_path, float scale, float rotation, sf::RenderWindow *window);
 void Universal_display_texture(int pos_x, int pos_y, std::string file_path, float scale, sf::RenderWindow *window);
+void Universal_display_text(int pos_x, int pos_y, std::string text, float size, sf::RenderWindow *window);
 void Live_chart_display_texture(int pos_x, int pos_y, std::string file_path, float scale, sf::RenderWindow *window);
 
 
