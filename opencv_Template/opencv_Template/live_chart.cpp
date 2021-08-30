@@ -233,7 +233,7 @@ void cLive_chart::Live_chart_axis_display(std::string file_path, sf::RenderWindo
 		texture.setTexture(texture_);
 		texture.setOrigin(sf::Vector2f(texture.getPosition().x + 71, texture.getTexture()->getSize().y - 71));         //set origins of images to center
 		texture.setPosition(this->pos_x, this->pos_y);
-		float scale = this->size / texture.getGlobalBounds().width;
+		this-> scale = this->size / texture.getGlobalBounds().width;
 		texture.setScale(scale, scale);
 
 		window->draw(texture);

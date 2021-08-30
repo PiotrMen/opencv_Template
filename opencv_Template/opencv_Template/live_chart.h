@@ -24,6 +24,7 @@ private:
 	int pos_x;
 	int pos_y;
 	int size;
+	float scale;
 
 	// Times represented on chart
 	float max_sequence_time;
