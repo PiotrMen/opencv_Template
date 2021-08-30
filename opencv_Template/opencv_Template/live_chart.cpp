@@ -310,23 +310,87 @@ void cLive_chart::render(bool &if_clear, bool &if_display, sf::RenderWindow *men
 }
 void cLive_chart::calculating_bars()
 {
+	// Zmienne do przypisania pozniej
+
+	int max_height = 800;
+	int x = 200; // Wysokosc obrazka przed przeskalowaniem
+	float scale_max = 0, scale_min = 0, scale_mean = 0, scale_present = 0;
 	
+	// if max_sequence_time is longest
 	if (this->max_sequence_time >= this->min_sequence_time && this->max_sequence_time >= this->time_mean_value && this->max_sequence_time >= this->present_time)
 	{
-		
+		this->max_time_bar.setScale(1, max_height / x);	
 	}
+	else
+	{
+		// Calculating min time bar height
+		scale_min = this->min_sequence_time / this->max_sequence_time;
+		this->min_time_bar.setScale(1, max_height * scale_min / x);
+
+		// Calculating average time bar height
+		scale_mean = this->time_mean_value / this->max_sequence_time;
+		this->average_time_bar.setScale(1, max_height * scale_mean / x);
+
+		// Calculating present time bar height
+		scale_present = this->present_time / this->max_sequence_time;
+		this->present_time_bar.setScale(1, max_height * scale_present / x);
+	}
+	// if min_sequence_time is longest
 	if (this->min_sequence_time >= this->max_sequence_time && this->min_sequence_time >= this->time_mean_value && this->min_sequence_time >= this->present_time)
 	{
-
+		this->min_time_bar.setScale(1, max_height / x);
 	}
+	else
+	{
+		// Calculating max time bar height
+		scale_max = this->max_sequence_time / this->min_sequence_time;
+		this->max_time_bar.setScale(1, max_height * scale_max / x);
+
+		// Calculating average time bar height
+		scale_mean = this->time_mean_value / this->min_sequence_time;
+		this->average_time_bar.setScale(1, max_height * scale_mean / x);
+
+		// Calculating present time bar height
+		scale_present = this->present_time / this->min_sequence_time;
+		this->present_time_bar.setScale(1, max_height * scale_present / x);
+	}
+	// if mean value is longest
 	if (this->time_mean_value >= this->min_sequence_time && this->time_mean_value >= this->max_sequence_time && this->time_mean_value >= this->present_time)
 	{
-
+		this->average_time_bar.setScale(1, max_height / x);
 	}
+	else
+	{
+		// Calculating max time bar height
+		scale_max = this->max_sequence_time / this->time_mean_value;
+		this->max_time_bar.setScale(1, max_height * scale_max / x);
+
+		// Calculating average time bar height
+		scale_min = this->min_sequence_time / this->time_mean_value;
+		this->min_time_bar.setScale(1, max_height * scale_min / x);
+
+		// Calculating present time bar height
+		scale_present = this->present_time / this->time_mean_value;
+		this->present_time_bar.setScale(1, max_height * scale_present / x);
+	}
+	// if present time is longest
 	if (this->present_time >= this->min_sequence_time && this->present_time >= this->max_sequence_time && this->present_time >= this->time_mean_value)
 	{
-
+		this->present_time_bar.setScale(1, max_height / x);
 	}
+	else
+	{
+		// Calculating max time bar height
+		scale_max = this->max_sequence_time / this->present_time;
+		this->max_time_bar.setScale(1, max_height * scale_max / x);
 
+		// Calculating average time bar height
+		scale_min = this->min_sequence_time / this->present_time;
+		this->min_time_bar.setScale(1, max_height * scale_min / x);
+
+		// Calculating present time bar height
+		scale_mean = this->time_mean_value / this->present_time;
+		this->average_time_bar.setScale(1, max_height * scale_mean / x);
+	}
 
 }
