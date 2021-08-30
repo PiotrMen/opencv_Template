@@ -262,7 +262,7 @@ void cLive_chart::Live_chart_bars_display(int pos_x, int pos_y, std::string file
 		texture.setOrigin(sf::Vector2f(2*texture.getTexture()->getSize().x, texture.getTexture()->getSize().y));         //set origins of images to center
 		texture.setPosition(pos_x, pos_y+2);
 
-		texture.setScale(this->scale*0.5, this->scale * time_scale);
+		texture.setScale(this->scale*0.5, time_scale);
 
 		window->draw(texture);
 	}
@@ -357,7 +357,7 @@ void cLive_chart::calculating_bars()
 {
 	// Zmienne do przypisania pozniej
 
-	float max_height = (this->size*this->coefficient)-100;
+	float max_height = (this->size*this->coefficient)-(100*this->scale);
 	float x = 200; // Wysokosc obrazka przed przeskalowaniem
 	
 	// if max_sequence_time is longest
