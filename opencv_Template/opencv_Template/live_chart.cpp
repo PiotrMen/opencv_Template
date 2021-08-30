@@ -248,6 +248,13 @@ void cLive_chart::update(int &current_menu_window, bool &if_clear, bool &if_disp
 	this->falling_edge_saved = detecting_falling_edge_left_mouse_button();
 	this->current_menu_window = current_menu_window;
 
+
+	if (data_box.is_sequence_activated == false)
+		this->sequence_clock.restart();
+	else
+		this->time_of_sequence = this->sequence_clock.getElapsedTime();
+
+
 	if (current_menu_window == 203) {
 		//start window clear if mouse is on display live charts button
 		if ((rising_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, menu_window)) || (falling_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, menu_window))) {
@@ -300,4 +307,26 @@ void cLive_chart::render(bool &if_clear, bool &if_display, sf::RenderWindow *men
 		else
 			if_display = true;
 	}
+}
+void cLive_chart::calculating_bars()
+{
+	
+	if (this->max_sequence_time >= this->min_sequence_time && this->max_sequence_time >= this->time_mean_value && this->max_sequence_time >= this->present_time)
+	{
+		
+	}
+	if (this->min_sequence_time >= this->max_sequence_time && this->min_sequence_time >= this->time_mean_value && this->min_sequence_time >= this->present_time)
+	{
+
+	}
+	if (this->time_mean_value >= this->min_sequence_time && this->time_mean_value >= this->max_sequence_time && this->time_mean_value >= this->present_time)
+	{
+
+	}
+	if (this->present_time >= this->min_sequence_time && this->present_time >= this->max_sequence_time && this->present_time >= this->time_mean_value)
+	{
+
+	}
+
+
 }

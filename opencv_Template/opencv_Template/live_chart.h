@@ -51,6 +51,19 @@ private:
 	int oldest_time_recorded_iterator;
 
 	float time_mean_value;
+	float present_time = 0;
+
+	// Chart bars
+
+	sf::Sprite max_time_bar;
+	sf::Sprite min_time_bar;
+	sf::Sprite average_time_bar;
+	sf::Sprite present_time_bar;
+
+	//Timer
+
+	sf::Clock sequence_clock;
+	sf::Time time_of_sequence;
 
 public:
 
@@ -67,6 +80,10 @@ public:
 	
 	// Ads new time to the csv file after sequence is over
 	void add_new_time(float new_time);
+
+	// Calculating parameters of chart
+	void calculating_bars();
+
 };
 
 
