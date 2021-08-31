@@ -15,6 +15,7 @@ void cLive_chart::init_actual_work_time_graph(int pos_x, int pos_y, int size, in
 	this->pos_legend_x = pos_legend_x;
 	this->pos_legend_y = pos_legend_y;
 	this->scale = this->size / 769.0;
+
 }
 
  bool cLive_chart::detecting_rising_edge(bool signal) {
@@ -253,7 +254,7 @@ void cLive_chart::Live_chart_axis_display(std::string file_path, sf::RenderWindo
 	}
 }
 
-void cLive_chart::Live_chart_bars_display(int pos_x, int pos_y, std::string file_path, float time_scale,sf::RenderWindow *window)
+void cLive_chart::Live_chart_bars_display(int pos_x, int pos_y, std::string file_path, float time_scale, std::string displayed_time, sf::RenderWindow *window)
 {
 	//This function displays objects that are not guaranteed to exist
 	sf::Texture texture_;
@@ -278,12 +279,16 @@ void cLive_chart::Live_chart_bars_display(int pos_x, int pos_y, std::string file
 			texture_h.setTexture(texture_head);
 			texture_h.setOrigin(sf::Vector2f(2*texture_h.getTexture()->getSize().x, texture_h.getTexture()->getSize().y));         //set origins of images to center
 			texture_h.setPosition(texture.getPosition().x, texture.getPosition().y-texture.getGlobalBounds().height);
-			texture_h.setScale(this->scale, 1);
+			texture_h.setScale(this->scale, this->scale);
 
 			//drawing bar
 			window->draw(texture);
 			window->draw(texture_h);
 		}
+
+		// Drawing text
+		displayed_time.erase(displayed_time.end() - 5, displayed_time.end());
+		Universal_display_text(pos_x - texture.getTexture()->getSize().x * this->scale + 30 * this->scale, pos_y - texture.getTexture()->getSize().y * time_scale - 45 * this->scale, displayed_time, 30 * this->scale, 0, texture.getTexture()->getSize().x * this->scale, 0, window);
 	}
 }
 
@@ -346,10 +351,17 @@ void cLive_chart::render(bool &if_clear, bool &if_display, sf::RenderWindow *men
 
 		//Display bars
 		this->Live_chart_axis_display("axis.png", menu_window);
-		this->Live_chart_bars_display(this->image_size*this->first_bar+this->pos_x, this->image_size*this->coefficient+this->pos_y, "pink_column.png",this->scale_max, menu_window);
-		this->Live_chart_bars_display(this->image_size*this->second_bar + this->pos_x, this->image_size*this->coefficient + this->pos_y, "Blue_column.png", this->scale_min, menu_window);
-		this->Live_chart_bars_display(this->image_size*this->third_bar + this->pos_x, this->image_size*this->coefficient + this->pos_y, "yellow_column.png", this->scale_mean, menu_window);
-		this->Live_chart_bars_display(this->image_size*this->fourth_bar + this->pos_x, this->image_size*this->coefficient + this->pos_y, "green_column.png", this->scale_present, menu_window);
+		this->Live_chart_bars_display(this->image_size*this->first_bar + this->pos_x, this->image_size*this->coefficient+this->pos_y, "pink_column.png",this->scale_max, std::to_string(round_float(this->max_sequence_time, 1)), menu_window);
+		this->Live_chart_bars_display(this->image_size*this->second_bar + this->pos_x, this->image_size*this->coefficient + this->pos_y, "Blue_column.png", this->scale_min, std::to_string(round_float(this->min_sequence_time, 1)), menu_window);
+		this->Live_chart_bars_display(this->image_size*this->third_bar + this->pos_x, this->image_size*this->coefficient + this->pos_y, "yellow_column.png", this->scale_mean, std::to_string(round_float(this->time_mean_value, 1)), menu_window);
+		this->Live_chart_bars_display(this->image_size*this->fourth_bar + this->pos_x, this->image_size*this->coefficient + this->pos_y, "green_column.png", this->scale_present, std::to_string(round_float(this->present_time, 1)), menu_window);
+
+		// Text under bars
+		//Universal_display_text((this->image_size*this->first_bar) + this->pos_x, this->image_size*this->coefficient + this->pos_y, "czas 1", 20, 0, 0, 0, menu_window);
+		//Universal_display_text((this->image_size*this->second_bar) + this->pos_x, this->image_size*this->coefficient + this->pos_y, "czas 1", 20, 0, 0, 0, menu_window);
+		//Universal_display_text((this->image_size*this->third_bar) + this->pos_x, this->image_size*this->coefficient + this->pos_y, "czas 1", 20, 0, 0, 0, menu_window);
+		//Universal_display_text((this->image_size*this->fourth_bar) + this->pos_x, this->image_size*this->coefficient + this->pos_y, "czas 1", 20, 0, 0, 0, menu_window);
+
 
 		//Display legend
 		Universal_display_texture_without_origin(this->pos_legend_x, this->pos_legend_y, "menu/Legend.png", this->scale*0.65, menu_window);
