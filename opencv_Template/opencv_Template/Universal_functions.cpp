@@ -138,3 +138,21 @@ float round_float(float input_var, int number_of_decimal_places)
 
 	return output_var;
 }
+
+void Universal_display_text_polish_font(int pos_x, int pos_y, std::wstring text, float size, float rotate, sf::RenderWindow *window) {
+	sf::Font font_;
+	if (!font_.loadFromFile("resources/mermaid/AbhayaLibre-Regular.ttf"))
+	{
+		std::cerr << "Could not load font" << std::endl;
+		exit(1);
+	}
+	sf::Text text_;
+	text_.setFillColor(sf::Color::Black);
+	text_.setFont(font_);
+	text_.setString(text);
+	text_.setCharacterSize(size);
+	text_.setRotation(rotate);
+	text_.setOrigin((text_.getGlobalBounds().left + text_.getGlobalBounds().width) / 2, (text_.getGlobalBounds().height + text_.getGlobalBounds().top) / 2);     //set origins of text to center
+	text_.setPosition(pos_x, pos_y);
+	window->draw(text_);
+}

@@ -871,7 +871,8 @@ void menu_sfml_objects::render(int current_step, bool live_chart)
 		this->display_text(200, this->Start_button_y + 75, "Exit", 30);
 
 		//Texts
-		this->display_text(this->load_csv_button_x, this->load_csv_button_y - 10, "Zaladuj plik .csv", 80);
+		Universal_display_text_polish_font(this->load_csv_button_x, this->load_csv_button_y - 10, L"Za³aduj plik .csv", 80,0,this->menu_window);
+		//this->display_text(this->load_csv_button_x, this->load_csv_button_y - 10, "Zaladuj plik .csv", 80);
 		this->display_text(this->installation_of_connectors_button_x, this->installation_of_connectors_button_y - 10, "Montaz zlaczek", 80);
 		this->display_text(this->Calibration_button_x, this->Calibration_button_y - 10, "Kalibracja systemu", 80);
 		this->display_text(this->menu_window_width / 2, 130, "Menu", 200);
