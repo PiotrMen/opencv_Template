@@ -19,7 +19,7 @@ private:
 	bool detecting_rising_edge_left_mouse_button();
 	bool detecting_falling_edge_left_mouse_button();
 	void Live_chart_axis_display(std::string file_path,sf::RenderWindow *window);
-	void Live_chart_bars_display(int pos_x, int pos_y, std::string file_path, float time_scale, sf::RenderWindow *window);
+	void Live_chart_bars_display(int pos_x, int pos_y, std::string file_path, float time_scale, std::string displayed_time, sf::RenderWindow *window);
 
 	//Position in pixels and size of Live Chart
 	int pos_x;

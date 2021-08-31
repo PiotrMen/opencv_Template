@@ -43,7 +43,6 @@ int main()
 
 	int current_window = 0;
 
-
 	std::thread th(thread_vision(), 1);
 	
 	//sf::Clock zegar;

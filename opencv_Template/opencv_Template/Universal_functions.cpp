@@ -94,7 +94,7 @@ void Universal_display_text(int pos_x, int pos_y, std::string text, float size, 
 	text_.setPosition(pos_x, pos_y);
 	window->draw(text_);
 }
-void Universal_display_text(int pos_x, int pos_y, std::string text, float size, float rotate, sf::RenderWindow *window)
+void Universal_display_text(int pos_x, int pos_y, std::string text, float size, float rotate, int origin_x, int origin_y, sf::RenderWindow *window)
 {
 	sf::Font font_;
 	if (!font_.loadFromFile("resources/mermaid/Mermaid1001.ttf"))
@@ -108,8 +108,15 @@ void Universal_display_text(int pos_x, int pos_y, std::string text, float size, 
 	text_.setString(text);
 	text_.setCharacterSize(size);
 	text_.setRotation(rotate);
-	text_.setOrigin((text_.getGlobalBounds().left + text_.getGlobalBounds().width) / 2, (text_.getGlobalBounds().height + text_.getGlobalBounds().top) / 2);     //set origins of text to center
+	text_.setOrigin(origin_x, origin_y);     //set origins of text to center
 	text_.setPosition(pos_x, pos_y);
 	window->draw(text_);
 }
+float round_float(float input_var, int number_of_decimal_places)
+{
+	int converter = pow(10, number_of_decimal_places);
+	float output_var = (int)(input_var * converter + 0.5);
+	output_var = (float)(output_var / converter);
 
+	return output_var;
+}

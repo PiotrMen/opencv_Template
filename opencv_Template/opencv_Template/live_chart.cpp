@@ -10,6 +10,7 @@ cLive_chart::cLive_chart(int pos_x, int pos_y, int size) {
 	this->third_bar = (470 + 83) / 769.0;
 	this->fourth_bar = (620 + 83)/ 769.0;
 	this->scale = this->size / 769.0;
+
 }
 
  bool cLive_chart::detecting_rising_edge(bool signal) {
@@ -248,7 +249,7 @@ void cLive_chart::Live_chart_axis_display(std::string file_path, sf::RenderWindo
 	}
 }
 
-void cLive_chart::Live_chart_bars_display(int pos_x, int pos_y, std::string file_path, float time_scale,sf::RenderWindow *window)
+void cLive_chart::Live_chart_bars_display(int pos_x, int pos_y, std::string file_path, float time_scale, std::string displayed_time, sf::RenderWindow *window)
 {
 	//This function displays objects that are not guaranteed to exist
 	sf::Texture texture_;
@@ -273,12 +274,16 @@ void cLive_chart::Live_chart_bars_display(int pos_x, int pos_y, std::string file
 			texture_h.setTexture(texture_head);
 			texture_h.setOrigin(sf::Vector2f(2*texture_h.getTexture()->getSize().x, texture_h.getTexture()->getSize().y));         //set origins of images to center
 			texture_h.setPosition(texture.getPosition().x, texture.getPosition().y-texture.getGlobalBounds().height);
-			texture_h.setScale(this->scale, 1);
+			texture_h.setScale(this->scale, this->scale);
 
 			//drawing bar
 			window->draw(texture);
 			window->draw(texture_h);
 		}
+
+		// Drawing text
+		displayed_time.erase(displayed_time.end() - 5, displayed_time.end());
+		Universal_display_text(pos_x - texture.getTexture()->getSize().x * this->scale + 30 * this->scale, pos_y - texture.getTexture()->getSize().y * time_scale - 45 * this->scale, displayed_time, 30 * this->scale, 0, texture.getTexture()->getSize().x * this->scale, 0, window);
 	}
 }
 
@@ -340,10 +345,17 @@ void cLive_chart::render(bool &if_clear, bool &if_display, sf::RenderWindow *men
 			menu_window->clear(sf::Color(255, 255, 255, 255));
 
 		this->Live_chart_axis_display("axis.png", menu_window);
-		this->Live_chart_bars_display(this->image_size*this->first_bar+this->pos_x, this->image_size*this->coefficient+this->pos_y, "pink_column.png",this->scale_max, menu_window);
-		this->Live_chart_bars_display(this->image_size*this->second_bar + this->pos_x, this->image_size*this->coefficient + this->pos_y, "Blue_column.png", this->scale_min, menu_window);
-		this->Live_chart_bars_display(this->image_size*this->third_bar + this->pos_x, this->image_size*this->coefficient + this->pos_y, "yellow_column.png", this->scale_mean, menu_window);
-		this->Live_chart_bars_display(this->image_size*this->fourth_bar + this->pos_x, this->image_size*this->coefficient + this->pos_y, "green_column.png", this->scale_present, menu_window);
+		this->Live_chart_bars_display(this->image_size*this->first_bar + this->pos_x, this->image_size*this->coefficient+this->pos_y, "pink_column.png",this->scale_max, std::to_string(round_float(this->max_sequence_time, 1)), menu_window);
+		this->Live_chart_bars_display(this->image_size*this->second_bar + this->pos_x, this->image_size*this->coefficient + this->pos_y, "Blue_column.png", this->scale_min, std::to_string(round_float(this->min_sequence_time, 1)), menu_window);
+		this->Live_chart_bars_display(this->image_size*this->third_bar + this->pos_x, this->image_size*this->coefficient + this->pos_y, "yellow_column.png", this->scale_mean, std::to_string(round_float(this->time_mean_value, 1)), menu_window);
+		this->Live_chart_bars_display(this->image_size*this->fourth_bar + this->pos_x, this->image_size*this->coefficient + this->pos_y, "green_column.png", this->scale_present, std::to_string(round_float(this->present_time, 1)), menu_window);
+
+		// Text under bars
+		//Universal_display_text((this->image_size*this->first_bar) + this->pos_x, this->image_size*this->coefficient + this->pos_y, "czas 1", 20, 0, 0, 0, menu_window);
+		//Universal_display_text((this->image_size*this->second_bar) + this->pos_x, this->image_size*this->coefficient + this->pos_y, "czas 1", 20, 0, 0, 0, menu_window);
+		//Universal_display_text((this->image_size*this->third_bar) + this->pos_x, this->image_size*this->coefficient + this->pos_y, "czas 1", 20, 0, 0, 0, menu_window);
+		//Universal_display_text((this->image_size*this->fourth_bar) + this->pos_x, this->image_size*this->coefficient + this->pos_y, "czas 1", 20, 0, 0, 0, menu_window);
+
 
 		//display back to 202
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, menu_window)) {
