@@ -126,7 +126,8 @@ void Universal_display_text(int pos_x, int pos_y, std::string text, float size, 
 	text_.setString(text);
 	text_.setCharacterSize(size);
 	text_.setRotation(rotate);
-	text_.setOrigin(origin_x, origin_y);     //set origins of text to center
+	text_.setOrigin(origin_x + text_.getGlobalBounds().width / 2, origin_y);     //set origins of text to center
+
 	text_.setPosition(pos_x, pos_y);
 	window->draw(text_);
 }

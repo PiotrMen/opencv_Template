@@ -288,7 +288,7 @@ void cLive_chart::Live_chart_bars_display(int pos_x, int pos_y, std::string file
 
 		// Drawing text
 		displayed_time.erase(displayed_time.end() - 5, displayed_time.end());
-		Universal_display_text(pos_x - texture.getTexture()->getSize().x * this->scale + 30 * this->scale, pos_y - texture.getTexture()->getSize().y * time_scale - 45 * this->scale, displayed_time, 30 * this->scale, 0, texture.getTexture()->getSize().x * this->scale, 0, window);
+		Universal_display_text(pos_x + texture.getTexture()->getSize().x * this->scale - 55 * this->scale, pos_y - texture.getTexture()->getSize().y * time_scale - 45 * this->scale, displayed_time, 30 * this->scale, 0, texture.getTexture()->getSize().x * this->scale, 0, window);
 	}
 }
 
@@ -358,6 +358,7 @@ void cLive_chart::render(bool &if_clear, bool &if_display, sf::RenderWindow *men
 
 		// Title
 		Universal_display_text(pos_x + this->image_size, pos_y, "Wykres czasu pracy", this->scale * 42, 0, this->image_size / 2, 0, menu_window);
+
 		// Axis description
 		Universal_display_text(pos_x, pos_y + this->image_size / 2, "Czas [s]", this->scale * 28, -90, 0, 0, menu_window);
 
