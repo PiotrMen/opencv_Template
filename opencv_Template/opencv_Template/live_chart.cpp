@@ -9,6 +9,7 @@ cLive_chart::cLive_chart(int pos_x, int pos_y, int size) {
 	this->second_bar =(320 + 83) / 769.0;
 	this->third_bar = (470 + 83) / 769.0;
 	this->fourth_bar = (620 + 83)/ 769.0;
+	this->scale = this->size / 769.0;
 }
 
  bool cLive_chart::detecting_rising_edge(bool signal) {
@@ -239,7 +240,6 @@ void cLive_chart::Live_chart_axis_display(std::string file_path, sf::RenderWindo
 	{
 		sf::Sprite texture;
 		texture.setTexture(texture_);
-		this->scale = this->size / texture.getGlobalBounds().width;
 		texture.setPosition(this->pos_x, this->pos_y);
 		texture.setScale(scale, scale);
 		this->image_size = texture.getGlobalBounds().width;
@@ -334,11 +334,11 @@ void cLive_chart::render(bool &if_clear, bool &if_display, sf::RenderWindow *men
 		//display back to 202
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, menu_window)) {
 			Universal_display_texture(960, 950, "menu/grey_pushed.png", data_box.menu_button_size, 0, menu_window);
-			Universal_display_text(960, 935, "Wyswietl wykresy", 100, menu_window);
+			Universal_display_text(960, 930, "Powrot", 100, menu_window);
 		}
 		else {
 			Universal_display_texture(960, 950, "menu/grey_button.png", data_box.menu_button_size, 0, menu_window);
-			Universal_display_text(960, 935, "Wyswietl wykresy", 100, menu_window);
+			Universal_display_text(960, 930, "Powrot", 100, menu_window);
 		}
 		if (unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, menu_window))
 			Universal_display_texture(960, 950 + 85, "menu/UnderLine.png", data_box.menu_button_size - 0.2, 0, menu_window);
