@@ -860,7 +860,7 @@ void menu_sfml_objects::render(int current_step, bool live_chart)
 
 		//Displaying blue button
 		this->display_texture(this->blue_button_x, this->blue_button_y, "blue_circle.png", this->button_size, 0);
-		this->display_text(this->blue_button_x, this->blue_button_y + 75, "Pomoc", 30);
+		Universal_display_text_polish_font(this->blue_button_x, this->blue_button_y + 75, L"Pomoc", 30,0,this->menu_window);
 
 		//Displaying start button
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(200, this->Start_button_y, this->Start_button_length_x, this->Start_button_length_y, data_box.menu_button_size, this->menu_window))
@@ -868,25 +868,24 @@ void menu_sfml_objects::render(int current_step, bool live_chart)
 		else
 			this->display_texture(200, this->Start_button_y, "red_circle.png", this->button_size, 0);
 
-		this->display_text(200, this->Start_button_y + 75, "Exit", 30);
+		Universal_display_text_polish_font(200, this->Start_button_y + 75, L"Exit", 30,0,this->menu_window);
 
 		//Texts
 		Universal_display_text_polish_font(this->load_csv_button_x, this->load_csv_button_y - 10, L"Za³aduj plik .csv", 80,0,this->menu_window);
-		//this->display_text(this->load_csv_button_x, this->load_csv_button_y - 10, "Zaladuj plik .csv", 80);
-		this->display_text(this->installation_of_connectors_button_x, this->installation_of_connectors_button_y - 10, "Montaz zlaczek", 80);
-		this->display_text(this->Calibration_button_x, this->Calibration_button_y - 10, "Kalibracja systemu", 80);
-		this->display_text(this->menu_window_width / 2, 130, "Menu", 200);
+		Universal_display_text_polish_font(this->installation_of_connectors_button_x, this->installation_of_connectors_button_y - 10, L"Monta¿ z³¹czek", 80, 0, this->menu_window);
+		Universal_display_text_polish_font(this->Calibration_button_x, this->Calibration_button_y - 10, L"Kalibracja systemu", 80,0,this->menu_window);
+		Universal_display_text_polish_font(this->menu_window_width / 2, 130, L"Menu", 200,0,this->menu_window);
 
 
 		// Current sequence name
-		this->display_text(225, 30, "Zaladowana sekwencja:", 34);
+		Universal_display_text_polish_font(225, 30, L"Za³adowana sekwencja", 34,0,this->menu_window);
 		if (sequence.size() == 0)
 		{
-			this->display_text(225, 80, "Brak", 34);
+			Universal_display_text_polish_font(225, 80, L"Brak", 34,0,this->menu_window);
 		}
 		else
 		{
-			this->display_text(225, 80, sequence_name, 34);
+			Universal_display_text_polish_font(225, 80, String_to_wString(sequence_name), 34,0,this->menu_window);
 		}
 
 		//UnderLines
@@ -902,29 +901,29 @@ void menu_sfml_objects::render(int current_step, bool live_chart)
 
 	if (this->current_menu_window == 100)
 	{
-		this->display_text(this->menu_window_width / 2, 130, "Pomoc", 200);
+		Universal_display_text_polish_font(this->menu_window_width / 2, 130, L"Pomoc", 200, 0, this->menu_window);
 
 		// Displaying backward in section
 		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
-		this->display_text(this->backward_button_x, this->backward_button_y + 75, "Powrot", 30);
+		Universal_display_text_polish_font(this->backward_button_x, this->backward_button_y + 75, L"Powrót", 30, 0,this->menu_window);
 
 		// Displaying help
-		this->display_text(this->menu_window_width/2, this->menu_window_height/2, load_txt_help("help_menu.txt"), 34);
+		Universal_display_text_polish_font(this->menu_window_width/2, this->menu_window_height/2, String_to_wString(load_txt_help("help_menu.txt")), 34,0,this->menu_window);
 
 	}
 
 	//Upload file window displaying
 	if (this->current_menu_window == 1) {
 		//displaying name of section
-		this->display_text(this->menu_window_width / 2, 130, "Zaladuj plik .csv", 200);
+		Universal_display_text_polish_font(this->menu_window_width / 2, 130, L"Za³aduj plik .csv", 200,0,this->menu_window);
 
 		//Displaying blue button
 		this->display_texture(this->blue_button_x, this->blue_button_y, "blue_circle.png", this->button_size, 0);
-		this->display_text(this->blue_button_x, this->blue_button_y + 75, "Pomoc", 30);
+		Universal_display_text_polish_font(this->blue_button_x, this->blue_button_y + 75, L"Pomoc", 30,0,this->menu_window);
 
 		//displaying backward in section
 		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
-		this->display_text(this->backward_button_x, this->backward_button_y + 75, "Powrot", 30);
+		Universal_display_text_polish_font(this->backward_button_x, this->backward_button_y + 75, L"Powrót", 30,0,this->menu_window);
 
 		//Displaying searching square
 		if (this->enable_writing == true || this->searching_text.size() > 0)
@@ -935,8 +934,8 @@ void menu_sfml_objects::render(int current_step, bool live_chart)
 		{
 			this->display_texture(990, 400, "name.png", 1, 0);
 		}
-		this->display_text(990, 470, "Podaj nazwe wczytywanego pliku .csv", 26);
-		this->display_text(990, 400, searching_text, 26);
+		Universal_display_text_polish_font(990, 470, L"Podaj nazwê wczytywanego pliku .csv", 26,0,this->menu_window);
+		Universal_display_text_polish_font(990, 400, String_to_wString(searching_text), 26,0,this->menu_window);
 
 		//Displaying acceptance button
 		if (searching_text.size() > 0)
@@ -949,7 +948,7 @@ void menu_sfml_objects::render(int current_step, bool live_chart)
 			{
 				this->display_texture(990, 800, "grey_button.png", data_box.menu_button_size, 0);
 			}
-			this->display_text(990, 785, "Zatwierdz plik .csv", 80);
+			Universal_display_text_polish_font(990, 785, L"ZatwierdŸ plik .csv", 80,0,this->menu_window);
 
 			//Button Underline
 			if (unieversal_detecting_collision_with_buttons(990, 800, 707, 120, 1, this->menu_window))
@@ -960,14 +959,14 @@ void menu_sfml_objects::render(int current_step, bool live_chart)
 	}
 	if (this->current_menu_window == 101)
 	{
-		this->display_text(this->menu_window_width / 2, 130, "Pomoc", 200);
+		Universal_display_text_polish_font(this->menu_window_width / 2, 130, L"Pomoc", 200,0,this->menu_window);
 
 		// Displaying backward in section
 		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
-		this->display_text(this->backward_button_x, this->backward_button_y + 75, "Powrot", 30);
+		Universal_display_text_polish_font(this->backward_button_x, this->backward_button_y + 75, L"Powrót", 30,0,this->menu_window);
 
 		// Displaying help
-		this->display_text(this->menu_window_width / 2, this->menu_window_height / 2, load_txt_help("help_wczytanie_csv.txt"), 34);
+		Universal_display_text_polish_font(this->menu_window_width / 2, this->menu_window_height / 2, String_to_wString(load_txt_help("help_wczytanie_csv.txt")), 34,0,this->menu_window);
 
 	}
 
@@ -976,56 +975,56 @@ void menu_sfml_objects::render(int current_step, bool live_chart)
 
 	//	std::cout << if_clear << "    " << if_display << std::endl;
 
-		this->display_text(this->menu_window_width / 2, 130, "Zeskanuj pudelka", 200);
+		Universal_display_text_polish_font(this->menu_window_width / 2, 130, L"Zeskanuj pude³ka", 200,0,this->menu_window);
 
 		//Displaying blue button
 		this->display_texture(this->blue_button_x, this->blue_button_y, "blue_circle.png", this->button_size, 0);
-		this->display_text(this->blue_button_x, this->blue_button_y + 75, "Pomoc", 30);
+		Universal_display_text_polish_font(this->blue_button_x, this->blue_button_y + 75, L"Pomoc", 30,0,this->menu_window);
 
 		//displaying backward in section
 		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
-		this->display_text(this->backward_button_x, this->backward_button_y + 75, "Powrot", 30);
+		Universal_display_text_polish_font(this->backward_button_x, this->backward_button_y + 75, L"Powrót", 30,0,this->menu_window);
 
 		//displaying rectangles
 		for (int i = 0; i < 10; i++){
 			this->menu_window->draw(this->vector_rectangles[i]);
 			if(this->vector_rectangles[i].getFillColor() == sf::Color::Red)
-				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y-30, std::to_string(i+1), 120);
+				Universal_display_text_polish_font(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y-30, String_to_wString(std::to_string(i+1)), 120,0,this->menu_window);
 			else
 				display_texture(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y, std::to_string(vector_displaying_articles[i].serial_number) + ".png", 1);
 		}
 
 		//displaying texts on rectangle
 		if(searching_text.size() != 0)
-			this->display_text(vector_rectangles[which_box_is_writing].getPosition().x, vector_rectangles[which_box_is_writing].getPosition().y + 90, searching_text, 20);
+			Universal_display_text_polish_font(vector_rectangles[which_box_is_writing].getPosition().x, vector_rectangles[which_box_is_writing].getPosition().y + 90, String_to_wString(searching_text), 20,0,this->menu_window);
 		for (int i = 0; i < vector_displaying_articles.size(); i++) {
 			if(!connectors_list[i].repeated_number && vector_displaying_articles[i].serial_number != 0 && i != which_box_is_writing)
-				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y + 90, std::to_string(vector_displaying_articles[i].serial_number), 20);
+				Universal_display_text_polish_font(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y + 90, String_to_wString(std::to_string(vector_displaying_articles[i].serial_number)), 20,0,this->menu_window);
 			if (!connectors_list[i].repeated_number && std::to_string(vector_displaying_articles[i].serial_number).size() == 7 && i == which_box_is_writing)
-				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y + 90, std::to_string(vector_displaying_articles[i].serial_number), 20);
+				Universal_display_text_polish_font(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y + 90, String_to_wString(std::to_string(vector_displaying_articles[i].serial_number)), 20,0,this->menu_window);
 			if(connectors_list[i].wrong_number)
-				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 90, "Zly numer", 20);
+				Universal_display_text_polish_font(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 90, L"Z³y numer", 20,0,this->menu_window);
 
 			if(connectors_list[i].repeated_number)
-				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 90, "Powtorzony numer", 20);
+				Universal_display_text_polish_font(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 90, L"Powtórzony numer", 20,0,this->menu_window);
 
 			if (!connectors_list[i].wrong_number && !connectors_list[i].repeated_number && vector_displaying_articles[i].name != "")
-				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 120, vector_displaying_articles[i].name, 16);
+				Universal_display_text_polish_font(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 120, String_to_wString(vector_displaying_articles[i].name), 16,0,this->menu_window);
 		}
 
 		//displaying helpful text
 		if (!this->display_start_sequention)
-			this->display_text(960, 935, "Zeskanuj i poloz na stole zgodnie z instrukcja", 50);
+			Universal_display_text_polish_font(960, 935, L"Zeskanuj i po³ó¿ na stole zgodnie z instrukcj¹", 50,0,this->menu_window);
 
 		//displaying start sequention button
 		if (this->display_start_sequention) {
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window) && this->display_start_sequention) {
 				this->display_texture(960, 950, "grey_pushed.png", data_box.menu_button_size, 0);
-				this->display_text(960, 935, "Start sekwencji", 100);
+				Universal_display_text_polish_font(960, 935, L"Start sekwencji", 100,0,this->menu_window);
 			}
 			else {
 				this->display_texture(960, 950, "grey_button.png", data_box.menu_button_size, 0);
-				this->display_text(960, 935, "Start sekwencji", 100);
+				Universal_display_text_polish_font(960, 935, L"Start sekwencji", 100,0,this->menu_window);
 			}
 			if(unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window))
 				this->display_texture(960, 950 + 85, "UnderLine.png", data_box.menu_button_size - 0.2, 0);
@@ -1035,14 +1034,14 @@ void menu_sfml_objects::render(int current_step, bool live_chart)
 
 	if (this->current_menu_window == 102)
 	{
-		this->display_text(this->menu_window_width / 2, 130, "Pomoc", 200);
+		Universal_display_text_polish_font(this->menu_window_width / 2, 130, L"Pomoc", 200,0,this->menu_window);
 
 		// Displaying backward in section
 		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
-		this->display_text(this->backward_button_x, this->backward_button_y + 75, "Powrot", 30);
+		Universal_display_text_polish_font(this->backward_button_x, this->backward_button_y + 75, L"Powrót", 30,0,this->menu_window);
 
 		// Displaying help
-		this->display_text(this->menu_window_width / 2, this->menu_window_height / 2, load_txt_help("help_montaz_zlaczek.txt"), 34);
+		Universal_display_text_polish_font(this->menu_window_width / 2, this->menu_window_height / 2, String_to_wString(load_txt_help("help_montaz_zlaczek.txt")), 34,0,this->menu_window);
 
 		this->if_clear = true;
 	}
@@ -1054,49 +1053,49 @@ void menu_sfml_objects::render(int current_step, bool live_chart)
 		for (int i = 0; i < 10; i++) {
 			this->menu_window->draw(this->vector_rectangles[i]);
 			if (this->vector_rectangles[i].getFillColor() == sf::Color::Red)
-				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 30, std::to_string(i + 1), 120);
+				Universal_display_text_polish_font(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 30, String_to_wString(std::to_string(i + 1)), 120,0,this->menu_window);
 			else
 				display_texture(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y, std::to_string(vector_displaying_articles[i].serial_number) + ".png", 1);
 		}
 
 		//displaying texts on rectangle
-		this->display_text(vector_rectangles[which_box_is_writing].getPosition().x, vector_rectangles[which_box_is_writing].getPosition().y + 90, searching_text, 20);
+		Universal_display_text_polish_font(vector_rectangles[which_box_is_writing].getPosition().x, vector_rectangles[which_box_is_writing].getPosition().y + 90, String_to_wString(searching_text), 20,0,this->menu_window);
 
 		for (int i = 0; i < vector_displaying_articles.size(); i++) {
 			if (!connectors_list[i].repeated_number && vector_displaying_articles[i].serial_number != 0)
-				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y + 90, std::to_string(vector_displaying_articles[i].serial_number), 20);
+				Universal_display_text_polish_font(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y + 90, String_to_wString(std::to_string(vector_displaying_articles[i].serial_number)), 20,0,this->menu_window);
 			if (connectors_list[i].wrong_number)
-				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 90, "Zly numer", 20);
+				Universal_display_text_polish_font(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 90, L"Z³y numer", 20,0,this->menu_window);
 
 			if (connectors_list[i].repeated_number)
-				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 90, "Powtorzony numer", 20);
+				Universal_display_text_polish_font(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 90, L"Powtórzony numer", 20,0,this->menu_window);
 
 			if (!connectors_list[i].wrong_number && !connectors_list[i].repeated_number && vector_displaying_articles[i].name != "")
-				this->display_text(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 120, vector_displaying_articles[i].name, 16);
+				Universal_display_text_polish_font(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 120, String_to_wString(vector_displaying_articles[i].name), 16,0,this->menu_window);
 		}
 
 		// Displaying step back in sequence
 		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
-		this->display_text(this->backward_button_x, this->backward_button_y + 75, "Cofnij krok", 30);
+		Universal_display_text_polish_font(this->backward_button_x, this->backward_button_y + 75, L"Cofnij krok", 30,0,this->menu_window);
 
 		// Displaying back to menu in sequence
 		this->display_texture(this->menu_window_width - 200, this->menu_window_height - 150, "red_circle.png", this->button_size, 0);
-		this->display_text(this->menu_window_width - 200, this->menu_window_height - 75, "Powrot do menu", 30);
+		Universal_display_text_polish_font(this->menu_window_width - 200, this->menu_window_height - 75, L"Powrót do menu", 30,0,this->menu_window);
 
 		if (!this->timer_flag) {
-			this->display_text(920, 935, "Trwa kalibracja", 80);
-			this->display_text(1270, 935, std::to_string(this->displaying_time) + " s:", 80);
+			Universal_display_text_polish_font(920, 935, L"Trwa kalibracja", 80,0,this->menu_window);
+			Universal_display_text_polish_font(1270, 935, String_to_wString(std::to_string(this->displaying_time) + " s:"), 80,0,this->menu_window);
 		}
 		
 		if (live_chart) {
 			//display go to Live Charts
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window)) {
 				this->display_texture(960, 950, "grey_pushed.png", data_box.menu_button_size, 0);
-				this->display_text(960, 935, "Wyswietl wykresy", 100);
+				Universal_display_text_polish_font(960, 935, L"Wyœwietl wykresy", 100,0,this->menu_window);
 			}
 			else {
 				this->display_texture(960, 950, "grey_button.png", data_box.menu_button_size, 0);
-				this->display_text(960, 935, "Wyswietl wykresy", 100);
+				Universal_display_text_polish_font(960, 935, L"Wyœwietl wykresy", 100,0,this->menu_window);
 			}
 			if (unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window))
 				this->display_texture(960, 950 + 85, "UnderLine.png", data_box.menu_button_size - 0.2, 0);
@@ -1106,48 +1105,48 @@ void menu_sfml_objects::render(int current_step, bool live_chart)
 
 	//Calibration section section displaying
 	if (this->current_menu_window == 3) {
-		this->display_text(this->menu_window_width / 2, 130, "Kalibracja systemu", 200);
+		Universal_display_text_polish_font(this->menu_window_width / 2, 130, L"Kalibracja systemu", 200,0,this->menu_window);
 
 		//Displaying blue button
 		this->display_texture(this->blue_button_x, this->blue_button_y, "blue_circle.png", this->button_size, 0);
-		this->display_text(this->blue_button_x, this->blue_button_y + 75, "Pomoc", 30);
+		Universal_display_text_polish_font(this->blue_button_x, this->blue_button_y + 75, L"Pomoc", 30,0,this->menu_window);
 
 		//displaying backward in section
 		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
-		this->display_text(this->backward_button_x, this->backward_button_y + 75, "Powrot", 30);
+		Universal_display_text_polish_font(this->backward_button_x, this->backward_button_y + 75, L"Powrót", 30,0,this->menu_window);
 
-		this->display_text(this->menu_window_width / 2, 430, "Kalibrowanie punktow charakterystycznych:", 100);
-		this->display_text(this->menu_window_width / 2, 530, "Sprawdz czy tasmy znajduja sie w podswietlonych miejscach", 60);
+		Universal_display_text_polish_font(this->menu_window_width / 2, 430, L"Kalibrowanie punktów charakterystycznych:", 100,0,this->menu_window);
+		Universal_display_text_polish_font(this->menu_window_width / 2, 530, L"SprawdŸ czy taœmy znajduj¹ siê w podœwietlonych miejscach", 60,0,this->menu_window);
 
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window)) {
 			this->display_texture(960, 950, "grey_pushed.png", data_box.menu_button_size, 0);
-			this->display_text(960, 930, "Zatwierdz", 100);
+			Universal_display_text_polish_font(960, 930, L"ZatwierdŸ", 100,0,this->menu_window);
 		}
 		else {
 			this->display_texture(960, 950, "grey_button.png", data_box.menu_button_size, 0);
-			this->display_text(960, 930, "Zatwierdz", 100);
+			Universal_display_text_polish_font(960, 930, L"ZatwierdŸ", 100,0,this->menu_window);
 		}
 		if (unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window))
 			this->display_texture(960, 950 + 85, "UnderLine.png", data_box.menu_button_size - 0.2, 0);
 	}
 
 	if (this->current_menu_window == 301) {
-		this->display_text(this->menu_window_width / 2, 130, "Kalibracja kamery", 200);
-		this->display_text(this->menu_window_width / 2, 430, "Trwa kalibracja kamery, prosze poczekac", 100);
-		this->display_text(this->menu_window_width / 2, 630, std::to_string(this->displaying_time) +" s:", 100);
-		this->display_text(this->menu_window_width / 2, 830, "Sprawdz czy nic nie znajduje sie na stole", 60);
+		Universal_display_text_polish_font(this->menu_window_width / 2, 130, L"Kalibracja kamery", 200,0,this->menu_window);
+		Universal_display_text_polish_font(this->menu_window_width / 2, 430, L"Trwa kalibracja kamery, proszê poczekaæ", 100,0,this->menu_window);
+		Universal_display_text_polish_font(this->menu_window_width / 2, 630, String_to_wString(std::to_string(this->displaying_time) +" s:"), 100,0,this->menu_window);
+		Universal_display_text_polish_font(this->menu_window_width / 2, 830, L"SprawdŸ czy nic nie znajdujê siê na stole", 60,0,this->menu_window);
 	}
 
 	if (this->current_menu_window == 103)
 	{
-		this->display_text(this->menu_window_width / 2, 130, "Pomoc", 200);
+		Universal_display_text_polish_font(this->menu_window_width / 2, 130, L"Pomoc", 200,0,this->menu_window);
 
 		// Displaying backward in section
 		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
-		this->display_text(this->backward_button_x, this->backward_button_y + 75, "Powrot", 30);
+		Universal_display_text_polish_font(this->backward_button_x, this->backward_button_y + 75, L"Powrót", 30,0,this->menu_window);
 
 		// Displaying help
-		this->display_text(this->menu_window_width / 2, this->menu_window_height / 2, load_txt_help("help_kalibracja.txt"), 34);
+		Universal_display_text_polish_font(this->menu_window_width / 2, this->menu_window_height / 2, String_to_wString(load_txt_help("help_kalibracja.txt")), 34,0,this->menu_window);
 
 	}
 

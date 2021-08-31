@@ -156,3 +156,16 @@ void Universal_display_text_polish_font(int pos_x, int pos_y, std::wstring text,
 	text_.setPosition(pos_x, pos_y);
 	window->draw(text_);
 }
+
+// convert UTF-8 string to wstring
+std::wstring String_to_wString(const std::string & s)
+{
+	int len;
+	int slength = (int)s.length() + 1;
+	len = MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, 0, 0);
+	wchar_t* buf = new wchar_t[len];
+	MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, buf, len);
+	std::wstring r(buf);
+	delete[] buf;
+	return r;
+}

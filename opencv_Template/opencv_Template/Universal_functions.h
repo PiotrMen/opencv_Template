@@ -4,6 +4,11 @@
 #include <mutex>
 #include <thread>
 #include "csv_read.h"
+#include <codecvt>
+#include <string>
+#include <stdexcept>
+#include <vector>
+#include <windows.h>
 
 
 #ifndef UNIVERSAL_FUNCTIONS_H
@@ -38,6 +43,7 @@ void Universal_display_text(int pos_x, int pos_y, std::string text, float size, 
 void Universal_display_texture_without_origin(int pos_x, int pos_y, std::string file_path, float scale, sf::RenderWindow *window);
 void Universal_display_text_polish_font(int pos_x, int pos_y, std::wstring text, float size, float rotate, sf::RenderWindow *window);
 float round_float(float input_var, int number_of_decimal_places);
+std::wstring String_to_wString(const std::string& str);
 
 
 #endif
