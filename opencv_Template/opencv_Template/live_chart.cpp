@@ -252,6 +252,7 @@ void cLive_chart::Live_chart_bars_display(int pos_x, int pos_y, std::string file
 {
 	//This function displays objects that are not guaranteed to exist
 	sf::Texture texture_;
+	sf::Texture texture_head;
 	if (!texture_.loadFromFile("resources/menu/" + file_path))
 	{
 	}
@@ -261,10 +262,23 @@ void cLive_chart::Live_chart_bars_display(int pos_x, int pos_y, std::string file
 		texture.setTexture(texture_);
 		texture.setOrigin(sf::Vector2f(2*texture.getTexture()->getSize().x, texture.getTexture()->getSize().y));         //set origins of images to center
 		texture.setPosition(pos_x, pos_y+2);
+		texture.setScale(this->scale, time_scale);
 
-		texture.setScale(this->scale*0.5, time_scale);
+		if (!texture_head.loadFromFile("resources/menu/live_chart_head.png"))
+		{
+		}
+		else
+		{
+			sf::Sprite texture_h;
+			texture_h.setTexture(texture_head);
+			texture_h.setOrigin(sf::Vector2f(2*texture_h.getTexture()->getSize().x, texture_h.getTexture()->getSize().y));         //set origins of images to center
+			texture_h.setPosition(texture.getPosition().x, texture.getPosition().y-texture.getGlobalBounds().height);
+			texture_h.setScale(this->scale, 1);
 
-		window->draw(texture);
+			//drawing bar
+			window->draw(texture);
+			window->draw(texture_h);
+		}
 	}
 }
 
@@ -358,7 +372,7 @@ void cLive_chart::calculating_bars()
 	// Zmienne do przypisania pozniej
 
 	float max_height = (this->size*this->coefficient)-(100*this->scale);
-	float x = 200; // Wysokosc obrazka przed przeskalowaniem
+	float x = 100; // Wysokosc obrazka przed przeskalowaniem
 	
 	// if max_sequence_time is longest
 	if (this->max_sequence_time >= this->min_sequence_time && this->max_sequence_time >= this->time_mean_value && this->max_sequence_time >= this->present_time)
