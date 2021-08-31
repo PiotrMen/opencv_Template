@@ -76,6 +76,24 @@ void Universal_display_texture(int pos_x, int pos_y, std::string file_path, floa
 	}
 }
 
+void Universal_display_texture_without_origin(int pos_x, int pos_y, std::string file_path, float scale, sf::RenderWindow *window)
+{
+	//This function displays objects that are not guaranteed to exist
+	sf::Texture texture_;
+	if (!texture_.loadFromFile("resources/" + file_path))
+	{
+	}
+	else
+	{
+		sf::Sprite texture;
+		texture.setTexture(texture_);
+		texture.setPosition(pos_x, pos_y);
+		texture.setScale(scale, scale);
+
+		window->draw(texture);
+	}
+}
+
 //Displaying text
 void Universal_display_text(int pos_x, int pos_y, std::string text, float size, sf::RenderWindow *window)
 {

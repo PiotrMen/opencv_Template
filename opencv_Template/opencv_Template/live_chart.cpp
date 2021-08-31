@@ -1,14 +1,19 @@
 #include "live_chart.h"
 
-cLive_chart::cLive_chart(int pos_x, int pos_y, int size) {
-	this->pos_x = pos_x;
-	this->pos_y = pos_y;
-	this->size = size;
+cLive_chart::cLive_chart() {
 	this->coefficient = 0.893;
 	this->first_bar = (170 + 83) / 769.0;
 	this->second_bar =(320 + 83) / 769.0;
 	this->third_bar = (470 + 83) / 769.0;
 	this->fourth_bar = (620 + 83)/ 769.0;
+}
+
+void cLive_chart::init_actual_work_time_graph(int pos_x, int pos_y, int size, int pos_legend_x, int pos_legend_y) {
+	this->pos_x = pos_x;
+	this->pos_y = pos_y;
+	this->size = size;
+	this->pos_legend_x = pos_legend_x;
+	this->pos_legend_y = pos_legend_y;
 	this->scale = this->size / 769.0;
 
 }
@@ -344,6 +349,7 @@ void cLive_chart::render(bool &if_clear, bool &if_display, sf::RenderWindow *men
 		if (if_clear)
 			menu_window->clear(sf::Color(255, 255, 255, 255));
 
+		//Display bars
 		this->Live_chart_axis_display("axis.png", menu_window);
 		this->Live_chart_bars_display(this->image_size*this->first_bar + this->pos_x, this->image_size*this->coefficient+this->pos_y, "pink_column.png",this->scale_max, std::to_string(round_float(this->max_sequence_time, 1)), menu_window);
 		this->Live_chart_bars_display(this->image_size*this->second_bar + this->pos_x, this->image_size*this->coefficient + this->pos_y, "Blue_column.png", this->scale_min, std::to_string(round_float(this->min_sequence_time, 1)), menu_window);
@@ -356,6 +362,9 @@ void cLive_chart::render(bool &if_clear, bool &if_display, sf::RenderWindow *men
 		//Universal_display_text((this->image_size*this->third_bar) + this->pos_x, this->image_size*this->coefficient + this->pos_y, "czas 1", 20, 0, 0, 0, menu_window);
 		//Universal_display_text((this->image_size*this->fourth_bar) + this->pos_x, this->image_size*this->coefficient + this->pos_y, "czas 1", 20, 0, 0, 0, menu_window);
 
+
+		//Display legend
+		Universal_display_texture_without_origin(this->pos_legend_x, this->pos_legend_y, "menu/Legend.png", this->scale*0.65, menu_window);
 
 		//display back to 202
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, menu_window)) {

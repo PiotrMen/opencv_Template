@@ -786,6 +786,33 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		}
 	}
 
+	if (this->current_menu_window == 203 && detecting_sequation_ending()) {
+		//back to basic menu
+		this->current_menu_window = 0;
+
+		//clearing vectors
+		this->vector_displaying_articles.clear();
+		this->connectors_list.clear();
+		sequence.clear();
+		data_box.sequence_name.clear();
+		//data_box.is_sequence_activated = false;
+		this->start_sequention = false;
+		this->which_box_is_writing = 0;
+		this->which_box_chosen = 0;
+
+		data_box.last_step_of_sequence = false;
+		//data_box.v_actual_scanning_box_size = 0;
+
+		//Clearing global vector
+		//data_box.boxes.clear();
+		if_clear = true;
+		if_display = true;
+
+		for (int i = 0; i < 10; i++) {
+			vector_rectangles[i].setFillColor(sf::Color::Red);
+		}
+	}
+
 	this->previous_current_menu_window = this->current_menu_window;
 }
 
