@@ -34,7 +34,9 @@ void Universal_display_texture(int pos_x, int pos_y, std::string file_path, floa
 void Universal_display_texture(int pos_x, int pos_y, std::string file_path, float scale, sf::RenderWindow *window);
 void Universal_display_text(int pos_x, int pos_y, std::string text, float size, sf::RenderWindow *window); // with default rotation
 void Universal_display_text(int pos_x, int pos_y, std::string text, float size, float rotate, int origin_x, int origin_y, sf::RenderWindow *window); // with rotation and origin given by user
-void Live_chart_display_texture(int pos_x, int pos_y, std::string file_path, float scale, sf::RenderWindow *window);
+//void Live_chart_display_texture(int pos_x, int pos_y, std::string file_path, float scale, sf::RenderWindow *window);
+void Universal_display_texture_without_origin(int pos_x, int pos_y, std::string file_path, float scale, sf::RenderWindow *window);
+void Universal_display_text_polish_font(int pos_x, int pos_y, std::wstring text, float size, float rotate, sf::RenderWindow *window);
 float round_float(float input_var, int number_of_decimal_places);
 
 
