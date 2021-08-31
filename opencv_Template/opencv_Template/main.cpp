@@ -29,7 +29,7 @@ int main()
 	sfml_objects objects;
 	menu_sfml_objects menu_objects;
 	cLive_chart live_chart;
-	live_chart.init_actual_work_time_graph(0, 0, 769, 200, 800);
+	live_chart.init_actual_work_time_graph(0, 0, 200, 200, 800);
 
 	//coordinates of buttons
 	menu_objects.init_buttons_coords();
