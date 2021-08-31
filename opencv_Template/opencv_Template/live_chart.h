@@ -79,7 +79,8 @@ private:
 public:
 
 	//Constructor
-	cLive_chart(int pos_x, int pos_y, int size, int pos_legend_x, int pos_legend_y);
+	cLive_chart();
+	void init_actual_work_time_graph(int pos_x, int pos_y, int size, int pos_legend_x, int pos_legend_y);
 
 	bool if_active;
 	// Loading and saving statistics in csv file

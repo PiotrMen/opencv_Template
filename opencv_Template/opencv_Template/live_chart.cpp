@@ -1,16 +1,19 @@
 #include "live_chart.h"
 
-cLive_chart::cLive_chart(int pos_x, int pos_y, int size, int pos_legend_x, int pos_legend_y) {
-	this->pos_x = pos_x;
-	this->pos_y = pos_y;
-	this->pos_legend_x = pos_legend_x;
-	this->pos_legend_y = pos_legend_y;
-	this->size = size;
+cLive_chart::cLive_chart() {
 	this->coefficient = 0.893;
 	this->first_bar = (170 + 83) / 769.0;
 	this->second_bar =(320 + 83) / 769.0;
 	this->third_bar = (470 + 83) / 769.0;
 	this->fourth_bar = (620 + 83)/ 769.0;
+}
+
+void cLive_chart::init_actual_work_time_graph(int pos_x, int pos_y, int size, int pos_legend_x, int pos_legend_y) {
+	this->pos_x = pos_x;
+	this->pos_y = pos_y;
+	this->size = size;
+	this->pos_legend_x = pos_legend_x;
+	this->pos_legend_y = pos_legend_y;
 	this->scale = this->size / 769.0;
 }
 
