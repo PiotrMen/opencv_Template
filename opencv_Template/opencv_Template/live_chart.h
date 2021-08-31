@@ -24,6 +24,8 @@ private:
 	//Position in pixels and size of Live Chart
 	int pos_x;
 	int pos_y;
+	int pos_legend_x;
+	int pos_legend_y;
 	int size;
 	float scale;
 	int image_size;
@@ -77,7 +79,7 @@ private:
 public:
 
 	//Constructor
-	cLive_chart(int pos_x, int pos_y, int size);
+	cLive_chart(int pos_x, int pos_y, int size, int pos_legend_x, int pos_legend_y);
 
 	bool if_active;
 	// Loading and saving statistics in csv file
