@@ -85,7 +85,7 @@ private:
 	int menu_window;
 
 	//global timer variable
-	bool timer_flag;
+	//bool timer_flag;
 	bool sequence_start_flag;
 	int displayed_time;
 	sf::Clock clock;

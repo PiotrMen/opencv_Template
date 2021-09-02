@@ -33,9 +33,10 @@ private:
 	bool check_pattern(cv::Mat input_image, cv::Point dxdy, int lower_value, int upper_value);
 	bool check_pattern_circle(cv::Mat input_image, cv::Point dxdy, int lower_value, int upper_value);
 	bool check_pattern_one_rect(cv::Mat input_image, cv::Point dxdy, int lower_value, int upper_value);
-	bool check_if_boxes_on_position(cv::Mat input_image, int index, int &hmin, int &hmax, int &smin, int &smax, int &vmin, int &vmax);
+	bool check_if_boxes_on_position(cv::Mat input_image, int index);
 	void init_boxes();
-	void init_calib_boxes();
+	void init_tape_places();
+	int calc_mean_thresh();
 	std::vector<cv::Point> image_calibration(cv::VideoCapture cam);
 	std::vector<cv::Point> find_contours_for_calib(cv::Mat mask);
 	std::vector<cv::Point> reorder(std::vector<cv::Point> points);
@@ -50,7 +51,7 @@ private:
 	bool box_detection;
 
 	std::vector <cv::Rect> boxes;
-	std::vector <cv::Rect> calib_boxes;
+	std::vector <cv::Rect> tapes;
 	cv::Point TL_of_window;
 
 	// Pomocnicze zmienne do ustalania tresholdu
@@ -66,7 +67,7 @@ private:
 	sf::Clock clock;
 
 	bool box_flag;
-	bool timer_flag;
+	//bool timer_flag;
 	bool calibration_flag;
 
 	std::vector<cv::Point>coordinates_reordered;
@@ -87,6 +88,8 @@ private:
 	bool any_wrong_boxes_detected;
 
 	int amount_of_loops_to_change_state = 4;
+
+	int threshold_from_file;
 };
 
 

@@ -719,24 +719,24 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 	if (this->current_menu_window == 202)
 	{
 		// Handling back to menu button
-		if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->menu_window_width - 200, this->menu_window_height - 150, 124, 124, 1, this->menu_window) && this->timer_flag) {
+		if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->menu_window_width - 200, this->menu_window_height - 150, 124, 124, 1, this->menu_window)) {
 			data_box.is_sequence_activated = false;
 			data_box.last_step_of_sequence = true;
 		}
 
 		// Handling step back button
-		if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->backward_button_x, this->backward_button_y, this->backward_length_button_x, this->backward_length_button_y, 1, this->menu_window) && this->timer_flag)
+		if (falling_edge_saved && unieversal_detecting_collision_with_buttons(this->backward_button_x, this->backward_button_y, this->backward_length_button_x, this->backward_length_button_y, 1, this->menu_window))
 			data_box.step_back = true;
 
 		//Handling text depends of global timer
 		
-		if (!this->timer_flag) {
+	/*	if (!this->timer_flag) {
 			this->timer_flag = data_box.timer_done;
 			this->real_time_calibration_freezed_screen = data_box.real_time_calibration_camera;
 			this->displaying_time = this->invert_time_freezed_screen.asSeconds() - this->real_time_calibration_freezed_screen.asSeconds();
 			if_clear = true;
 			if_display = true;
-		}
+		}*/
 
 		//start window clear if mouse is on display live charts button
 		if (this->live_chart_active && ((rising_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window)) || (falling_edge_saved && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window)))) {
@@ -1079,10 +1079,10 @@ void menu_sfml_objects::render(int current_step, bool live_chart)
 		this->display_texture(this->menu_window_width - 200, this->menu_window_height - 150, "red_circle.png", this->button_size, 0);
 		Universal_display_text_polish_font(this->menu_window_width - 200, this->menu_window_height - 75, L"Powrót do menu", 30,0,this->menu_window);
 
-		if (!this->timer_flag) {
-			Universal_display_text_polish_font(920, 935, L"Trwa kalibracja", 80,0,this->menu_window);
-			Universal_display_text_polish_font(1270, 935, String_to_wString(std::to_string(this->displaying_time) + " s:"), 80,0,this->menu_window);
-		}
+		//if (!this->timer_flag) {
+		//	Universal_display_text_polish_font(920, 935, L"Trwa kalibracja", 80,0,this->menu_window);
+		//	Universal_display_text_polish_font(1270, 935, String_to_wString(std::to_string(this->displaying_time) + " s:"), 80,0,this->menu_window);
+		//}
 		
 		if (live_chart) {
 			//display go to Live Charts
