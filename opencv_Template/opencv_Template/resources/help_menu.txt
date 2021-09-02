@@ -1,11 +1,10 @@
 Menu:
+1. Załaduj plik .csv - W tej sekcji należy załadowac plik .csv wygenerowany z EPLAN'u. Nazwę pliku należy
+podać bez rozszerzenia (np. "Przykladowa_nazwa"). Ten krok należy wykonać przed aktywowaniem kroku 2 lub 3.
 
-1. Zaladuj plik .csv - W tej sekcji nalezy zaladowac plik .csv wygenerowany z EPLAN'u. Nazwe pliku nalezy
-podac bez rozszerzenia (np. "Przykladowa_nazwa"). Ten krok nalezy wykonac przed aktywowaniem kroku 2 lub 3.
+2. Montaż złączek - Ta sekcja odpowiada za przyspieszenie montażu złączek na szynie DIN. Na pierwszej stronie
+należy przypisać (poprzez skan lub ręczne wpisanie) pudełka odpowiadajacym im polom. Po przypisaniu i ułożeniu
+pudełek na stole w odpowiadajacych im miejscach, nastepuje uruchomienie sekwencji przeprowadzajacej przez montaż.
 
-2. Montaz zlaczek - Ta sekcja odpowiada za przyspieszenie montazu zlaczek na szynie DIN. Na pierwszej stronie
-nalezy przypisac (poprzez skan lub wpisanie reczne) pudelka odpowiadajacym im polom. Po przypisaniu i ulozeniu
-pudelek na stole w odpowiadajacych im miejscach, nastepuje uruchomienie sekwencji przeprowadzajacej przez montaz.
-
-3. Kalibracja systemu - Ta sekcja odpowiada za skalibrowanie systemu na nowym stanowisku, lub naprawieniu bledow
-wynikajacych z blednej kalibracji kamery i projektora. 
+3. Kalibracja systemu - Ta sekcja odpowiada za skalibrowanie systemu na nowym stanowisku, lub naprawieniu błędów
+wynikajacych z błędnej kalibracji kamery i projektora. 

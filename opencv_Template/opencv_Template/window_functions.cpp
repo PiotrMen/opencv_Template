@@ -555,50 +555,83 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 	if (this->step_of_sequence != 0 && if_clear)
 	{
 		this->display_texture(this->green_button_x, this->green_button_y, "green_circle.png", this->button_size, 0);   //displaying basic graphics 
-		this->display_text(this->green_button_x, this->green_button_y + ((this->red_button_length_y*button_size)) / 2, "Kontynuuj", 40); //displaying texts
+		//this->display_text(this->green_button_x, this->green_button_y + ((this->red_button_length_y*button_size)) / 2, "Kontynuuj", 40); //displaying texts
+		Universal_display_text_polish_font(this->green_button_x, this->green_button_y + (this->green_button_length_y*button_size) / 2, -1, 0, L"Kontynuuj", 40, 0, sf::Color::White, this->window);
 
-		for (int i = 0; i < sequence.size(); i++)
-			this->display_text(mm_to_pixels_converter(60 + (i * 120)), 600, sequence[i].name, 18);
+		for (int i = 0; i < v_rectangles.size(); i++)
+		{
+			for (int k = 0; k < sequence.size(); k++)
+			{
+				if (sequence[k].matched_rectangle == i)
+				{
+					Universal_display_text_polish_font(mm_to_pixels_converter(60 + (i * 120)), 600, -1, 0, utf8_to_wstring(sequence[k].name), 18, 0, sf::Color::White, this->window);
+					break;
+				}
+					//this->display_text(mm_to_pixels_converter(60 + (i * 120)), 600, sequence[k].name, 18);
+			}
+		}
 
 		if (sequence.size() != 0)
 		{
-			this->display_text(10, 790, ("Aktualny krok: " + std::to_string(current_step + 1) + "/" + std::to_string(sequence.size())), 46, sf::Color::White);  //displaying "aktualny krok" in corner 		}
+			Universal_display_text_polish_font(10, 790, 0, 0, utf8_to_wstring("Aktualny krok: " + std::to_string(current_step + 1) + "/" + std::to_string(sequence.size())), 46, 0, sf::Color::White, window);
+			//Universal_display_text_polish_font(10, 790, String_to_wString("Aktualny krok: " + std::to_string(current_step + 1) + "/" + std::to_string(sequence.size())),46)
+			//this->display_text(10, 790, ("Aktualny krok: " + std::to_string(current_step + 1) + "/" + std::to_string(sequence.size())), 46, sf::Color::White);  //displaying "aktualny krok" in corner 		}
 		}
 		// Drawing sequence list
 
 
 		if (current_step == 0 && step_of_sequence == 1)
 		{
-			this->display_text(10, 880, list[0], 30, sf::Color::Yellow);
-			this->display_text(10, 930, list[1], 30, sf::Color::Red);
+			//this->display_text(10, 880, list[0], 30, sf::Color::Yellow);
+			//this->display_text(10, 930, list[1], 30, sf::Color::Red);
+
+			Universal_display_text_polish_font(10, 880, 0, 0, utf8_to_wstring(list[0]), 30, 0, sf::Color::Yellow, this->window);
+			Universal_display_text_polish_font(10, 930, 0, 0, utf8_to_wstring(list[1]), 30, 0, sf::Color::Red, this->window);
 		}
 		else if (current_step == 0 && step_of_sequence == 2 && sequence.size() > 1)
 		{
-			this->display_text(10, 880, list[0], 30, sf::Color::Green);
-			this->display_text(10, 930, list[1], 30, sf::Color::Yellow);
-			this->display_text(10, 980, list[2], 30, sf::Color::Red);
+			//this->display_text(10, 880, list[0], 30, sf::Color::Green);
+			//this->display_text(10, 930, list[1], 30, sf::Color::Yellow);
+			//this->display_text(10, 980, list[2], 30, sf::Color::Red);
+
+			Universal_display_text_polish_font(10, 880, 0, 0, utf8_to_wstring(list[0]), 30, 0, sf::Color::Green, this->window);
+			Universal_display_text_polish_font(10, 930, 0, 0, utf8_to_wstring(list[1]), 30, 0, sf::Color::Yellow, this->window);
+			Universal_display_text_polish_font(10, 980, 0, 0, utf8_to_wstring(list[2]), 30, 0, sf::Color::Red, this->window);
 		}
 		else if (current_step == 0 && step_of_sequence == 2 && sequence.size() == 1)
 		{
-			this->display_text(10, 930, list[0], 30, sf::Color::Yellow);
+			//this->display_text(10, 930, list[0], 30, sf::Color::Yellow);
+
+			Universal_display_text_polish_font(10, 880, 0, 0, utf8_to_wstring(list[0]), 30, 0, sf::Color::Yellow, this->window);
 		}
 		else if (current_step == sequence.size() - 1 && step_of_sequence == 2)
 		{
-			this->display_text(20, 880, list[0], 30, sf::Color::Green);
-			this->display_text(10, 930, list[1], 30, sf::Color::Green);
-			this->display_text(10, 980, list[2], 30, sf::Color::Yellow);
+			//this->display_text(10, 880, list[0], 30, sf::Color::Green);
+			//this->display_text(10, 930, list[1], 30, sf::Color::Green);
+			//this->display_text(10, 980, list[2], 30, sf::Color::Yellow);
+
+			Universal_display_text_polish_font(10, 880, 0, 0, utf8_to_wstring(list[0]), 30, 0, sf::Color::Green, this->window);
+			Universal_display_text_polish_font(10, 930, 0, 0, utf8_to_wstring(list[1]), 30, 0, sf::Color::Green, this->window);
+			Universal_display_text_polish_font(10, 980, 0, 0, utf8_to_wstring(list[2]), 30, 0, sf::Color::Yellow, this->window);
 		}
 		else
 		{
-			this->display_text(10, 880, list[0], 30, sf::Color::Green);
-			this->display_text(10, 930, list[1], 30, sf::Color::Green);
-			this->display_text(10, 980, list[2], 30, sf::Color::Yellow);
-			this->display_text(10, 1030, list[3], 30, sf::Color::Red);
+			//this->display_text(10, 880, list[0], 30, sf::Color::Green);
+			//this->display_text(10, 930, list[1], 30, sf::Color::Green);
+			//this->display_text(10, 980, list[2], 30, sf::Color::Yellow);
+			//this->display_text(10, 1030, list[3], 30, sf::Color::Red);
+
+			Universal_display_text_polish_font(10, 880, 0, 0, utf8_to_wstring(list[0]), 30, 0, sf::Color::Green, this->window);
+			Universal_display_text_polish_font(10, 930, 0, 0, utf8_to_wstring(list[1]), 30, 0, sf::Color::Green, this->window);
+			Universal_display_text_polish_font(10, 980, 0, 0, utf8_to_wstring(list[2]), 30, 0, sf::Color::Yellow, this->window);
+			Universal_display_text_polish_font(10, 1030, 0, 0, utf8_to_wstring(list[3]), 30, 0, sf::Color::Red, this->window);
 		}
 
 		if (data_box.wrong_box) {
 			this->display_texture(this->window_width/2, 750, "red_circlebigger.png", 0.5, 0);
-			this->display_text(this->window_width / 2, 850, "Zle pobrany artykul", 40);
+			//this->display_text(this->window_width / 2, 850, "Zle pobrany artykul", 40);
+			//Universal_display_text_polish_font(this->window_width / 2, 750, L"le pobrany artyku³", 40, 0, this->window);
+			Universal_display_text_polish_font(this->window_width / 2, 900, -1, -1, L"le pobrany artyku³", 40, 0, sf::Color::White, this->window);
 		}
 		if_clear = false;
 	}
@@ -619,6 +652,7 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 			
 			this->window->draw(rectangle_);
 		}
+		//Universal_display_text_polish_font()
 		this->display_text(this->window_width/2, 800, "Jesli jestes pewna/y ze tasmy znajduja sie w podswietlonych na zielono miejscach to zatwierdz na komputerze", 40);
 	}
 	if (this->menu_window == 301)

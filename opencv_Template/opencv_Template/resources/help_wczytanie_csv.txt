@@ -1,5 +1,5 @@
-Zaladuj plik .csv:
+Załaduj plik .csv:
 
-Jest to pierwszy krok jaki nalezy wykonac przed rozpoczeciem montazu zlaczek. Nazwe pliku nalezy podac bez 
-rozszerzenia (np. "Przykladowa_nazwa"). Nalezy pamietac, ze system nie obsluguje sekwencji
-wykorzystujacych wiecej niz 10 unikalnych zlaczek, dlatego nie wczyta pliku ktory nie spelnia tego wymagania.
+Jest to pierwszy krok jaki należy wykonać przed rozpoczęciem montazu złączek. Nazwę pliku należy podać bez
+rozszerzenia (np. "Przykladowa_nazwa). Należy pamiętać, że system nie obsługuje sekwencji wykorzystujących
+więcej niż 10 unikalnych złączek, dlatego nie wczyta pliku który nie spełnia tego warunku.

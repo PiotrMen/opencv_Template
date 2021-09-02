@@ -288,7 +288,7 @@ void cLive_chart::Live_chart_bars_display(int pos_x, int pos_y, std::string file
 
 		// Drawing text
 		displayed_time.erase(displayed_time.end() - 5, displayed_time.end());
-		Universal_display_text(pos_x + texture.getTexture()->getSize().x * this->scale - 55 * this->scale, pos_y - texture.getTexture()->getSize().y * time_scale - 45 * this->scale, displayed_time, 30 * this->scale, 0, texture.getTexture()->getSize().x * this->scale, 0, window);
+		Universal_display_text_polish_font(pos_x + texture.getTexture()->getSize().x * this->scale - 55 * this->scale, pos_y - texture.getTexture()->getSize().y * time_scale - 45 * this->scale, texture.getTexture()->getSize().x * this->scale, 0, utf8_to_wstring(displayed_time), 30 * this->scale, 0, sf::Color::Black, window);
 	}
 }
 
@@ -357,22 +357,21 @@ void cLive_chart::render(bool &if_clear, bool &if_display, sf::RenderWindow *men
 		this->Live_chart_bars_display(this->image_size*this->fourth_bar + this->pos_x, this->image_size*this->coefficient + this->pos_y, "green_column.png", this->scale_present, std::to_string(round_float(this->present_time, 1)), menu_window);
 
 		// Title
-		Universal_display_text(pos_x + this->image_size, pos_y, "Wykres czasu pracy", this->scale * 42, 0, this->image_size / 2, 0, menu_window);
-
+		Universal_display_text_polish_font(pos_x + this->image_size / 2, pos_y + 30 * this->scale, L"Wykres czasu pracy", this->scale * 42, 0, menu_window);
 		// Axis description
-		Universal_display_text(pos_x, pos_y + this->image_size / 2, "Czas [s]", this->scale * 28, -90, 0, 0, menu_window);
-
+		Universal_display_text_polish_font(pos_x, pos_y + this->image_size / 2, 0, 0, L"Czas [s]", this->scale * 28, -90, sf::Color::Black, menu_window);
+		
 		//Display legend
 		Universal_display_texture_without_origin(this->pos_legend_x, this->pos_legend_y, "menu/Legend.png", this->scale*0.65, menu_window);
 
 		//display back to 202
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, menu_window)) {
 			Universal_display_texture(960, 950, "menu/grey_pushed.png", data_box.menu_button_size, 0, menu_window);
-			Universal_display_text(960, 930, "Powrot", 100, menu_window);
+			Universal_display_text_polish_font(960, 930, L"Powrót", 100, 0, menu_window);
 		}
 		else {
 			Universal_display_texture(960, 950, "menu/grey_button.png", data_box.menu_button_size, 0, menu_window);
-			Universal_display_text(960, 930, "Powrot", 100, menu_window);
+			Universal_display_text_polish_font(960, 930, L"Powrót", 100, 0, menu_window);
 		}
 		if (unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, menu_window))
 			Universal_display_texture(960, 950 + 85, "menu/UnderLine.png", data_box.menu_button_size - 0.2, 0, menu_window);
@@ -451,5 +450,4 @@ void cLive_chart::calculating_bars()
 		// Calculating present time bar height
 		this->scale_mean = this->time_mean_value / this->present_time * max_height / x;
 	}
-
 }

@@ -157,6 +157,28 @@ void Universal_display_text_polish_font(int pos_x, int pos_y, std::wstring text,
 	text_.setPosition(pos_x, pos_y);
 	window->draw(text_);
 }
+void Universal_display_text_polish_font(int pos_x, int pos_y, int origin_x, int origin_y, std::wstring text, float size, float rotate, sf::Color color, sf::RenderWindow *window) 
+{
+	sf::Font font_;
+	if (!font_.loadFromFile("resources/mermaid/AbhayaLibre-Regular.ttf"))
+	{
+		std::cerr << "Could not load font" << std::endl;
+		exit(1);
+	}
+	sf::Text text_;
+	text_.setFillColor(color);
+	text_.setFont(font_);
+	text_.setString(text);
+	text_.setCharacterSize(size);
+	text_.setRotation(rotate);
+	if (origin_x == -1)
+		origin_x = text_.getGlobalBounds().left + text_.getGlobalBounds().width / 2;
+	if (origin_y == -1)
+		origin_y = text_.getGlobalBounds().top + text_.getGlobalBounds().height / 2;
+	text_.setOrigin(origin_x, origin_y);
+	text_.setPosition(pos_x, pos_y);
+	window->draw(text_);
+}
 
 // convert UTF-8 string to wstring
 std::wstring String_to_wString(const std::string & s)
@@ -169,4 +191,10 @@ std::wstring String_to_wString(const std::string & s)
 	std::wstring r(buf);
 	delete[] buf;
 	return r;
+}
+// convert UTF-8 string to wstring
+std::wstring utf8_to_wstring(const std::string& str)
+{
+	std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
+	return myconv.from_bytes(str);
 }
