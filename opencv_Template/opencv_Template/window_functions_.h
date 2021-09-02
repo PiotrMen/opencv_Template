@@ -84,8 +84,6 @@ private:
 	std::vector <std::string> list;											// Displays 2 previous, actual and following step in sequence
 	int menu_window;
 
-	//global timer variable
-	//bool timer_flag;
 	bool sequence_start_flag;
 	int displayed_time;
 	sf::Clock clock;

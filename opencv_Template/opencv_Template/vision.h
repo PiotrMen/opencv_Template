@@ -67,7 +67,6 @@ private:
 	sf::Clock clock;
 
 	bool box_flag;
-	//bool timer_flag;
 	bool calibration_flag;
 
 	std::vector<cv::Point>coordinates_reordered;

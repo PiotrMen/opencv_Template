@@ -36,7 +36,6 @@ struct sGlobal_data
 	bool detecting_box;
 	bool camera_calibration;
 	bool global_exit;
-	bool timer_done;
 	bool wrong_box;
 	bool checking_boxes_state;
 

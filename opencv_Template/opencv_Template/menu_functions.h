@@ -188,9 +188,6 @@ private:
 	// contains data about last state of window
 	bool was_window_idle = false;
 
-	//global timer variable
-	//bool timer_flag;
-
 	int previous_current_menu_window;
 
 	bool live_chart_active;
