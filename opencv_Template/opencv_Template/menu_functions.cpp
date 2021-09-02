@@ -906,10 +906,8 @@ void menu_sfml_objects::render(int current_step, bool live_chart)
 		// Displaying backward in section
 		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
 		Universal_display_text_polish_font(this->backward_button_x, this->backward_button_y + 75, L"Powrót", 30, 0,this->menu_window);
-
-		// Displaying help
-		Universal_display_text_polish_font(this->menu_window_width/2, this->menu_window_height/2, String_to_wString(load_txt_help("help_menu.txt")), 34,0,this->menu_window);
-
+		// Displaying help		
+		Universal_display_text_polish_font(this->menu_window_width / 2, this->menu_window_height / 2, utf8_to_wstring(load_txt_help("help_menu.txt")), 34, 0, this->menu_window);
 	}
 
 	//Upload file window displaying
@@ -966,8 +964,7 @@ void menu_sfml_objects::render(int current_step, bool live_chart)
 		Universal_display_text_polish_font(this->backward_button_x, this->backward_button_y + 75, L"Powrót", 30,0,this->menu_window);
 
 		// Displaying help
-		Universal_display_text_polish_font(this->menu_window_width / 2, this->menu_window_height / 2, String_to_wString(load_txt_help("help_wczytanie_csv.txt")), 34,0,this->menu_window);
-
+		Universal_display_text_polish_font(this->menu_window_width / 2, this->menu_window_height / 2, utf8_to_wstring(load_txt_help("help_wczytanie_csv.txt")), 34,0,this->menu_window);
 	}
 
 	//match boxes section displaying
@@ -1041,7 +1038,7 @@ void menu_sfml_objects::render(int current_step, bool live_chart)
 		Universal_display_text_polish_font(this->backward_button_x, this->backward_button_y + 75, L"Powrót", 30,0,this->menu_window);
 
 		// Displaying help
-		Universal_display_text_polish_font(this->menu_window_width / 2, this->menu_window_height / 2, String_to_wString(load_txt_help("help_montaz_zlaczek.txt")), 34,0,this->menu_window);
+		Universal_display_text_polish_font(this->menu_window_width / 2, this->menu_window_height / 2, utf8_to_wstring(load_txt_help("help_montaz_zlaczek.txt")), 34, 0, this->menu_window);
 
 		this->if_clear = true;
 	}
@@ -1146,8 +1143,7 @@ void menu_sfml_objects::render(int current_step, bool live_chart)
 		Universal_display_text_polish_font(this->backward_button_x, this->backward_button_y + 75, L"Powrót", 30,0,this->menu_window);
 
 		// Displaying help
-		Universal_display_text_polish_font(this->menu_window_width / 2, this->menu_window_height / 2, String_to_wString(load_txt_help("help_kalibracja.txt")), 34,0,this->menu_window);
-
+		Universal_display_text_polish_font(this->menu_window_width / 2, this->menu_window_height / 2, utf8_to_wstring(load_txt_help("help_kalibracja.txt")), 34,0,this->menu_window);
 	}
 
 	if(if_display)

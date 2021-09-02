@@ -23,6 +23,7 @@ sGlobal_data data_box;
 
 int main()
 {
+	SetConsoleOutputCP(65001);
 	ShowWindow(GetConsoleWindow(), SW_NORMAL);
 	//ShowWindow(GetConsoleWindow(), SW_HIDE);
 

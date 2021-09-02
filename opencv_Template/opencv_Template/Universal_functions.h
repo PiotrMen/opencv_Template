@@ -42,8 +42,10 @@ void Universal_display_text(int pos_x, int pos_y, std::string text, float size, 
 //void Live_chart_display_texture(int pos_x, int pos_y, std::string file_path, float scale, sf::RenderWindow *window);
 void Universal_display_texture_without_origin(int pos_x, int pos_y, std::string file_path, float scale, sf::RenderWindow *window);
 void Universal_display_text_polish_font(int pos_x, int pos_y, std::wstring text, float size, float rotate, sf::RenderWindow *window);
+void Universal_display_text_polish_font(int pos_x, int pos_y, int origin_x, int origin_y, std::wstring text, float size, float rotate, sf::Color color, sf::RenderWindow *window);
 float round_float(float input_var, int number_of_decimal_places);
 std::wstring String_to_wString(const std::string& str);
+std::wstring utf8_to_wstring(const std::string& str);
 
 
 #endif

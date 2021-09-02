@@ -171,6 +171,30 @@ void generate_connectors_list(const std::vector <sData> &sequence, std::vector <
 	}
 }
 
+//std::wstring load_txt_help(std::string filename)
+//{
+//	std::wifstream file;
+//	file.open("resources/" + filename);
+//
+//	if (file.is_open())
+//	{
+//		std::wstring output_text;
+//		std::wstring line;
+//		while (getline(file, line))
+//		{
+//
+//			output_text = output_text + line + L"\n";
+//			line = L"";
+//		}
+//		file.close();
+//		return output_text;
+//	}
+//	else
+//	{
+//		file.close();
+//		return L"Nie mo¿na odczytaæ pliku";
+//	}
+//}
 std::string load_txt_help(std::string filename)
 {
 	std::ifstream file;
@@ -182,6 +206,7 @@ std::string load_txt_help(std::string filename)
 		std::string line;
 		while (getline(file, line))
 		{
+
 			output_text = output_text + line + "\n";
 			line = "";
 		}
@@ -191,7 +216,7 @@ std::string load_txt_help(std::string filename)
 	else
 	{
 		file.close();
-		return "Nie mozna odczytac pliku";
+		return "Nie mo¿na odczytaæ pliku";
 	}
 }
 
