@@ -327,7 +327,7 @@ bool thread_vision::check_pattern_one_rect(cv::Mat input_image, cv::Point dxdy, 
 	}
 }
 
-bool thread_vision::check_if_boxes_on_position(cv::Mat input_image, int index, int &hmin, int &hmax, int &smin, int &smax, int &vmin, int &vmax) {
+bool thread_vision::check_if_boxes_on_position(cv::Mat input_image, int index) {
 	cv::Mat cropped_image;
 	cv::Rect box_area;
 	cv::Point point_tl (boxes[index].tl().x, boxes[index].br().y - 100 - mm_to_pixels_converter(112));
@@ -506,27 +506,43 @@ void thread_vision::init_boxes()
 	m.unlock();
 }
 
-//void thread_vision::init_calib_boxes()
-//{
-//	m.lock();
-//	for (int i = 0; i < data_box.boxes.size(); i++)
-//	{
-//		if (i < 9)
-//		{
-//			cv::Point TL(data_box.boxes[i].getPosition().x - data_box.boxes[i].getSize().x / 2 + 5, data_box.boxes[i].getPosition().y + 300);
-//			cv::Point BR(data_box.boxes[i].getPosition().x + data_box.boxes[i].getSize().x / 2 + 5, data_box.boxes[i].getPosition().y + data_box.boxes[i].getSize().y / 2 + 120);
-//			this->calib_boxes.push_back(cv::Rect(TL, BR));
-//		}
-//		else if (i == 9)
-//		{
-//			cv::Point TL(data_box.boxes[i].getPosition().x - data_box.boxes[i].getSize().x / 2 + 5, data_box.boxes[i].getPosition().y + 300);
-//			cv::Point BR(data_box.boxes[i].getPosition().x + data_box.boxes[i].getSize().x / 2 + 5, data_box.boxes[i].getPosition().y + data_box.boxes[i].getSize().y / 2 + 120);
-//			this->calib_boxes.push_back(cv::Rect(TL, BR));
-//		}
-//
-//	}
-//	m.unlock();
-//}
+void thread_vision::init_tape_places() {
+	m.lock();
+	for (int i = 0; i < data_box.boxes.size(); i++)
+	{
+		if (i < 9)
+		{
+			cv::Point TL(data_box.boxes[i].getPosition().x - data_box.boxes[i].getSize().x / 2 + 20, data_box.boxes[i].getPosition().y + 280);
+			cv::Point BR(data_box.boxes[i].getPosition().x + data_box.boxes[i].getSize().x / 2 - 20, data_box.boxes[i].getPosition().y + data_box.boxes[i].getSize().y / 2 + 55);
+			this->tapes.push_back(cv::Rect(TL, BR));
+		}
+		else if (i == 9)
+		{
+			cv::Point TL(data_box.boxes[i].getPosition().x - data_box.boxes[i].getSize().x / 2 + 20, data_box.boxes[i].getPosition().y + 280);
+			cv::Point BR(data_box.boxes[i].getPosition().x + data_box.boxes[i].getSize().x / 2 - 20, data_box.boxes[i].getPosition().y + data_box.boxes[i].getSize().y / 2 + 55);
+			this->tapes.push_back(cv::Rect(TL, BR));
+		}
+	}
+	m.unlock();
+}
+
+int thread_vision::calc_mean_thresh() {
+
+	cv::Mat cropped_image;
+	cv::Mat gray_img;
+	int sum =0;
+	cv::cvtColor(this->image, gray_img, cv::COLOR_BGR2GRAY);
+
+	for (int i = 0; i < this->tapes.size(); i++) {
+		cropped_image = gray_img(this->tapes[i]);
+		sum = sum + cv::mean(gray_img)[0];
+	}
+
+	int mean_thresh = sum / this->tapes.size();
+
+	return mean_thresh;
+}
+
 
 
 void thread_vision::set_warp_parameters(float w, float h)
@@ -590,31 +606,31 @@ void thread_vision::operator()(int index)
 	camera.set(cv::CAP_PROP_FRAME_WIDTH, 1920);
 	camera.set(cv::CAP_PROP_FRAME_HEIGHT, 1080);
 	camera.set(cv::CAP_PROP_FPS, 30);
-	camera.set(cv::CAP_PROP_FOURCC, cv::VideoWriter::fourcc('M', 'J', 'P', 'G'));
-	//camera.set(cv::CAP_PROP_AUTO_EXPOSURE, 0.75);
+	//camera.set(cv::CAP_PROP_AUTO_EXPOSURE,1);
+	//camera.set(cv::CAP_PROP_SETTINGS,0);
 	int hmin = 0, hmax = 179, smin = 0, smax = 255, vmin = 0, vmax = 255;
 
 	load_table_coordinates(this->coordinates_reordered);
 
 	bool first_loop_missed = false;
+	int previous_mean_threshold_value = 0;
+	int change_filter_itr = 0;
+	bool light_edges = false;
 
-	camera.read(image);
-	cv::rotate(image, image, cv::ROTATE_180);
+	camera.read(this->image);
+	cv::rotate(this->image, this->image, cv::ROTATE_180);
 	set_warp_parameters(1920, 1080);
+	cv::remap(image, image, transformation_x, transformation_y, cv::INTER_LINEAR);
+	camera.set(cv::CAP_PROP_FOURCC, cv::VideoWriter::fourcc('M', 'J', 'P', 'G'));
 
-	// Do testowania bez ekranu
 
-	//while (true)
-	//{
-	//	// Camera trigger
-	//	camera.read(image);
-	//	cv::rotate(image, image, cv::ROTATE_180);
-	//	cv::remap(image, image, transformation_x, transformation_y, cv::INTER_CUBIC);  // INTER_NEAREST oko³o 20ms // INTER_CUBIC okolo 120ms  //INTER_LANCZOS4 okolo 240ms
-	//	//this->image = getWarp(this->image, coordinates_reordered, 1920, 1080);
-	//	cv::Mat green_button_image = button_filters();
-	//	imshow("main", image);
-	//	cv::waitKey(1);
-	//}
+	camera.read(this->image);
+	cv::rotate(this->image, this->image, cv::ROTATE_180);
+	set_warp_parameters(1920, 1080);
+	cv::remap(image, image, transformation_x, transformation_y, cv::INTER_LINEAR);
+	camera.set(cv::CAP_PROP_FOURCC, cv::VideoWriter::fourcc('M', 'J', 'P', 'G'));
+
+	init_tape_places();
 
 	while (true)
 	{
@@ -666,7 +682,7 @@ void thread_vision::operator()(int index)
 				cv::Mat tape_checking_img= Other_box_filters(data_box.index_and_checked_info_accepted_boxes[i].first);
 
 				//checking if tape visible
-				if (check_pattern_one_rect(tape_checking_img, TL_of_window, 4000, 8000) && check_if_boxes_on_position(this->image, i, hmin, hmax, smin, smax, vmin, vmax) && data_box.index_and_checked_info_accepted_boxes[i].second != 2) 
+				if (check_pattern_one_rect(tape_checking_img, TL_of_window, 4000, 8000) && check_if_boxes_on_position(this->image, i) && data_box.index_and_checked_info_accepted_boxes[i].second != 2) 
 				{
 					std::pair<int, int> temp(data_box.index_and_checked_info_accepted_boxes[i].first, 1);
 					data_box.index_and_checked_info_accepted_boxes[i] = temp;
@@ -675,7 +691,7 @@ void thread_vision::operator()(int index)
 					if (data_box.index_and_checked_info_accepted_boxes[i].second != this->previous_info_accepted_boxes[i].second)
 						data_box.checking_boxes_state = true;
 				}
-				else if ((!check_pattern_one_rect(tape_checking_img, TL_of_window, 4000, 8000) || !check_if_boxes_on_position(this->image, i, hmin, hmax, smin, smax, vmin, vmax)) && data_box.index_and_checked_info_accepted_boxes[i].second != 2 && this->setting_boxes_inc[i] == 4)
+				else if ((!check_pattern_one_rect(tape_checking_img, TL_of_window, 4000, 8000) || !check_if_boxes_on_position(this->image, i)) && data_box.index_and_checked_info_accepted_boxes[i].second != 2 && this->setting_boxes_inc[i] == 4)
 				{
 					//checking if non visible
 					std::pair<int, int> temp(data_box.index_and_checked_info_accepted_boxes[i].first, 0);
@@ -685,7 +701,7 @@ void thread_vision::operator()(int index)
 					if (data_box.index_and_checked_info_accepted_boxes[i].second != this->previous_info_accepted_boxes[i].second)
 						data_box.checking_boxes_state = true;
 				}
-				else if ((!check_pattern_one_rect(tape_checking_img, TL_of_window, 4000, 8000) || !check_if_boxes_on_position(this->image, i, hmin, hmax, smin, smax, vmin, vmax)) && data_box.index_and_checked_info_accepted_boxes[i].second != 2)
+				else if ((!check_pattern_one_rect(tape_checking_img, TL_of_window, 4000, 8000) || !check_if_boxes_on_position(this->image, i)) && data_box.index_and_checked_info_accepted_boxes[i].second != 2)
 				{
 					this->setting_boxes_inc[i]++;
 				}
@@ -720,13 +736,30 @@ void thread_vision::operator()(int index)
 
 			// Camera trigger
 			camera.read(image);
-
 			//cv::waitKey(40);
 
 			cv::rotate(image, image, cv::ROTATE_180);
 
 			cv::remap(image, image, transformation_x, transformation_y, cv::INTER_LINEAR); // INTER_NEAREST oko³o 20ms // INTER_CUBIC okolo 120ms  //INTER_LANCZOS4 okolo 240ms
 			//this->image = getWarp(this->image, coordinates_reordered, 1920, 1080);
+
+			//checking if light is on
+			if (change_filter_itr == 3) {
+				if (!light_edges) {
+					if (calc_mean_thresh() > 163)
+						std::cout << "Wlaczone  " << calc_mean_thresh() << std::endl;
+					else
+						std::cout << "Wylaczone  " << calc_mean_thresh() << std::endl;
+				}
+				change_filter_itr = 0;
+				previous_mean_threshold_value = calc_mean_thresh();
+				light_edges = !light_edges;
+			}
+			else if ((calc_mean_thresh() > (previous_mean_threshold_value + 20) || calc_mean_thresh() < (previous_mean_threshold_value - 20)) && change_filter_itr != 3 && first_loop_missed) {
+				change_filter_itr++;
+			}
+			else
+				previous_mean_threshold_value = calc_mean_thresh();
 
 			cv::Mat green_button_image = button_filter();
 
@@ -845,7 +878,7 @@ void thread_vision::operator()(int index)
 			//showing image
 		//	imshow("box", box);
 			//imshow("green", green_button_image);
-			//imshow("main", image);
+		//	imshow("main", image);
 
 			// Reseting both detections
 
@@ -855,7 +888,7 @@ void thread_vision::operator()(int index)
 			cv::waitKey(1);
 		}
 		else if(!this->calibration_boxes)
-			cv::destroyAllWindows();
+	//		cv::destroyAllWindows();
 
 		//exit program variable
 		if (data_box.global_exit)
