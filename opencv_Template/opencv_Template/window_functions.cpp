@@ -655,13 +655,17 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 			
 			this->window->draw(rectangle_);
 		}
-		//Universal_display_text_polish_font()
-		this->display_text(this->window_width/2, 800, "Jesli jestes pewna/y ze tasmy znajduja sie w podswietlonych na zielono miejscach to zatwierdz na komputerze", 40);
+		Universal_display_text_polish_font(this->window_width / 2, 800, -1, 0, L"Jeœli jesteœ pewna/y, ¿e taœmy znajduj¹ siê w podœwietlonych na zielono miejscach, to zatwierdŸ na komputerze", 40, 0, sf::Color::White, this->window);
+
+		//this->display_text(this->window_width/2, 800, "Jesli jestes pewna/y ze tasmy znajduja sie w podswietlonych na zielono miejscach to zatwierdz na komputerze", 40);
 	}
 	if (this->menu_window == 301)
 	{
-		this->display_text(250, 350, "Trwa kalibracja kamery, prosze poczekac:", 75, sf::Color::Black);
-		this->display_text(800, 650, std::to_string(this->displayed_time) + " s", 75, sf::Color::Black);
+		Universal_display_text_polish_font(250, 350, 0, 0, L"Trwa kalibracja kamery, proszê czekaæ", 75, 0, sf::Color::Black, this->window);
+		Universal_display_text_polish_font(800, 650, 0, 0, utf8_to_wstring(std::to_string(this->displayed_time) + " s"), 75, 0, sf::Color::Black, this->window);
+
+		//this->display_text(250, 350, "Trwa kalibracja kamery, prosze poczekac:", 75, sf::Color::Black);
+		//this->display_text(800, 650, std::to_string(this->displayed_time) + " s", 75, sf::Color::Black);
 		if_clear = false;
 	}
 
