@@ -189,7 +189,7 @@ private:
 	bool was_window_idle = false;
 
 	//global timer variable
-	bool timer_flag;
+	//bool timer_flag;
 
 	int previous_current_menu_window;
 

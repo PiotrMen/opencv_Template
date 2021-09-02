@@ -214,8 +214,8 @@ void sfml_objects::update(int &current_step, std::vector <sData> &database)
 {
 	this->pollEvents(current_step);
 
-	if (!this->timer_flag)
-		this->timer_flag = data_box.timer_done;
+	/*if (!this->timer_flag)
+		this->timer_flag = data_box.timer_done;*/
 
 	if (!this->sequence_previous_state && this->sequence_activated)
 	{
@@ -224,7 +224,7 @@ void sfml_objects::update(int &current_step, std::vector <sData> &database)
 		if_display = true;
 	}
 
-	if (this->sequence_start_flag && this->timer_flag)
+	if (this->sequence_start_flag)// && this->timer_flag)
 	{
 		// sfml data to opencv
 		data_box.is_sequence_activated = this->sequence_activated;

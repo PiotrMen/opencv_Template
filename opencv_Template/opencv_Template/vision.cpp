@@ -719,7 +719,7 @@ void thread_vision::operator()(int index)
 			this->is_sequence_activated = data_box.is_sequence_activated;
 		m.unlock();
 
-		if (!this->timer_flag) {
+		/*if (!this->timer_flag) {
 			m.lock();
 			data_box.real_time_calibration_camera = this->clock.getElapsedTime();
 
@@ -728,10 +728,10 @@ void thread_vision::operator()(int index)
 				data_box.timer_done = true;
 			}
 			m.unlock();
-		}
+		}*/
 
 
-		if (this->is_sequence_activated && this->timer_flag)
+		if (this->is_sequence_activated)// && this->timer_flag)
 		{
 
 			// Camera trigger
