@@ -19,28 +19,21 @@ public:
 	int blue_button_x;
 	int blue_button_y;
 
-	//Start button
+	//Exit button
 	// length of sides in pixels
-	int Start_button_length_x;
-	int Start_button_length_y;
+	int Exit_button_length_x;
+	int Exit_button_length_y;
 
 	//coordinates
-	int Start_button_x;
-	int Start_button_y;
-
-	//article select button
+	int Exit_button_y;
 
 	//coordinates 
 	int load_csv_button_x;
 	int load_csv_button_y;
 
-	//add articles button
-
 	//coordinates 
 	int installation_of_connectors_button_x;
 	int installation_of_connectors_button_y;
-
-	//delete article button
 
 	//coordinates 
 	int Calibration_button_x;
@@ -64,11 +57,6 @@ public:
 	int menu_window_width;
 	int menu_window_height;
 
-	//working field
-	int working_field_width;	//in milimeters
-	int working_field_height;
-
-
 	//Constructor
 	menu_sfml_objects();
 
@@ -86,7 +74,6 @@ public:
 	const bool getWindowIsOpen();
 
 	// Detecting mouse collision with buttons
-	bool detecting_blue_button();
 	bool detecting_Upload_file_button();
 	bool detecting_Match_boxes_button();
 	bool detecting_calibration_button();
