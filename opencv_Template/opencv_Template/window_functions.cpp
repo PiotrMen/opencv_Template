@@ -524,7 +524,7 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 	if (this->step_of_sequence != 0 && if_clear)
 	{
 		this->display_texture(this->green_button_x, this->green_button_y, "green_circle.png", this->button_size, 0);   //displaying basic graphics 
-		Universal_display_text_polish_font(this->green_button_x, this->green_button_y + (this->green_button_length_y*button_size) / 2, -1, 0, L"Kontynuuj", 40, 0, sf::Color::White, this->window);
+		Universal_display_text_polish_font(this->green_button_x, this->green_button_y + (this->green_button_length_y*button_size) / 2, -1, 0, L"Kontynuuj", 40, 0, sf::Color::White, this->window, "AbhayaLibre-ExtraBold.ttf");
 
 		for (int i = 0; i < v_rectangles.size(); i++)
 		{
@@ -532,7 +532,7 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 			{
 				if (sequence[k].matched_rectangle == i)
 				{
-					Universal_display_text_polish_font(mm_to_pixels_converter(60 + (i * 120)), 600, -1, 0, utf8_to_wstring(sequence[k].name), 18, 0, sf::Color::White, this->window);
+					Universal_display_text_polish_font(mm_to_pixels_converter(60 + (i * 120)), 600, -1, 0, utf8_to_wstring(sequence[k].name), 18, 0, sf::Color::White, this->window, "AbhayaLibre-ExtraBold.ttf");
 					break;
 				}
 			}
@@ -540,43 +540,43 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 
 		if (sequence.size() != 0)
 		{
-			Universal_display_text_polish_font(10, 790, 0, 0, utf8_to_wstring("Aktualny krok: " + std::to_string(current_step + 1) + "/" + std::to_string(sequence.size())), 46, 0, sf::Color::White, window);
+			Universal_display_text_polish_font(10, 790, 0, 0, utf8_to_wstring("Aktualny krok: " + std::to_string(current_step + 1) + "/" + std::to_string(sequence.size())), 46, 0, sf::Color::White, window, "AbhayaLibre-ExtraBold.ttf");
 		}
 
 
 		// Drawing sequence list
 		if (current_step == 0 && step_of_sequence == 1)
 		{
-			Universal_display_text_polish_font(10, 880, 0, 0, utf8_to_wstring(list[0]), 30, 0, sf::Color::Yellow, this->window);
-			Universal_display_text_polish_font(10, 930, 0, 0, utf8_to_wstring(list[1]), 30, 0, sf::Color::Red, this->window);
+			Universal_display_text_polish_font(10, 880, 0, 0, utf8_to_wstring(list[0]), 30, 0, sf::Color::Yellow, this->window, "AbhayaLibre-ExtraBold.ttf");
+			Universal_display_text_polish_font(10, 930, 0, 0, utf8_to_wstring(list[1]), 30, 0, sf::Color::Red, this->window, "AbhayaLibre-ExtraBold.ttf");
 		}
 		else if (current_step == 0 && step_of_sequence == 2 && sequence.size() > 1)
 		{
-			Universal_display_text_polish_font(10, 880, 0, 0, utf8_to_wstring(list[0]), 30, 0, sf::Color::Green, this->window);
-			Universal_display_text_polish_font(10, 930, 0, 0, utf8_to_wstring(list[1]), 30, 0, sf::Color::Yellow, this->window);
-			Universal_display_text_polish_font(10, 980, 0, 0, utf8_to_wstring(list[2]), 30, 0, sf::Color::Red, this->window);
+			Universal_display_text_polish_font(10, 880, 0, 0, utf8_to_wstring(list[0]), 30, 0, sf::Color::Green, this->window, "AbhayaLibre-ExtraBold.ttf");
+			Universal_display_text_polish_font(10, 930, 0, 0, utf8_to_wstring(list[1]), 30, 0, sf::Color::Yellow, this->window, "AbhayaLibre-ExtraBold.ttf");
+			Universal_display_text_polish_font(10, 980, 0, 0, utf8_to_wstring(list[2]), 30, 0, sf::Color::Red, this->window, "AbhayaLibre-ExtraBold.ttf");
 		}
 		else if (current_step == 0 && step_of_sequence == 2 && sequence.size() == 1)
 		{
-			Universal_display_text_polish_font(10, 880, 0, 0, utf8_to_wstring(list[0]), 30, 0, sf::Color::Yellow, this->window);
+			Universal_display_text_polish_font(10, 880, 0, 0, utf8_to_wstring(list[0]), 30, 0, sf::Color::Yellow, this->window, "AbhayaLibre-ExtraBold.ttf");
 		}
 		else if (current_step == sequence.size() - 1 && step_of_sequence == 2)
 		{
-			Universal_display_text_polish_font(10, 880, 0, 0, utf8_to_wstring(list[0]), 30, 0, sf::Color::Green, this->window);
-			Universal_display_text_polish_font(10, 930, 0, 0, utf8_to_wstring(list[1]), 30, 0, sf::Color::Green, this->window);
-			Universal_display_text_polish_font(10, 980, 0, 0, utf8_to_wstring(list[2]), 30, 0, sf::Color::Yellow, this->window);
+			Universal_display_text_polish_font(10, 880, 0, 0, utf8_to_wstring(list[0]), 30, 0, sf::Color::Green, this->window, "AbhayaLibre-ExtraBold.ttf");
+			Universal_display_text_polish_font(10, 930, 0, 0, utf8_to_wstring(list[1]), 30, 0, sf::Color::Green, this->window, "AbhayaLibre-ExtraBold.ttf");
+			Universal_display_text_polish_font(10, 980, 0, 0, utf8_to_wstring(list[2]), 30, 0, sf::Color::Yellow, this->window, "AbhayaLibre-Bold.ttf");
 		}
 		else
 		{
-			Universal_display_text_polish_font(10, 880, 0, 0, utf8_to_wstring(list[0]), 30, 0, sf::Color::Green, this->window);
-			Universal_display_text_polish_font(10, 930, 0, 0, utf8_to_wstring(list[1]), 30, 0, sf::Color::Green, this->window);
-			Universal_display_text_polish_font(10, 980, 0, 0, utf8_to_wstring(list[2]), 30, 0, sf::Color::Yellow, this->window);
-			Universal_display_text_polish_font(10, 1030, 0, 0, utf8_to_wstring(list[3]), 30, 0, sf::Color::Red, this->window);
+			Universal_display_text_polish_font(10, 880, 0, 0, utf8_to_wstring(list[0]), 30, 0, sf::Color::Green, this->window, "AbhayaLibre-ExtraBold.ttf");
+			Universal_display_text_polish_font(10, 930, 0, 0, utf8_to_wstring(list[1]), 30, 0, sf::Color::Green, this->window, "AbhayaLibre-ExtraBold.ttf");
+			Universal_display_text_polish_font(10, 980, 0, 0, utf8_to_wstring(list[2]), 30, 0, sf::Color::Yellow, this->window, "AbhayaLibre-ExtraBold.ttf");
+			Universal_display_text_polish_font(10, 1030, 0, 0, utf8_to_wstring(list[3]), 30, 0, sf::Color::Red, this->window, "AbhayaLibre-ExtraBold.ttf");
 		}
 
 		if (data_box.wrong_box) {
 			this->display_texture(this->window_width/2, 750, "red_circlebigger.png", 0.5, 0);
-			Universal_display_text_polish_font(this->window_width / 2, 900, -1, -1, L"le pobrany artyku³", 40, 0, sf::Color::White, this->window);
+			Universal_display_text_polish_font(this->window_width / 2, 900, -1, -1, L"le pobrany artyku³", 40, 0, sf::Color::White, this->window, "AbhayaLibre-ExtraBold.ttf");
 		}
 		if_clear = false;
 	}
