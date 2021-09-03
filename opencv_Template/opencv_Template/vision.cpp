@@ -4,15 +4,12 @@ cv::Mat thread_vision::button_filter()
 {
 	cv::Mat cropped_image;
 	cv::Mat mask;
-	cv::Mat hist_image;
 	cv::Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
 	cv::Mat kerneldil = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(6, 6));
-
 
 	// Cropping image
 	cv::Rect crop_region(1605, 805, 315, 275);
 	cropped_image = image(crop_region);
-	//cv::MatND histogram;
 
 	cv::Scalar lower(148, 230, 55);
 	cv::Scalar upper(244, 255, 239);
@@ -21,9 +18,7 @@ cv::Mat thread_vision::button_filter()
 	cv::morphologyEx(mask, mask, cv::MORPH_OPEN, kernel);
 	cv::dilate(mask, mask, kerneldil);
 
-	//imshow("mask1", mask);
-
-
+	//cv::Mat hist_image;
 	//int histSize = 256;
 	//const int* channel_numbers = { 0 };
 	//float channel_range[] = { 0.0,256.0 };
@@ -60,14 +55,12 @@ cv::Mat thread_vision::button_filter()
 	//imshow("calcHist Demo", histImage);
 	//cv::waitKey(1);
 
-
 	return mask;
 }
 
 cv::Mat thread_vision::box_filters()
 {
 	cv::Mat cropped_image;
-	cv::Mat hist_image;
 	m.lock();
 	cropped_image = image(boxes[sequence[data_box.current_step].matched_rectangle]);
 	TL_of_window = boxes[sequence[data_box.current_step].matched_rectangle].tl();
@@ -79,17 +72,15 @@ cv::Mat thread_vision::box_filters()
 	// Filters
 	cv::cvtColor(cropped_image, cropped_image, cv::COLOR_BGR2GRAY);
 
+	//cv::Mat hist_image;
 	//cv::MatND histogram;
 	//int histSize = 256;
 	//const int* channel_numbers = { 0 };
 	//float channel_range[] = { 0.0,256.0 };
 	//const float* channel_ranges = channel_range;
 	//int number_bins = histSize;
-
-
 	//hist_image = cropped_image;
 	//cv::calcHist(&hist_image, 1, 0, cv::Mat(), histogram, 1, &number_bins, &channel_ranges);
-
 	//int hist_w = 512, hist_h = 400;
 	//int bin_w = cvRound((double)hist_w / histSize);
 	//cv::Mat histImage(hist_h, hist_w, CV_8UC3, cv::Scalar(0, 0, 0));
@@ -106,17 +97,12 @@ cv::Mat thread_vision::box_filters()
 	cv::threshold(cropped_image, cropped_image, 0, 255, cv::THRESH_OTSU);
 	cv::morphologyEx(cropped_image, cropped_image, cv::MORPH_OPEN, kernel_open);
 	cv::bitwise_not(cropped_image, cropped_image);
-
-	//imshow("filtered", cropped_image);
-	//cv::waitKey(1);
-
 	return cropped_image;
 }
 
 cv::Mat thread_vision::Other_box_filters(int i)
 {
 	cv::Mat cropped_image;
-	cv::Mat hist_image;
 	cropped_image = image(boxes[i]);
 
 	cv::Mat kernel_open = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
@@ -129,11 +115,6 @@ cv::Mat thread_vision::Other_box_filters(int i)
 	cv::threshold(cropped_image, cropped_image, 0, 255, cv::THRESH_OTSU);
 	cv::morphologyEx(cropped_image, cropped_image, cv::MORPH_OPEN, kernel_open);
 	cv::bitwise_not(cropped_image, cropped_image);
-
-	//if (i == 7) {
-		//imshow("filtered", cropped_image);
-		//cv::waitKey(1);
-	//}
 
 	return cropped_image;
 }
@@ -168,10 +149,7 @@ bool thread_vision::check_pattern_two_rect(cv::Mat input_image, cv::Point dxdy, 
 		if((int)conPoly[i].size() == 4)
 			cv::drawContours(image, conPoly, i, cv::Scalar(0, 255, 0), 1, cv::LINE_8, -1, 0, dxdy);
 	}
-	 //Wyswietlanie wartosci pól
-	//std::cout << std::abs(areas[0] - areas[1]) << std::endl;
 
-	//
 	if (std::abs(areas[0] - areas[1]) > lower_value && std::abs(areas[0] - areas[1]) < upper_value)
 	{
 		cv::rectangle(image, boundRect, cv::Scalar(0, 255, 0), 5);
@@ -214,8 +192,6 @@ bool thread_vision::check_pattern_circle(cv::Mat input_image, cv::Point dxdy, in
 		if ((int)conPoly[i].size() == 8)
 			cv::drawContours(image, conPoly, i, cv::Scalar(0, 255, 0), 1, cv::LINE_8, -1, 0, dxdy);
 	}
-	//Wyswietlanie wartosci pól
-  // std::cout << area << std::endl;
 
 	if (area > lower_value && area < upper_value)
 	{
@@ -257,10 +233,7 @@ bool thread_vision::check_pattern_one_rect(cv::Mat input_image, cv::Point dxdy, 
 		if ((int)conPoly[i].size() == 4)
 			cv::drawContours(image, conPoly, i, cv::Scalar(0, 255, 0), 1, cv::LINE_8, -1, 0, dxdy);
 	}
-	//Wyswietlanie wartosci pól
-	//std::cout << area << std::endl;
 
-	//
 	if (std::abs(area) > lower_value && std::abs(area) < upper_value)
 	{
 		//cv::rectangle(image, boundRect, cv::Scalar(0, 255, 0), 5);
@@ -281,27 +254,12 @@ bool thread_vision::check_if_boxes_on_position(cv::Mat input_image, int index) {
 	box_area = cv::Rect(point_tl, point_br);
 	cropped_image = image(box_area);
 	
-
-	//cv::imshow("croped_boxes_", cropped_image);
 	cv::Mat Kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(6, 6));
 	cv::Mat kerneldil = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
 	// Filters
-	//cv::cvtColor(cropped_image, cropped_image, cv::COLOR_BGR2GRAY);
-
 	cv::Mat imageHSV;
 	cv::Mat mask;
 	cv::cvtColor(cropped_image, imageHSV, cv::COLOR_BGR2HSV);
-
-	//cv::namedWindow("Trackbars", (640, 200));
-	//cv::createTrackbar("Hue Min", "Trackbars", &hmin, 179);
-	//cv::createTrackbar("Hue Max", "Trackbars", &hmax, 179);
-	//cv::createTrackbar("Sat Min", "Trackbars", &smin, 255);
-	//cv::createTrackbar("Sat Max", "Trackbars", &smax, 255);
-	//cv::createTrackbar("Val Min", "Trackbars", &vmin, 255);
-	//cv::createTrackbar("Val Max", "Trackbars", &vmax, 255);
-
-	//cv::Scalar lower(0, 28, 0);
-	//cv::Scalar upper(179, 255, 220);
 	cv::Scalar lower(0, 28, 0);
 	cv::Scalar upper(179, 255, 220);
 	cv::inRange(imageHSV, lower, upper, mask);
@@ -309,13 +267,7 @@ bool thread_vision::check_if_boxes_on_position(cv::Mat input_image, int index) {
 
 	int TotalNumberOfPixels = mask.rows * mask.cols;
 	int WhitePixels = cv::countNonZero(mask);
-	//std::cout << "The number of pixels that are zero is " << ZeroPixels << std::endl;
 
-	//if(index==7){
-	//imshow("mask", mask);
-	//cv::imshow("croped_boxes", cropped_image);
-	//cv::waitKey(1);
-	//}
 	if (WhitePixels >= TotalNumberOfPixels / 4)
 		return true; 
 	else
@@ -543,7 +495,6 @@ void thread_vision::operator()(int index)
 	camera.set(cv::CAP_PROP_FRAME_WIDTH, 1920);
 	camera.set(cv::CAP_PROP_FRAME_HEIGHT, 1080);
 	camera.set(cv::CAP_PROP_FPS, 30);
-	//camera.set(cv::CAP_PROP_AUTO_EXPOSURE,1);
 	//camera.set(cv::CAP_PROP_SETTINGS,0);
 	int hmin = 0, hmax = 179, smin = 0, smax = 255, vmin = 0, vmax = 255;
 
@@ -592,7 +543,7 @@ void thread_vision::operator()(int index)
 		}
 		m.unlock();
 
-		//checking if boxes on position section
+		//checking if boxes on position section // configuration table
 		if (this->calibration_boxes) {
 
 			if (this->boxes.size() == 0)
@@ -620,9 +571,10 @@ void thread_vision::operator()(int index)
 				//checking if tape visible
 				if (check_pattern_one_rect(tape_checking_img, TL_of_window, 4000, 8000) && check_if_boxes_on_position(this->image, i) && data_box.index_and_checked_info_accepted_boxes[i].second != 2) 
 				{
-					std::pair<int, int> temp(data_box.index_and_checked_info_accepted_boxes[i].first, 1);
+					std::pair<int, int> temp(data_box.index_and_checked_info_accepted_boxes[i].first, 1); // 1 - good position // green rect
 					data_box.index_and_checked_info_accepted_boxes[i] = temp;
 					this->setting_boxes_inc[i] = 0;
+
 					//detecting changing state
 					if (data_box.index_and_checked_info_accepted_boxes[i].second != this->previous_info_accepted_boxes[i].second)
 						data_box.checking_boxes_state = true;
@@ -630,7 +582,7 @@ void thread_vision::operator()(int index)
 				else if ((!check_pattern_one_rect(tape_checking_img, TL_of_window, 4000, 8000) || !check_if_boxes_on_position(this->image, i)) && data_box.index_and_checked_info_accepted_boxes[i].second != 2 && this->setting_boxes_inc[i] == 4)
 				{
 					//checking if non visible
-					std::pair<int, int> temp(data_box.index_and_checked_info_accepted_boxes[i].first, 0);
+					std::pair<int, int> temp(data_box.index_and_checked_info_accepted_boxes[i].first, 0);  // 0 - wrong posiotion // red rect
 					data_box.index_and_checked_info_accepted_boxes[i] = temp;
 
 					//detecting changing state
@@ -641,15 +593,11 @@ void thread_vision::operator()(int index)
 				{
 					this->setting_boxes_inc[i]++;
 				}
-
-				//imshow("calib_boxes", tape_checking_img);
-				//cv::waitKey(1);
 			}
 			this->previous_info_accepted_boxes = data_box.index_and_checked_info_accepted_boxes;
 			m.unlock();
 		}
 
-		//std::cout << calibration_boxes << std::endl;
 		m.lock();
 		if (data_box.is_sequence_activated != this->is_sequence_activated)
 			this->is_sequence_activated = data_box.is_sequence_activated;
@@ -660,10 +608,7 @@ void thread_vision::operator()(int index)
 		{
 			// Camera trigger
 			camera.read(image);
-			//cv::waitKey(40);
-
 			cv::rotate(image, image, cv::ROTATE_180);
-
 			cv::remap(image, image, transformation_x, transformation_y, cv::INTER_LINEAR);
 
 			//checking if light is on
@@ -686,7 +631,7 @@ void thread_vision::operator()(int index)
 
 			cv::Mat green_button_image = button_filter();
 
-			//download detection section
+			//Article taking secure timer
 			if (this->box_flag) { 
 				this->real_time = this->clock.getElapsedTime();
 				if (this->real_time >= this->time_compare) {
@@ -696,7 +641,7 @@ void thread_vision::operator()(int index)
 				}
 			}
 
-			////additional secure
+			//additional secure
 			if (!this->box_flag && data_box.step_in_sequence == 2) {
 				if (check_pattern_circle(green_button_image, cv::Point(1605, 805), 9000, 14000))
 					this->green_button = false;
@@ -713,7 +658,7 @@ void thread_vision::operator()(int index)
 			m2.unlock();
 
 
-			////boxes detection
+			//boxes detection // Article taking
 			if (data_box.step_in_sequence == 1 && first_loop_missed) {
 				if (check_pattern_one_rect(this->box, TL_of_window, 4000, 8000))
 					this->box_detection = false;
@@ -723,6 +668,7 @@ void thread_vision::operator()(int index)
 					this->clock.restart();
 				}
 
+				//Handling Article taking
 				if (!this->box_detection && sequence.size() > 0) {
 					for (int i = 0; i < data_box.connectors_list_size; i++) {
 						if (i != this->current_step) {
@@ -763,7 +709,6 @@ void thread_vision::operator()(int index)
 				m.unlock();
 			}
 
-
 			//accept button detection
 			if (this->green_button && this->box_detection) {
 				this->green_button = false;
@@ -796,9 +741,6 @@ void thread_vision::operator()(int index)
 
 			m.unlock();
 
-			//showing image
-		//	imshow("box", box);
-			//imshow("green", green_button_image);
 		//	imshow("main", image);
 
 			// Reseting both detections
