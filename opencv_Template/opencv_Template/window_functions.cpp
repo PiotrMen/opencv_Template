@@ -35,36 +35,27 @@ void sfml_objects::init_button_size(float percentege_size)
 	this->green_button_x = this->window_width - 75 - ((this->green_button_length_x / 2) * percentege_size / 100);  // 150 - number of pixels from 
 	this->green_button_y = this->window_height - 50 - ((this->green_button_length_y / 2) * percentege_size / 100);
 
-	//red button
-	this->red_button_length_x = 124;
-	this->red_button_length_y = 124;
-
-	//coordinates for red button
-	this->red_button_x = 75 + ((this->red_button_length_x / 2) * percentege_size / 100);
-	this->red_button_y = this->window_height - 75 - ((this->red_button_length_y / 2) * percentege_size / 100);
-
-
 	this->button_size = percentege_size / 100;
 }
 
 //Displaying objects
-void sfml_objects::display_texture(int pos_x, int pos_y, std::string file_path, float scale, float rotation)
-{
-	sf::Texture texture_;
-	if (!texture_.loadFromFile("resources/" + file_path))
-	{
-		std::cerr << "Could not load texture" << std::endl;
-		exit(1);
-	}
-	sf::Sprite texture;
-	texture.setTexture(texture_);
-	texture.setOrigin(sf::Vector2f(texture.getTexture()->getSize().x * 0.5, texture.getTexture()->getSize().y * 0.5));         //set origins of images to center
-	texture.setPosition(pos_x, pos_y);
-	texture.setScale(scale, scale);
-	texture.setRotation(rotation);
-
-	this->window->draw(texture);
-}
+//void sfml_objects::display_texture(int pos_x, int pos_y, std::string file_path, float scale, float rotation)
+//{
+//	sf::Texture texture_;
+//	if (!texture_.loadFromFile("resources/" + file_path))
+//	{
+//		std::cerr << "Could not load texture" << std::endl;
+//		exit(1);
+//	}
+//	sf::Sprite texture;
+//	texture.setTexture(texture_);
+//	texture.setOrigin(sf::Vector2f(texture.getTexture()->getSize().x * 0.5, texture.getTexture()->getSize().y * 0.5));         //set origins of images to center
+//	texture.setPosition(pos_x, pos_y);
+//	texture.setScale(scale, scale);
+//	texture.setRotation(rotation);
+//
+//	this->window->draw(texture);
+//}
 
 void sfml_objects::display_texture(int pos_x, int pos_y, std::string file_path, int width, int height, float rotation)
 {
@@ -89,100 +80,14 @@ void sfml_objects::display_texture(int pos_x, int pos_y, std::string file_path, 
 	}
 }
 
-//Displaying text
-void sfml_objects::display_text(int pos_x, int pos_y, std::string text, float size)
-{
-	sf::Font font_;
-	if (!font_.loadFromFile("resources/mermaid/Mermaid1001.ttf"))
-	{
-		std::cerr << "Could not load font" << std::endl;
-		exit(1);
-	}
-	sf::Text text_;
-	text_.setFillColor(sf::Color::White);
-	text_.setFont(font_);
-	text_.setString(text);
-	text_.setCharacterSize(size);
-	text_.setOrigin((text_.getGlobalBounds().left + text_.getGlobalBounds().width) / 2, 0);     //set origins of text to center
-	text_.setPosition(pos_x, pos_y);
-	this->window->draw(text_);
-}
-
-void sfml_objects::display_text(int pos_x, int pos_y, std::string text, float size, sf::Color color)
-{
-	sf::Font font_;
-	if (!font_.loadFromFile("resources/mermaid/Mermaid1001.ttf"))
-	{
-		std::cerr << "Could not load font" << std::endl;
-		exit(1);
-	}
-	sf::Text text_;
-	text_.setFillColor(color);
-	text_.setFont(font_);
-	text_.setString(text);
-	text_.setCharacterSize(size);
-	text_.setOrigin(0, 0);     //set origins to 0
-	text_.setPosition(pos_x, pos_y);
-	this->window->draw(text_);
-}
-
 //Accessors
 const bool sfml_objects::getWindowIsOpen()
 {
 	return this->window->isOpen();
 }
 
-// Detecting mouse collision with buttons
-bool sfml_objects::detecting_green_button()
-{
-	if (((sf::Mouse::getPosition(*this->window).x >= this->green_button_x - ((this->green_button_length_x * this->button_size) / 2)) && (sf::Mouse::getPosition(*this->window).x <= this->green_button_x + ((this->green_button_length_x * this->button_size) / 2)) && (sf::Mouse::getPosition(*this->window).y >= this->green_button_y - ((this->green_button_length_y * this->button_size) / 2)) && (sf::Mouse::getPosition(*this->window).y <= this->green_button_y + ((this->green_button_length_y * this->button_size) / 2))))
-	{
-		return true;
-	}
-	return false;
-}
-
-bool sfml_objects::detecting_red_button()
-{
-	if (((sf::Mouse::getPosition(*this->window).x >= this->red_button_x - ((this->red_button_length_x * this->button_size) / 2)) && (sf::Mouse::getPosition(*this->window).x <= this->red_button_x + ((this->red_button_length_x * this->button_size) / 2)) && (sf::Mouse::getPosition(*this->window).y >= this->red_button_y - ((this->red_button_length_y * this->button_size) / 2)) && (sf::Mouse::getPosition(*this->window).y <= this->red_button_y + ((this->red_button_length_y * this->button_size) / 2))))
-	{
-		return true;
-	}
-	return false;
-}
-
-
-//Functions
-void sfml_objects::pollEvents(int &current_step)
-{
-	//Event polling
-	while (this->window->pollEvent(this->event))
-	{
-		switch (event.type)
-		{
-		case sf::Event::Closed:
-			this->window->close();
-			break;
-
-		case sf::Event::MouseButtonPressed:
-		{
-			switch (event.key.code)
-			{
-
-				case sf::Mouse::Left:
-				{
-					break;
-				}
-			}
-			break;
-		}
-		}
-	}
-}
-
 void sfml_objects::update(int &current_step, std::vector <sData> &database)
 {
-	this->pollEvents(current_step);
 
 	if (!this->sequence_previous_state && this->sequence_activated)
 	{
@@ -198,7 +103,7 @@ void sfml_objects::update(int &current_step, std::vector <sData> &database)
 
 		// Initializing sequence list
 
-		list.push_back("1.1 Pobranie " + sequence[0].name);				//Actual step
+		list.push_back("1.1 Pobranie " + sequence[0].name);				//Present step
 		list.push_back("1.2 Instalacja " + sequence[0].name);			//Following step
 
 		// Checking if sequence elements match with database
@@ -277,7 +182,6 @@ void sfml_objects::update(int &current_step, std::vector <sData> &database)
 		}
 	}
 
-
 	if (data_box.is_sequence_activated == false)
 		step_of_sequence = 0;
 	this->sequence_previous_state = this->sequence_activated;
@@ -294,14 +198,10 @@ void sfml_objects::update(int &current_step, std::vector <sData> &database)
 		if_display = true;
 		data_box.checking_boxes_state = false;
 	}
-
-
 }
-
 
 void sfml_objects::render(int &current_step, int current_menu_window, std::vector<sf::RectangleShape>v_rectangles, std::vector <sData> &database, int which_box_is_writing)
 {
-
 	if (current_menu_window == 2) {
 
 		//freezing window function
@@ -361,11 +261,9 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 		this->window->clear(sf::Color(0, 0, 0, 255));
 	}
 
-
 	this->menu_window = current_menu_window;
 	if (current_menu_window == 2 && if_clear) 
 	{
-
 		if ((this->previous_box_writing < which_box_is_writing)|| ((v_rectangles[data_box.connectors_list_size-1].getFillColor() == (sf::Color::Green)) && (data_box.connectors_list_size == this->previous_box_writing+1))) {
 			if (data_box.connectors_list_size > data_box.index_and_checked_info_accepted_boxes.size()) {
 				if(v_rectangles[this->previous_box_writing].getFillColor() == (sf::Color::Green))
@@ -404,16 +302,23 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 			this->window->draw(rectangle_);
 		}
 
-
 		//displaying helpful graphics
-		this->display_texture(this->window_width / 2 -300 , 780, "dobry_wzor.png", 0.35, 0);
-		this->display_texture(this->window_width / 2 + 300, 780, "Zly_wzor.png", 0.35, 0);
-		this->display_texture(this->window_width / 2 , 780, "Zly_wzor2.png", 0.35, 0);
+		Universal_display_texture(this->window_width / 2 - 300, 780, "dobry_wzor.png", 0.35, this->window);
+		Universal_display_texture(this->window_width / 2 + 300, 780, "Zly_wzor.png", 0.35, this->window);
+		Universal_display_texture(this->window_width / 2, 780, "Zly_wzor2.png", 0.35, this->window);
+
+		Universal_display_texture(this->window_width / 2 - 300, 1020, "green_accept.png", 0.20, this->window);
+		Universal_display_texture(this->window_width / 2 + 300, 1020, "red_wrong.png", 0.20, this->window);
+		Universal_display_texture(this->window_width / 2, 1020, "red_wrong.png", 0.20, this->window);
+
+		//this->display_texture(this->window_width / 2 -300 , 780, "dobry_wzor.png", 0.35, 0);
+		//this->display_texture(this->window_width / 2 + 300, 780, "Zly_wzor.png", 0.35, 0);
+		//this->display_texture(this->window_width / 2 , 780, "Zly_wzor2.png", 0.35, 0);
 
 		//displaying good and wrong example
-		this->display_texture(this->window_width / 2 - 300, 1020, "green_accept.png", 0.20, 0);
-		this->display_texture(this->window_width / 2 + 300, 1020, "red_wrong.png", 0.20, 0);
-		this->display_texture(this->window_width / 2, 1020, "red_wrong.png", 0.20, 0);
+		//this->display_texture(this->window_width / 2 - 300, 1020, "green_accept.png", 0.20, 0);
+		//this->display_texture(this->window_width / 2 + 300, 1020, "red_wrong.png", 0.20, 0);
+		//this->display_texture(this->window_width / 2, 1020, "red_wrong.png", 0.20, 0);
 		if_clear = false;
 	}
 
@@ -513,7 +418,6 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 			this->step_of_sequence = 1;
 			current_step++;
 			this->article_installed = false;
-			this->actual_length = this->actual_length + sequence[current_step].width;
 		}
 		break;
 	}
@@ -523,7 +427,9 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 	// Drawing
 	if (this->step_of_sequence != 0 && if_clear)
 	{
-		this->display_texture(this->green_button_x, this->green_button_y, "green_circle.png", this->button_size, 0);   //displaying basic graphics 
+		//this->display_texture(this->green_button_x, this->green_button_y, "green_circle.png", this->button_size, 0);
+		// Displaying acceptance button
+		Universal_display_texture(this->green_button_x, this->green_button_y, "green_circle.png", this->button_size, this->window);
 		Universal_display_text_polish_font(this->green_button_x, this->green_button_y + (this->green_button_length_y*button_size) / 2, -1, 0, L"Kontynuuj", 40, 0, sf::Color::White, this->window, "AbhayaLibre-ExtraBold.ttf");
 
 		for (int i = 0; i < v_rectangles.size(); i++)
@@ -575,12 +481,12 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 		}
 
 		if (data_box.wrong_box) {
-			this->display_texture(this->window_width/2, 750, "red_circlebigger.png", 0.5, 0);
+			Universal_display_texture(this->window_width / 2, 750, "red_circlebigger.png", 0.5, this->window);
+		//	this->display_texture(this->window_width/2, 750, "red_circlebigger.png", 0.5, 0);
 			Universal_display_text_polish_font(this->window_width / 2, 900, -1, -1, L"le pobrany artyku³", 40, 0, sf::Color::White, this->window, "AbhayaLibre-ExtraBold.ttf");
 		}
 		if_clear = false;
 	}
-	// do testow, przechodzenie do kolejnego kroku na prawy przycisk myszy w window functions
 
 	//Calibration tape points on table
 	if (this->menu_window == 3) {
@@ -610,4 +516,3 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 	else
 		if_display = true;
 }
-
