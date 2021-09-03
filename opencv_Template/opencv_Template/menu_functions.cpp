@@ -699,6 +699,15 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 			if_display = true;
 		}
 
+		if (rising_edge_saved && (unieversal_detecting_collision_with_buttons(this->backward_button_x, this->backward_button_y, this->backward_length_button_x, this->backward_length_button_y, this->backward_scale, this->menu_window) || unieversal_detecting_collision_with_buttons(this->blue_button_x, this->Exit_button_y, this->Exit_button_length_x, this->Exit_button_length_y, data_box.menu_button_size, this->menu_window))) {
+			this->if_clear = true;
+			this->if_display = true;
+		}
+		if (falling_edge_saved && (!unieversal_detecting_collision_with_buttons(this->backward_button_x, this->backward_button_y, this->backward_length_button_x, this->backward_length_button_y, this->backward_scale, this->menu_window) || !unieversal_detecting_collision_with_buttons(this->blue_button_x, this->Exit_button_y, this->Exit_button_length_x, this->Exit_button_length_y, data_box.menu_button_size, this->menu_window))) {
+			this->if_clear = true;
+			this->if_display = true;
+		}
+
 	}
 
 	if (this->current_menu_window == 202 && detecting_sequation_ending()) {
@@ -804,7 +813,7 @@ void menu_sfml_objects::render(int current_step, bool live_chart)
 		Universal_display_texture(this->blue_button_x, this->blue_button_y, "menu/blue_circle.png", this->button_size, this->menu_window);
 		Universal_display_text_polish_font(this->blue_button_x, this->blue_button_y + 75, L"Pomoc", 30,0,this->menu_window);
 
-		//Displaying start button
+		//Displaying exit button
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(200, this->Exit_button_y, this->Exit_button_length_x, this->Exit_button_length_y, data_box.menu_button_size, this->menu_window))
 			Universal_display_texture(200, this->Exit_button_y, "menu/red_circle_clicked.png", this->button_size, this->menu_window);
 		else
@@ -943,7 +952,7 @@ void menu_sfml_objects::render(int current_step, bool live_chart)
 			if(this->vector_rectangles[i].getFillColor() == sf::Color::Red)
 				Universal_display_text_polish_font(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y-30, String_to_wString(std::to_string(i+1)), 120,0,this->menu_window);
 			else
-				Universal_display_texture(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y, "menu/"+std::to_string(vector_displaying_articles[i].serial_number) + ".png",0,this->menu_window);
+				Universal_display_texture(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y, "menu/graphics_of_articles/"+std::to_string(vector_displaying_articles[i].serial_number) + ".png",1,this->menu_window);
 		}
 
 		//displaying texts on rectangle
@@ -1010,7 +1019,7 @@ void menu_sfml_objects::render(int current_step, bool live_chart)
 			if (this->vector_rectangles[i].getFillColor() == sf::Color::Red)
 				Universal_display_text_polish_font(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 30, String_to_wString(std::to_string(i + 1)), 120,0,this->menu_window);
 			else
-				Universal_display_texture(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y, "menu/"+std::to_string(vector_displaying_articles[i].serial_number) + ".png", 1,this->menu_window);
+				Universal_display_texture(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y, "menu/graphics_of_articles/" +std::to_string(vector_displaying_articles[i].serial_number) + ".png", 1,this->menu_window);
 		}
 
 		//displaying texts on rectangle
@@ -1037,7 +1046,10 @@ void menu_sfml_objects::render(int current_step, bool live_chart)
 		Universal_display_text_polish_font(this->backward_button_x, this->backward_button_y + 75, L"Cofnij krok", 30,0,this->menu_window);
 
 		// Displaying back to menu in sequence
-		Universal_display_texture(this->menu_window_width - 200, this->menu_window_height - 150, "menu/red_circle.png", this->button_size, this->menu_window);
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(200, this->Exit_button_y, this->Exit_button_length_x, this->Exit_button_length_y, data_box.menu_button_size, this->menu_window))
+			Universal_display_texture(this->blue_button_x, this->Exit_button_y, "menu/red_circle_clicked.png", this->button_size, this->menu_window);
+		else
+			Universal_display_texture(this->blue_button_x, this->Exit_button_y, "menu/red_circle.png", this->button_size, this->menu_window);
 		Universal_display_text_polish_font(this->menu_window_width - 200, this->menu_window_height - 75, L"Powrót do menu", 30,0,this->menu_window);
 		
 		if (live_chart) {
