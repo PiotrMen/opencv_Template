@@ -66,6 +66,7 @@ public:
 
 	//Displaying objects
 	void display_texture(int pos_x, int pos_y, std::string file_path, float scale, float rotation);
+
 	//This function displays objects that are not guaranteed to exist
 	void display_texture(int pos_x, int pos_y, std::string file_path, float scale);
 	void display_text(int pos_x, int pos_y, std::string text, float size);
@@ -87,9 +88,6 @@ public:
 	void pollEvents(int &current_step, int &current_window);
 	void update(int &current_step, int &current_window);
 	void render(int current_step, bool live_chart);
-
-	
-	// adding_article.cpp
 
 	// Functions
 	char check_character(int key_number, bool shift_pressed, bool & caps_lock_pressed);
@@ -165,9 +163,6 @@ private:
 	sf::Time time_compare = sf::seconds(40);
 	sf::Time time_send_info = sf::seconds(38);
 	sf::Time real_time;
-
-	sf::Time real_time_calibration_freezed_screen;
-	sf::Time invert_time_freezed_screen = sf::seconds(30);
 
 	int displaying_time;
 	sf::Clock clock;
