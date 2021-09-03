@@ -38,25 +38,7 @@ void sfml_objects::init_button_size(float percentege_size)
 	this->button_size = percentege_size / 100;
 }
 
-//Displaying objects
-//void sfml_objects::display_texture(int pos_x, int pos_y, std::string file_path, float scale, float rotation)
-//{
-//	sf::Texture texture_;
-//	if (!texture_.loadFromFile("resources/" + file_path))
-//	{
-//		std::cerr << "Could not load texture" << std::endl;
-//		exit(1);
-//	}
-//	sf::Sprite texture;
-//	texture.setTexture(texture_);
-//	texture.setOrigin(sf::Vector2f(texture.getTexture()->getSize().x * 0.5, texture.getTexture()->getSize().y * 0.5));         //set origins of images to center
-//	texture.setPosition(pos_x, pos_y);
-//	texture.setScale(scale, scale);
-//	texture.setRotation(rotation);
-//
-//	this->window->draw(texture);
-//}
-
+//Displaying installed objects on table
 void sfml_objects::display_texture(int pos_x, int pos_y, std::string file_path, int width, int height, float rotation)
 {
 	//Function used for displaying textures of connectors on projector
