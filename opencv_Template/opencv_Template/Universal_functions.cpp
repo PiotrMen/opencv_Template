@@ -179,6 +179,29 @@ void Universal_display_text_polish_font(int pos_x, int pos_y, int origin_x, int 
 	text_.setPosition(pos_x, pos_y);
 	window->draw(text_);
 }
+// Displays text with bold font
+void Universal_display_text_polish_font(int pos_x, int pos_y, int origin_x, int origin_y, std::wstring text, float size, float rotate, sf::Color color, sf::RenderWindow *window, std::string font_name)
+{
+	sf::Font font_;
+	if (!font_.loadFromFile("resources/mermaid/" + font_name))
+	{
+		std::cerr << "Could not load font" << std::endl;
+		exit(1);
+	}
+	sf::Text text_;
+	text_.setFillColor(color);
+	text_.setFont(font_);
+	text_.setString(text);
+	text_.setCharacterSize(size);
+	text_.setRotation(rotate);
+	if (origin_x == -1)
+		origin_x = text_.getGlobalBounds().left + text_.getGlobalBounds().width / 2;
+	if (origin_y == -1)
+		origin_y = text_.getGlobalBounds().top + text_.getGlobalBounds().height / 2;
+	text_.setOrigin(origin_x, origin_y);
+	text_.setPosition(pos_x, pos_y);
+	window->draw(text_);
+}
 
 // convert UTF-8 string to wstring
 std::wstring String_to_wString(const std::string & s)
