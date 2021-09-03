@@ -154,7 +154,8 @@ void cLive_chart::load_statistics()
 
 	for (int i = 0; i < this->sequence_times.size(); i++)
 		this->time_mean_value = this->time_mean_value + this->sequence_times[i];
-	this->time_mean_value = this->time_mean_value / this->sequence_times.size();
+	if(sequence_times.size() != 0)
+		this->time_mean_value = this->time_mean_value / this->sequence_times.size();
 }
 void cLive_chart::save_statistics()
 {
@@ -301,6 +302,11 @@ void cLive_chart::update(int &current_menu_window, bool &if_clear, bool &if_disp
 
 	this->calculating_bars();
 
+	if (data_box.last_step_of_sequence == true && data_box.last_step_of_sequence != this->previous_last_step_of_sequence)
+	{
+		this->add_new_time(this->present_time);
+	}
+	this->previous_last_step_of_sequence = data_box.last_step_of_sequence;
 
 	if (data_box.is_sequence_activated == false)
 		this->sequence_clock.restart();

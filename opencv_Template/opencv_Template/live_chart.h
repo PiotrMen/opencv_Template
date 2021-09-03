@@ -59,6 +59,9 @@ private:
 
 	int oldest_time_recorded_iterator;
 
+	// Previous value of data_box.last_step_of_sequence
+	bool previous_last_step_of_sequence;
+
 	float time_mean_value;
 	float present_time = 0;
 
