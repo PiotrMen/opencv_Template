@@ -77,8 +77,11 @@ int main()
 			data_box.global_exit = true;
 
 		//std::cout << data_box.red_button << "   " << data_box.green_button << std::endl;
-		if (data_box.global_exit) 
+		if (data_box.global_exit)
+		{
+			live_chart.save_statistics();
 			break;
+		}
 	}
 	th.join();
 	return 0;

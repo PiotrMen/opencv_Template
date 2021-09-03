@@ -50,7 +50,6 @@ public:
 	void init_button_size(float percentege_size);
 
 	//Displaying objects
-	void display_texture(int pos_x, int pos_y, std::string file_path, float scale, float rotation);
 	void display_texture(int pos_x, int pos_y, std::string file_path, int width, int height, float rotation);
 
 	//Accessors
