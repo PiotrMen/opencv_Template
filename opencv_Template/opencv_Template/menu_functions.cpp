@@ -1,8 +1,4 @@
 #include "menu_functions.h"
-#include <iostream>
-#include "Universal_functions.h"
-#include <string>
-
 
 //Constructor
 menu_sfml_objects::menu_sfml_objects()
@@ -76,42 +72,6 @@ void menu_sfml_objects::init_button_size(float percentege_size, float menu_butto
 	this->backward_scale = 0.25;
 }
 
-//Displaying objects
-void menu_sfml_objects::display_texture(int pos_x, int pos_y, std::string file_path, float scale, float rotation)
-{
-	sf::Texture texture_;
-	if (!texture_.loadFromFile("resources/menu/" + file_path))
-	{
-		std::cerr << "Could not load texture" << std::endl;
-		exit(1);
-	}
-	sf::Sprite texture;
-	texture.setTexture(texture_);
-	texture.setOrigin(sf::Vector2f(texture.getTexture()->getSize().x * 0.5, texture.getTexture()->getSize().y * 0.5));         //set origins of images to center
-	texture.setPosition(pos_x, pos_y);
-	texture.setScale(scale, scale);
-	texture.setRotation(rotation);
-
-	this->menu_window->draw(texture);
-}
-void menu_sfml_objects::display_texture(int pos_x, int pos_y, std::string file_path, float scale)
-{
-	//This function displays objects that are not guaranteed to exist
-	sf::Texture texture_;
-	if (!texture_.loadFromFile("resources/menu/graphics_of_articles/" + file_path))
-	{
-	}
-	else
-	{
-		sf::Sprite texture;
-		texture.setTexture(texture_);
-		texture.setOrigin(sf::Vector2f(texture.getTexture()->getSize().x * 0.5, texture.getTexture()->getSize().y * 0.5));         //set origins of images to center
-		texture.setPosition(pos_x, pos_y);
-		texture.setScale(scale, scale);
-
-		this->menu_window->draw(texture);
-	}
-}
 
 //Displaying text
 void menu_sfml_objects::display_text(int pos_x, int pos_y, std::string text, float size)
@@ -528,9 +488,6 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		bool if_wrong = true;
 		display_underline();
 
-		//if (vector_displaying_articles.size() - 1 == connectors_list.size())
-		//	which_box_is_writing++;
-
 		//detecting rectangles click
 		for (int i = 0; i < which_box_is_writing; i++) {
 			if (unieversal_detecting_collision_with_buttons(this->vector_rectangles[i].getPosition().x, this->vector_rectangles[i].getPosition().y, this->vector_rectangles[i].getGlobalBounds().width, this->vector_rectangles[i].getGlobalBounds().height, 1, this->menu_window) && falling_edge_saved && !change_number) {
@@ -817,31 +774,31 @@ void menu_sfml_objects::render(int current_step, bool live_chart)
 	if (this->current_menu_window == 0) {
 		//Displaying Upload file graphics
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && detecting_Upload_file_button())
-			this->display_texture(this->load_csv_button_x, this->load_csv_button_y, "grey_pushed.png", data_box.menu_button_size, 0);
+			Universal_display_texture(this->load_csv_button_x, this->load_csv_button_y, "menu/grey_pushed.png", data_box.menu_button_size,this->menu_window);
 		else
-			this->display_texture(this->load_csv_button_x, this->load_csv_button_y, "grey_button.png", data_box.menu_button_size, 0);
+			Universal_display_texture(this->load_csv_button_x, this->load_csv_button_y, "menu/grey_button.png", data_box.menu_button_size, this->menu_window);
 
 		//Displaying edit button graphics
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && detecting_Match_boxes_button())
-			this->display_texture(this->installation_of_connectors_button_x, this->installation_of_connectors_button_y, "grey_pushed.png", data_box.menu_button_size, 0);
+			Universal_display_texture(this->installation_of_connectors_button_x, this->installation_of_connectors_button_y, "menu/grey_pushed.png", data_box.menu_button_size, this->menu_window);
 		else
-			this->display_texture(this->installation_of_connectors_button_x, this->installation_of_connectors_button_y, "grey_button.png", data_box.menu_button_size, 0);
+			Universal_display_texture(this->installation_of_connectors_button_x, this->installation_of_connectors_button_y, "menu/grey_button.png", data_box.menu_button_size, this->menu_window);
 
 		//Displaying delete button graphics
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && detecting_calibration_button())
-			this->display_texture(this->Calibration_button_x, this->Calibration_button_y, "grey_pushed.png", data_box.menu_button_size, 0);
+			Universal_display_texture(this->Calibration_button_x, this->Calibration_button_y, "menu/grey_pushed.png", data_box.menu_button_size, this->menu_window);
 		else
-			this->display_texture(this->Calibration_button_x, this->Calibration_button_y, "grey_button.png", data_box.menu_button_size, 0);
+			Universal_display_texture(this->Calibration_button_x, this->Calibration_button_y, "menu/grey_button.png", data_box.menu_button_size, this->menu_window);
 
 		//Displaying blue button
-		this->display_texture(this->blue_button_x, this->blue_button_y, "blue_circle.png", this->button_size, 0);
+		Universal_display_texture(this->blue_button_x, this->blue_button_y, "menu/blue_circle.png", this->button_size, this->menu_window);
 		Universal_display_text_polish_font(this->blue_button_x, this->blue_button_y + 75, L"Pomoc", 30,0,this->menu_window);
 
 		//Displaying start button
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(200, this->Exit_button_y, this->Exit_button_length_x, this->Exit_button_length_y, data_box.menu_button_size, this->menu_window))
-			this->display_texture(200, this->Exit_button_y, "red_circle_clicked.png", this->button_size, 0);
+			Universal_display_texture(200, this->Exit_button_y, "menu/red_circle_clicked.png", this->button_size, this->menu_window);
 		else
-			this->display_texture(200, this->Exit_button_y, "red_circle.png", this->button_size, 0);
+			Universal_display_texture(200, this->Exit_button_y, "menu/red_circle.png", this->button_size, this->menu_window);
 
 		Universal_display_text_polish_font(200, this->Exit_button_y + 75, L"Exit", 30,0,this->menu_window);
 
@@ -865,13 +822,13 @@ void menu_sfml_objects::render(int current_step, bool live_chart)
 
 		//UnderLines
 		if (detecting_Upload_file_button())
-			this->display_texture(this->load_csv_button_x, this->load_csv_button_y + 85, "UnderLine.png", data_box.menu_button_size - 0.2, 0);
+			Universal_display_texture(this->load_csv_button_x, this->load_csv_button_y + 85, "menu/UnderLine.png", data_box.menu_button_size - 0.2, this->menu_window);
 
 		if (detecting_Match_boxes_button())
-			this->display_texture(this->installation_of_connectors_button_x, this->installation_of_connectors_button_y + 85, "UnderLine.png", data_box.menu_button_size - 0.2, 0);
+			Universal_display_texture(this->installation_of_connectors_button_x, this->installation_of_connectors_button_y + 85, "menu/UnderLine.png", data_box.menu_button_size - 0.2, this->menu_window);
 
 		if (detecting_calibration_button())
-			this->display_texture(this->Calibration_button_x, this->Calibration_button_y + 85, "UnderLine.png", data_box.menu_button_size - 0.2, 0);
+			Universal_display_texture(this->Calibration_button_x, this->Calibration_button_y + 85, "menu/UnderLine.png", data_box.menu_button_size - 0.2, this->menu_window);
 	}
 
 	if (this->current_menu_window == 100)
@@ -879,7 +836,7 @@ void menu_sfml_objects::render(int current_step, bool live_chart)
 		Universal_display_text_polish_font(this->menu_window_width / 2, 130, L"Pomoc", 200, 0, this->menu_window);
 
 		// Displaying backward in section
-		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+		Universal_display_texture(this->backward_button_x, this->backward_button_y, "menu/backward.png", this->backward_scale, this->menu_window);
 		Universal_display_text_polish_font(this->backward_button_x, this->backward_button_y + 75, L"Powrót", 30, 0,this->menu_window);
 		// Displaying help		
 		Universal_display_text_polish_font(this->menu_window_width / 2, this->menu_window_height / 2, utf8_to_wstring(load_txt_help("help_menu.txt")), 34, 0, this->menu_window);
@@ -891,21 +848,21 @@ void menu_sfml_objects::render(int current_step, bool live_chart)
 		Universal_display_text_polish_font(this->menu_window_width / 2, 130, L"Za³aduj plik .csv", 200,0,this->menu_window);
 
 		//Displaying blue button
-		this->display_texture(this->blue_button_x, this->blue_button_y, "blue_circle.png", this->button_size, 0);
+		Universal_display_texture(this->blue_button_x, this->blue_button_y, "menu/blue_circle.png", this->button_size, this->menu_window);
 		Universal_display_text_polish_font(this->blue_button_x, this->blue_button_y + 75, L"Pomoc", 30,0,this->menu_window);
 
 		//displaying backward in section
-		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+		Universal_display_texture(this->backward_button_x, this->backward_button_y, "menu/backward.png", this->backward_scale, this->menu_window);
 		Universal_display_text_polish_font(this->backward_button_x, this->backward_button_y + 75, L"Powrót", 30,0,this->menu_window);
 
 		//Displaying searching square
 		if (this->enable_writing == true || this->searching_text.size() > 0)
 		{
-			this->display_texture(990, 400, "search_without_magnifying_glass.png", 1, 0);
+			Universal_display_texture(990, 400, "menu/search_without_magnifying_glass.png", 1, this->menu_window);
 		}
 		else
 		{
-			this->display_texture(990, 400, "name.png", 1, 0);
+			Universal_display_texture(990, 400, "menu/name.png", 1, this->menu_window);
 		}
 		Universal_display_text_polish_font(990, 470, L"Podaj nazwê wczytywanego pliku .csv", 26,0,this->menu_window);
 		Universal_display_text_polish_font(990, 400, String_to_wString(searching_text), 26,0,this->menu_window);
@@ -915,18 +872,18 @@ void menu_sfml_objects::render(int current_step, bool live_chart)
 		{
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(990, 800, 707, 120, 1, this->menu_window))
 			{
-				this->display_texture(990, 800, "grey_pushed.png", data_box.menu_button_size, 0);
+				Universal_display_texture(990, 800, "menu/grey_pushed.png", data_box.menu_button_size, this->menu_window);
 			}
 			else
 			{
-				this->display_texture(990, 800, "grey_button.png", data_box.menu_button_size, 0);
+				Universal_display_texture(990, 800, "menu/grey_button.png", data_box.menu_button_size, this->menu_window);
 			}
 			Universal_display_text_polish_font(990, 785, L"ZatwierdŸ plik .csv", 80,0,this->menu_window);
 
 			//Button Underline
 			if (unieversal_detecting_collision_with_buttons(990, 800, 707, 120, 1, this->menu_window))
 			{
-				this->display_texture(990, 800 + 85, "UnderLine.png", 0.9, 0);
+				Universal_display_texture(990, 800 + 85, "menu/UnderLine.png", 0.9, this->menu_window);
 			}
 		}
 	}
@@ -935,7 +892,7 @@ void menu_sfml_objects::render(int current_step, bool live_chart)
 		Universal_display_text_polish_font(this->menu_window_width / 2, 130, L"Pomoc", 200,0,this->menu_window);
 
 		// Displaying backward in section
-		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+		Universal_display_texture(this->backward_button_x, this->backward_button_y, "menu/backward.png", this->backward_scale, this->menu_window);
 		Universal_display_text_polish_font(this->backward_button_x, this->backward_button_y + 75, L"Powrót", 30,0,this->menu_window);
 
 		// Displaying help
@@ -945,16 +902,14 @@ void menu_sfml_objects::render(int current_step, bool live_chart)
 	//match boxes section displaying
 	if (this->current_menu_window == 2 && if_clear) {
 
-	//	std::cout << if_clear << "    " << if_display << std::endl;
-
 		Universal_display_text_polish_font(this->menu_window_width / 2, 130, L"Zeskanuj pude³ka", 200,0,this->menu_window);
 
 		//Displaying blue button
-		this->display_texture(this->blue_button_x, this->blue_button_y, "blue_circle.png", this->button_size, 0);
+		Universal_display_texture(this->blue_button_x, this->blue_button_y, "menu/blue_circle.png", this->button_size, this->menu_window);
 		Universal_display_text_polish_font(this->blue_button_x, this->blue_button_y + 75, L"Pomoc", 30,0,this->menu_window);
 
 		//displaying backward in section
-		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+		Universal_display_texture(this->backward_button_x, this->backward_button_y, "menu/backward.png", this->backward_scale, this->menu_window);
 		Universal_display_text_polish_font(this->backward_button_x, this->backward_button_y + 75, L"Powrót", 30,0,this->menu_window);
 
 		//displaying rectangles
@@ -963,7 +918,7 @@ void menu_sfml_objects::render(int current_step, bool live_chart)
 			if(this->vector_rectangles[i].getFillColor() == sf::Color::Red)
 				Universal_display_text_polish_font(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y-30, String_to_wString(std::to_string(i+1)), 120,0,this->menu_window);
 			else
-				display_texture(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y, std::to_string(vector_displaying_articles[i].serial_number) + ".png", 1);
+				Universal_display_texture(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y, "menu/"+std::to_string(vector_displaying_articles[i].serial_number) + ".png",0,this->menu_window);
 		}
 
 		//displaying texts on rectangle
@@ -991,15 +946,15 @@ void menu_sfml_objects::render(int current_step, bool live_chart)
 		//displaying start sequention button
 		if (this->display_start_sequention) {
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window) && this->display_start_sequention) {
-				this->display_texture(960, 950, "grey_pushed.png", data_box.menu_button_size, 0);
+				Universal_display_texture(960, 950, "menu/grey_pushed.png", data_box.menu_button_size,this->menu_window);
 				Universal_display_text_polish_font(960, 935, L"Start sekwencji", 100,0,this->menu_window);
 			}
 			else {
-				this->display_texture(960, 950, "grey_button.png", data_box.menu_button_size, 0);
+				Universal_display_texture(960, 950, "menu/grey_button.png", data_box.menu_button_size, this->menu_window);
 				Universal_display_text_polish_font(960, 935, L"Start sekwencji", 100,0,this->menu_window);
 			}
 			if(unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window))
-				this->display_texture(960, 950 + 85, "UnderLine.png", data_box.menu_button_size - 0.2, 0);
+				Universal_display_texture(960, 950 + 85, "menu/UnderLine.png", data_box.menu_button_size - 0.2, this->menu_window);
 		}
 		this->if_clear = false;
 	}
@@ -1009,7 +964,7 @@ void menu_sfml_objects::render(int current_step, bool live_chart)
 		Universal_display_text_polish_font(this->menu_window_width / 2, 130, L"Pomoc", 200,0,this->menu_window);
 
 		// Displaying backward in section
-		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+		Universal_display_texture(this->backward_button_x, this->backward_button_y, "menu/backward.png", this->backward_scale, this->menu_window);
 		Universal_display_text_polish_font(this->backward_button_x, this->backward_button_y + 75, L"Powrót", 30,0,this->menu_window);
 
 		// Displaying help
@@ -1027,7 +982,7 @@ void menu_sfml_objects::render(int current_step, bool live_chart)
 			if (this->vector_rectangles[i].getFillColor() == sf::Color::Red)
 				Universal_display_text_polish_font(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y - 30, String_to_wString(std::to_string(i + 1)), 120,0,this->menu_window);
 			else
-				display_texture(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y, std::to_string(vector_displaying_articles[i].serial_number) + ".png", 1);
+				Universal_display_texture(vector_rectangles[i].getPosition().x, vector_rectangles[i].getPosition().y, "menu/"+std::to_string(vector_displaying_articles[i].serial_number) + ".png", 1,this->menu_window);
 		}
 
 		//displaying texts on rectangle
@@ -1047,25 +1002,25 @@ void menu_sfml_objects::render(int current_step, bool live_chart)
 		}
 
 		// Displaying step back in sequence
-		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+		Universal_display_texture(this->backward_button_x, this->backward_button_y, "menu/backward.png", this->backward_scale, this->menu_window);
 		Universal_display_text_polish_font(this->backward_button_x, this->backward_button_y + 75, L"Cofnij krok", 30,0,this->menu_window);
 
 		// Displaying back to menu in sequence
-		this->display_texture(this->menu_window_width - 200, this->menu_window_height - 150, "red_circle.png", this->button_size, 0);
+		Universal_display_texture(this->menu_window_width - 200, this->menu_window_height - 150, "menu/red_circle.png", this->button_size, this->menu_window);
 		Universal_display_text_polish_font(this->menu_window_width - 200, this->menu_window_height - 75, L"Powrót do menu", 30,0,this->menu_window);
 		
 		if (live_chart) {
 			//display go to Live Charts
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window)) {
-				this->display_texture(960, 950, "grey_pushed.png", data_box.menu_button_size, 0);
+				Universal_display_texture(960, 950, "menu/grey_pushed.png", data_box.menu_button_size, this->menu_window);
 				Universal_display_text_polish_font(960, 935, L"Wyœwietl wykresy", 100,0,this->menu_window);
 			}
 			else {
-				this->display_texture(960, 950, "grey_button.png", data_box.menu_button_size, 0);
+				Universal_display_texture(960, 950, "menu/grey_button.png", data_box.menu_button_size, this->menu_window);
 				Universal_display_text_polish_font(960, 935, L"Wyœwietl wykresy", 100,0,this->menu_window);
 			}
 			if (unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window))
-				this->display_texture(960, 950 + 85, "UnderLine.png", data_box.menu_button_size - 0.2, 0);
+				Universal_display_texture(960, 950 + 85, "menu/UnderLine.png", data_box.menu_button_size - 0.2, this->menu_window);
 		}
 		this->if_clear = false;
 	}
@@ -1075,26 +1030,26 @@ void menu_sfml_objects::render(int current_step, bool live_chart)
 		Universal_display_text_polish_font(this->menu_window_width / 2, 130, L"Kalibracja systemu", 200,0,this->menu_window);
 
 		//Displaying blue button
-		this->display_texture(this->blue_button_x, this->blue_button_y, "blue_circle.png", this->button_size, 0);
+		Universal_display_texture(this->blue_button_x, this->blue_button_y, "menu/blue_circle.png", this->button_size, this->menu_window);
 		Universal_display_text_polish_font(this->blue_button_x, this->blue_button_y + 75, L"Pomoc", 30,0,this->menu_window);
 
 		//displaying backward in section
-		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+		Universal_display_texture(this->backward_button_x, this->backward_button_y, "menu/backward.png", this->backward_scale, this->menu_window);
 		Universal_display_text_polish_font(this->backward_button_x, this->backward_button_y + 75, L"Powrót", 30,0,this->menu_window);
 
 		Universal_display_text_polish_font(this->menu_window_width / 2, 430, L"Kalibrowanie punktów charakterystycznych:", 100,0,this->menu_window);
 		Universal_display_text_polish_font(this->menu_window_width / 2, 530, L"SprawdŸ czy taœmy znajduj¹ siê w podœwietlonych miejscach", 60,0,this->menu_window);
 
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window)) {
-			this->display_texture(960, 950, "grey_pushed.png", data_box.menu_button_size, 0);
+			Universal_display_texture(960, 950, "menu/grey_pushed.png", data_box.menu_button_size, this->menu_window);
 			Universal_display_text_polish_font(960, 930, L"ZatwierdŸ", 100,0,this->menu_window);
 		}
 		else {
-			this->display_texture(960, 950, "grey_button.png", data_box.menu_button_size, 0);
+			Universal_display_texture(960, 950, "menu/grey_button.png", data_box.menu_button_size, this->menu_window);
 			Universal_display_text_polish_font(960, 930, L"ZatwierdŸ", 100,0,this->menu_window);
 		}
 		if (unieversal_detecting_collision_with_buttons(960, 950, data_box.Upload_file_length_button_x, data_box.Upload_file_length_button_y, data_box.menu_button_size, this->menu_window))
-			this->display_texture(960, 950 + 85, "UnderLine.png", data_box.menu_button_size - 0.2, 0);
+			Universal_display_texture(960, 950 + 85, "menu/UnderLine.png", data_box.menu_button_size - 0.2, this->menu_window);
 	}
 
 	if (this->current_menu_window == 301) {
@@ -1109,7 +1064,7 @@ void menu_sfml_objects::render(int current_step, bool live_chart)
 		Universal_display_text_polish_font(this->menu_window_width / 2, 130, L"Pomoc", 200,0,this->menu_window);
 
 		// Displaying backward in section
-		this->display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, 0);
+		Universal_display_texture(this->backward_button_x, this->backward_button_y, "backward.png", this->backward_scale, this->menu_window);
 		Universal_display_text_polish_font(this->backward_button_x, this->backward_button_y + 75, L"Powrót", 30,0,this->menu_window);
 
 		// Displaying help

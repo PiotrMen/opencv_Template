@@ -6,6 +6,9 @@
 #include "csv_read.h"
 #include <SFML/System/Time.hpp>
 #include <Windows.h>
+#include <iostream>
+#include "Universal_functions.h"
+#include <string>
 
 class menu_sfml_objects
 {
@@ -64,11 +67,6 @@ public:
 	void init_button_size(float percentege_size, float menu_button_percentege_size);
 	void init_buttons_coords();
 
-	//Displaying objects
-	void display_texture(int pos_x, int pos_y, std::string file_path, float scale, float rotation);
-
-	//This function displays objects that are not guaranteed to exist
-	void display_texture(int pos_x, int pos_y, std::string file_path, float scale);
 	void display_text(int pos_x, int pos_y, std::string text, float size);
 
 	//Accessors
