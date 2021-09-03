@@ -13,16 +13,8 @@ sfml_objects::sfml_objects()
 		sf::RectangleShape rect_empty;
 		sf::RectangleShape rect_filled;
 		rect_empty = making_rectangle(mm_to_pixels_converter(60 + (i * 120)), 262, mm_to_pixels_converter(110), mm_to_pixels_converter(315), sf::Color::Green, 0);
-		/*if(i == 0 || i == 9 || i == 4 || i == 5)
-			rect_filled = making_rectangle(mm_to_pixels_converter(60 + (i * 120)), 290, mm_to_pixels_converter(120), mm_to_pixels_converter(315), sf::Color::Green, 0);
-		else if(i < 4)
-			rect_filled = making_rectangle(mm_to_pixels_converter(60 + (i * 120)) - mm_to_pixels_converter(17 - i * 5), 290, mm_to_pixels_converter(120), mm_to_pixels_converter(315), sf::Color::Green, 0);
-		else
-			rect_filled = making_rectangle(mm_to_pixels_converter(60 + (i * 120)) + mm_to_pixels_converter(i * 5 - 28), 290, mm_to_pixels_converter(120), mm_to_pixels_converter(315), sf::Color::Green, 0);*/
 		this->outline_rectangles.push_back(rect_empty);
 		this->lighting_rectangles.push_back(rect_empty);
-
-		//this->lighting_rectangles.push_back(rect_filled);
 	}
 
 	// sfml data to opencv
@@ -176,33 +168,11 @@ void sfml_objects::pollEvents(int &current_step)
 		{
 			switch (event.key.code)
 			{
-			case sf::Mouse::Right:
-			{
 
-				// do testow, przechodzenie do kolejnego kroku na prawy przycisk myszy w window functions
-				if (this->step_of_sequence == 1)
+				case sf::Mouse::Left:
 				{
-					//data_box.detecting_box = true;
-					//
-					//Sleep(500);
+					break;
 				}
-
-
-				if (this->step_of_sequence == 2)
-				{
-					//data_box.green_button = true;
-					//Sleep(500);
-				}
-
-				//
-
-				break;
-			}
-
-			case sf::Mouse::Left:
-			{
-				break;
-			}
 			}
 			break;
 		}
@@ -243,7 +213,6 @@ void sfml_objects::update(int &current_step, std::vector <sData> &database)
 				}
 			}
 		}
-
 
 		this->step_of_sequence = 1;
 		this->sequence_start_flag = false;
@@ -555,7 +524,6 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 	if (this->step_of_sequence != 0 && if_clear)
 	{
 		this->display_texture(this->green_button_x, this->green_button_y, "green_circle.png", this->button_size, 0);   //displaying basic graphics 
-		//this->display_text(this->green_button_x, this->green_button_y + ((this->red_button_length_y*button_size)) / 2, "Kontynuuj", 40); //displaying texts
 		Universal_display_text_polish_font(this->green_button_x, this->green_button_y + (this->green_button_length_y*button_size) / 2, -1, 0, L"Kontynuuj", 40, 0, sf::Color::White, this->window);
 
 		for (int i = 0; i < v_rectangles.size(); i++)
@@ -567,60 +535,39 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 					Universal_display_text_polish_font(mm_to_pixels_converter(60 + (i * 120)), 600, -1, 0, utf8_to_wstring(sequence[k].name), 18, 0, sf::Color::White, this->window);
 					break;
 				}
-					//this->display_text(mm_to_pixels_converter(60 + (i * 120)), 600, sequence[k].name, 18);
 			}
 		}
 
 		if (sequence.size() != 0)
 		{
 			Universal_display_text_polish_font(10, 790, 0, 0, utf8_to_wstring("Aktualny krok: " + std::to_string(current_step + 1) + "/" + std::to_string(sequence.size())), 46, 0, sf::Color::White, window);
-			//Universal_display_text_polish_font(10, 790, String_to_wString("Aktualny krok: " + std::to_string(current_step + 1) + "/" + std::to_string(sequence.size())),46)
-			//this->display_text(10, 790, ("Aktualny krok: " + std::to_string(current_step + 1) + "/" + std::to_string(sequence.size())), 46, sf::Color::White);  //displaying "aktualny krok" in corner 		}
 		}
+
+
 		// Drawing sequence list
-
-
 		if (current_step == 0 && step_of_sequence == 1)
 		{
-			//this->display_text(10, 880, list[0], 30, sf::Color::Yellow);
-			//this->display_text(10, 930, list[1], 30, sf::Color::Red);
-
 			Universal_display_text_polish_font(10, 880, 0, 0, utf8_to_wstring(list[0]), 30, 0, sf::Color::Yellow, this->window);
 			Universal_display_text_polish_font(10, 930, 0, 0, utf8_to_wstring(list[1]), 30, 0, sf::Color::Red, this->window);
 		}
 		else if (current_step == 0 && step_of_sequence == 2 && sequence.size() > 1)
 		{
-			//this->display_text(10, 880, list[0], 30, sf::Color::Green);
-			//this->display_text(10, 930, list[1], 30, sf::Color::Yellow);
-			//this->display_text(10, 980, list[2], 30, sf::Color::Red);
-
 			Universal_display_text_polish_font(10, 880, 0, 0, utf8_to_wstring(list[0]), 30, 0, sf::Color::Green, this->window);
 			Universal_display_text_polish_font(10, 930, 0, 0, utf8_to_wstring(list[1]), 30, 0, sf::Color::Yellow, this->window);
 			Universal_display_text_polish_font(10, 980, 0, 0, utf8_to_wstring(list[2]), 30, 0, sf::Color::Red, this->window);
 		}
 		else if (current_step == 0 && step_of_sequence == 2 && sequence.size() == 1)
 		{
-			//this->display_text(10, 930, list[0], 30, sf::Color::Yellow);
-
 			Universal_display_text_polish_font(10, 880, 0, 0, utf8_to_wstring(list[0]), 30, 0, sf::Color::Yellow, this->window);
 		}
 		else if (current_step == sequence.size() - 1 && step_of_sequence == 2)
 		{
-			//this->display_text(10, 880, list[0], 30, sf::Color::Green);
-			//this->display_text(10, 930, list[1], 30, sf::Color::Green);
-			//this->display_text(10, 980, list[2], 30, sf::Color::Yellow);
-
 			Universal_display_text_polish_font(10, 880, 0, 0, utf8_to_wstring(list[0]), 30, 0, sf::Color::Green, this->window);
 			Universal_display_text_polish_font(10, 930, 0, 0, utf8_to_wstring(list[1]), 30, 0, sf::Color::Green, this->window);
 			Universal_display_text_polish_font(10, 980, 0, 0, utf8_to_wstring(list[2]), 30, 0, sf::Color::Yellow, this->window);
 		}
 		else
 		{
-			//this->display_text(10, 880, list[0], 30, sf::Color::Green);
-			//this->display_text(10, 930, list[1], 30, sf::Color::Green);
-			//this->display_text(10, 980, list[2], 30, sf::Color::Yellow);
-			//this->display_text(10, 1030, list[3], 30, sf::Color::Red);
-
 			Universal_display_text_polish_font(10, 880, 0, 0, utf8_to_wstring(list[0]), 30, 0, sf::Color::Green, this->window);
 			Universal_display_text_polish_font(10, 930, 0, 0, utf8_to_wstring(list[1]), 30, 0, sf::Color::Green, this->window);
 			Universal_display_text_polish_font(10, 980, 0, 0, utf8_to_wstring(list[2]), 30, 0, sf::Color::Yellow, this->window);
@@ -629,16 +576,11 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 
 		if (data_box.wrong_box) {
 			this->display_texture(this->window_width/2, 750, "red_circlebigger.png", 0.5, 0);
-			//this->display_text(this->window_width / 2, 850, "Zle pobrany artykul", 40);
-			//Universal_display_text_polish_font(this->window_width / 2, 750, L"le pobrany artyku³", 40, 0, this->window);
 			Universal_display_text_polish_font(this->window_width / 2, 900, -1, -1, L"le pobrany artyku³", 40, 0, sf::Color::White, this->window);
 		}
 		if_clear = false;
 	}
 	// do testow, przechodzenie do kolejnego kroku na prawy przycisk myszy w window functions
-
-	//data_box.green_button = false;
-	//data_box.detecting_box = false;
 
 	//Calibration tape points on table
 	if (this->menu_window == 3) {
@@ -653,16 +595,11 @@ void sfml_objects::render(int &current_step, int current_menu_window, std::vecto
 			this->window->draw(rectangle_);
 		}
 		Universal_display_text_polish_font(this->window_width / 2, 800, -1, 0, L"Jeœli jesteœ pewna/y, ¿e taœmy znajduj¹ siê w podœwietlonych na zielono miejscach, to zatwierdŸ na komputerze", 40, 0, sf::Color::White, this->window);
-
-		//this->display_text(this->window_width/2, 800, "Jesli jestes pewna/y ze tasmy znajduja sie w podswietlonych na zielono miejscach to zatwierdz na komputerze", 40);
 	}
 	if (this->menu_window == 301)
 	{
 		Universal_display_text_polish_font(250, 350, 0, 0, L"Trwa kalibracja kamery, proszê czekaæ", 75, 0, sf::Color::Black, this->window);
 		Universal_display_text_polish_font(800, 650, 0, 0, utf8_to_wstring(std::to_string(this->displayed_time) + " s"), 75, 0, sf::Color::Black, this->window);
-
-		//this->display_text(250, 350, "Trwa kalibracja kamery, prosze poczekac:", 75, sf::Color::Black);
-		//this->display_text(800, 650, std::to_string(this->displayed_time) + " s", 75, sf::Color::Black);
 		if_clear = false;
 	}
 

@@ -9,13 +9,10 @@ menu_sfml_objects::menu_sfml_objects()
 {
 	this->menu_window_height = 1080;
 	this->menu_window_width = 1920;
-	this->working_field_height = 675;
-	this->working_field_width = 1200;
 	this->menu_window = new sf::RenderWindow(sf::VideoMode(menu_window_width, menu_window_height), "Menu", sf::Style::Fullscreen);
 	this->menu_window->requestFocus();
 	this->menu_window->setMouseCursorGrabbed(true);
 
-	//this->menu_window->setPosition(sf::Vector2i(0, -1080));
 	this->enable_writing = false;
 
 	for (int i = 0; i < 10; i++) {
@@ -37,8 +34,8 @@ void menu_sfml_objects::init_buttons_coords(){
 	this->blue_button_length_y = 124;
 
 	//blue button
-	this->Start_button_length_x = 124; // number of pixels (width and length of picture)
-	this->Start_button_length_y = 124;
+	this->Exit_button_length_x = 124; // number of pixels (width and length of picture)
+	this->Exit_button_length_y = 124;
 
 	//backward button
 	this->backward_length_button_x = 512; // number of pixels (width and length of picture)
@@ -49,8 +46,7 @@ void menu_sfml_objects::init_buttons_coords(){
 	this->blue_button_y = this->menu_window_height - 150;
 
 	//coordinates for blue button
-	this->Start_button_x = this->menu_window_width - 200;  // 150 - number of pixels from bounds
-	this->Start_button_y = this->menu_window_height - 150;
+	this->Exit_button_y = this->menu_window_height - 150;
 
 	//coordinates for backward button
 	this->backward_button_x = 200;  // 150 - number of pixels from bounds
@@ -140,17 +136,6 @@ void menu_sfml_objects::display_text(int pos_x, int pos_y, std::string text, flo
 const bool menu_sfml_objects::getWindowIsOpen()
 {
 	return this->menu_window->isOpen();
-}
-
-
-// Detecting mouse collision with buttons
-bool menu_sfml_objects::detecting_blue_button()
-{
-	if (((sf::Mouse::getPosition(*this->menu_window).x >= this->blue_button_x - ((this->blue_button_length_x * this->button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).x <= this->blue_button_x + ((this->blue_button_length_x * this->button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y >= this->blue_button_y - ((this->blue_button_length_y * this->button_size) / 2)) && (sf::Mouse::getPosition(*this->menu_window).y <= this->blue_button_y + ((this->blue_button_length_y * this->button_size) / 2))))
-	{
-		return true;
-	}
-	return false;
 }
 
 bool menu_sfml_objects::detecting_Upload_file_button()
@@ -422,7 +407,7 @@ void menu_sfml_objects::update(int &current_step, int &current_window)
 		this->current_menu_window = 3;
 	}
 
-	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(200, this->Start_button_y, this->Start_button_length_x, this->Start_button_length_y, data_box.menu_button_size, this->menu_window) && this->current_menu_window == 0)
+	if (falling_edge_saved && unieversal_detecting_collision_with_buttons(200, this->Exit_button_y, this->Exit_button_length_x, this->Exit_button_length_y, data_box.menu_button_size, this->menu_window) && this->current_menu_window == 0)
 		data_box.global_exit = true;
 
 	//Backing to basic menu view
@@ -853,12 +838,12 @@ void menu_sfml_objects::render(int current_step, bool live_chart)
 		Universal_display_text_polish_font(this->blue_button_x, this->blue_button_y + 75, L"Pomoc", 30,0,this->menu_window);
 
 		//Displaying start button
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(200, this->Start_button_y, this->Start_button_length_x, this->Start_button_length_y, data_box.menu_button_size, this->menu_window))
-			this->display_texture(200, this->Start_button_y, "red_circle_clicked.png", this->button_size, 0);
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && unieversal_detecting_collision_with_buttons(200, this->Exit_button_y, this->Exit_button_length_x, this->Exit_button_length_y, data_box.menu_button_size, this->menu_window))
+			this->display_texture(200, this->Exit_button_y, "red_circle_clicked.png", this->button_size, 0);
 		else
-			this->display_texture(200, this->Start_button_y, "red_circle.png", this->button_size, 0);
+			this->display_texture(200, this->Exit_button_y, "red_circle.png", this->button_size, 0);
 
-		Universal_display_text_polish_font(200, this->Start_button_y + 75, L"Exit", 30,0,this->menu_window);
+		Universal_display_text_polish_font(200, this->Exit_button_y + 75, L"Exit", 30,0,this->menu_window);
 
 		//Texts
 		Universal_display_text_polish_font(this->load_csv_button_x, this->load_csv_button_y - 10, L"Za³aduj plik .csv", 80,0,this->menu_window);
