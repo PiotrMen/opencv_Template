@@ -1,59 +1,5 @@
 #include "vision.h"
 
-
-cv::Mat thread_vision::button_filters() 
-{
-	cv::Mat cropped_image;
-	cv::Mat hist_image;
-	cv::Mat Kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(9, 9));
-
-		// Cropping image
-		cv::Rect crop_region(1605, 805, 315, 275);
-		cropped_image = image(crop_region);
-	//	cv::MatND histogram;
-	//	int histSize = 256;
-	//	const int* channel_numbers = {0};
-	//	float channel_range[] = {0.0,256.0};
-	//	const float* channel_ranges = channel_range;
-	//	int number_bins = histSize;
-
-	//	
-
-	//	// Filters
-	//	cv::cvtColor(cropped_image, cropped_image, cv::COLOR_BGR2GRAY);
-
-
-	//	hist_image = cropped_image;
-	//	cv::calcHist(&hist_image, 1, 0, cv::Mat(), histogram, 1, &number_bins, &channel_ranges);
-
-	//	int hist_w = 512, hist_h = 400;
-	//	int bin_w = cvRound((double)hist_w / histSize);
-	//	cv::Mat histImage(hist_h, hist_w, CV_8UC3, cv::Scalar(0, 0, 0));
-	//	normalize(histogram, histogram, 0, histImage.rows, cv::NORM_MINMAX, -1, cv::Mat());
-	//	for (int i = 1; i < histSize; i++)
-	//	{
-	//		line(histImage, cv::Point(bin_w*(i - 1), hist_h - cvRound(histogram.at<float>(i - 1))),
-	//			cv::Point(bin_w*(i), hist_h - cvRound(histogram.at<float>(i))),
-	//			cv::Scalar(255, 0, 0), 2, 8, 0);
-	//	}
-	//	//cv::imshow("Source image", cropped_image);
-	////	imshow("calcHist Demo", histImage);
-	//	cv::waitKey(1);
-
-		cv::GaussianBlur(cropped_image, cropped_image, cv::Size(3, 3), 3, 0);
-		cv::Canny(cropped_image, cropped_image, 50, 255);
-		cv::dilate(cropped_image, cropped_image, Kernel);
-
-		//Pomocnicze trackbary
-		//cv::namedWindow("Trackbars", (640, 200));
-		//cv::createTrackbar("Tresh Min", "Trackbars", &tresh_min, 255);
-		//cv::createTrackbar("Tresh Max", "Trackbars", &tresh_max, 255);
-
-		//Wyswietlanie pomocnicze
-		//imshow("Przycisk" + std::to_string(select_button), cropped_image);
-
-		return cropped_image;
-}
 cv::Mat thread_vision::button_filter()
 {
 	cv::Mat cropped_image;
@@ -192,7 +138,7 @@ cv::Mat thread_vision::Other_box_filters(int i)
 	return cropped_image;
 }
 
-bool thread_vision::check_pattern(cv::Mat input_image, cv::Point dxdy, int lower_value, int upper_value)
+bool thread_vision::check_pattern_two_rect(cv::Mat input_image, cv::Point dxdy, int lower_value, int upper_value)
 {
 	std::vector<std::vector<cv::Point>> contours;
 	std::vector<cv::Vec4i> hierarchy;
@@ -376,15 +322,6 @@ bool thread_vision::check_if_boxes_on_position(cv::Mat input_image, int index) {
 		return false;
 }
 
-cv::Mat thread_vision::getWarp(cv::Mat img, std::vector<cv::Point> points, float w, float h) {
-	cv::Mat imgWarp;
-	cv::Point2f src[4] = { points[0],points[1],points[2],points[3] };
-	cv::Point2f dst[4] = { {0.0f,0.0f},{w,0.0f},{0.0f,h},{w,h} };
-	cv::Mat matrix = cv::getPerspectiveTransform(src, dst);
-	cv::warpPerspective(img, imgWarp, matrix, cv::Point(w, h));
-
-	return imgWarp;
-}
 
 std::vector<cv::Point> thread_vision::reorder(std::vector<cv::Point> points) {
 	std::vector<cv::Point> newPoints;
@@ -667,8 +604,7 @@ void thread_vision::operator()(int index)
 			camera.read(this->image);
 			cv::rotate(this->image, this->image, cv::ROTATE_180);
 			cv::remap(this->image, this->image, transformation_x, transformation_y, cv::INTER_CUBIC);
-			//imshow("calib_boxes", this->image);
-			//cv::waitKey(1);
+
 			m.lock();
 			for (int i = 0; i < data_box.index_and_checked_info_accepted_boxes.size(); i++) {
 
@@ -728,8 +664,7 @@ void thread_vision::operator()(int index)
 
 			cv::rotate(image, image, cv::ROTATE_180);
 
-			cv::remap(image, image, transformation_x, transformation_y, cv::INTER_LINEAR); // INTER_NEAREST oko³o 20ms // INTER_CUBIC okolo 120ms  //INTER_LANCZOS4 okolo 240ms
-			//this->image = getWarp(this->image, coordinates_reordered, 1920, 1080);
+			cv::remap(image, image, transformation_x, transformation_y, cv::INTER_LINEAR);
 
 			//checking if light is on
 			if (change_filter_itr == 3) {
@@ -861,8 +796,6 @@ void thread_vision::operator()(int index)
 
 			m.unlock();
 
-			//thread_vision::display_Tracksbars(hmin, hmax, smin, smax, vmin, vmax);
-
 			//showing image
 		//	imshow("box", box);
 			//imshow("green", green_button_image);
@@ -876,7 +809,7 @@ void thread_vision::operator()(int index)
 			cv::waitKey(1);
 		}
 		else if(!this->calibration_boxes)
-	//		cv::destroyAllWindows();
+			cv::destroyAllWindows();
 
 		//exit program variable
 		if (data_box.global_exit)
